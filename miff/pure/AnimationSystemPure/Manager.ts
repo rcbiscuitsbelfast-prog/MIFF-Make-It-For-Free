@@ -17,6 +17,9 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('AnimationManager');
 
 export interface AnimationSystemConfig {
   id?: string;
@@ -211,12 +214,12 @@ export class AnimationSystemManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      console.warn('AnimationSystemPure', 'Animation System Manager already initialized');
+      logger.warn('Animation System Manager already initialized');
       return;
     }
 
     try {
-      console.info('AnimationSystemPure', 'Initializing Animation System Manager...');
+      logger.info('Initializing Animation System Manager');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization ?? false) {
@@ -229,7 +232,7 @@ export class AnimationSystemManager {
       }
 
       this.isInitialized = true;
-      console.info('AnimationSystemPure', 'Animation System Manager initialized successfully');
+      logger.info('Animation System Manager initialized successfully');
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -266,7 +269,7 @@ export class AnimationSystemManager {
       this.animations.set(animation.id, animation);
       this.updateAnalytics();
 
-      console.info('Animation created', { animationId: animation.id, animationName: animation.name });
+      logger.info('Animation created', { animationId: animation.id, animationName: animation.name });
       return animation;
 
     } catch (error: unknown) {
@@ -298,7 +301,7 @@ export class AnimationSystemManager {
     try {
       const animation = this.animations.get(animationId);
       if (!animation) {
-        console.warn('Animation not found', { animationId });
+        logger.warn('Animation not found', { animationId });
         return null;
       }
 
@@ -312,7 +315,7 @@ export class AnimationSystemManager {
       this.animations.set(animationId, updatedAnimation);
       this.updateAnalytics();
 
-      console.info('Animation updated', { animationId, animationName: updatedAnimation.name });
+      logger.info('Animation updated', { animationId, animationName: updatedAnimation.name });
       return updatedAnimation;
 
     } catch (error: unknown) {
@@ -333,14 +336,14 @@ export class AnimationSystemManager {
     try {
       const animation = this.animations.get(animationId);
       if (!animation) {
-        console.warn('Animation not found', { animationId });
+        logger.warn('Animation not found', { animationId });
         return false;
       }
 
       this.animations.delete(animationId);
       this.updateAnalytics();
 
-      console.info('Animation deleted', { animationId, animationName: animation.name });
+      logger.info('Animation deleted', { animationId, animationName: animation.name });
       return true;
 
     } catch (error: unknown) {
@@ -394,7 +397,7 @@ export class AnimationSystemManager {
     try {
       const animation = this.animations.get(animationId);
       if (!animation) {
-        console.warn('Animation not found', { animationId });
+        logger.warn('Animation not found', { animationId });
         return false;
       }
 
@@ -422,7 +425,7 @@ export class AnimationSystemManager {
     try {
       const animation = this.animations.get(animationId);
       if (!animation) {
-        console.warn('Animation not found', { animationId });
+        logger.warn('Animation not found', { animationId });
         return false;
       }
 
@@ -451,7 +454,7 @@ export class AnimationSystemManager {
     try {
       const animation = this.animations.get(animationId);
       if (!animation) {
-        console.warn('Animation not found', { animationId });
+        logger.warn('Animation not found', { animationId });
         return false;
       }
 
@@ -479,7 +482,7 @@ export class AnimationSystemManager {
     try {
       const animation = this.animations.get(animationId);
       if (!animation) {
-        console.warn('Animation not found', { animationId });
+        logger.warn('Animation not found', { animationId });
         return false;
       }
 
@@ -698,12 +701,12 @@ export class AnimationSystemManager {
    * Destroy the Animation System Manager
    */
   async destroy(): Promise<void> {
-    console.info('AnimationSystemPure', 'Destroying Animation System Manager...');
+    logger.info('Destroying Animation System Manager');
 
     this.animations.clear();
     this.isInitialized = false;
 
-    console.info('AnimationSystemPure', 'Animation System Manager destroyed');
+    logger.info('Animation System Manager destroyed');
   }
 }
 
