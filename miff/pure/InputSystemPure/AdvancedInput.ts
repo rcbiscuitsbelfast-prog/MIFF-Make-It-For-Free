@@ -797,17 +797,17 @@ class HapticManager {
   }
 
   private executeTripleHaptic(state: HapticState): void {
-    console.log(`Executing triple haptic: intensity=${state.intensity}, duration=${state.duration}`);
+    logger.debug('Executing triple haptic', { intensity: state.intensity, duration: state.duration });
     // In a real implementation, this would trigger actual haptic feedback
   }
 
   private executeContinuousHaptic(state: HapticState): void {
-    console.log(`Executing continuous haptic: intensity=${state.intensity}, duration=${state.duration}`);
+    logger.debug('Executing continuous haptic', { intensity: state.intensity, duration: state.duration });
     // In a real implementation, this would trigger actual haptic feedback
   }
 
   private executeCustomHaptic(state: HapticState): void {
-    console.log(`Executing custom haptic: intensity=${state.intensity}, duration=${state.duration}`);
+    logger.debug('Executing custom haptic', { intensity: state.intensity, duration: state.duration });
     // In a real implementation, this would trigger actual haptic feedback
   }
 }
