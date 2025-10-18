@@ -338,8 +338,8 @@ export class HapticEngine {
   }
 
   private async initializeHapticSystem(): Promise<void> {
-    try {
-      console.log('[HapticEngine] Initializing haptic system...');
+    try:
+      logger.info('Initializing haptic system');
 
       // Initialize default patterns
       await this.initializeDefaultPatterns();
