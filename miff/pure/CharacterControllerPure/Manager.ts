@@ -16,6 +16,9 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('CharacterControllerManager');
 
 export interface CharacterControllerConfig {
   id?: string;
@@ -632,7 +635,7 @@ export class CharacterControllerManager {
       character.position = position;
       this.updateAnalytics();
 
-      console.debug('Character position updated', { controllerId, characterId, position });
+      logger.debug('Character position updated', { controllerId, characterId, position });
       return true;
 
     } catch (error: unknown) {
@@ -667,7 +670,7 @@ export class CharacterControllerManager {
       character.state.current = state;
       this.updateAnalytics();
 
-      console.debug('Character state updated', { controllerId, characterId, state });
+      logger.debug('Character state updated', { controllerId, characterId, state });
       return true;
 
     } catch (error: unknown) {
@@ -714,7 +717,7 @@ export class CharacterControllerManager {
 
       this.updateAnalytics();
 
-      console.debug('Character moved', { controllerId, characterId, direction, speed });
+      logger.debug('Character moved', { controllerId, characterId, direction, speed });
       return true;
 
     } catch (error: unknown) {
@@ -751,7 +754,7 @@ export class CharacterControllerManager {
 
       this.updateAnalytics();
 
-      console.debug('Character jumped', { controllerId, characterId, force });
+      logger.debug('Character jumped', { controllerId, characterId, force });
       return true;
 
     } catch (error: unknown) {

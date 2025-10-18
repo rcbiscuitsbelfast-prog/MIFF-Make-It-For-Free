@@ -16,6 +16,9 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('CharacterSystemManager');
 
 export interface CharacterSystemConfig {
   id?: string;
@@ -640,7 +643,7 @@ export class CharacterSystemManager {
       character.properties = { ...character.properties, ...properties };
       this.updateAnalytics();
 
-      console.debug('Character properties updated', { systemId, characterId });
+      logger.debug('Character properties updated', { systemId, characterId });
       return true;
 
     } catch (error: unknown) {
@@ -675,7 +678,7 @@ export class CharacterSystemManager {
       character.state.current = state;
       this.updateAnalytics();
 
-      console.debug('Character state updated', { systemId, characterId, state });
+      logger.debug('Character state updated', { systemId, characterId, state });
       return true;
 
     } catch (error: unknown) {
@@ -729,7 +732,7 @@ export class CharacterSystemManager {
       character.animations.push(characterAnimation);
       this.updateAnalytics();
 
-      console.debug('Character animation started', { systemId, characterId, animationName });
+      logger.debug('Character animation started', { systemId, characterId, animationName });
       return true;
 
     } catch (error: unknown) {
@@ -769,7 +772,7 @@ export class CharacterSystemManager {
       animation.status = 'stopped';
       this.updateAnalytics();
 
-      console.debug('Character animation stopped', { systemId, characterId, animationName });
+      logger.debug('Character animation stopped', { systemId, characterId, animationName });
       return true;
 
     } catch (error: unknown) {
