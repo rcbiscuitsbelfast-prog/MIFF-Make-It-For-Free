@@ -321,12 +321,12 @@ export class CutSceneWebBridge {
   }
 
   private playCutScene(event): void {
-    console.log('🎬 Playing cut scene via web bridge');
+    logger.info('Playing cut scene via web bridge', { cutSceneId: event.cutSceneId });
     // Implementation would trigger the cut scene player
   }
 
   private injectCutSceneLogic(event): void {
-    console.log('🔧 Injecting cut scene logic into web page');
+    logger.info('Injecting cut scene logic into web page');
     // Implementation would inject the cut scene script
   }
 
@@ -351,7 +351,7 @@ export class CutSceneUnityBridge {
   }
 
   private handleUnityReady(event): void {
-    console.log('🎮 Unity bridge ready for cut scenes');
+    logger.info('Unity bridge ready for cut scenes');
     this.isInitialized = true;
   }
 
@@ -493,12 +493,12 @@ public class CutScenePlayer : MonoBehaviour
   }
 
   private injectIntoUnityScene(event): void {
-    console.log('🏗️ Injecting cut scene into Unity scene');
+    logger.info('Injecting cut scene into Unity scene');
     // Implementation would inject C# script into Unity scene
   }
 
   private playCutScene(event): void {
-    console.log('🎬 Playing cut scene via Unity bridge');
+    logger.info('Playing cut scene via Unity bridge', { cutSceneId: event.cutSceneId });
     // Implementation would trigger Unity cut scene player
   }
 
@@ -523,7 +523,7 @@ export class CutSceneGodotBridge {
   }
 
   private handleGodotReady(event): void {
-    console.log('🎲 Godot bridge ready for cut scenes');
+    logger.info('Godot bridge ready for cut scenes');
     this.isInitialized = true;
   }
 
@@ -706,12 +706,12 @@ func skip_cut_scene():
   }
 
   private injectIntoGodotScene(event): void {
-    console.log('🎲 Injecting cut scene into Godot scene');
+    logger.info('Injecting cut scene into Godot scene');
     // Implementation would inject GDScript into Godot scene
   }
 
   private playCutScene(event): void {
-    console.log('🎬 Playing cut scene via Godot bridge');
+    logger.info('Playing cut scene via Godot bridge', { cutSceneId: event.cutSceneId });
     // Implementation would trigger Godot cut scene player
   }
 
@@ -736,7 +736,7 @@ export class CutSceneUnrealBridge {
   }
 
   private handleUnrealReady(event): void {
-    console.log('🎯 Unreal bridge ready for cut scenes');
+    logger.info('Unreal bridge ready for cut scenes');
     this.isInitialized = true;
   }
 
@@ -1057,12 +1057,12 @@ void ACutScenePlayer::OnDialogueEvent(const FString& DialogueId, const FString& 
   }
 
   private injectIntoUnrealLevel(event): void {
-    console.log('🎯 Injecting cut scene into Unreal level');
+    logger.info('Injecting cut scene into Unreal level');
     // Implementation would inject C++ code into Unreal project
   }
 
   private playCutScene(event): void {
-    console.log('🎬 Playing cut scene via Unreal bridge');
+    logger.info('Playing cut scene via Unreal bridge', { cutSceneId: event.cutSceneId });
     // Implementation would trigger Unreal cut scene player
   }
 
