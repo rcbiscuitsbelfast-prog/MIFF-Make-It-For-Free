@@ -338,7 +338,7 @@ export class RealWindow {
           handler(data);
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-          console.error(`Error in window event handler for ${event}:`, err instanceof Error ? message: String(err));
+          logger.error('Error in window event handler', { event, error: err });
         }
       });
     }

@@ -479,7 +479,7 @@ export class RealBrowserAPIs {
         handler(eventInfo);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.error(`Error in event handler for ${eventType}:`, err instanceof Error ? message: String(err));
+        logger.error('Error in browser API DOM event handler', { eventType, error: err });
       }
     });
 
