@@ -4,6 +4,10 @@
  * Advanced bundle optimization system for size reduction and performance
  */
 
+import { Logger } from '../logging';
+
+const logger = Logger.create('BundleOptimizer');
+
 export interface BundleConfig {
   entryPoints: string[];
   outputPath: string;
@@ -549,7 +553,7 @@ export class BundleOptimizer {
 
   private log(message: string, level: 'info' | 'debug' | 'error' = 'info'): void {
     const timestamp = new Date().toISOString();
-    console.log(`[BUNDLEOPT:${level.toUpperCase()}] ${timestamp} - ${message}`);
+    logger.info('Bundle optimizer log', { level: level.toUpperCase(), timestamp, message });
   }
 }
 

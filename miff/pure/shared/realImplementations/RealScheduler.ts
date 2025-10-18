@@ -1,4 +1,7 @@
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
+import { Logger } from '../logging';
+
+const logger = Logger.create('RealScheduler');
 /**
  * Real Scheduler Implementation
  * 
@@ -453,7 +456,7 @@ export class RealScheduler {
           handler(data);
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-          console.error(`Error in scheduler event handler for ${event}:`, err instanceof Error ? message: String(err));
+          logger.error('Error in scheduler event handler', { event, error: err });
         }
       });
     }

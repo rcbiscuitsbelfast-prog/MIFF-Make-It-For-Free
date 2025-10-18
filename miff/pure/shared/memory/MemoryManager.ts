@@ -5,6 +5,10 @@
  * across the MIFF framework.
  */
 
+import { Logger } from '../logging';
+
+const logger = Logger.create('MemoryManager');
+
 export interface MemoryStats {
   heapUsed: number;
   heapTotal: number;
@@ -77,7 +81,7 @@ export class MemoryManager {
         callback();
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.error('Error during cleanup:', err instanceof Error ? message: String(err));
+        logger.error('Error during memory cleanup', { error: err });
       }
     }
   }
@@ -93,7 +97,7 @@ export class MemoryManager {
       const stats = this.getMemoryStats();
       
       if (stats.heapUsed > this.memoryThreshold) {
-        console.warn(`Memory usage high: ${Math.round(stats.heapUsed / 1024 / 1024)}MB`);
+        logger.warn('Memory usage high', { heapUsedMB: Math.round(stats.heapUsed / 1024 / 1024) });
         this.executeCleanup();
       }
     }, intervalMs);
