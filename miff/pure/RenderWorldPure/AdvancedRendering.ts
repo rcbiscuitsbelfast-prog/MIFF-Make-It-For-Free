@@ -400,7 +400,7 @@ export class AdvancedRendering {
     const radius = filter.parameters.get('radius') || 1.0;
     const quality = filter.parameters.get('quality') || 1.0;
 
-    console.log(`Applying blur filter: radius=${radius}, quality=${quality}`);
+    logger.debug('Applying blur filter', { radius, quality });
   }
 
   /**
@@ -409,7 +409,7 @@ export class AdvancedRendering {
   private applySharpenFilter(filter: RenderFilter, batches: RenderBatch[]): void {
     const strength = filter.parameters.get('strength') || 1.0;
 
-    console.log(`Applying sharpen filter: strength=${strength}`);
+    logger.debug('Applying sharpen filter', { strength });
   }
 
   /**
@@ -419,7 +419,7 @@ export class AdvancedRendering {
     const threshold = filter.parameters.get('threshold') || 0.5;
     const color = filter.parameters.get('color') || { r: 1, g: 1, b: 1, a: 1 };
 
-    console.log(`Applying edge detection filter: threshold=${threshold}, color=${JSON.stringify(color)}`);
+    logger.debug('Applying edge detection filter', { threshold, color });
   }
 
   /**
@@ -463,7 +463,7 @@ export class AdvancedRendering {
     const threshold = effect.parameters.get('threshold') || 0.8;
     const intensity = effect.intensity;
 
-    console.log(`Applying bloom effect: threshold=${threshold}, intensity=${intensity}`);
+    logger.debug('Applying bloom effect', { threshold, intensity });
   }
 
   /**
@@ -473,7 +473,7 @@ export class AdvancedRendering {
     const radius = effect.parameters.get('radius') || 1.0;
     const intensity = effect.intensity;
 
-    console.log(`Applying blur effect: radius=${radius}, intensity=${intensity}`);
+    logger.debug('Applying blur effect', { radius, intensity });
   }
 
   /**
@@ -484,7 +484,7 @@ export class AdvancedRendering {
     const contrast = effect.parameters.get('contrast') || 1.0;
     const saturation = effect.parameters.get('saturation') || 1.0;
 
-    console.log(`Applying color correction: brightness=${brightness}, contrast=${contrast}, saturation=${saturation}`);
+    logger.debug('Applying color correction', { brightness, contrast, saturation });
   }
 
   /**
@@ -494,7 +494,7 @@ export class AdvancedRendering {
     const focusDistance = effect.parameters.get('focusDistance') || 10.0;
     const aperture = effect.parameters.get('aperture') || 1.0;
 
-    console.log(`Applying depth of field: focusDistance=${focusDistance}, aperture=${aperture}`);
+    logger.debug('Applying depth of field', { focusDistance, aperture });
   }
 
   /**
@@ -504,7 +504,7 @@ export class AdvancedRendering {
     const samples = effect.parameters.get('samples') || 8;
     const intensity = effect.intensity;
 
-    console.log(`Applying motion blur: samples=${samples}, intensity=${intensity}`);
+    logger.debug('Applying motion blur', { samples, intensity });
   }
 
   /**

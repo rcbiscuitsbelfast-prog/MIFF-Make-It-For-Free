@@ -650,7 +650,7 @@ export class WebConverter {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[WebConverter] Conversion failed:', err instanceof Error ? message: String(err));
+      logger.error('Web conversion failed', { error: err });
 
       return {
         success: false,
@@ -1344,12 +1344,12 @@ self.addEventListener('fetch', (event: any) => {
     this.sceneMap.clear();
     this.eventQueue = [];
 
-    console.log('[WebConverter] Reset to initial state');
+    logger.info('Web converter reset to initial state');
   }
 
   dispose(): void {
     this.reset();
-    console.log('[WebConverter] Disposed successfully');
+    logger.info('Web converter disposed successfully');
   }
 }
 
