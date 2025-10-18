@@ -9,6 +9,9 @@ import { MIFFCapable, ModuleCapabilities } from './MIFFCapable.js';
 import * as fs from 'fs';
 import * as path from 'path';
 import { glob } from 'glob';
+import { Logger } from './logging';
+
+const logger = Logger.create('CapabilityDiscovery');
 
 export interface DiscoveryResult {
   id?: string;
@@ -64,14 +67,14 @@ export class CapabilityDiscovery {
    * Discover capabilities across all modules
    */
   async discoverAllCapabilities(rootPath: string): Promise<DiscoveryResult[]> {
-    console.info('🔍 Discovering capabilities across all modules...');
+    logger.info('Discovering capabilities across all modules', { rootPath });
     
     const results: DiscoveryResult[] = [];
     
     try {
       // Find all *Capable.ts files
       const capableFiles = await this.findCapableFiles(rootPath);
-      console.info(`📁 Found ${capableFiles.length} capability files`);
+      logger.info('Found capability files', { count: capableFiles.length });
       
       // Discover capabilities from each file
       for (const filePath of capableFiles) {
@@ -81,13 +84,13 @@ export class CapabilityDiscovery {
       }
       
       this.updateStats(results);
-      console.info(`✅ Discovered capabilities for ${results.length} modules`);
+      logger.info('Capabilities discovered', { moduleCount: results.length });
       
       return results;
       
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ Error discovering capabilities:', err instanceof Error ? message: String(err));
+      logger.error('Error discovering capabilities', { rootPath, error: err });
       return [];
     }
   }
@@ -286,7 +289,7 @@ describe('${result.moduleName} Capabilities', () => {
       return files;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('Error finding capable files:', err instanceof Error ? message: String(err));
+      logger.error('Error finding capable files', { rootPath, error: err });
       return [];
     }
   }

@@ -8,6 +8,9 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
+import { Logger } from './logging';
+
+const logger = Logger.create('AssetValidator');
 
 export interface AssetReference {
   id?: string;
@@ -119,7 +122,7 @@ export class AssetValidator {
    * Scan for asset references in codebase
    */
   async scanAssetReferences(rootPath: string): Promise<AssetReference[]> {
-    console.info(`🔍 Scanning for asset references in ${rootPath}...`);
+    logger.info('Scanning for asset references', { rootPath });
     
     const references: AssetReference[] = [];
     
@@ -165,12 +168,12 @@ export class AssetValidator {
         }
       }
       
-      console.info(`✅ Found ${references.length} asset references`);
+      logger.info('Found asset references', { count: references.length, rootPath });
       return references;
       
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ Error scanning asset references:', err instanceof Error ? message: String(err));
+      logger.error('Error scanning asset references', { rootPath, error: err });
       return [];
     }
   }
@@ -179,7 +182,7 @@ export class AssetValidator {
    * Validate asset existence
    */
   async validateAssets(rootPath: string): Promise<AssetValidationResult[]> {
-    console.info('🔍 Validating asset existence...');
+    logger.info('Validating asset existence', { rootPath });
     
     const results: AssetValidationResult[] = [];
     
@@ -196,7 +199,7 @@ export class AssetValidator {
    * Check pipeline integrity
    */
   async checkPipelineIntegrity(rootPath: string): Promise<PipelineIntegrityResult[]> {
-    console.info('🔍 Checking pipeline integrity...');
+    logger.info('Checking pipeline integrity', { rootPath });
     
     const results: PipelineIntegrityResult[] = [];
     
