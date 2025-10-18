@@ -836,7 +836,7 @@ export class RealPlatformBridge {
         };
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.error('Error getting storage quota:', err instanceof Error ? message: String(err));
+        logger.error('Error getting storage quota', { error: err });
       }
     }
     
@@ -852,7 +852,7 @@ export class RealPlatformBridge {
         return await navigator.storage.persist();
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.error('Error requesting persistent storage:', err instanceof Error ? message: String(err));
+        logger.error('Error requesting persistent storage', { error: err });
       }
     }
     
@@ -887,7 +887,7 @@ export class RealPlatformBridge {
           handler(data);
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-          console.error(`Error in event handler for ${event}:`, err instanceof Error ? message: String(err));
+          logger.error('Error in platform bridge event handler', { event, error: err });
         }
       });
     }

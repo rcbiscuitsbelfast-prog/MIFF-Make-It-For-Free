@@ -181,7 +181,7 @@ export class RealAISystem {
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('Error adding AI model:', err instanceof Error ? message: String(err));
+      logger.error('Error adding AI model', { modelId: model.id, error: err });
       return false;
     }
   }
@@ -214,7 +214,7 @@ export class RealAISystem {
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('Error updating AI model:', err instanceof Error ? message: String(err));
+      logger.error('Error updating AI model', { modelId, error: err });
       return false;
     }
   }
@@ -233,7 +233,7 @@ export class RealAISystem {
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('Error removing AI model:', err instanceof Error ? message: String(err));
+      logger.error('Error removing AI model', { modelId, error: err });
       return false;
     }
   }
@@ -536,7 +536,7 @@ export class RealAISystem {
           handler(data);
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-          console.error(`Error in event handler for ${event}:`, err instanceof Error ? message: String(err));
+          logger.error('Error in AI system event handler', { event, error: err });
         }
       });
     }
