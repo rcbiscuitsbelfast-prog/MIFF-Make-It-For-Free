@@ -15,6 +15,9 @@
 import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('WeatherManager');
 
 export interface WeatherSystemConfig {
   id?: string;
@@ -297,7 +300,7 @@ export class WeatherSystemManager {
    */
   public start(): void {
     if (this.isRunning) {
-      console.warn('WeatherSystemPure', 'Weather system is already running');
+      logger.warn('Weather system is already running');
       return;
     }
 
@@ -326,7 +329,7 @@ export class WeatherSystemManager {
    */
   public stop(): void {
     if (!this.isRunning) {
-      console.warn('WeatherSystemPure', 'Weather system is not running');
+      logger.warn('Weather system is not running');
       return;
     }
 
@@ -388,7 +391,7 @@ export class WeatherSystemManager {
   public updateWeatherZone(zoneId: string, updates: Partial<WeatherZone>): boolean {
     const zone = this.zones.get(zoneId);
     if (!zone) {
-      console.warn('Weather zone not found', { zoneId });
+      logger.warn('Weather zone not found', { zoneId });
       return false;
     }
 
@@ -405,7 +408,7 @@ export class WeatherSystemManager {
   public deleteWeatherZone(zoneId: string): boolean {
     const zone = this.zones.get(zoneId);
     if (!zone) {
-      console.warn('Weather zone not found', { zoneId });
+      logger.warn('Weather zone not found', { zoneId });
       return false;
     }
 
@@ -436,7 +439,7 @@ export class WeatherSystemManager {
   public setWeatherForZone(zoneId: string, weather: WeatherData, transition: boolean = true): boolean {
     const zone = this.zones.get(zoneId);
     if (!zone) {
-      console.warn('Weather zone not found', { zoneId });
+      logger.warn('Weather zone not found', { zoneId });
       return false;
     }
 
@@ -482,7 +485,7 @@ export class WeatherSystemManager {
   public addWeatherEffect(zoneId: string, effect: WeatherEffect): boolean {
     const zone = this.zones.get(zoneId);
     if (!zone) {
-      console.warn('Weather zone not found', { zoneId });
+      logger.warn('Weather zone not found', { zoneId });
       return false;
     }
 
@@ -499,13 +502,13 @@ export class WeatherSystemManager {
   public removeWeatherEffect(zoneId: string, effectId: string): boolean {
     const zone = this.zones.get(zoneId);
     if (!zone) {
-      console.warn('Weather zone not found', { zoneId });
+      logger.warn('Weather zone not found', { zoneId });
       return false;
     }
 
     const effectIndex = zone.effects.findIndex(effect => effect.id === effectId);
     if (effectIndex === -1) {
-      console.warn('Weather effect not found', { zoneId, effectId });
+      logger.warn('Weather effect not found', { zoneId, effectId });
       return false;
     }
 
@@ -522,7 +525,7 @@ export class WeatherSystemManager {
   public getWeatherForecast(zoneId: string, hours: number = 24): WeatherForecast | null {
     const forecast = this.forecasts.get(zoneId);
     if (!forecast) {
-      console.warn('Weather forecast not found', { zoneId });
+      logger.warn('Weather forecast not found', { zoneId });
       return null;
     }
 
