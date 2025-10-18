@@ -229,7 +229,7 @@ class CameraSystemPureStub {
     
     if (transition) {
       transition.payload = { ...transition.payload, ...payload };
-      console.log(`Updated camera transition: ${transitionId}`);
+      logger.info('Camera transition updated', { transitionId });
     }
   }
 
@@ -295,7 +295,7 @@ class AudioPureStub {
     const sound = this.activeSounds.get(soundId);
     if (sound) {
       Object.assign(sound, properties);
-      console.log(`Updated sound: ${soundId}`);
+      logger.info('Sound updated in cutscene', { soundId });
     }
   }
 
@@ -313,7 +313,7 @@ class AudioPureStub {
       sound.playing = false;
     }
     this.activeSounds.clear();
-    console.log('Stopped all sounds');
+    logger.info('All sounds stopped in cutscene');
   }
 
   isSoundPlaying(soundId: string): boolean {
@@ -1395,4 +1395,5 @@ export function cutSceneDemo(): any {
       'SceneFlowPure'
     ]
   };
+}};
 }
