@@ -1,6 +1,10 @@
 // ConvertToWebPure - Web export system for MIFF framework
 // Schema Version: v1
 
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('ConvertToWeb');
+
 export enum WebPlatform {
   WEBGL = 'webgl',
   CANVAS_2D = 'canvas2d',
