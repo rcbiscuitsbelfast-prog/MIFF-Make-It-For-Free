@@ -160,7 +160,7 @@ class DialogueSystemPureStub {
     if (this.currentDialogue) {
       this.currentDialogue.completed = true;
       this.currentDialogue = null;
-      console.log('Dialogue completed');
+      logger.info('Dialogue completed in cutscene');
     }
   }
 
@@ -218,7 +218,7 @@ class CameraSystemPureStub {
       });
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`Camera transition error: ${error}`);
+      logger.error('Camera transition error', { error: err });
       throw error;
     }
   }
@@ -240,7 +240,7 @@ class CameraSystemPureStub {
       transition.progress = 1;
       this.activeTransitions.delete(id);
     }
-    console.log('Completed camera transitions');
+    logger.info('Camera transitions completed');
   }
 
   getTransitionProgress(transitionId: string): number {
