@@ -31,6 +31,9 @@ import {
   Vector3,
   Quaternion
 } from './index';
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('CameraManager');
 
 export class CameraManager {
   private cameraSystem: CameraSystemPure;
@@ -45,22 +48,22 @@ export class CameraManager {
   createCameraDefinition(cameraData: Partial<CameraDefinition>): CameraDefinition | null {
     // Validate required fields
     if (!cameraData.id || cameraData.id.trim() === '') {
-      console.error('❌ Camera ID is required');
+      logger.error('Camera ID is required', { cameraData });
       return null;
     }
 
     if (!cameraData.name || cameraData.name.trim() === '') {
-      console.error('❌ Camera name is required');
+      logger.error('Camera name is required', { cameraId: cameraData.id });
       return null;
     }
 
     if (!cameraData.mode) {
-      console.error('❌ Camera mode is required');
+      logger.error('Camera mode is required', { cameraId: cameraData.id });
       return null;
     }
 
     if (!cameraData.settings) {
-      console.error('❌ Camera settings are required');
+      logger.error('Camera settings are required', { cameraId: cameraData.id });
       return null;
     }
 
@@ -114,12 +117,12 @@ export class CameraManager {
   registerCamera(camera: CameraDefinition): boolean {
     // Validate camera
     if (!this.validateCameraDefinition(camera)) {
-      console.error(`❌ Invalid camera definition: ${camera.id}`);
+      logger.error('Invalid camera definition', { cameraId: camera.id, cameraName: camera.name });
       return false;
     }
 
     // Store in system (this would normally go through the main system)
-    console.log(`✅ Registered camera: ${camera.name} (${camera.id})`);
+    logger.info('Camera registered', { cameraId: camera.id, cameraName: camera.name });
     return true;
   }
 
@@ -138,13 +141,13 @@ export class CameraManager {
       const camera = this.cameraSystem.createCamera(cameraId, targetEntity);
 
       if (camera) {
-        console.log(`📷 Created camera for ${targetEntity}: ${cameraDef.name}`);
+        logger.info('Camera created', { targetEntity, cameraName: cameraDef.name, cameraId });
       }
 
       return camera;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`❌ Error creating camera ${cameraId}:`, error instanceof Error ? message: String(error));
+      logger.error('Error creating camera', { cameraId, error: err });
       return null;
     }
   }
@@ -176,14 +179,14 @@ export class CameraManager {
       const success = this.cameraSystem.switchCameraMode(cameraId, newMode);
 
       if (success) {
-        console.log(`📷 Switched camera ${cameraId} to mode: ${newMode}`);
+        logger.info('Camera mode switched', { cameraId, newMode });
         this.updateStats({ modeSwitches: this.cameraSystem.getStats().modeSwitches + 1 });
       }
 
       return success;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`❌ Error switching camera mode:`, error instanceof Error ? message: String(error));
+      logger.error('Error switching camera mode', { cameraId, newMode, error: err });
       return false;
     }
   }
@@ -232,7 +235,7 @@ export class CameraManager {
   setMainCamera(cameraId: string): boolean {
     const success = this.cameraSystem.setMainCamera(cameraId);
     if (success) {
-      console.log(`📷 Set main camera: ${cameraId}`);
+      logger.info('Main camera set', { cameraId });
     }
     return success;
   }
@@ -282,11 +285,11 @@ export class CameraManager {
       };
 
       // Store sequence (would normally go through main system)
-      console.log(`🎬 Created cinematic sequence: ${sequence.name}`);
+      logger.info('Cinematic sequence created', { sequenceName: sequence.name, shotCount: shots.length });
       return sequence;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`❌ Error creating cinematic sequence:`, error instanceof Error ? message: String(error));
+      logger.error('Error creating cinematic sequence', { error: err });
       return null;
     }
   }
@@ -297,11 +300,11 @@ export class CameraManager {
   playCinematicSequence(sequenceId: string): boolean {
     try {
       // This would trigger cinematic playback
-      console.log(`🎬 Playing cinematic sequence: ${sequenceId}`);
+      logger.info('Cinematic sequence playing', { sequenceId });
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`❌ Error playing cinematic sequence:`, error instanceof Error ? message: String(error));
+      logger.error('Error playing cinematic sequence', { sequenceId, error: err });
       return false;
     }
   }
@@ -341,12 +344,12 @@ export class CameraManager {
       };
 
       // Store path (would normally go through main system)
-      console.log(`🛤️ Created camera path: ${path.name}`);
+      logger.info('Camera path created', { pathName: path.name, pathId: path.id, waypointCount: waypoints.length });
       this.updateStats({ pathsCreated: this.cameraSystem.getStats().pathsCreated + 1 });
       return path;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`❌ Error creating camera path:`, error instanceof Error ? message: String(error));
+      logger.error('Error creating camera path', { error: err });
       return null;
     }
   }
@@ -377,12 +380,12 @@ export class CameraManager {
 
       // Apply effect
       camera.effects.set(effect.id, effect);
-      console.log(`✨ Applied ${effectType} effect to camera ${cameraId}`);
+      logger.info('Camera effect applied', { cameraId, effectType, effectId: effect.id });
       this.updateStats({ effectsApplied: this.cameraSystem.getStats().effectsApplied + 1 });
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`❌ Error applying camera effect:`, error instanceof Error ? message: String(error));
+      logger.error('Error applying camera effect', { cameraId, effectType, error: err });
       return false;
     }
   }
@@ -526,7 +529,7 @@ export class CameraManager {
    */
   updateStats(updates: Partial<CameraStats>): void {
     // This would update the camera statistics
-    console.log('Updated camera statistics');
+    logger.debug('Camera statistics updated', { updates });
   }
 
   /**
@@ -534,22 +537,22 @@ export class CameraManager {
    */
   private validateCameraDefinition(camera: CameraDefinition): boolean {
     if (!camera.id || camera.id.trim() === '') {
-      console.error('Camera ID is required');
+      logger.error('Camera validation failed: ID is required', { camera });
       return false;
     }
 
     if (!camera.name || camera.name.trim() === '') {
-      console.error('Camera name is required');
+      logger.error('Camera validation failed: name is required', { cameraId: camera.id });
       return false;
     }
 
     if (!camera.mode) {
-      console.error('Camera mode is required');
+      logger.error('Camera validation failed: mode is required', { cameraId: camera.id });
       return false;
     }
 
     if (!camera.settings) {
-      console.error('Camera settings are required');
+      logger.error('Camera validation failed: settings are required', { cameraId: camera.id });
       return false;
     }
 
@@ -602,6 +605,6 @@ export class CameraManager {
    */
   importData(data: ReturnType<typeof this.exportData>): void {
     // Import logic would go here
-    console.log('Camera system data imported');
+    logger.info('Camera system data imported', { dataKeys: Object.keys(data) });
   }
 }
