@@ -153,12 +153,12 @@ export class RuntimeFidelityManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      console.warn('Runtime fidelity manager already initialized');
+      logger.warn('Runtime fidelity manager already initialized');
       return;
     }
 
     try {
-      console.info('Initializing runtime fidelity manager...');
+      logger.info('Initializing runtime fidelity manager');
       
       // Start health check monitoring
       if (this.config.enabled) {
@@ -166,7 +166,7 @@ export class RuntimeFidelityManager {
       }
       
       this.isInitialized = true;
-      console.info('Runtime fidelity manager initialized successfully');
+      logger.info('Runtime fidelity manager initialized successfully');
       
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -212,7 +212,7 @@ export class RuntimeFidelityManager {
       this.bridges.set(bridgeId, runtimeInfo);
       this.standardizedInterfaces.set(bridgeId, bridgeInterface);
       
-      console.info('Bridge registered for runtime fidelity monitoring', { 
+      logger.info('Bridge registered for runtime fidelity monitoring', { 
         bridgeId, 
         bridgeType 
       });
@@ -237,7 +237,7 @@ export class RuntimeFidelityManager {
     this.bridges.delete(bridgeId);
     this.standardizedInterfaces.delete(bridgeId);
     
-    console.info('Bridge unregistered from runtime fidelity monitoring', { bridgeId });
+    logger.info('Bridge unregistered from runtime fidelity monitoring', { bridgeId });
     this.eventBus.emit('bridge:unregistered', { bridgeId });
   }
 
@@ -247,7 +247,7 @@ export class RuntimeFidelityManager {
   updateBridgeMetrics(): void {
     const bridge = this.bridges.get(bridgeId);
     if (!bridge) {
-      console.warn('Bridge not found for metrics update', { bridgeId });
+      logger.warn('Bridge not found for metrics update', { bridgeId });
       return;
     }
 
@@ -331,7 +331,7 @@ export class RuntimeFidelityManager {
     const bridgeInterface = this.standardizedInterfaces.get(bridgeId);
     
     if (!bridge || !bridgeInterface) {
-      console.warn('Bridge not found for standardization', { bridgeId });
+      logger.warn('Bridge not found for standardization', { bridgeId });
       return false;
     }
 
@@ -344,19 +344,19 @@ export class RuntimeFidelityManager {
 
       // Validate configuration
       if (!bridgeInterface.validateConfiguration()) {
-        console.warn('Bridge configuration validation failed', { bridgeId });
+        logger.warn('Bridge configuration validation failed', { bridgeId });
         return false;
       }
 
       // Perform health check
       const isHealthy = await bridgeInterface.healthCheck();
       if (!isHealthy) {
-        console.warn('Bridge health check failed', { bridgeId });
+        logger.warn('Bridge health check failed', { bridgeId });
         return false;
       }
 
       bridge.status = 'active';
-      console.info('Bridge behavior standardized', { bridgeId });
+      logger.info('Bridge behavior standardized', { bridgeId });
       
       return true;
       
@@ -422,7 +422,7 @@ export class RuntimeFidelityManager {
         
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.warn('Health check failed for bridge', { bridgeId, error: error.message });
+        logger.warn('Health check failed for bridge', { bridgeId, error: error.message });
         bridge.status = 'error';
         this.recordBridgeOperation(bridgeId, false);
       }
@@ -569,7 +569,7 @@ export class RuntimeFidelityManager {
    * Destroy the runtime fidelity manager
    */
   async destroy(): Promise<void> {
-    console.info('Destroying runtime fidelity manager...');
+    logger.info('Destroying runtime fidelity manager');
     
     if (this.healthCheckInterval) {
       clearInterval(this.healthCheckInterval);
@@ -580,7 +580,7 @@ export class RuntimeFidelityManager {
     this.standardizedInterfaces.clear();
     this.isInitialized = false;
     
-    console.info('Runtime fidelity manager destroyed');
+    logger.info('Runtime fidelity manager destroyed');
   }
 }
 
