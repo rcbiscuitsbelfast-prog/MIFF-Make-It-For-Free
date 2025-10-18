@@ -17,6 +17,9 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('BlockchainManager');
 
 export interface BlockchainConfig {
   id?: string;
@@ -312,7 +315,7 @@ export class BlockchainManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      console.warn('BlockchainPure', 'Blockchain Manager already initialized');
+      logger.warn('Blockchain Manager already initialized');
       return;
     }
 
@@ -400,7 +403,7 @@ export class BlockchainManager {
     try {
       const blockchain = this.blockchains.get(blockchainId);
       if (!blockchain) {
-        console.warn('Blockchain not found', { blockchainId });
+        logger.warn('Blockchain not found', { blockchainId });
         return null;
       }
 
@@ -435,7 +438,7 @@ export class BlockchainManager {
     try {
       const blockchain = this.blockchains.get(blockchainId);
       if (!blockchain) {
-        console.warn('Blockchain not found', { blockchainId });
+        logger.warn('Blockchain not found', { blockchainId });
         return false;
       }
 
@@ -496,7 +499,7 @@ export class BlockchainManager {
     try {
       const blockchain = this.blockchains.get(blockchainId);
       if (!blockchain) {
-        console.warn('Blockchain not found', { blockchainId });
+        logger.warn('Blockchain not found', { blockchainId });
         return null;
       }
 
@@ -530,7 +533,7 @@ export class BlockchainManager {
     try {
       const blockchain = this.blockchains.get(blockchainId);
       if (!blockchain) {
-        console.warn('Blockchain not found', { blockchainId });
+        logger.warn('Blockchain not found', { blockchainId });
         return null;
       }
 
@@ -564,7 +567,7 @@ export class BlockchainManager {
     try {
       const blockchain = this.blockchains.get(blockchainId);
       if (!blockchain) {
-        console.warn('Blockchain not found', { blockchainId });
+        logger.warn('Blockchain not found', { blockchainId });
         return null;
       }
 
@@ -598,13 +601,13 @@ export class BlockchainManager {
     try {
       const blockchain = this.blockchains.get(blockchainId);
       if (!blockchain) {
-        console.warn('Blockchain not found', { blockchainId });
+        logger.warn('Blockchain not found', { blockchainId });
         return null;
       }
 
       const contract = blockchain.contracts.find(c => c.id === contractId);
       if (!contract) {
-        console.warn('Contract not found', { blockchainId, contractId });
+        logger.warn('Contract not found', { blockchainId, contractId });
         return null;
       }
 
@@ -633,13 +636,13 @@ export class BlockchainManager {
     try {
       const blockchain = this.blockchains.get(blockchainId);
       if (!blockchain) {
-        console.warn('Blockchain not found', { blockchainId });
+        logger.warn('Blockchain not found', { blockchainId });
         return false;
       }
 
       const block = blockchain.blocks.find(b => b.id === blockId);
       if (!block) {
-        console.warn('Block not found', { blockchainId, blockId });
+        logger.warn('Block not found', { blockchainId, blockId });
         return false;
       }
 
@@ -669,13 +672,13 @@ export class BlockchainManager {
     try {
       const blockchain = this.blockchains.get(blockchainId);
       if (!blockchain) {
-        console.warn('Blockchain not found', { blockchainId });
+        logger.warn('Blockchain not found', { blockchainId });
         return false;
       }
 
       const transaction = blockchain.transactions.find(t => t.id === transactionId);
       if (!transaction) {
-        console.warn('Transaction not found', { blockchainId, transactionId });
+        logger.warn('Transaction not found', { blockchainId, transactionId });
         return false;
       }
 
