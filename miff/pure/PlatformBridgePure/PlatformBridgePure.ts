@@ -12,6 +12,10 @@
  * that supports multiple render backends, input systems, and platform-specific features.
  */
 
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('PlatformBridge');
+
 export enum Platform {
   WEB = 'web',
   MOBILE = 'mobile',
