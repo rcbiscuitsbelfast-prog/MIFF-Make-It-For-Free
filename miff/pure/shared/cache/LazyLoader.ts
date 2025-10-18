@@ -399,7 +399,7 @@ export class LazyLoader {
 
   private log(message: string, level: 'info' | 'debug' | 'error' = 'info'): void {
     const timestamp = new Date().toISOString();
-    console.log(`[LAZYLOADER:${level.toUpperCase()}] ${timestamp} - ${message}`);
+    logger.info('LazyLoader log', { level: level.toUpperCase(), timestamp, message });
   }
 
   /**

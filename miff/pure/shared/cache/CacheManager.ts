@@ -434,7 +434,7 @@ export class CacheManager {
   }
 
   private log(message: string, level: 'info' | 'debug' | 'error' = 'info'): void {
-    // Use structured logger instead of console.log
+    // Note: Using structured logger (Logger) throughout this file instead of console.log
     if (level === 'debug') {
       logger.debug(message);
     } else if (level === 'error') {
