@@ -23,6 +23,9 @@ import {
   DrivingStats,
   Vector3
 } from './index';
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('DrivingManager');
 
 export class DrivingManager {
   private drivingSystem: DrivingSystemPure;
@@ -37,27 +40,27 @@ export class DrivingManager {
   createVehicleDefinition(vehicleData: Partial<VehicleDefinition>): VehicleDefinition | null {
     // Validate required fields
     if (!vehicleData.id || vehicleData.id.trim() === '') {
-      console.error('❌ Vehicle ID is required');
+      logger.error('Vehicle ID is required', { vehicleData });
       return null;
     }
 
     if (!vehicleData.name || vehicleData.name.trim() === '') {
-      console.error('❌ Vehicle name is required');
+      logger.error('Vehicle name is required', { vehicleId: vehicleData.id });
       return null;
     }
 
     if (!vehicleData.type) {
-      console.error('❌ Vehicle type is required');
+      logger.error('Vehicle type is required', { vehicleId: vehicleData.id, vehicleName: vehicleData.name });
       return null;
     }
 
     if (vehicleData.mass <= 0) {
-      console.error('❌ Vehicle mass must be positive');
+      logger.error('Vehicle mass must be positive', { vehicleId: vehicleData.id, mass: vehicleData.mass });
       return null;
     }
 
     if (vehicleData.maxSpeed <= 0) {
-      console.error('❌ Vehicle max speed must be positive');
+      logger.error('Vehicle max speed must be positive', { vehicleId: vehicleData.id, maxSpeed: vehicleData.maxSpeed });
       return null;
     }
 
@@ -112,12 +115,12 @@ export class DrivingManager {
   registerVehicle(vehicle: VehicleDefinition): boolean {
     // Validate vehicle
     if (!this.validateVehicleDefinition(vehicle)) {
-      console.error(`❌ Invalid vehicle definition: ${vehicle.id}`);
+      logger.error('Invalid vehicle definition', { vehicleId: vehicle.id, vehicleName: vehicle.name });
       return false;
     }
 
     // Store in system (this would normally go through the main system)
-    console.log(`✅ Registered vehicle: ${vehicle.name} (${vehicle.id})`);
+    logger.info('Vehicle registered', { vehicleId: vehicle.id, vehicleName: vehicle.name, type: vehicle.type, rarity: vehicle.rarity });
     return true;
   }
 
@@ -204,11 +207,11 @@ export class DrivingManager {
       // Store session (would normally go through main system)
       this.updateStats({ totalSessions: this.drivingSystem.getStats().totalSessions + 1 });
 
-      console.log(`🏁 Started driving session: ${track.name} with ${vehicle.definition.name}`);
+      logger.info('Driving session started', { trackName: track.name, vehicleName: vehicle.definition.name, playerId, trackId, vehicleId });
       return session;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`❌ Error starting session: ${error.message}`);
+      logger.error('Error starting session', { playerId, trackId, vehicleId, error: err });
       return null;
     }
   }
@@ -468,27 +471,27 @@ export class DrivingManager {
    */
   private validateVehicleDefinition(vehicle: VehicleDefinition): boolean {
     if (!vehicle.id || vehicle.id.trim() === '') {
-      console.error('Vehicle ID is required');
+      logger.error('Vehicle validation failed: ID is required', { vehicle });
       return false;
     }
 
     if (!vehicle.name || vehicle.name.trim() === '') {
-      console.error('Vehicle name is required');
+      logger.error('Vehicle validation failed: name is required', { vehicleId: vehicle.id });
       return false;
     }
 
     if (vehicle.mass <= 0) {
-      console.error('Vehicle mass must be positive');
+      logger.error('Vehicle validation failed: mass must be positive', { vehicleId: vehicle.id, mass: vehicle.mass });
       return false;
     }
 
     if (vehicle.maxSpeed <= 0) {
-      console.error('Vehicle max speed must be positive');
+      logger.error('Vehicle validation failed: max speed must be positive', { vehicleId: vehicle.id, maxSpeed: vehicle.maxSpeed });
       return false;
     }
 
     if (vehicle.acceleration <= 0) {
-      console.error('Vehicle acceleration must be positive');
+      logger.error('Vehicle validation failed: acceleration must be positive', { vehicleId: vehicle.id, acceleration: vehicle.acceleration });
       return false;
     }
 
@@ -528,6 +531,6 @@ export class DrivingManager {
    */
   importData(data: ReturnType<typeof this.exportData>): void {
     // Import logic would go here
-    console.log('Driving system data imported');
+    logger.info('Driving system data imported', { dataKeys: Object.keys(data) });
   }
 }
