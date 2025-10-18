@@ -16,6 +16,9 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('ConfigManager');
 
 export interface ConfigManagerConfig {
   id?: string;
@@ -674,7 +677,7 @@ export class ConfigManagerManager {
       const valid = errors.length === 0;
       this.updateAnalytics();
 
-      console.debug('Configuration validation completed', { managerId, configId, valid, errorCount: errors.length });
+      logger.debug('Configuration validation completed', { managerId, configId, valid, errorCount: errors.length });
       return { valid, errors };
 
     } catch (error: unknown) {

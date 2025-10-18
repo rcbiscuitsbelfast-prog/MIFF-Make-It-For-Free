@@ -14,6 +14,9 @@
  */
 
 import { EventBus } from '../EventBusPure/EventBusPure';
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('ProgressionManager');
 
 export type XPCurveType = 'linear' | 'exponential' | 'custom';
 
@@ -127,7 +130,7 @@ export class XPManager {
     spirit.experience = (spirit.experience || 0) + actualAmount;
 
     if (this.config.debugMode) {
-      console.log(`XP Added: ${actualAmount} to ${spirit.instanceId} (Total: ${spirit.experience})`);
+      logger.debug('XP added', { instanceId: spirit.instanceId, amount: actualAmount, totalXP: spirit.experience });
     }
 
     this.eventBus.publish('xp:gained', {
@@ -187,7 +190,7 @@ export class XPManager {
     }
 
     if (this.config.debugMode) {
-      console.log(`Level Up: ${spirit.instanceId} leveled up to ${spirit.level}`);
+      logger.info('Level up', { instanceId: spirit.instanceId, newLevel: spirit.level });
     }
 
     this.eventBus.publish('progression:level_up', {
@@ -298,7 +301,7 @@ export class XPManager {
     spirit.experience = Math.max(0, amount);
 
     if (this.config.debugMode) {
-      console.log(`XP Set: ${amount} for ${spirit.instanceId}`);
+      logger.debug('XP set', { instanceId: spirit.instanceId, amount });
     }
   }
 

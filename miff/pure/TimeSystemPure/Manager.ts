@@ -5,6 +5,10 @@
  * with AAA-quality features and integration capabilities.
  */
 
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('TimeManager');
+
 export type TimerId = string;
 
 export interface Timer {
@@ -380,7 +384,7 @@ export class TimeManager {
             timer.callback();
           } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-            console.error(`Error in timer callback ${timer.id}:`, err instanceof Error ? message: String(err));
+            logger.error('Error in timer callback', { timerId: timer.id, error: err });
           }
         }
         
@@ -417,7 +421,7 @@ export class TimeManager {
           scheduled.callback();
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-          console.error(`Error in scheduled event callback ${scheduled.id}:`, err instanceof Error ? message: String(err));
+          logger.error('Error in scheduled event callback', { eventId: scheduled.id, error: err });
         }
       }
       

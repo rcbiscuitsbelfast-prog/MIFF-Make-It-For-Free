@@ -1,6 +1,10 @@
 // SettingsPure - Comprehensive settings management for MIFF framework
 // Schema Version: v1
 
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('Settings');
+
 export interface SettingsConfig {
   musicVolume: number;
   sfxVolume: number;
@@ -79,7 +83,7 @@ export class SettingsManager {
         this.settings = this.mergeSettings(this.defaults, data.settings || data);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.warn('Failed to load settings, using defaults:', error);
+        logger.warn('Failed to load settings, using defaults', { error: err });
         this.settings = { ...this.defaults };
       }
     } else {
@@ -508,7 +512,7 @@ export class SettingsManager {
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('Failed to load settings:', err instanceof Error ? message: String(err));
+      logger.error('Failed to load settings', { error: err });
       return false;
     }
   }
