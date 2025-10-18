@@ -14,8 +14,10 @@
 
 import { CutScenePure, CutSceneDefinition } from './index';
 import { createEventBus } from '../EventBusPure';
+import { Logger } from '../shared/logging';
 
 const EventBus = createEventBus();
+const logger = Logger.create('CutSceneBridges');
 
 // Web Bridge Implementation
 export class CutSceneWebBridge {
@@ -34,7 +36,7 @@ export class CutSceneWebBridge {
   }
 
   private handleWebReady(event): void {
-    console.log('🌐 Web bridge ready for cut scenes');
+    logger.info('Web bridge ready for cut scenes');
     this.isInitialized = true;
   }
 
@@ -97,7 +99,7 @@ export class CutSceneWebBridge {
       this.container.appendChild(this.overlay);
       document.body.appendChild(this.container);
 
-      console.log('🎬 CutSceneWebPlayer initialized');
+      logger.info('CutSceneWebPlayer initialized');
     }
 
     async play() {
@@ -108,7 +110,7 @@ export class CutSceneWebBridge {
       this.currentTime = 0;
       this.completedActions.clear();
 
-      console.log('🎬 Starting web cut scene:', this.definition.config.name);
+      logger.info('Starting web cut scene', { cutSceneName: this.definition.config.name });
 
       // Emit play event
       window.dispatchEvent(new CustomEvent('cutscene.playing', {
@@ -126,7 +128,7 @@ export class CutSceneWebBridge {
         cancelAnimationFrame(this.animationFrame);
       }
 
-      console.log('⏹️ Cut scene stopped');
+      logger.info('Cut scene stopped');
     }
 
     startPlaybackLoop() {
