@@ -160,7 +160,7 @@ export class LensModeSwitcher {
 
     const settings = this.config.modeSettings[mode];
     if (!settings.enabled) {
-      console.warn(`Lens mode ${mode} is disabled`);
+      logger.warn('Lens mode disabled', { mode });
       return false;
     }
 
