@@ -339,35 +339,35 @@ export class AudioManager {
 
   private setMasterVolume(volume: number): void {
     // In a real implementation, this would control the master audio bus
-    console.log(`Setting master volume to ${volume}`);
+    logger.debug('Setting master volume', { volume });
   }
 
   private enableHRTF(enabled: boolean): void {
-    console.log(`HRTF ${enabled ? 'enabled' : 'disabled'}`);
+    logger.info('HRTF state changed', { enabled });
   }
 
   private enableReverb(enabled: boolean): void {
-    console.log(`Reverb ${enabled ? 'enabled' : 'disabled'}`);
+    logger.info('Reverb state changed', { enabled });
   }
 
   private setReverb(decay: number, damping: number): void {
-    console.log(`Reverb parameters: decay=${decay}, damping=${damping}`);
+    logger.debug('Reverb parameters set', { decay, damping });
   }
 
   private addEffect(id: string, effectType: string, parameters?: Record<string, number>): void {
-    console.log(`Adding effect ${effectType} to ${id}`, parameters);
+    logger.info('Adding audio effect', { soundId: id, effectType, parameters });
   }
 
   private removeEffect(id: string, effectId: string): void {
-    console.log(`Removing effect ${effectId} from ${id}`);
+    logger.info('Removing audio effect', { soundId: id, effectId });
   }
 
   private setListenerPosition(position: { x: number; y: number; z: number }): void {
-    console.log(`Setting listener position to (${position.x}, ${position.y}, ${position.z})`);
+    logger.debug('Setting listener position', { position });
   }
 
   private setListenerOrientation(forward: { x: number; y: number; z: number }, up: { x: number; y: number; z: number }): void {
-    console.log(`Setting listener orientation - forward: (${forward.x}, ${forward.y}, ${forward.z}), up: (${up.x}, ${up.y}, ${up.z})`);
+    logger.debug('Setting listener orientation', { forward, up });
   }
 
   private getAudioAnalysis(): AudioAnalysisData {
