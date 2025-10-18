@@ -1,1 +1,2 @@
-export * from './Manager'; export { SyncManager as default } from './Manager';
+export * from './Manager';
+export { SyncManager as default } from './Manager';
