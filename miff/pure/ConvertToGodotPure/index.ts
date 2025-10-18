@@ -314,7 +314,7 @@ export class GodotConverter {
     const errors: string[] = [];
 
     try {
-      console.log('[GodotConverter] Starting conversion...');
+      logger.info('Starting Godot conversion');
 
       // Reset counters
       this.nodeCounter = 0;
@@ -383,7 +383,7 @@ export class GodotConverter {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[GodotConverter] Conversion failed:', err instanceof Error ? message: String(err));
+      logger.error('Godot conversion failed', { error: err });
       return {
         success: false,
         project: this.currentProject,
@@ -480,7 +480,7 @@ export class GodotConverter {
           }
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-          console.warn(`Failed to convert entity ${entityId}:`, error);
+          logger.warn('Failed to convert entity', { entityId, error: err });
         }
       }
     }
@@ -493,7 +493,7 @@ export class GodotConverter {
           scene.nodes.set(systemId, node);
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-          console.warn(`Failed to convert system ${systemId}:`, error);
+          logger.warn('Failed to convert system', { systemId, error: err });
         }
       }
     }
@@ -869,7 +869,7 @@ func quit_game():
   // Export functionality
   async exportProject(outputPath: string, presetName?: string): Promise<boolean> {
     try {
-      console.log(`[GodotConverter] Exporting project to ${outputPath}...`);
+      logger.info('Exporting Godot project', { outputPath, presetName });
 
       // Create project structure
       await this.createProjectStructure(outputPath);
@@ -885,12 +885,12 @@ func quit_game():
       // Create final package
       const success = await this.createFinalPackage(outputPath, presetName);
 
-      console.log(`[GodotConverter] Export completed: ${success ? 'SUCCESS' : 'FAILED'}`);
+      logger.info('Godot export completed', { success, outputPath });
       return success;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[GodotConverter] Export failed:', err instanceof Error ? message: String(err));
+      logger.error('Godot export failed', { outputPath, error: err });
       return false;
     }
   }
@@ -996,13 +996,13 @@ func _ready():
       throw new Error(`Export preset not found: ${presetName}`);
     }
 
-    console.log(`[GodotConverter] Applying export preset: ${presetName}`);
+    logger.info('Applying export preset', { presetName });
     // Apply preset-specific configurations
   }
 
   private async createFinalPackage(outputPath: string, presetName?: string): Promise<boolean> {
     // Simulate packaging process
-    console.log('[GodotConverter] Creating final package...');
+    logger.info('Creating final package', { outputPath, presetName });
 
     // In a real implementation, this would use Godot's export system
     // For now, we'll just create a zip file or copy files as needed
@@ -1030,6 +1030,6 @@ func _ready():
     this.currentProject.scenes.clear();
     this.currentProject.resources.clear();
     this.currentProject.autoloads.clear();
-    console.log('[GodotConverter] Disposed successfully');
+    logger.info('Godot converter disposed successfully');
   }
 }
