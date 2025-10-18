@@ -1,4 +1,7 @@
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
+import { Logger } from './logging';
+
+const logger = Logger.create('TestInfrastructure');
 /**
  * Test Infrastructure Stabilization System for MIFF Framework
  * 
