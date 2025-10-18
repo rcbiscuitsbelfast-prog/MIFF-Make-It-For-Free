@@ -21,9 +21,7 @@ import {
   CutSceneUnityBridge,
   CutSceneGodotBridge,
   CutSceneUnrealBridge,
-  ICutSceneDefinition,
-  ICutSceneTrack,
-  ICutSceneAction
+  CutSceneDefinition
 } from '../index';
 
 describe('CutScenePure Golden Tests', () => {
