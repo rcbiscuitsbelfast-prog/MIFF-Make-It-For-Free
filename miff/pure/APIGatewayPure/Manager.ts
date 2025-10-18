@@ -454,7 +454,7 @@ export class APIGatewayManager {
     try {
       const gateway = this.gateways.get(gatewayId);
       if (!gateway) {
-        console.warn('Gateway not found', { gatewayId });
+        logger.warn('Gateway not found for request', { gatewayId });
         return this.createErrorResponse(404, 'Gateway not found');
       }
 
