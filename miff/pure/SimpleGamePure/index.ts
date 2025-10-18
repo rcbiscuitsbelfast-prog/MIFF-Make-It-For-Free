@@ -16,6 +16,10 @@
  * @license MIT
  */
 
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('SimpleGame');
+
 export enum GameType {
   CLICKER = 'clicker',
   PLATFORMER = 'platformer',
