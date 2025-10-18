@@ -2,6 +2,10 @@
 // Purpose: Provides toggleable visual themes with priority-based draw reducers and remix-safe assets
 // Schema: Pure JSON outputs, deterministic, engine-agnostic
 
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('OverlinkThemes');
+
 export type ThemeId = 'neonGrid' | 'forestGlade' | 'cosmicVoid' | 'retroPixel' | 'cyberpunk';
 
 export type ThemeLayer = 'background' | 'foreground' | 'ui' | 'effects' | 'audio';
@@ -253,7 +257,7 @@ export class OverlinkThemes {
 
   async playThemeAudio(themeId: ThemeId, options: any = {}): Promise<boolean> {
     if (!this.audioManager) {
-      console.warn('Audio manager not set');
+      logger.warn('Audio manager not set for theme playback');
       return false;
     }
 
@@ -262,7 +266,7 @@ export class OverlinkThemes {
 
   async stopThemeAudio(): Promise<void> {
     if (!this.audioManager) {
-      console.warn('Audio manager not set');
+      logger.warn('Audio manager not set for stopping theme');
       return;
     }
 
@@ -271,7 +275,7 @@ export class OverlinkThemes {
 
   setThemeVolume(themeId: ThemeId, volume: number): void {
     if (!this.audioManager) {
-      console.warn('Audio manager not set');
+      logger.warn('Audio manager not set for stopping theme');
       return;
     }
 
