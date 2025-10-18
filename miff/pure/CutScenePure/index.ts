@@ -286,7 +286,7 @@ class AudioPureStub {
       });
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`Audio error: ${error}`);
+      logger.error('Audio error in cutscene', { error: err });
       throw error;
     }
   }
@@ -304,7 +304,7 @@ class AudioPureStub {
     if (sound) {
       sound.playing = false;
       this.activeSounds.delete(soundId);
-      console.log(`Stopped sound: ${soundId}`);
+      logger.info('Sound stopped in cutscene', { soundId });
     }
   }
 
@@ -518,12 +518,12 @@ export class CutSceneEngine {
 
   setCurrentTime(time: number): void {
     // Simplified implementation
-    console.log(`Setting cut scene time to ${time}`);
+    logger.debug('Cut scene time set', { time });
   }
 
   setTrackProperty(trackId: string, property: string, value: any): void {
     // Simplified implementation
-    console.log(`Setting track ${trackId} property ${property} to ${value}`);
+    logger.debug('Track property set', { trackId, property, value });
   }
 }
 
@@ -758,12 +758,12 @@ export class CutScenePure {
       }
     }
 
-    console.log(`✅ Cut scene "${this.config.id}" validated successfully`);
+    logger.info('Cut scene validated successfully', { cutSceneId: this.config.id, cutSceneName: this.config.name });
   }
 
   public async play(onComplete?: (result: any) => void): Promise<any> {
     if (this.state.isPlaying) {
-      console.warn('Cut scene is already playing');
+      logger.warn('Cut scene is already playing', { cutSceneId: this.config.id });
       return;
     }
 
@@ -771,7 +771,7 @@ export class CutScenePure {
     this.state.isPlaying = true;
     this.state.currentTime = 0;
 
-    console.log(`🎬 Starting cut scene: ${this.config.name}`);
+    logger.info('Starting cut scene', { cutSceneId: this.config.id, cutSceneName: this.config.name });
 
     // Notify engine-specific systems
     EventBus.publish('cutscene.playing', {
@@ -833,7 +833,7 @@ export class CutScenePure {
   }
 
   public skip(): void {
-    console.log(`⏭️ Skipping cut scene: ${this.config.name}`);
+    logger.info('Skipping cut scene', { cutSceneId: this.config.id, cutSceneName: this.config.name });
     this.stop();
     EventBus.publish('cutscene.skipped', { cutSceneId: this.config.id });
   }
@@ -895,7 +895,7 @@ export class CutScenePure {
   }
 
   private async executeAction(action: CutSceneAction): Promise<void> {
-    console.log(`🎬 Executing action: ${action.id} (${action.type})`);
+    logger.info('Executing cutscene action', { actionId: action.id, actionType: action.type });
 
     switch (action.type) {
       case 'start':
@@ -1166,7 +1166,7 @@ export class CutScenePure {
 
   private handleEngineReady(event): void {
     this.state.engineContext = event.engineType;
-    console.log(`🔧 Cut scene engine ready: ${event.engineType}`);
+    logger.info('Cut scene engine ready', { engineType: event.engineType });
   }
 
   // Public API methods
