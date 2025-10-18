@@ -237,10 +237,10 @@ export class AudioEngine {
       this.gainNodes.set('master', masterGain);
 
       this.isInitialized = true;
-      console.log('[AudioEngine] Initialized successfully');
+      logger.info('AudioEngine initialized successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[AudioEngine] Failed to initialize:', err instanceof Error ? message: String(err));
+      logger.error('Failed to initialize AudioEngine', { error: err });
       throw new Error(`Audio initialization failed: ${error}`);
     }
   }
@@ -261,10 +261,10 @@ export class AudioEngine {
 
       this.performanceMetrics.totalSources++;
 
-      console.log(`[AudioEngine] Loaded audio source: ${source.name}`);
+      logger.info('Audio source loaded', { sourceName: source.name, sourceId: source.id });
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`[AudioEngine] Failed to load audio source ${source.name}:`, err instanceof Error ? message: String(err));
+      logger.error('Failed to load audio source', { sourceName: source.name, error: err });
       throw new Error(`Audio source loading failed: ${error}`);
     }
   }
@@ -315,10 +315,10 @@ export class AudioEngine {
       audioSource.onended = () => {
         this.activeSources.delete(sourceId);
         this.performanceMetrics.activeSources = Math.max(0, this.performanceMetrics.activeSources - 1);
-        console.log(`[AudioEngine] Source ended: ${sourceId}`);
+        logger.debug('Audio source ended', { sourceId });
       };
 
-      console.log(`[AudioEngine] Playing source: ${source.name}`);
+      logger.info('Playing audio source', { sourceName: source.name, sourceId });
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       console.error(`[AudioEngine] Failed to play source ${sourceId}:`, err instanceof Error ? message: String(err));
