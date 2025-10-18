@@ -278,7 +278,7 @@ export class AudioManager {
       
       if (options.remix && !binding.remixSafe) {
         audioPath = binding.fallback;
-        console.log(`Using fallback audio for remix mode: ${binding.fallback}`);
+        logger.info('Using fallback audio for remix mode', { fallback: binding.fallback });
       }
 
       // Simulate audio playback (in real implementation, this would use Web Audio API)
@@ -301,12 +301,12 @@ export class AudioManager {
         startTime: new Date()
       });
 
-      console.log(`Playing ${type} audio: ${audioPath} (volume: ${binding.volume})`);
+      logger.info('Playing audio binding', { type, audioPath, volume: binding.volume });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`Failed to play audio binding ${binding.id}:`, err instanceof Error ? message: String(err));
+      logger.error('Failed to play audio binding', { bindingId: binding.id, error: err });
       this.playbackState.errorCount++;
       return false;
     }
@@ -347,7 +347,7 @@ export class AudioManager {
 
     for (const [audioId, audio] of this.currentAudio) {
       // In real implementation, this would pause the audio
-      console.log(`Paused audio: ${audioId}`);
+      logger.debug('Paused audio', { audioId });
     }
 
     this.playbackState.isPlaying = false;
@@ -358,7 +358,7 @@ export class AudioManager {
 
     for (const [audioId, audio] of this.currentAudio) {
       // In real implementation, this would resume the audio
-      console.log(`Resumed audio: ${audioId}`);
+      logger.debug('Resumed audio', { audioId });
     }
 
     this.playbackState.isPlaying = true;
@@ -376,7 +376,7 @@ export class AudioManager {
       }
     }
 
-    console.log(`Master volume set to: ${clampedVolume}`);
+    logger.debug('Master volume set', { volume: clampedVolume });
   }
 
   setThemeVolume(themeId: string, volume: number): void {
@@ -403,7 +403,7 @@ export class AudioManager {
       }
     }
 
-    console.log(`Theme ${themeId} volume set to: ${clampedVolume}`);
+    logger.debug('Theme volume set', { themeId, volume: clampedVolume });
   }
 
   // Fade Control
