@@ -442,7 +442,7 @@ export class AdvancedQuests {
         conditions: this.generateRewardConditions(rewardTemplate, context),
         apply: (ctx) => {
           // Apply reward logic
-          console.log(`Applied reward: ${rewardTemplate.type} = ${reward.value}`);
+          logger.info('Quest reward applied', { rewardType: rewardTemplate.type, value: reward.value });
         }
       };
       rewards.push(reward);
@@ -486,7 +486,7 @@ export class AdvancedQuests {
           type: triggerTemplate.type as any,
           action: (ctx) => {
             // Implement trigger action logic
-            console.log(`Triggered: ${triggerTemplate.type}`);
+            logger.info('Quest trigger activated', { triggerType: triggerTemplate.type });
           },
           conditions: this.generateTriggerConditions(triggerTemplate, context)
         };
@@ -640,7 +640,7 @@ export class AdvancedQuests {
     return template.rewards.map((reward: any) => ({
       type: reward.type as any,
       value: reward.value,
-      apply: (ctx) => console.log(`Applied step reward: ${reward.type}`)
+      apply: (ctx) => logger.info('Quest step reward applied', { rewardType: reward.type })
     }));
   }
 
