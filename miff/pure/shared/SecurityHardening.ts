@@ -8,6 +8,9 @@
 import * as crypto from 'crypto';
 import { SafeJSONParser } from '/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
+import { Logger } from './logging';
+
+const logger = Logger.create('SecurityHardening');
 
 export interface SecurityConfig {
   id?: string;
@@ -211,7 +214,7 @@ export class SecurityHardening {
    * Initialize security hardening
    */
   async initialize(): Promise<void> {
-    console.info('🔒 Initializing security hardening...');
+    logger.info('Initializing security hardening');
     
     try {
       // Setup security headers
@@ -234,10 +237,10 @@ export class SecurityHardening {
         await this.setupSSL();
       }
 
-      console.info('✅ Security hardening initialized');
+      logger.info('Security hardening initialized');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ Security hardening initialization failed:', err instanceof Error ? message: String(err));
+      logger.error('Security hardening initialization failed', { error: err });
       throw error;
     }
   }
@@ -488,7 +491,7 @@ export class SecurityHardening {
 
     // Log critical events
     if (event.severity === 'critical') {
-      console.error(`🚨 CRITICAL SECURITY EVENT: ${event.type} from ${event.source}`);
+      logger.error('CRITICAL SECURITY EVENT', { eventType: event.type, source: event.source, event });
     }
   }
 
@@ -496,7 +499,7 @@ export class SecurityHardening {
    * Run security audit
    */
   async runSecurityAudit(): Promise<SecurityAudit> {
-    console.info('🔍 Running security audit...');
+    logger.info('Running security audit');
 
     const vulnerabilities: SecurityVulnerability[] = [];
     const recommendations: string[] = [];
@@ -611,7 +614,7 @@ export class SecurityHardening {
       }
     };
 
-    console.info(`✅ Security audit completed - Score: ${score}/100`);
+    logger.info('Security audit completed', { score, maxScore: 100 });
     return this.audit;
   }
 
@@ -656,22 +659,22 @@ export class SecurityHardening {
 
   private async setupSecurityHeaders(): Promise<void> {
     // Security headers are applied in middleware
-    console.info('✅ Security headers configured');
+    logger.info('Security headers configured');
   }
 
   private async setupRateLimiting(): Promise<void> {
     // Rate limiting is handled in checkRateLimit method
-    console.info('✅ Rate limiting configured');
+    logger.info('Rate limiting configured');
   }
 
   private async setupInputValidation(): Promise<void> {
     // Input validation is handled in validateInput method
-    console.info('✅ Input validation configured');
+    logger.info('Input validation configured');
   }
 
   private async setupSSL(): Promise<void> {
     // SSL setup would be handled by the web server
-    console.info('✅ SSL/TLS configuration ready');
+    logger.info('SSL/TLS configuration ready');
   }
 
   private sanitizeString(input: string): string {
