@@ -1531,7 +1531,7 @@ export class RenderWorldPure {
     if (!this.engines.mobilePerformance.isPerformanceAcceptable()) {
       const recommendations = this.engines.mobilePerformance.getOptimizationRecommendations();
       if (recommendations.length > 0) {
-        console.warn('Performance optimization recommendations:', recommendations);
+        logger.warn('Performance optimization recommendations', { recommendations, count: recommendations.length });
       }
     }
   }
