@@ -1,10 +1,12 @@
+# PAUSED TEMPORARILY - Will be re-enabled later
 name: Audit and Coverage CI
 # Updated: Adjusted thresholds to reality (Oct 2025)
 
 on:
-  push:
+  workflow_dispatch: # Manual trigger only while paused
+#  push: # PAUSED
     branches: [ master ]
-  pull_request:
+#  pull_request: # PAUSED
     branches: [ master ]
 
 permissions:

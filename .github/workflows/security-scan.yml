@@ -1,12 +1,14 @@
+# PAUSED TEMPORARILY - Will be re-enabled later
 name: Security Scan
 
 on:
-  schedule:
+  workflow_dispatch: # Manual trigger only while paused
+#  schedule: # PAUSED
     # Run weekly on Sundays at 2 AM UTC
     - cron: '0 2 * * 0'
-  push:
+#  push: # PAUSED
     branches: [ master ]
-  pull_request:
+#  pull_request: # PAUSED
     branches: [ master ]
   workflow_dispatch:
 

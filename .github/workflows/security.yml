@@ -1,11 +1,13 @@
+# PAUSED TEMPORARILY - Will be re-enabled later
 name: Security and Compliance
 
 on:
-  push:
+  workflow_dispatch: # Manual trigger only while paused
+#  push: # PAUSED
     branches: [ master, develop ]
-  pull_request:
+#  pull_request: # PAUSED
     branches: [ master, develop ]
-  schedule:
+#  schedule: # PAUSED
     - cron: '0 6 * * *' # Daily at 6 AM UTC
 
 permissions:

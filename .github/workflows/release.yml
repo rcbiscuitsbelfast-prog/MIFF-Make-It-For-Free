@@ -1,6 +1,8 @@
+# PAUSED TEMPORARILY - Will be re-enabled later
 name: Release Management
 
 on:
+  workflow_dispatch: # Manual trigger only while paused
   release:
     types: [published]
   workflow_dispatch:

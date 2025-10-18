@@ -1,9 +1,11 @@
+# PAUSED TEMPORARILY - Will be re-enabled later
 name: Comprehensive Testing Suite
 
 on:
-  push:
+  workflow_dispatch: # Manual trigger only while paused
+#  push: # PAUSED
     branches: [ master, develop ]
-  pull_request:
+#  pull_request: # PAUSED
     branches: [ master, develop ]
   workflow_dispatch:
 

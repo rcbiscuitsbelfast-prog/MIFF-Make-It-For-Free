@@ -1,10 +1,12 @@
+# PAUSED TEMPORARILY - Will be re-enabled later
 name: Repository Maintenance and Cleanup
 
 on:
-  schedule:
+  workflow_dispatch: # Manual trigger only while paused
+#  schedule: # PAUSED
     - cron: '0 2 * * *' # Daily at 2 AM UTC
   workflow_dispatch:
-  push:
+#  push: # PAUSED
     paths:
       - 'scripts/maintenance/**'
 

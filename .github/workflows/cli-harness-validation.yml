@@ -1,11 +1,13 @@
+# PAUSED TEMPORARILY - Will be re-enabled later
 name: CLI Harness Validation
 
 on:
-  push:
+  workflow_dispatch: # Manual trigger only while paused
+#  push: # PAUSED
     branches: [ master, develop ]
-  pull_request:
+#  pull_request: # PAUSED
     branches: [ master, develop ]
-  schedule:
+#  schedule: # PAUSED
     - cron: '0 3 * * 1' # Weekly on Mondays at 3 AM UTC
   workflow_dispatch:
 

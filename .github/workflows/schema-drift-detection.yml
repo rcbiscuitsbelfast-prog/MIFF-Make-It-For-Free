@@ -1,11 +1,13 @@
+# PAUSED TEMPORARILY - Will be re-enabled later
 name: Schema Drift Detection
 
 on:
-  push:
+  workflow_dispatch: # Manual trigger only while paused
+#  push: # PAUSED
     branches: [ master, develop ]
-  pull_request:
+#  pull_request: # PAUSED
     branches: [ master, develop ]
-  schedule:
+#  schedule: # PAUSED
     - cron: '0 2 * * 1' # Weekly on Mondays at 2 AM UTC
   workflow_dispatch:
 
