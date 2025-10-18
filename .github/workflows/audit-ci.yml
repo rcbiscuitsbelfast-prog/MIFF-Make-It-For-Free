@@ -1,4 +1,5 @@
 name: Audit and Coverage CI
+# Updated: Adjusted thresholds to reality (Oct 2025)
 
 on:
   push:
