@@ -2,6 +2,10 @@
 // Purpose: Handles theme-based ambient audio with remix safety and fallback logic
 // Schema: Pure JSON outputs, deterministic, engine-agnostic
 
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('OverlinkAudioManager');
+
 export type AudioBinding = {
   id: string;
   path: string;
@@ -204,7 +208,7 @@ export class AudioManager {
       };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('Failed to load audio config:', err instanceof Error ? message: String(err));
+      logger.error('Failed to load audio config', { error: err });
       throw error;
     }
   }
@@ -212,14 +216,14 @@ export class AudioManager {
   // Theme Audio Management
   async playThemeAudio(themeId: string, options: AudioManagerOptions = {}): Promise<boolean> {
     if (!this.config) {
-      console.warn('Audio config not loaded');
+      logger.warn('Audio config not loaded');
       this.playbackState.errorCount++;
       return false;
     }
 
     const themeBindings = this.config.themeAudioBindings[themeId];
     if (!themeBindings) {
-      console.warn(`No audio bindings found for theme: ${themeId}`);
+      logger.warn('No audio bindings found for theme', { themeId });
       this.playbackState.errorCount++;
       return false;
     }
