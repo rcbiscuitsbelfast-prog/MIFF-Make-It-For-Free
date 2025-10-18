@@ -326,7 +326,7 @@ export class APIGatewayManager {
       this.gateways.set(gateway.id, gateway);
       this.updateAnalytics();
 
-      console.info('API Gateway created', { gatewayId: gateway.id, gatewayName: gateway.name });
+      logger.info('API Gateway created', { gatewayId: gateway.id, gatewayName: gateway.name });
       return gateway;
 
     } catch (error: unknown) {
@@ -358,7 +358,7 @@ export class APIGatewayManager {
     try {
       const gateway = this.gateways.get(gatewayId);
       if (!gateway) {
-        console.warn('Gateway not found', { gatewayId });
+        logger.warn('Gateway not found', { gatewayId });
         return null;
       }
 
@@ -372,7 +372,7 @@ export class APIGatewayManager {
       this.gateways.set(gatewayId, updatedGateway);
       this.updateAnalytics();
 
-      console.info('API Gateway updated', { gatewayId, gatewayName: updatedGateway.name });
+      logger.info('API Gateway updated', { gatewayId, gatewayName: updatedGateway.name });
       return updatedGateway;
 
     } catch (error: unknown) {
@@ -393,14 +393,14 @@ export class APIGatewayManager {
     try {
       const gateway = this.gateways.get(gatewayId);
       if (!gateway) {
-        console.warn('Gateway not found', { gatewayId });
+        logger.warn('Gateway not found for deletion', { gatewayId });
         return false;
       }
 
       this.gateways.delete(gatewayId);
       this.updateAnalytics();
 
-      console.info('API Gateway deleted', { gatewayId, gatewayName: gateway.name });
+      logger.info('API Gateway deleted', { gatewayId, gatewayName: gateway.name });
       return true;
 
     } catch (error: unknown) {
@@ -468,7 +468,7 @@ export class APIGatewayManager {
       // Apply policies
       const policyResult = await this.applyPolicies(gateway, route, request);
       if (!policyResult.allowed) {
-        console.warn('Request blocked by policy', { gatewayId, policy: policyResult.policy });
+        logger.warn('Request blocked by policy', { gatewayId, policy: policyResult.policy });
         return this.createErrorResponse(403, 'Request blocked by policy');
       }
 
@@ -478,7 +478,7 @@ export class APIGatewayManager {
       // Update analytics
       this.updateGatewayAnalytics(gateway, request, response);
 
-      console.debug('Request processed', { gatewayId, path: request.path, status: response?.status ?? 0 });
+      logger.debug('Request processed', { gatewayId, path: request.path, status: response?.status ?? 0 });
       return response;
 
     } catch (error: unknown) {
@@ -674,12 +674,12 @@ export class APIGatewayManager {
    * Destroy the API Gateway Manager
    */
   async destroy(): Promise<void> {
-    console.info('APIGatewayPure', 'Destroying API Gateway Manager...');
+    logger.info('Destroying API Gateway Manager');
 
     this.gateways.clear();
     this.isInitialized = false;
 
-    console.info('APIGatewayPure', 'API Gateway Manager destroyed');
+    logger.info('API Gateway Manager destroyed');
   }
 }
 
