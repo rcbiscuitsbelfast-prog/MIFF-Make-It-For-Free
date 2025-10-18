@@ -321,7 +321,7 @@ export class AudioEngine {
       logger.info('Playing audio source', { sourceName: source.name, sourceId });
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`[AudioEngine] Failed to play source ${sourceId}:`, err instanceof Error ? message: String(err));
+      logger.error('Failed to play audio source', { sourceId, error: err });
       throw new Error(`Audio playback failed: ${error}`);
     }
   }
@@ -353,10 +353,10 @@ export class AudioEngine {
         source.stop();
         this.activeSources.delete(sourceId);
         this.performanceMetrics.activeSources = Math.max(0, this.performanceMetrics.activeSources - 1);
-        console.log(`[AudioEngine] Stopped source: ${sourceId}`);
+        logger.info('Audio source stopped', { sourceId });
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.warn(`[AudioEngine] Error stopping source ${sourceId}:`, error);
+        logger.warn('Error stopping audio source', { sourceId, error: err });
       }
     }
   }
@@ -365,7 +365,7 @@ export class AudioEngine {
     const source = this.activeSources.get(sourceId);
     if (source) {
       source.playbackRate.value = 0;
-      console.log(`[AudioEngine] Paused source: ${sourceId}`);
+      logger.info('Audio source paused', { sourceId });
     }
   }
 
