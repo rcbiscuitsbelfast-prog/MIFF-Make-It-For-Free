@@ -353,11 +353,11 @@ export class SimpleClickerGame extends SimpleGame {
   };
 
   protected onStart(): void {
-    console.log(`🎮 ${this.config.title} started!`);
+    logger.info('Clicker game started', { title: this.config.title });
   }
 
   protected onStop(): void {
-    console.log(`⏹️ ${this.config.title} stopped!`);
+    logger.info('Clicker game stopped', { title: this.config.title });
   }
 
   protected onUpdate(deltaTime: number): void {
@@ -369,7 +369,7 @@ export class SimpleClickerGame extends SimpleGame {
   }
 
   protected onAchievementUnlocked(achievement: Achievement): void {
-    console.log(`🏆 Achievement unlocked: ${achievement.name}`);
+    logger.info('Achievement unlocked', { achievementName: achievement.name, achievementId: achievement.id });
   }
 
   // Clicker-specific methods
@@ -419,11 +419,11 @@ export class SimplePlatformerGame extends SimpleGame {
 
   protected onStart(): void {
     this.initializePlatforms();
-    console.log(`🕹️ ${this.config.title} started! Use WASD to move, Space to jump`);
+    logger.info('Platformer started', { title: this.config.title, controls: 'WASD to move, Space to jump' });
   }
 
   protected onStop(): void {
-    console.log(`⏹️ ${this.config.title} stopped!`);
+    logger.info('Platformer stopped', { title: this.config.title });
   }
 
   protected onUpdate(deltaTime: number): void {
@@ -432,7 +432,7 @@ export class SimplePlatformerGame extends SimpleGame {
   }
 
   protected onAchievementUnlocked(achievement: Achievement): void {
-    console.log(`🏆 Achievement unlocked: ${achievement.name}`);
+    logger.info('Achievement unlocked in platformer', { achievementName: achievement.name, achievementId: achievement.id });
   }
 
   private initializePlatforms(): void {
