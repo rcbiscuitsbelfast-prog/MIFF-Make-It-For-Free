@@ -461,7 +461,7 @@ export class APIGatewayManager {
       // Find matching route
       const route = this.findMatchingRoute(gateway, request);
       if (!route) {
-        console.warn('No matching route found', { gatewayId, path: request.path, method: request.method });
+        logger.warn('No matching route found', { gatewayId, path: request.path, method: request.method });
         return this.createErrorResponse(404, 'Route not found');
       }
 
