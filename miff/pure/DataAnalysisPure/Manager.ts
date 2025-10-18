@@ -374,7 +374,7 @@ export class DataAnalysisManager {
       }
 
       this.isInitialized = true;
-      console.info('DataAnalysisPure', 'Data Analysis System initialized successfully');
+      logger.info('Data Analysis System initialized successfully');
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -413,7 +413,7 @@ export class DataAnalysisManager {
       this.systems.set(system.id, system);
       this.updateAnalytics();
 
-      console.info('Data analysis system created', { systemId: system.id, systemName: system.name });
+      logger.info('Data analysis system created', { systemId: system.id, systemName: system.name });
       return system;
 
     } catch (error: unknown) {
@@ -445,7 +445,7 @@ export class DataAnalysisManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        logger.warn('System not found', { systemId });
         return null;
       }
 
@@ -459,7 +459,7 @@ export class DataAnalysisManager {
       this.systems.set(systemId, updatedSystem);
       this.updateAnalytics();
 
-      console.info('Data analysis system updated', { systemId, systemName: updatedSystem.name });
+      logger.info('Data analysis system updated', { systemId, systemName: updatedSystem.name });
       return updatedSystem;
 
     } catch (error: unknown) {
@@ -487,7 +487,7 @@ export class DataAnalysisManager {
       this.systems.delete(systemId);
       this.updateAnalytics();
 
-      console.info('Data analysis system deleted', { systemId, systemName: system.name });
+      logger.info('Data analysis system deleted', { systemId, systemName: system.name });
       return true;
 
     } catch (error: unknown) {
@@ -541,7 +541,7 @@ export class DataAnalysisManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        logger.warn('System not found', { systemId });
         return null;
       }
 
@@ -554,7 +554,7 @@ export class DataAnalysisManager {
       system.datasets.push(dataset);
       this.updateAnalytics();
 
-      console.info('Dataset added to system', { systemId, datasetId: dataset.id, datasetName: dataset.name });
+      logger.info('Dataset added to system', { systemId, datasetId: dataset.id, datasetName: dataset.name });
       return dataset;
 
     } catch (error: unknown) {
@@ -588,7 +588,7 @@ export class DataAnalysisManager {
       system.datasets.splice(datasetIndex, 1);
       this.updateAnalytics();
 
-      console.info('Dataset removed from system', { systemId, datasetId });
+      logger.info('Dataset removed from system', { systemId, datasetId });
       return true;
 
     } catch (error: unknown) {
@@ -609,7 +609,7 @@ export class DataAnalysisManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        logger.warn('System not found', { systemId });
         return null;
       }
 
@@ -639,7 +639,7 @@ export class DataAnalysisManager {
       // Start analysis in background
       this.performAnalysis(systemId, analysis.id);
 
-      console.info('Analysis started', { systemId, analysisId: analysis.id, analysisName: analysis.name });
+      logger.info('Analysis started', { systemId, analysisId: analysis.id, analysisName: analysis.name });
       return analysis;
 
     } catch (error: unknown) {
@@ -684,7 +684,7 @@ export class DataAnalysisManager {
       analysis.completed = Date.now();
       this.updateAnalytics();
 
-      console.info('Analysis completed', { systemId, analysisId });
+      logger.info('Analysis completed', { systemId, analysisId });
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -977,15 +977,17 @@ export class DataAnalysisManager {
    * Destroy the Data Analysis System
    */
   async destroy(): Promise<void> {
-    console.info('DataAnalysisPure', 'Destroying Data Analysis System...');
+    logger.info('Destroying Data Analysis System');
 
     this.systems.clear();
     this.isInitialized = false;
 
-    console.info('DataAnalysisPure', 'Data Analysis System destroyed');
+    logger.info('Data Analysis System destroyed');
   }
 }
 
 // Export default instance
+export const dataAnalysisManager = new DataAnalysisManager();
+export default dataAnalysisManager;port default instance
 export const dataAnalysisManager = new DataAnalysisManager();
 export default dataAnalysisManager;
