@@ -6,6 +6,9 @@
  */
 
 import { RenderWorldPure, RenderWorldGameState, RenderPayloadPure } from './index';
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('AdvancedRendering');
 
 export interface AdvancedRenderConfig {
   enableShaders: boolean;
@@ -204,7 +207,7 @@ export class AdvancedRendering {
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`Failed to compile shader ${shaderId}:`, err instanceof Error ? message: String(err));
+      logger.error('Failed to compile shader', { shaderId, error: err });
       return false;
     }
   }
@@ -234,7 +237,7 @@ export class AdvancedRendering {
     if (!system || !system.enabled) return;
 
     // In a real implementation, this would create and manage particle instances
-    console.log(`Emitted ${count} particles from system ${systemId}`);
+    logger.debug('Particles emitted', { systemId, count });
   }
 
   /**
@@ -356,7 +359,7 @@ export class AdvancedRendering {
     // 3. Bind textures and materials
     // 4. Draw the mesh
 
-    console.log(`Rendering batch ${batch.id} on layer ${layer.id}`);
+    logger.debug('Rendering batch on layer', { batchId: batch.id, layerId: layer.id });
   }
 
   /**
@@ -387,7 +390,7 @@ export class AdvancedRendering {
     const contrast = filter.parameters.get('contrast') || 1.0;
     const saturation = filter.parameters.get('saturation') || 1.0;
 
-    console.log(`Applying color filter: brightness=${brightness}, contrast=${contrast}, saturation=${saturation}`);
+    logger.debug('Applying color filter', { brightness, contrast, saturation });
   }
 
   /**

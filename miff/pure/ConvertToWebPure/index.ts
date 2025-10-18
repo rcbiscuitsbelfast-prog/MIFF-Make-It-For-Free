@@ -586,7 +586,7 @@ export class WebConverter {
   // Core conversion functionality
   async convertMIFFProject(miffProject): Promise<WebBuildResult> {
     const startTime = Date.now();
-    console.log('[WebConverter] Starting conversion to web format...');
+    logger.info('Starting conversion to web format');
 
     try {
       // Reset project
@@ -630,7 +630,7 @@ export class WebConverter {
       const buildTime = Date.now() - startTime;
       this.statistics.buildTime = buildTime;
 
-      console.log(`[WebConverter] Conversion completed in ${buildTime}ms`);
+      logger.info('Web conversion completed', { buildTime, platform: this.config.platform });
 
       return {
         success: true,
