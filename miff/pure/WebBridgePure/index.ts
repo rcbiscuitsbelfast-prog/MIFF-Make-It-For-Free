@@ -324,12 +324,12 @@ export class WebBridge {
 
       this.wasmModules.set(module.name, module);
 
-      console.log(`[WebBridge] WebAssembly module compiled: ${module.name}`);
+      logger.info('WebAssembly module compiled', { moduleName: module.name });
       return module;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[WebBridge] WebAssembly compilation failed:', err instanceof Error ? message: String(err));
+      logger.error('WebAssembly compilation failed', { error: err });
       throw error;
     }
   }
@@ -339,7 +339,7 @@ export class WebBridge {
       throw new Error('WebAssembly is disabled');
     }
 
-    console.log(`[WebBridge] Instantiating WebAssembly module: ${module.name}`);
+    logger.info('Instantiating WebAssembly module', { moduleName: module.name });
 
     try {
       // Create import object for the module
@@ -347,12 +347,12 @@ export class WebBridge {
         env: {
           memory: module.memory,
           table: module.table,
-          abort: () => console.error('[WebAssembly] Abort called'),
+          abort: () => logger.error('WebAssembly abort called'),
           log: (message: number) => {
             const memory = new Uint8Array(module.memory.buffer);
             const len = memory[message];
             const str = String.fromCharCode(...memory.slice(message + 4, message + 4 + len));
-            console.log('[WebAssembly]', str);
+            logger.debug('WebAssembly log', { message: str });
           }
         }
       };
@@ -363,18 +363,18 @@ export class WebBridge {
           memory: module.memory,
           add: (a: number, b: number) => a + b,
           multiply: (a: number, b: number) => a * b,
-          run: () => console.log('[WebAssembly] Module running')
+          run: () => logger.debug('WebAssembly module running')
         }
       } as WebAssembly.Instance;
 
       this.wasmInstances.set(module.name, instance);
 
-      console.log(`[WebBridge] WebAssembly module instantiated: ${module.name}`);
+      logger.info('WebAssembly module instantiated', { moduleName: module.name });
       return instance;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[WebBridge] WebAssembly instantiation failed:', err instanceof Error ? message: String(err));
+      logger.error('WebAssembly instantiation failed', { error: err });
       throw error;
     }
   }
@@ -412,11 +412,11 @@ export class WebBridge {
 
   async optimizeForWebAssembly(module: string): Promise<void> {
     if (!this.config.enableWebAssembly) {
-      console.warn('[WebBridge] WebAssembly optimization skipped - disabled');
+      logger.warn('WebAssembly optimization skipped - disabled');
       return;
     }
 
-    console.log(`[WebBridge] Optimizing ${module} for WebAssembly...`);
+    logger.info('Optimizing module for WebAssembly', { module });
 
     // Optimization strategies:
     // 1. Memory layout optimization
@@ -433,7 +433,7 @@ export class WebBridge {
       callOptimization: true
     };
 
-    console.log('[WebBridge] Applied optimizations:', optimizations);
+    logger.info('Applied WebAssembly optimizations', { optimizations });
 
     await new Promise(resolve => setTimeout(resolve, 100));
   }
@@ -472,7 +472,7 @@ export class WebBridge {
     const manifestUrl = this.config.manifestUrl! || '/manifest.json';
     const manifestContent = JSON.stringify(manifest, null, 2);
 
-    console.log(`[WebBridge] PWA manifest generated: ${manifestUrl}`);
+    logger.info('PWA manifest generated', { manifestUrl });
 
     return manifestContent;
   }
@@ -500,7 +500,7 @@ export class WebBridge {
   }
 
   dispose(): void {
-    console.log('[WebBridge] Disposing web bridge...');
+    logger.info('Disposing web bridge');
 
     // Terminate web workers
     for (const worker of this.webWorkers) {
@@ -517,7 +517,7 @@ export class WebBridge {
       this.serviceWorker.unregister();
     }
 
-    console.log('[WebBridge] Web bridge disposed successfully');
+    logger.info('Web bridge disposed successfully');
   }
 
   render(module: string, data: Record<string, unknown>, config: WebBridgeConfig) {
