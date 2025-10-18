@@ -10,6 +10,10 @@
  * @license MIT
  */
 
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('Effects');
+
 /**
  * Effect trigger enumeration (flags)
  */
@@ -528,7 +532,7 @@ export class BattleEffect implements IBattleEffect {
 
     if (this.value === 0 && this.effectType !== EffectType.STUN) {
       // Some effects might legitimately have 0 value, but warn about it
-      console.warn(`Effect ${this.effectId} has value of 0`);
+      logger.warn('Effect has value of 0', { effectId: this.effectId });
     }
 
     return errors;
@@ -1304,7 +1308,7 @@ export class EffectManager implements IEffectManager {
 
     const errors = effect.validate({});
     if (errors.length > 0) {
-      console.warn(`Invalid effect ${effect.effectId}:`, errors);
+      logger.warn('Invalid effect', { effectId: effect.effectId, errors });
       return EffectApplicationResult.REJECTED;
     }
 
