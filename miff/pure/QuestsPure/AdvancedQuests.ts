@@ -6,6 +6,9 @@
  */
 
 import { Quest, QuestStep, QuestReward, QuestStatus } from './index';
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('AdvancedQuests');
 
 export interface DynamicQuest {
   id: string;
