@@ -14,6 +14,9 @@ import {
   SpellSchool,
   MagicCombatResult
 } from './index';
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('MagicManager');
 
 export class MagicManager {
   private magicSystem: MagicSystemPure;
@@ -57,7 +60,7 @@ export class MagicManager {
   registerSpell(spell: SpellDefinition): boolean {
     // Validate spell
     if (!this.validateSpellDefinition(spell)) {
-      console.error(`Invalid spell definition: ${spell.id}`);
+      logger.error('Invalid spell definition', { spellId: spell.id, spellName: spell.name });
       return false;
     }
 
@@ -74,15 +77,15 @@ export class MagicManager {
 
       // Log successful casts
       if (result.success) {
-        console.log(`✅ Spell cast: ${spellId} by ${casterId}`);
+        logger.info('Spell cast successfully', { spellId, casterId, targetId: result.targetId });
       } else {
-        console.warn(`⚠️ Spell cast failed: ${spellId} - ${result.failureReason}`);
+        logger.warn('Spell cast failed', { spellId, casterId, failureReason: result.failureReason });
       }
 
       return result;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`❌ Spell cast error: ${spellId} - ${error.message}`);
+      logger.error('Spell cast error', { spellId, casterId, error: err });
       return {
         spellInstance: {} as SpellInstance,
         targets: [],
@@ -141,15 +144,15 @@ export class MagicManager {
     try {
       const success = this.magicSystem.unlockSpell(casterId, spellId);
       if (success) {
-        console.log(`📚 Learned spell: ${spellId} for ${casterId}`);
+        logger.info('Spell learned', { spellId, casterId });
         return true;
       } else {
-        console.warn(`⚠️ Failed to learn spell: ${spellId} for ${casterId}`);
+        logger.warn('Failed to learn spell', { spellId, casterId });
         return false;
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`❌ Error learning spell ${spellId}: ${error.message}`);
+      logger.error('Error learning spell', { spellId, casterId, error: err });
       return false;
     }
   }
@@ -274,7 +277,7 @@ export class MagicManager {
     const success = this.learnSpell(casterId, upgradeSpellId);
 
     if (success) {
-      console.log(`⬆️ Upgraded ${spellId} to ${upgradeSpellId} for ${casterId}`);
+      logger.info('Spell upgraded', { casterId, fromSpellId: spellId, toSpellId: upgradeSpellId });
     }
 
     return success;
@@ -299,27 +302,27 @@ export class MagicManager {
    */
   private validateSpellDefinition(spell: SpellDefinition): boolean {
     if (!spell.id || spell.id.trim() === '') {
-      console.error('Spell ID is required');
+      logger.error('Spell validation failed: ID is required', { spell });
       return false;
     }
 
     if (!spell.name || spell.name.trim() === '') {
-      console.error('Spell name is required');
+      logger.error('Spell validation failed: name is required', { spellId: spell.id });
       return false;
     }
 
     if (spell.manaCost < 0) {
-      console.error('Mana cost cannot be negative');
+      logger.error('Spell validation failed: mana cost cannot be negative', { spellId: spell.id, manaCost: spell.manaCost });
       return false;
     }
 
     if (spell.cooldown < 0) {
-      console.error('Cooldown cannot be negative');
+      logger.error('Spell validation failed: cooldown cannot be negative', { spellId: spell.id, cooldown: spell.cooldown });
       return false;
     }
 
     if (spell.effects.length === 0) {
-      console.error('Spell must have at least one effect');
+      logger.error('Spell validation failed: must have at least one effect', { spellId: spell.id });
       return false;
     }
 
@@ -385,6 +388,6 @@ export class MagicManager {
    */
   importData(data: ReturnType<typeof this.exportData>): void {
     // Import logic would go here
-    console.log('Magic system data imported');
+    logger.info('Magic system data imported', { dataKeys: Object.keys(data) });
   }
 }
