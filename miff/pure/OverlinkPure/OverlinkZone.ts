@@ -102,7 +102,7 @@ export class OverlinkZone {
     this.themes.setAudioManager(this.audioManager);
     
     // Load audio configuration
-    this.audioManager.loadConfig().catch(console.error);
+    this.audioManager.loadConfig().catch((error: Error) => logger.error('Failed to load audio config', { error }));
     
     // Initialize badge system with sample data
     this.initializeBadgeSystem();
