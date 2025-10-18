@@ -12,6 +12,10 @@
  * @author MIFF Framework
  */
 
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('EncounterManager');
+
 // Enums
 export enum TriggerType {
   ZONE_ENTRY = 'zone_entry',
@@ -124,13 +128,13 @@ export class EncounterManager {
   initialize(): void {
     if (this.isInitialized) return;
 
-    console.log('[EncounterManager] Initializing encounter system...');
+    logger.info('Initializing encounter system');
     
     // Initialize default areas
     this.initializeDefaultAreas();
     
     this.isInitialized = true;
-    console.log('[EncounterManager] Encounter system initialized successfully');
+    logger.info('Encounter system initialized successfully');
   }
 
   private initializeDefaultAreas(): void {
@@ -195,12 +199,12 @@ export class EncounterManager {
    */
   addArea(area: EncounterArea): boolean {
     if (!area.id || !area.name) {
-      console.error('[EncounterManager] Invalid area: missing required fields');
+      logger.error('Invalid area: missing required fields', { area });
       return false;
     }
 
     this.areas.set(area.id, area);
-    console.log(`[EncounterManager] Added area: ${area.name}`);
+    logger.info('Area added', { areaId: area.id, areaName: area.name });
     return true;
   }
 
@@ -224,7 +228,7 @@ export class EncounterManager {
   triggerEncounter(areaId: string, playerLevel: number = 1): Encounter | null {
     const area = this.areas.get(areaId);
     if (!area) {
-      console.warn(`[EncounterManager] Area not found: ${areaId}`);
+      logger.warn('Area not found', { areaId });
       return null;
     }
 
@@ -403,12 +407,12 @@ export class EncounterTable {
 
   addEntry(entry: EncounterTableEntry): boolean {
     if (!entry.spiritId || entry.spiritId.trim() === '') {
-      console.warn('Invalid entry: Spirit ID cannot be empty');
+      logger.warn('Invalid entry: Spirit ID cannot be empty', { entry });
       return false;
     }
 
     if (entry.weight < 0) {
-      console.warn('Invalid entry: Weight cannot be negative');
+      logger.warn('Invalid entry: Weight cannot be negative', { spiritId: entry.spiritId, weight: entry.weight });
       return false;
     }
 
