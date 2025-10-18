@@ -1,6 +1,10 @@
 // CombatCorePure - Advanced combat system for MIFF framework
 // Schema Version: v1
 
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('CombatCore');
+
 export enum CombatType {
   MELEE = 'melee',
   RANGED = 'ranged',
@@ -543,7 +547,7 @@ export class CombatEngine {
     this.performanceMetrics.activeSessions++;
     this.performanceMetrics.totalSessions++;
 
-    console.log(`[CombatEngine] Started combat session: ${sessionId}`);
+    logger.info('Combat session started', { sessionId });
     return sessionId;
   }
 
@@ -1007,7 +1011,7 @@ export class CombatEngine {
     for (const condition of scenario.defeatConditions) {
       if (this.evaluateCondition(session, condition)) {
         session.state = CombatState.FINISHED;
-        console.log(`[CombatEngine] Defeat condition met: ${condition.description}`);
+        logger.info('Defeat condition met', { sessionId, condition: condition.description });
         return;
       }
     }
@@ -1019,7 +1023,7 @@ export class CombatEngine {
         session.winner = this.determineWinner(session);
         session.endTime = Date.now();
         session.duration = session.endTime - session.startTime;
-        console.log(`[CombatEngine] Victory condition met: ${condition.description}`);
+        logger.info('Victory condition met', { sessionId, condition: condition.description });
         return;
       }
     }
@@ -1095,7 +1099,7 @@ export class CombatEngine {
       this.activeSessionId = undefined;
     }
 
-    console.log(`[CombatEngine] Ended session: ${sessionId}`);
+    logger.info('Combat session ended', { sessionId });
     return true;
   }
 
@@ -1138,12 +1142,12 @@ export class CombatEngine {
     this.activeSessionId = undefined;
     this.performanceMetrics = this.initializePerformanceMetrics();
 
-    console.log('[CombatEngine] Reset to initial state');
+    logger.info('Combat engine reset to initial state');
   }
 
   dispose(): void {
     this.reset();
-    console.log('[CombatEngine] Disposed successfully');
+    logger.info('Combat engine disposed successfully');
   }
 }
 
