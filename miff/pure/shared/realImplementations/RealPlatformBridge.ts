@@ -1,4 +1,7 @@
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
+import { Logger } from '../logging';
+
+const logger = Logger.create('RealPlatformBridge');
 /**
  * Real Platform Bridge Implementation
  * 
