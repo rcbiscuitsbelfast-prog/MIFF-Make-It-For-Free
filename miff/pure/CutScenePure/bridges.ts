@@ -259,7 +259,7 @@ export class CutSceneWebBridge {
       const track = this.definition.tracks.find(t => t.id === action.trackId);
       if (!track) return;
 
-      console.log('🎬 Executing action:', action.id);
+      logger.info('Executing cutscene action', { actionId: action.id, actionType: action.type });
 
       switch (action.type) {
         case 'start':
@@ -274,13 +274,13 @@ export class CutSceneWebBridge {
     startTrack(track) {
       switch (track.type) {
         case 'camera':
-          console.log('📹 Starting camera track');
+          logger.debug('Starting camera track');
           break;
         case 'dialogue':
-          console.log('💬 Starting dialogue track');
+          logger.debug('Starting dialogue track');
           break;
         case 'audio':
-          console.log('🔊 Starting audio track');
+          logger.debug('Starting audio track');
           break;
       }
     }
@@ -288,7 +288,7 @@ export class CutSceneWebBridge {
     completeTrack(track) {
       switch (track.type) {
         case 'camera':
-          console.log('📹 Completing camera track');
+          logger.debug('Completing camera track');
           break;
         case 'dialogue':
           // Hide dialogue
@@ -298,7 +298,7 @@ export class CutSceneWebBridge {
           }
           break;
         case 'audio':
-          console.log('🔊 Completing audio track');
+          logger.debug('Completing audio track');
           break;
       }
     }
