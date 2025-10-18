@@ -489,14 +489,14 @@ export class CachingSystemManager {
 
       const entry = cache.entries.find(e => e.key === key);
       if (!entry) {
-        console.debug('Cache miss', { systemId, cacheId, key });
+        logger.debug('Cache miss', { systemId, cacheId, key });
         return null;
       }
 
       // Check TTL
       if (entry.ttl > 0 && Date.now() - entry.createdAt.getTime() > entry.ttl) {
         this.removeEntry(cache, key);
-        console.debug('Cache entry expired', { systemId, cacheId, key });
+        logger.debug('Cache entry expired', { systemId, cacheId, key });
         return null;
       }
 
@@ -505,7 +505,7 @@ export class CachingSystemManager {
       entry.accessCount++;
       this.updateAnalytics();
 
-      console.debug('Cache hit', { systemId, cacheId, key });
+      logger.debug('Cache hit', { systemId, cacheId, key });
       return entry.value;
 
     } catch (error: unknown) {
