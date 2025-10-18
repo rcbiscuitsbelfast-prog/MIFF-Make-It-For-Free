@@ -134,7 +134,7 @@ export class WebBridge {
   }
 
   private initializeWebEnvironment(): void {
-    console.log('[WebBridge] Initializing web environment...');
+    logger.info('Initializing web environment');
 
     // Initialize canvas
     if (this.config.useWebGL) {
@@ -156,13 +156,13 @@ export class WebBridge {
       this.initializeWebWorkers();
     }
 
-    console.log('[WebBridge] Web environment initialized successfully');
+    logger.info('Web environment initialized successfully');
   }
 
   private initializeWebGL(): void {
     const canvas = document.getElementById(this.config.canvasId) as HTMLCanvasElement;
     if (!canvas) {
-      console.warn(`[WebBridge] Canvas element '${this.config.canvasId}' not found`);
+      logger.warn('Canvas element not found', { canvasId: this.config.canvasId });
       return;
     }
 
@@ -174,24 +174,24 @@ export class WebBridge {
                      canvas.getContext('experimental-webgl');
 
       if (!context) {
-        console.warn('[WebBridge] WebGL context not available');
+        logger.warn('WebGL context not available');
         return;
       }
 
       this.gl = context as WebGLRenderingContext;
-      console.log(`[WebBridge] WebGL initialized: ${this.gl.constructor.name}`);
+      logger.info('WebGL initialized', { contextType: this.gl.constructor.name });
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[WebBridge] WebGL initialization failed:', err instanceof Error ? message: String(err));
+      logger.error('WebGL initialization failed', { error: err });
     }
   }
 
   private initializeWebAssembly(): void {
-    console.log('[WebBridge] Initializing WebAssembly environment...');
+    logger.info('Initializing WebAssembly environment');
 
     // Check WebAssembly support
     if (typeof WebAssembly !== 'object') {
-      console.warn('[WebBridge] WebAssembly not supported');
+      logger.warn('WebAssembly not supported');
       this.config.enableWebAssembly = false;
       return;
     }
@@ -206,7 +206,7 @@ export class WebBridge {
       this.checkThreadsSupport();
     }
 
-    console.log('[WebBridge] WebAssembly environment ready');
+    logger.info('WebAssembly environment ready');
   }
 
   private checkSIMDSupport(): void {
@@ -219,7 +219,7 @@ export class WebBridge {
       ]);
 
       WebAssembly.instantiate(simdTestModule).catch(() => {
-        console.warn('[WebBridge] SIMD not supported, disabling...');
+        logger.warn('SIMD not supported, disabling');
         this.config.enableSIMD = false;
       });
     } catch {
@@ -229,7 +229,7 @@ export class WebBridge {
 
   private checkThreadsSupport(): void {
     if (!('SharedArrayBuffer' in window)) {
-      console.warn('[WebBridge] SharedArrayBuffer not available, disabling threads...');
+      logger.warn('SharedArrayBuffer not available, disabling threads');
       this.config.enableThreads = false;
       return;
     }
@@ -239,7 +239,7 @@ export class WebBridge {
     const coep = (document as any).crossOriginEmbedderPolicy;
 
     if (coop !== 'same-origin' || coep !== 'require-corp') {
-      console.warn('[WebBridge] COOP/COEP headers not set, disabling threads...');
+      logger.warn('COOP/COEP headers not set, disabling threads');
       this.config.enableThreads = false;
     }
   }
@@ -249,35 +249,35 @@ export class WebBridge {
       navigator.serviceWorker.register('/sw.js')
         .then(registration => {
           this.serviceWorker = registration.active;
-          console.log('[WebBridge] Service Worker registered');
+          logger.info('Service Worker registered');
         })
         .catch(error => {
-          console.warn('[WebBridge] Service Worker registration failed:', error);
+          logger.warn('Service Worker registration failed', { error: err });
         });
     }
   }
 
   private initializeWebWorkers(): void {
-    console.log(`[WebBridge] Initializing ${this.config.workerCount} web workers...`);
+    logger.info('Initializing web workers', { workerCount: this.config.workerCount });
 
     for (let i = 0; i < this.config.workerCount; i++) {
       try {
         const worker = new Worker('/worker.js');
         worker.onmessage = (e) => this.handleWorkerMessage(e);
-        worker.onerror = (e) => console.error('[WebBridge] Worker error:', e);
+        worker.onerror = (e) => logger.error('Worker error', { event: e });
         this.webWorkers.push(worker);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.warn(`[WebBridge] Failed to create worker ${i}:`, error);
+        logger.warn('Failed to create worker', { workerIndex: i, error: err });
       }
     }
 
-    console.log(`[WebBridge] Initialized ${this.webWorkers.length} web workers`);
+    logger.info('Web workers initialized', { count: this.webWorkers.length });
   }
 
   private handleWorkerMessage(event: MessageEvent): void {
     // Handle messages from web workers
-    console.log('[WebBridge] Worker message:', event.data);
+    logger.debug('Worker message received', { data: event.data });
   }
 
   async compileWebAssembly(sourceCode: string, config: Partial<WebAssemblyConfig> = {}): Promise<WebAssemblyModule> {
@@ -304,7 +304,7 @@ export class WebBridge {
       ...config
     };
 
-    console.log('[WebBridge] Compiling WebAssembly module...');
+    logger.info('Compiling WebAssembly module');
 
     try {
       // In a real implementation, this would use a WASM compiler like Binaryen
