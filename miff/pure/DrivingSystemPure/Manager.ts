@@ -131,7 +131,7 @@ export class DrivingManager {
     try {
       // Check if vehicle is unlocked for this player
       if (!this.isVehicleUnlocked(vehicleId, playerId)) {
-        console.warn(`⚠️ Vehicle not unlocked: ${vehicleId} for player ${playerId}`);
+        logger.warn('Vehicle not unlocked', { vehicleId, playerId });
         return null;
       }
 
@@ -139,14 +139,14 @@ export class DrivingManager {
       const vehicle = this.drivingSystem.createVehicle(vehicleId, playerId);
 
       if (vehicle) {
-        console.log(`🚗 Created vehicle for ${playerId}: ${vehicle.definition.name}`);
+        logger.info('Vehicle created', { playerId, vehicleId, vehicleName: vehicle.definition.name, type: vehicle.definition.type });
         this.updateStats({ vehiclesOwned: this.drivingSystem.getStats().vehiclesOwned + 1 });
       }
 
       return vehicle;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`❌ Error creating vehicle ${vehicleId}: ${error.message}`);
+      logger.error('Error creating vehicle', { vehicleId, playerId, error: err });
       return null;
     }
   }
