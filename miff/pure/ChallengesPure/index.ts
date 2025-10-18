@@ -10,6 +10,10 @@
  * @license MIT
  */
 
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('Challenges');
+
 /**
  * Challenge outcome enumeration
  */
@@ -1041,13 +1045,13 @@ export class ChallengeManager implements IChallengeManager {
    */
   registerChallenge(challenge: IBattleChallenge): boolean {
     if (!challenge || !challenge.challengeId || challenge.challengeId.trim() === '') {
-      console.warn('Invalid challenge registration: missing or empty challenge ID');
+      logger.warn('Invalid challenge registration: missing or empty challenge ID');
       return false;
     }
 
     const errors = challenge.validate({});
     if (errors.length > 0) {
-      console.warn(`Invalid challenge ${challenge.challengeId}:`, errors);
+      logger.warn('Invalid challenge', { challengeId: challenge.challengeId, errors });
       return false;
     }
 
