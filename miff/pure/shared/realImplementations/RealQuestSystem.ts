@@ -107,13 +107,13 @@ export class RealQuestSystem {
   addQuest(): boolean {
     try {
       if (this.quests.has(quest.id)) {
-        console.warn(`Quest ${quest.id} already exists`);
+        logger.warn('Quest already exists', { questId: quest.id });
         return false;
       }
 
       // Validate quest structure
       if (!this.validateQuest(quest)) {
-        console.error(`Invalid quest structure for ${quest.id}`);
+        logger.error('Invalid quest structure', { questId: quest.id });
         return false;
       }
 
@@ -122,7 +122,7 @@ export class RealQuestSystem {
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`Failed to add quest ${quest.id}:`, err instanceof Error ? message: String(err));
+      logger.error('Failed to add quest', { questId: quest.id, error: err });
       return false;
     }
   }
@@ -141,18 +141,18 @@ export class RealQuestSystem {
     try {
       const quest = this.quests.get(questId);
       if (!quest) {
-        console.warn(`Quest ${questId} not found`);
+        logger.warn('Quest not found', { questId });
         return false;
       }
 
       if (quest.status !== 'available') {
-        console.warn(`Quest ${questId} is not available`);
+        logger.warn('Quest is not available', { questId });
         return false;
       }
 
       // Check prerequisites
       if (!this.checkPrerequisites(quest, playerId)) {
-        console.warn(`Prerequisites not met for quest ${questId}`);
+        logger.warn('Prerequisites not met for quest', { questId });
         return false;
       }
 
@@ -180,7 +180,7 @@ export class RealQuestSystem {
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`Failed to start quest ${questId}:`, err instanceof Error ? message: String(err));
+      logger.error('Failed to start quest', { questId, error: err });
       return false;
     }
   }
@@ -195,13 +195,13 @@ export class RealQuestSystem {
       const quest = this.quests.get(questId);
 
       if (!progress || !quest) {
-        console.warn(`Quest ${questId} not found or not active for player ${playerId}`);
+        logger.warn('Quest not found or not active for player', { questId, playerId });
         return false;
       }
 
       // Check if all objectives are completed
       if (!this.areAllObjectivesCompleted(quest, progress)) {
-        console.warn(`Not all objectives completed for quest ${questId}`);
+        logger.warn('Not all objectives completed for quest', { questId });
         return false;
       }
 
@@ -221,7 +221,7 @@ export class RealQuestSystem {
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`Failed to complete quest ${questId}:`, err instanceof Error ? message: String(err));
+      logger.error('Failed to complete quest', { questId, error: err });
       return false;
     }
   }
@@ -261,7 +261,7 @@ export class RealQuestSystem {
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`Failed to update objective ${objectiveId}:`, err instanceof Error ? message: String(err));
+      logger.error('Failed to update quest objective', { objectiveId, error: err });
       return false;
     }
   }
@@ -349,7 +349,7 @@ export class RealQuestSystem {
           handler(data);
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-          console.error(`Error in quest event handler for ${event}:`, err instanceof Error ? message: String(err));
+          logger.error('Error in quest event handler', { event, error: err });
         }
       });
     }
@@ -395,7 +395,7 @@ export class RealQuestSystem {
   private awardRewards(quest: Quest, playerId: string): void {
     quest.rewards.forEach((reward: any) => {
       // This would integrate with player systems to award rewards
-      console.info(`Awarding ${reward.quantity} ${reward.type} to player ${playerId}`);
+      logger.info('Awarding quest reward to player', { playerId, rewardType: reward.type, quantity: reward.quantity });
     });
   }
 
