@@ -1,4 +1,7 @@
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
+import { Logger } from '../logging';
+
+const logger = Logger.create('RealConsole');
 /**
  * Real Console Implementation
  * 
@@ -265,7 +268,7 @@ export class RealConsole {
           destination.write(entry);
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-          console.error('Error writing to custom destination:', err instanceof Error ? message: String(err));
+          logger.error('Error writing to custom log destination', { error: err });
         }
       }
     });
@@ -385,7 +388,7 @@ export class RealConsole {
           handler(data);
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-          console.error(`Error in event handler for ${event}:`, err instanceof Error ? message: String(err));
+          logger.error('Error in console event handler', { event, error: err });
         }
       });
     }

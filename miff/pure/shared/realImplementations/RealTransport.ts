@@ -1,5 +1,8 @@
 import { SafeJSONParser } from '../security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
+import { Logger } from '../logging';
+
+const logger = Logger.create('RealTransport');
 /**
  * Real Transport Implementation
  * 
@@ -77,7 +80,7 @@ export class RealTransport {
             this.handleMessage(message);
           } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-            console.error('Failed to parse message:', err instanceof Error ? message: String(err));
+            logger.error('Failed to parse transport message', { error: err });
           }
         };
 
@@ -87,7 +90,7 @@ export class RealTransport {
         };
 
         this.ws.onerror = (error) => {
-          console.error('Transport error:', err instanceof Error ? message: String(err));
+          logger.error('Transport error', { error: err });
           reject(error);
         };
       } catch (error: unknown) {
@@ -153,7 +156,7 @@ export class RealTransport {
         handler(message.data);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.error('Error in message handler:', err instanceof Error ? message: String(err));
+        logger.error('Error in message handler', { error: err });
       }
     });
   }
@@ -161,15 +164,15 @@ export class RealTransport {
   private handleReconnect(): void {
     if (this.reconnectAttempts < this.options.maxReconnectAttempts!) {
       this.reconnectAttempts++;
-      console.info(`Attempting to reconnect (${this.reconnectAttempts}/${this.options.maxReconnectAttempts})`);
+      logger.info('Attempting to reconnect', { attempt: this.reconnectAttempts, maxAttempts: this.options.maxReconnectAttempts });
       
       setTimeout(() => {
         this.connect().catch(error => {
-          console.error('Reconnect failed:', err instanceof Error ? message: String(err));
+          logger.error('Reconnect failed', { error: err });
         });
       }, this.options.reconnectInterval);
     } else {
-      console.error('Max reconnect attempts reached');
+      logger.error('Max reconnect attempts reached', { maxAttempts: this.options.maxReconnectAttempts });
     }
   }
 
