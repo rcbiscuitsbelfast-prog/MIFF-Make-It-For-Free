@@ -10,6 +10,10 @@
  * @license MIT
  */
 
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('WebBridge');
+
 export interface WebBridgeConfig {
   targetVersion: string;
   useWebGL: boolean;
