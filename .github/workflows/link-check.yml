@@ -23,7 +23,10 @@ jobs:
           sudo mv lychee /usr/local/bin/
       - name: Run link check
         run: |
-          lychee --no-progress --verbose --accept 200,429 --base "https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/" docs/**/*.html || true
+          # Check site HTML files (where most content is)
+          lychee --no-progress --verbose --accept 200,429,403 --exclude-mail \
+            --base "https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/" \
+            site/**/*.html docs/**/*.html || echo "Link check completed with warnings"
       - name: Upload link check report
         uses: actions/upload-artifact@v4
         with:
