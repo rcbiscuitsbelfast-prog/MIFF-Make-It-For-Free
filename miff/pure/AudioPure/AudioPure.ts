@@ -99,7 +99,7 @@ export class AudioSystem {
     }
 
     if (this.isHeadless) {
-      console.log('[AudioPure] Running in headless mode - audio events will be logged only');
+      logger.info('Running in headless mode - audio events will be logged only');
     }
   }
 
@@ -128,10 +128,10 @@ export class AudioSystem {
         await this.createReverbNode();
       }
 
-      console.log('[AudioPure] Audio context initialized successfully');
+      logger.info('Audio context initialized successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[AudioPure] Failed to initialize audio context:', err instanceof Error ? message: String(err));
+      logger.error('Failed to initialize audio context', { error: err });
     }
   }
 
@@ -174,7 +174,7 @@ export class AudioSystem {
 
   private emitEvent(event: AudioEvent): void {
     if (this.isHeadless) {
-      console.log(`[AudioPure] ${event.type.toUpperCase()}: ${event.soundId}`, event.data || '');
+      logger.debug('Audio event in headless mode', { eventType: event.type, soundId: event.soundId, data: event.data });
     }
 
     this.callbacks.forEach((callback: any) => {
@@ -182,7 +182,7 @@ export class AudioSystem {
         callback(event);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.error('[AudioPure] Callback error:', err instanceof Error ? message: String(err));
+        logger.error('Audio callback error', { error: err, soundId: event.soundId });
       }
     });
   }
@@ -215,13 +215,13 @@ export class AudioSystem {
   playSound(soundId: string, volume: number = 1.0, pitch: number = 1.0): string | null {
     const sound = this.sounds.get(soundId);
     if (!sound) {
-      console.warn(`[AudioPure] Sound not found: ${soundId}`);
+      logger.warn('Sound not found', { soundId });
       return null;
     }
 
     // Check if we've reached the maximum simultaneous sounds
     if (this.activeSounds.size >= this.config.maxSimultaneousSounds) {
-      console.warn(`[AudioPure] Maximum simultaneous sounds reached (${this.config.maxSimultaneousSounds})`);
+      logger.warn('Maximum simultaneous sounds reached', { max: this.config.maxSimultaneousSounds, current: this.activeSounds.size });
       return null;
     }
 
@@ -384,12 +384,12 @@ export class AudioSystem {
 
   public enableHRTF(enable: boolean): void {
     this.hrtfEnabled = enable;
-    console.log(`[AudioPure] HRTF ${enable ? 'enabled' : 'disabled'}`);
+    logger.info('HRTF state changed', { enabled: enable });
   }
 
   public enableReverb(enable: boolean): void {
     this.reverbEnabled = enable;
-    console.log(`[AudioPure] Reverb ${enable ? 'enabled' : 'disabled'}`);
+    logger.info('Reverb state changed', { enabled: enable });
   }
 
   public setReverbParameters(decay: number, damping: number): void {
