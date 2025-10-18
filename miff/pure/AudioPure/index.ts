@@ -373,7 +373,7 @@ export class AudioEngine {
     const source = this.activeSources.get(sourceId);
     if (source) {
       source.playbackRate.value = 1;
-      console.log(`[AudioEngine] Resumed source: ${sourceId}`);
+      logger.info('Audio source resumed', { sourceId });
     }
   }
 
@@ -382,7 +382,7 @@ export class AudioEngine {
     if (source) {
       // Note: Volume control is now handled by gain nodes created during playback
       // This method is kept for API compatibility but doesn't directly control volume
-      console.log(`[AudioEngine] Volume control for ${sourceId} should be set during playback: ${volume}`);
+      logger.debug('Volume control for source', { sourceId, volume });
     }
   }
 
@@ -485,7 +485,7 @@ export class AudioEngine {
   private applyEffect(busId: string, effect: AudioEffect): void {
     // Apply audio effects - simplified implementation
     // In a real implementation, this would create actual audio nodes
-    console.log(`[AudioEngine] Applying effect ${effect.type} to bus ${busId}`);
+    logger.debug('Applying effect to bus', { effectType: effect.type, busId });
   }
 
   // Spatial audio
@@ -631,7 +631,7 @@ export class AudioEngine {
         source.disconnect();
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.warn(`Error stopping source ${sourceId}:`, error);
+        logger.warn('Error stopping source during disposal', { sourceId, error: err });
       }
     }
 
@@ -648,7 +648,7 @@ export class AudioEngine {
     }
 
     this.isInitialized = false;
-    console.log('[AudioEngine] Disposed successfully');
+    logger.info('AudioEngine disposed successfully');
   }
 }
 
