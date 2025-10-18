@@ -9,6 +9,10 @@
  * @license MIT
  */
 
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('Events');
+
 /**
  * Event listener interface for type-safe event handling
  */
@@ -50,12 +54,13 @@ export class EventBus {
           // If handler returns a Promise, we need to handle it
           if (result && typeof result.then === 'function') {
             result.catch(error => {
-              console.error(`Error in async event handler for topic '${topic}':`, err instanceof Error ? message: String(err));
+              const err = error instanceof Error ? error : new Error(String(error));
+              logger.error('Error in async event handler', { topic, error: err });
             });
           }
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-          console.error(`Error in event handler for topic '${topic}':`, err instanceof Error ? message: String(err));
+          logger.error('Error in event handler', { topic, error: err });
         }
       }
     }
@@ -83,7 +88,7 @@ export class EventBus {
           }
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-          console.error(`Error in event handler for topic '${topic}':`, err instanceof Error ? message: String(err));
+          logger.error('Error in event handler', { topic, error: err });
           // Don't add failed handlers to promises
         }
       }
@@ -103,7 +108,7 @@ export class EventBus {
           promises.push(handler(payload));
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-          console.error(`Error in async event handler for topic '${topic}':`, err instanceof Error ? message: String(err));
+          logger.error('Error in async event handler', { topic, error: err });
         }
       }
 
@@ -398,7 +403,7 @@ export const EventUtils = {
           await handler(payload);
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-          console.error('Error in filtered async handler:', err instanceof Error ? message: String(err));
+          logger.error('Error in filtered async handler', { error: err });
         }
       }
     };
