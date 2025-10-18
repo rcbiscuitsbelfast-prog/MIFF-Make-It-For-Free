@@ -12,6 +12,10 @@
  * that supports local and network messaging, event filtering, and priority handling.
  */
 
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('EventBusPure');
+
 export interface Event {
   id: string;
   type: string;
@@ -153,7 +157,7 @@ export class EventBus {
     this.subscriptions.set(subscriptionId, subscription);
 
     if (this.config.enableLogging) {
-      console.log(`📡 Event subscription created: ${eventType} (${subscriptionId})`);
+      logger.info('Event subscription created', { eventType, subscriptionId });
     }
 
     return subscriptionId;
@@ -202,7 +206,7 @@ export class EventBus {
     this.subscriptions.delete(subscriptionId);
 
     if (this.config.enableLogging) {
-      console.log(`📡 Event subscription removed: ${subscriptionId}`);
+      logger.info('Event subscription removed', { subscriptionId });
     }
 
     return true;
@@ -246,7 +250,7 @@ export class EventBus {
     this.stats.eventsByType[eventType] = (this.stats.eventsByType[eventType] || 0) + 1;
 
     if (this.config.enableLogging) {
-      console.log(`📢 Event published: ${eventType} (${eventId})`);
+      logger.debug('Event published', { eventType, eventId });
     }
 
     // Handle replication
@@ -342,7 +346,7 @@ export class EventBus {
     this.stats.eventsByType[event.type] = (this.stats.eventsByType[event.type] || 0) + 1;
 
     if (this.config.enableLogging) {
-      console.log(`📡 Network event received: ${event.type} (${event?.id}) from ${event.source}`);
+      logger.debug('Network event received', { eventType: event.type, eventId: event?.id, source: event.source });
     }
 
     // Process the event
