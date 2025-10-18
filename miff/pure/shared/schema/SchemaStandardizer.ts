@@ -1,5 +1,8 @@
 import { StructuredLogger } from '../logging/StructuredLogger';
 import { SafeJSONParser } from '../security/SafeJSONParser';
+import { Logger } from '../logging';
+
+const logger = Logger.create('SchemaStandardizer');
 
 /**
  * Schema Standardizer - Ensures consistent schemas across all MIFF modules
@@ -154,7 +157,7 @@ export class SchemaStandardizer {
     }
 
     try {
-      console.info('Initializing schema standardizer...');
+      logger.info('Initializing schema standardizer');
       
       // Load standard schemas
       await this.loadStandardSchemas();
@@ -163,11 +166,11 @@ export class SchemaStandardizer {
       await this.validateExistingSchemas();
       
       this.isInitialized = true;
-      console.info('Schema standardizer initialized successfully');
+      logger.info('Schema standardizer initialized successfully');
       
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('Failed to initialize schema standardizer', { error: error.message });
+      logger.error('Failed to initialize schema standardizer', { error: error.message });
       throw error;
     }
   }
@@ -177,7 +180,7 @@ export class SchemaStandardizer {
    */
   registerSchema(): void {
     this.schemas.set(schema.id, schema);
-    console.info('Schema registered', { schemaId: schema.id, module: schema.module });
+    logger.info('Schema registered', { schemaId: schema.id, module: schema.module });
   }
 
   /**
@@ -260,7 +263,7 @@ export class SchemaStandardizer {
     }
 
     if (!toSchema.migration) {
-      console.warn('No migration defined', { fromSchemaId, toSchemaId });
+      logger.warn('No migration defined', { fromSchemaId, toSchemaId });
       return data;
     }
 
@@ -270,7 +273,7 @@ export class SchemaStandardizer {
       migratedData = this.applyMigrationStep(migratedData, step);
     }
 
-    console.info('Data migrated successfully', { fromSchemaId, toSchemaId });
+    logger.info('Data migrated successfully', { fromSchemaId, toSchemaId });
     return migratedData;
   }
 
@@ -282,7 +285,7 @@ export class SchemaStandardizer {
       .filter((schema: any) => schema.module === module);
 
     if (moduleSchemas.length === 0) {
-      console.warn('No schemas found for module', { module });
+      logger.warn('No schemas found for module', { module });
       return data;
     }
 
@@ -593,7 +596,7 @@ export class SchemaStandardizer {
     const driftReport = this.getSchemaDriftReport();
     
     if (driftReport.driftIssues.length > 0) {
-      console.warn('Schema drift detected', { 
+      logger.warn('Schema drift detected', { 
         issueCount: driftReport.driftIssues.length,
         issues: driftReport.driftIssues
       });
@@ -604,12 +607,12 @@ export class SchemaStandardizer {
    * Destroy the schema standardizer
    */
   async destroy(): Promise<void> {
-    console.info('Destroying schema standardizer...');
+    logger.info('Destroying schema standardizer');
     
     this.schemas.clear();
     this.isInitialized = false;
     
-    console.info('Schema standardizer destroyed');
+    logger.info('Schema standardizer destroyed');
   }
 }
 
