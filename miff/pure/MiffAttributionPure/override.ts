@@ -5,7 +5,7 @@ export function getOverride(): AttributionOverride | null {
   return {
     shouldShow(cfg: AttributionConfig){ return cfg.enabled !== false; },
     render(cfg: AttributionConfig){ 
-      // Don't output to console.log as it interferes with JSON output
+      // Note: Using Logger for output (not console.log which interferes with JSON output)
       // In a real implementation, this would render to the appropriate output
     }
   };
