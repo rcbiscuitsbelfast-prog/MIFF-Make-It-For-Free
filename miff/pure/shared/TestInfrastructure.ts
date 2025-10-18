@@ -134,7 +134,7 @@ export class TestInfrastructureManager {
    * Scan and analyze test infrastructure
    */
   async scanTestInfrastructure(rootPath: string): Promise<TestModule[]> {
-    console.info('🔍 Scanning test infrastructure...');
+    logger.info('Scanning test infrastructure');
     
     const modules: TestModule[] = [];
     
@@ -151,13 +151,13 @@ export class TestInfrastructureManager {
       }
       
       this.updateStats();
-      console.info(`✅ Scanned ${modules.length} modules`);
+      logger.info('Test modules scanned', { moduleCount: modules.length });
       
       return modules;
       
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ Error scanning test infrastructure:', err instanceof Error ? message: String(err));
+      logger.error('Error scanning test infrastructure', { error: err });
       return [];
     }
   }
@@ -166,7 +166,7 @@ export class TestInfrastructureManager {
    * Identify mock replacements needed
    */
   async identifyMockReplacements(): Promise<MockReplacement[]> {
-    console.info('🔍 Identifying mock replacements...');
+    logger.info('Identifying mock replacements');
     
     const replacements: MockReplacement[] = [];
     
@@ -180,7 +180,7 @@ export class TestInfrastructureManager {
       }
     }
     
-    console.info(`✅ Identified ${replacements.length} mock replacements`);
+    logger.info('Mock replacements identified', { count: replacements.length });
     return replacements;
   }
 
@@ -188,7 +188,7 @@ export class TestInfrastructureManager {
    * Generate test coverage report
    */
   async generateTestCoverage(): Promise<TestCoverage[]> {
-    console.info('📊 Generating test coverage report...');
+    logger.info('Generating test coverage report');
     
     const coverage: TestCoverage[] = [];
     
@@ -198,7 +198,7 @@ export class TestInfrastructureManager {
       this.testCoverage.set(name, moduleCoverage);
     }
     
-    console.info(`✅ Generated coverage for ${coverage.length} modules`);
+    logger.info('Test coverage generated', { moduleCount: coverage.length });
     return coverage;
   }
 
@@ -206,7 +206,7 @@ export class TestInfrastructureManager {
    * Assess test quality
    */
   async assessTestQuality(): Promise<TestQuality[]> {
-    console.info('🧪 Assessing test quality...');
+    logger.info('Assessing test quality');
     
     const quality: TestQuality[] = [];
     
@@ -216,7 +216,7 @@ export class TestInfrastructureManager {
       this.testQuality.set(name, moduleQuality);
     }
     
-    console.info(`✅ Assessed quality for ${quality.length} modules`);
+    logger.info('Test quality assessed', { moduleCount: quality.length });
     return quality;
   }
 
@@ -224,7 +224,7 @@ export class TestInfrastructureManager {
    * Replace critical mocks with real implementations
    */
   async replaceCriticalMocks(): Promise<void> {
-    console.info('🔄 Replacing critical mocks...');
+    logger.info('Replacing critical mocks');
     
     const criticalReplacements = Array.from(this.mockReplacements.values())
       .filter((r: any) => r.priority === 'critical' && r.status === 'pending');
@@ -233,11 +233,11 @@ export class TestInfrastructureManager {
       try {
         await this.executeMockReplacement(replacement);
         replacement.status = 'completed';
-        console.info(`✅ Replaced mock: ${replacement.id}`);
+        logger.info('Mock replaced', { replacementId: replacement.id });
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
         replacement.status = 'failed';
-        console.error(`❌ Failed to replace mock: ${replacement.id}`, err instanceof Error ? message: String(err));
+        logger.error('Failed to replace mock', { replacementId: replacement.id, error: err });
       }
     }
     
@@ -368,7 +368,7 @@ export class TestInfrastructureManager {
   private async executeMockReplacement(replacement: MockReplacement): Promise<void> {
     // This would execute the actual mock replacement
     // For now, just log
-    console.info(`Executing mock replacement: ${replacement.id}`);
+    logger.info('Executing mock replacement', { replacementId: replacement.id });
   }
 
   private updateStats(): void {
