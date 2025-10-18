@@ -490,7 +490,7 @@ export class SimpleArcadeGame extends SimpleGame {
 
   protected onStart(): void {
     this.spawnEnemies();
-    console.log(`👾 ${this.config.title} started! Use Space to shoot, avoid enemies`);
+    logger.info('Arcade game started', { title: this.config.title, controls: 'Space to shoot, avoid enemies' });
   }
 
   protected onStop(): void {
@@ -505,7 +505,7 @@ export class SimpleArcadeGame extends SimpleGame {
   }
 
   protected onAchievementUnlocked(achievement: Achievement): void {
-    console.log(`🏆 Achievement unlocked: ${achievement.name}`);
+    logger.info('Achievement unlocked in RPG', { achievementName: achievement.name, achievementId: achievement.id });
   }
 
   private spawnEnemies(): void {
@@ -584,7 +584,7 @@ export class SimpleArcadeGame extends SimpleGame {
   }
 
   private gameOver(): void {
-    console.log('💀 Game Over!');
+    logger.info('Arcade game over', { finalScore: this.getScore() });
     this.stop();
   }
 
@@ -634,7 +634,7 @@ export class SimpleRPGGame extends SimpleGame {
 
   protected onStart(): void {
     this.spawnEnemies();
-    console.log(`⚔️ ${this.config.title} started! Explore and fight enemies`);
+    logger.info('RPG started', { title: this.config.title, instructions: 'Explore and fight enemies' });
   }
 
   protected onStop(): void {
@@ -713,11 +713,11 @@ export class SimpleRPGGame extends SimpleGame {
 
     this.inCombat = false;
     this.currentEnemy = null;
-    console.log('🎉 Enemy defeated!');
+    logger.info('Enemy defeated in RPG', { enemyName: enemy.name, xpGained: enemy.xpReward, goldGained: enemy.goldReward });
   }
 
   private gameOver(): void {
-    console.log('💀 Game Over! You died.');
+    logger.info('RPG game over', { reason: 'Player died', level: this.stats.level, gold: this.stats.gold });
     this.stop();
   }
 
@@ -740,7 +740,7 @@ export class SimpleRPGGame extends SimpleGame {
     this.player.attack += 2;
     this.player.defense += 1;
 
-    console.log(`🎉 Leveled up to ${this.stats.level}!`);
+    logger.info('Player leveled up', { level: this.stats.level, hp: this.stats.hp, attack: this.stats.attack, defense: this.stats.defense });
   }
 
   startCombat(enemyId: string): boolean {
@@ -749,7 +749,7 @@ export class SimpleRPGGame extends SimpleGame {
 
     this.currentEnemy = enemy;
     this.inCombat = true;
-    console.log(`⚔️ Combat started with ${enemy.name}!`);
+    logger.info('Combat started', { enemyName: enemy.name, enemyHp: enemy.hp, playerHp: this.stats.hp });
     return true;
   }
 
@@ -764,7 +764,7 @@ export class SimpleRPGGame extends SimpleGame {
  */
 export class SimpleCustomGame extends SimpleGame {
   protected onStart(): void {
-    console.log(`🎯 ${this.config.title} started!`);
+    logger.info('Puzzle game started', { title: this.config.title });
   }
 
   protected onStop(): void {
@@ -776,7 +776,7 @@ export class SimpleCustomGame extends SimpleGame {
   }
 
   protected onAchievementUnlocked(achievement: Achievement): void {
-    console.log(`🏆 Achievement unlocked: ${achievement.name}`);
+    logger.info('Achievement unlocked in puzzle', { achievementName: achievement.name, achievementId: achievement.id });
   }
 }
 
