@@ -647,7 +647,7 @@ export class RealModdingSystem {
           handler(data);
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-          console.error(`Error in modding system event handler for ${event}:`, err instanceof Error ? message: String(err));
+          logger.error('Error in modding system event handler', { event, error: err });
         }
       });
     }

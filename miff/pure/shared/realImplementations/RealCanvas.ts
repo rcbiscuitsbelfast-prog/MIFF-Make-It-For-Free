@@ -1,4 +1,7 @@
 import { StructuredLogger } from '../logging/StructuredLogger';
+import { Logger } from '../logging';
+
+const logger = Logger.create('RealCanvas');
 /**
  * Real Canvas Implementation
  * 
@@ -446,7 +449,7 @@ export class RealCanvas {
           handler(data);
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-          console.error(`Error in canvas event handler for ${event}:`, err instanceof Error ? message: String(err));
+          logger.error('Error in canvas event handler', { event, error: err });
         }
       });
     }

@@ -1,4 +1,7 @@
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
+import { Logger } from './logging';
+
+const logger = Logger.create('TestCoverageAnalyzer');
 /**
  * Test Coverage Analyzer for MIFF Framework
  * 
@@ -87,7 +90,7 @@ export class TestCoverageAnalyzer {
    * Analyze test coverage for all modules
    */
   async analyzeCoverage(rootPath: string): Promise<CoverageReport> {
-    console.info('📊 Analyzing test coverage...');
+    logger.info('Analyzing test coverage');
     
     const modules = await this.findModules(rootPath);
     const moduleCoverages: ModuleCoverage[] = [];
@@ -99,7 +102,7 @@ export class TestCoverageAnalyzer {
     }
     
     const report = this.generateCoverageReport(moduleCoverages);
-    console.info(`✅ Analyzed coverage for ${modules.length} modules`);
+    logger.info('Analyzed test coverage', { moduleCount: modules.length });
     
     return report;
   }
