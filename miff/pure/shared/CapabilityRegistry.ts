@@ -10,6 +10,9 @@ import { EventBus } from '../EventBusPure/index.js';
 import * as fs from 'fs';
 import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
+import { Logger } from './logging';
+
+const logger = Logger.create('CapabilityRegistry');
 
 export class CapabilityRegistryManager extends CapabilityManager {
   private dataPath: string;
@@ -36,14 +39,14 @@ export class CapabilityRegistryManager extends CapabilityManager {
     await this.autoDiscoverModules();
 
     this.isInitialized = true;
-    console.info(`✅ Capability Registry initialized`);
+    logger.info('Capability Registry initialized');
   }
 
   /**
    * Auto-discover modules with MIFFCapable implementations
    */
   private async autoDiscoverModules(): Promise<void> {
-    console.info('Module discovery not yet implemented');
+    logger.info('Module discovery not yet implemented');
   }
 
   /**

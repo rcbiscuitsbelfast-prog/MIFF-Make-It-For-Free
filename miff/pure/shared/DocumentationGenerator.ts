@@ -1,4 +1,8 @@
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
+import { Logger } from './logging';
+
+const logger = Logger.create('DocumentationGenerator');
+
 /**
  * Documentation Generator for MIFF Framework
  * 
