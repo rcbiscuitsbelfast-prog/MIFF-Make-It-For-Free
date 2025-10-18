@@ -10,6 +10,10 @@
  * @license MIT
  */
 
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('Perf');
+
 /**
  * Performance measurement result
  */
@@ -162,7 +166,7 @@ export class PerfTimer implements Disposable {
    */
   private logResult(): void {
     const duration = this.elapsedMs;
-    console.log(`[perf] ${this._label}: ${duration.toFixed(2)} ms`);
+    logger.info('Performance measurement', { label: this._label, duration: parseFloat(duration.toFixed(2)) });
   }
 
   /**
@@ -392,7 +396,7 @@ export const PerfUtils = {
     const timer = new PerfTimer(label);
     try {
       const result = fn();
-      console.log(`[perf] ${label}: ${timer.elapsedMs.toFixed(2)} ms`);
+      logger.info('Function performance', { label, duration: parseFloat(timer.elapsedMs.toFixed(2)) });
       return result;
     } finally {
       timer.dispose();
@@ -428,7 +432,13 @@ export const PerfUtils = {
       endTime: total
     };
 
-    console.log(`[perf] ${result.label}: avg=${average.toFixed(2)}ms, min=${min.toFixed(2)}ms, max=${max.toFixed(2)}ms, total=${total.toFixed(2)}ms`);
+    logger.info('Performance summary', { 
+      label: result.label, 
+      avgMs: parseFloat(average.toFixed(2)), 
+      minMs: parseFloat(min.toFixed(2)), 
+      maxMs: parseFloat(max.toFixed(2)), 
+      totalMs: parseFloat(total.toFixed(2))
+    });
 
     return result;
   },
