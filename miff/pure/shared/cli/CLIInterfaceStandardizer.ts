@@ -3,6 +3,9 @@ import { StandardErrorHandler } from '../error/StandardErrorHandler';
 import { SafeJSONParser } from '../security/SafeJSONParser';
 import * as fs from 'fs';
 import * as path from 'path';
+import { Logger } from '../logging';
+
+const logger = Logger.create('CLIInterfaceStandardizer');
 
 /**
  * CLI Interface Standardizer - Ensures consistent CLI harness interfaces across all modules
@@ -115,18 +118,18 @@ export class CLIInterfaceStandardizer {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      console.warn('CLI interface standardizer already initialized');
+      logger.warn('CLI interface standardizer already initialized');
       return;
     }
 
     try {
-      console.info('Initializing CLI interface standardizer...');
+      logger.info('Initializing CLI interface standardizer');
       
       // Validate configuration
       this.validateConfiguration();
       
       this.isInitialized = true;
-      console.info('CLI interface standardizer initialized successfully');
+      logger.info('CLI interface standardizer initialized successfully');
       
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -209,7 +212,7 @@ export class CLIInterfaceStandardizer {
     };
 
     try {
-      console.info('Executing CLI command', { command, options, arguments });
+      logger.info('Executing CLI command', { command, options, arguments });
       
       // Execute the command
       result.output = await handler(command, options, arguments);
@@ -356,7 +359,7 @@ export class CLIInterfaceStandardizer {
       // Write the standardized file
       fs.writeFileSync(cliPath, standardizedContent);
       
-      console.info('CLI harness standardized', { moduleName, cliPath });
+      logger.info('CLI harness standardized', { moduleName, cliPath });
       return true;
       
     } catch (error: unknown) {
@@ -657,19 +660,19 @@ async function main(...args: any[]) {
     const parseResult = cliStandardizer.parseArguments(process.argv);
     
     if (!parseResult.isValid) {
-      console.error('Error:', parseResult.errors.join(', '));
+      logger.error('CLI parse error', { errors: parseResult.errors });
       process.exit(1);
     }
     
     // Handle help and version
     if (parseResult.options.help) {
       const help = cliStandardizer.generateHelp();
-      console.log(JSON.stringify(help, null, 2));
+      logger.info('CLI help', { help });
       process.exit(0);
     }
     
     if (parseResult.options.version) {
-      console.log(cliConfig.version);
+      logger.info('CLI version', { version: cliConfig.version });
       process.exit(0);
     }
     
@@ -685,17 +688,17 @@ async function main(...args: any[]) {
     );
     
     if (result.success) {
-      console.log(JSON.stringify(result.output, null, 2));
+      logger.info('CLI result', { output: result.output });
       process.exit(0);
     } else {
-      console.error('Error:', result.errors?.join(', '));
+      logger.error('CLI execution error', { errors: result.errors });
       process.exit(result.exitCode);
     }
     
   } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
     errorHandler.handleError(error, 'CLI execution failed');
-    console.error('Fatal error:', error.message);
+    logger.error('CLI fatal error', { error: error.message });
     process.exit(1);
   }
 }
@@ -738,9 +741,9 @@ if (import.meta.url === \`file://\${process.argv[1!]}\`) {
    * Destroy the CLI interface standardizer
    */
   async destroy(): Promise<void> {
-    console.info('Destroying CLI interface standardizer...');
+    logger.info('Destroying CLI interface standardizer');
     this.isInitialized = false;
-    console.info('CLI interface standardizer destroyed');
+    logger.info('CLI interface standardizer destroyed');
   }
 }
 
