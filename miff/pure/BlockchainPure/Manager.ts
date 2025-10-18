@@ -333,7 +333,7 @@ export class BlockchainManager {
       }
 
       this.isInitialized = true;
-      console.info('BlockchainPure', 'Blockchain Manager initialized successfully');
+      logger.info('Blockchain Manager initialized successfully');
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
