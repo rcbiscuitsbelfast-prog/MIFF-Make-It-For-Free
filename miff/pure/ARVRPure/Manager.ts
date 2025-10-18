@@ -335,7 +335,7 @@ export class ARVRManager {
       this.devices.set(device.id, device);
       this.updateAnalytics();
 
-      console.info('AR/VR device created', { id: device.id, deviceName: device.name });
+      logger.info('AR/VR device created', { id: device.id, deviceName: device.name });
       return device;
 
     } catch (error: unknown) {
@@ -367,7 +367,7 @@ export class ARVRManager {
     try {
       const device = this.devices.get(device.id);
       if (!device) {
-        console.warn('Device not found', { deviceId: id });
+        logger.warn('Device not found', { deviceId: id });
         return null;
       }
 
@@ -402,14 +402,14 @@ export class ARVRManager {
     try {
       const device = this.devices.get(device.id);
       if (!device) {
-        console.warn('Device not found', { deviceId: id });
+        logger.warn('Device not found', { deviceId: id });
         return false;
       }
 
       this.devices.delete(device.id);
       this.updateAnalytics();
 
-      console.info('AR/VR device deleted', { deviceId: id, deviceName: device.name });
+      logger.info('AR/VR device deleted', { deviceId: id, deviceName: device.name });
       return true;
 
     } catch (error: unknown) {
@@ -463,7 +463,7 @@ export class ARVRManager {
     try {
       const device = this.devices.get(device.id);
       if (!device) {
-        console.warn('Device not found', { deviceId: id });
+        logger.warn('Device not found', { deviceId: id });
         return false;
       }
 
@@ -473,7 +473,7 @@ export class ARVRManager {
         timestamp: new Date()
       };
 
-      console.debug('Tracking data updated', { deviceId: id, position: trackingData.position });
+      logger.debug('Tracking data updated', { deviceId: id, position: trackingData.position });
       return true;
 
     } catch (error: unknown) {
@@ -494,12 +494,12 @@ export class ARVRManager {
     try {
       const device = this.devices.get(device.id);
       if (!device) {
-        console.warn('Device not found', { deviceId: id });
+        logger.warn('Device not found', { deviceId: id });
         return false;
       }
 
       if (!device.capabilities.hapticFeedback) {
-        console.warn('Device does not support haptic feedback', { deviceId: id });
+        logger.warn('Device does not support haptic feedback', { deviceId: id });
         return false;
       }
 
@@ -514,7 +514,7 @@ export class ARVRManager {
 
       device.analytics.hapticEvents++;
 
-      console.debug('Haptic feedback triggered', { deviceId: id, pattern: pattern.name });
+      logger.debug('Haptic feedback triggered', { deviceId: id, pattern: pattern.name });
       return true;
 
     } catch (error: unknown) {
@@ -535,7 +535,7 @@ export class ARVRManager {
     try {
       const device = this.devices.get(device.id);
       if (!device) {
-        console.warn('Device not found', { deviceId: id });
+        logger.warn('Device not found', { deviceId: id });
         return false;
       }
 
@@ -547,7 +547,7 @@ export class ARVRManager {
       device.status = 'connected';
       device.tracking.confidence = 1.0;
 
-      console.info('Device calibrated', { deviceId: id, deviceName: device.name });
+      logger.info('Device calibrated', { deviceId: id, deviceName: device.name });
       return true;
 
     } catch (error: unknown) {
@@ -568,12 +568,12 @@ export class ARVRManager {
     try {
       const device = this.devices.get(device.id);
       if (!device) {
-        console.warn('Device not found', { deviceId: id });
+        logger.warn('Device not found', { deviceId: id });
         return null;
       }
 
       if (!device.capabilities.spatialTracking) {
-        console.warn('Device does not support spatial tracking', { deviceId: id });
+        logger.warn('Device does not support spatial tracking', { deviceId: id });
         return null;
       }
 
@@ -687,12 +687,12 @@ export class ARVRManager {
    * Destroy the AR/VR Manager
    */
   async destroy(): Promise<void> {
-    console.info('ARVRPure', 'Destroying AR/VR Manager...');
+    logger.info('Destroying AR/VR Manager');
 
     this.devices.clear();
     this.isInitialized = false;
 
-    console.info('ARVRPure', 'AR/VR Manager destroyed');
+    logger.info('AR/VR Manager destroyed');
   }
 }
 
