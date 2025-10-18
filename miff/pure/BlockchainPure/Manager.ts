@@ -371,7 +371,7 @@ export class BlockchainManager {
       this.blockchains.set(blockchain.id, blockchain);
       this.updateAnalytics();
 
-      console.info('Blockchain created', { blockchainId: blockchain.id, blockchainName: blockchain.name });
+      logger.info('Blockchain created', { blockchainId: blockchain.id, blockchainName: blockchain.name });
       return blockchain;
 
     } catch (error: unknown) {
@@ -417,7 +417,7 @@ export class BlockchainManager {
       this.blockchains.set(blockchainId, updatedBlockchain);
       this.updateAnalytics();
 
-      console.info('Blockchain updated', { blockchainId, blockchainName: updatedBlockchain.name });
+      logger.info('Blockchain updated', { blockchainId, blockchainName: updatedBlockchain.name });
       return updatedBlockchain;
 
     } catch (error: unknown) {
@@ -445,7 +445,7 @@ export class BlockchainManager {
       this.blockchains.delete(blockchainId);
       this.updateAnalytics();
 
-      console.info('Blockchain deleted', { blockchainId, blockchainName: blockchain.name });
+      logger.info('Blockchain deleted', { blockchainId, blockchainName: blockchain.name });
       return true;
 
     } catch (error: unknown) {
@@ -512,7 +512,7 @@ export class BlockchainManager {
       blockchain.blocks.push(block);
       this.updateAnalytics();
 
-      console.info('Block created', { blockchainId, blockId: block.id, blockIndex: block.index });
+      logger.info('Block created', { blockchainId, blockId: block.id, blockIndex: block.index });
       return block;
 
     } catch (error: unknown) {
@@ -546,7 +546,7 @@ export class BlockchainManager {
       blockchain.transactions.push(transaction);
       this.updateAnalytics();
 
-      console.info('Transaction created', { blockchainId, transactionId: transaction.id, transactionType: transaction.type });
+      logger.info('Transaction created', { blockchainId, transactionId: transaction.id, transactionType: transaction.type });
       return transaction;
 
     } catch (error: unknown) {
@@ -580,7 +580,7 @@ export class BlockchainManager {
       blockchain.contracts.push(contract);
       this.updateAnalytics();
 
-      console.info('Smart contract deployed', { blockchainId, contractId: contract.id, contractName: contract.name });
+      logger.info('Smart contract deployed', { blockchainId, contractId: contract.id, contractName: contract.name });
       return contract;
 
     } catch (error: unknown) {
@@ -611,7 +611,7 @@ export class BlockchainManager {
         return null;
       }
 
-      console.info('Executing contract function', { blockchainId, contractId, functionName, parameters });
+      logger.info('Executing contract function', { blockchainId, contractId, functionName, parameters });
       
       // Simulate contract execution
       await new Promise(resolve => setTimeout(resolve, 100));
@@ -646,12 +646,12 @@ export class BlockchainManager {
         return false;
       }
 
-      console.info('Mining block', { blockchainId, blockId, blockIndex: block.index });
+      logger.info('Mining block', { blockchainId, blockId, blockIndex: block.index });
       
       // Simulate mining process
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      console.info('Block mined successfully', { blockchainId, blockId, blockIndex: block.index });
+      logger.info('Block mined successfully', { blockchainId, blockId, blockIndex: block.index });
       return true;
 
     } catch (error: unknown) {
@@ -682,7 +682,7 @@ export class BlockchainManager {
         return false;
       }
 
-      console.debug('Validating transaction', { blockchainId, transactionId });
+      logger.debug('Validating transaction', { blockchainId, transactionId });
       
       // Simulate validation process
       await new Promise(resolve => setTimeout(resolve, 10));
@@ -819,12 +819,12 @@ export class BlockchainManager {
    * Destroy the Blockchain Manager
    */
   async destroy(): Promise<void> {
-    console.info('BlockchainPure', 'Destroying Blockchain Manager...');
+    logger.info('Destroying Blockchain Manager');
 
     this.blockchains.clear();
     this.isInitialized = false;
 
-    console.info('BlockchainPure', 'Blockchain Manager destroyed');
+    logger.info('Blockchain Manager destroyed');
   }
 }
 
