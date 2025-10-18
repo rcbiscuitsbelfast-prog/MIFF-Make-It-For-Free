@@ -1,6 +1,10 @@
 // ConvertToUnityPure - Unity export system for MIFF framework
 // Schema Version: v1
 
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('ConvertToUnity');
+
 export enum UnityExportTarget {
   WINDOWS = 'windows',
   MACOS = 'macos',
