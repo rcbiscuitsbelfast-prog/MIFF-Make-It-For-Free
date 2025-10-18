@@ -166,7 +166,7 @@ export class DialogueParser {
         break;
       case 'play_sound':
         // Would trigger audio system
-        console.log(`[DialoguePure] Playing sound: ${action.target}`);
+        logger.info('Playing sound', { target: action.target });
         break;
     }
   }
@@ -178,10 +178,10 @@ export class DialogueParser {
         break;
       case 'condition':
         // Execute conditional action
-        console.log(`[DialoguePure] Executing conditional action: ${parsed.action}`);
+        logger.info('Executing conditional action', { action: parsed.action });
         break;
       default:
-        console.log(`[DialoguePure] Executing script: ${JSON.stringify(parsed)}`);
+        logger.info('Executing script', { script: parsed });
     }
   }
 }
@@ -204,7 +204,7 @@ export class DialogueEngine {
   start(startNodeId: string = 'start'): DialogueResult | null {
     const startNode = this.tree.nodes.get(startNodeId);
     if (!startNode) {
-      console.error(`[DialoguePure] Start node not found: ${startNodeId}`);
+      logger.error('Start node not found', { startNodeId });
       return null;
     }
 
