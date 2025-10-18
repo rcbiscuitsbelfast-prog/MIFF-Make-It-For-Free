@@ -31,6 +31,7 @@ class MockPlayerContext implements IPlayerContext {
   private completedChallenges = new Set<string>();
   private unlockedLocations = new Set<string>();
   private capturedSpirits = new Set<string>();
+  private visitedLocations = new Set<string>();
 
   hasQuestFlag(flagId: string): boolean {
     return this.questFlags.has(flagId);
@@ -60,6 +61,10 @@ class MockPlayerContext implements IPlayerContext {
     return Array.from(this.capturedSpirits);
   }
 
+  hasVisitedLocation(locationId: string): boolean {
+    return this.visitedLocations.has(locationId);
+  }
+
   setQuestFlag(flagId: string): void {
     this.questFlags.add(flagId);
   }
@@ -70,6 +75,7 @@ class MockPlayerContext implements IPlayerContext {
 
   setLocation(locationId: string): void {
     this.currentLocation = locationId;
+    this.visitedLocations.add(locationId);
   }
 
   setPlayerLevel(level: number): void {

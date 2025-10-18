@@ -22,15 +22,15 @@ describe('InputSystemPure Golden Tests', () => {
     test('should create and manage input profiles', () => {
       const createResult = manager.createProfile('test_profile', 'Test Profile', 'Test input profile');
       expect(createResult.status).toBe('ok');
-      expect(createResult.result?.id).toBe('test_profile');
-      expect(createResult.result?.name).toBe('Test Profile');
+      expect((createResult.result as any)?.id).toBe('test_profile');
+      expect((createResult.result as any)?.name).toBe('Test Profile');
 
       const setResult = manager.setActiveProfile('test_profile');
       expect(setResult.status).toBe('ok');
 
       const getResult = manager.getActiveProfile();
       expect(getResult.status).toBe('ok');
-      expect(getResult.result?.id).toBe('test_profile');
+      expect((getResult.result as any)?.id).toBe('test_profile');
     });
 
     test('should handle duplicate profile creation', () => {
@@ -62,7 +62,7 @@ describe('InputSystemPure Golden Tests', () => {
 
       const addResult = manager.addAction(action);
       expect(addResult.status).toBe('ok');
-      expect(addResult.result?.id).toBe('test_action');
+      expect((addResult.result as any)?.id).toBe('test_action');
     });
 
     test('should handle actions without active profile', () => {
@@ -98,7 +98,7 @@ describe('InputSystemPure Golden Tests', () => {
 
       const addResult = manager.addBinding(binding);
       expect(addResult.status).toBe('ok');
-      expect(addResult.result?.id).toBe('test_binding');
+      expect((addResult.result as any)?.id).toBe('test_binding');
     });
 
     test('should handle bindings without active profile', () => {
