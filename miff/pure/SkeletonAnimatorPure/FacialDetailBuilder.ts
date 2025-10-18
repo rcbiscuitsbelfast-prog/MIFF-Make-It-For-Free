@@ -7,6 +7,9 @@
  */
 
 import { RigConfig, FaceConfig, FaceFeature, MorphTarget, Vec3, Quaternion, Transform } from './types';
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('FacialDetailBuilder');
 
 export class FacialDetailBuilder {
   private rigConfig: RigConfig;
@@ -287,7 +290,7 @@ export class FacialDetailBuilder {
 
     // Apply morph to feature vertices (simplified - in real implementation would affect actual mesh)
     // This is a placeholder for the actual morphing logic
-    console.log(`Applying morph ${morphTarget.name} to feature ${feature.name} with strength ${strength}`);
+    logger.debug('Applying morph to feature', { morphName: morphTarget.name, featureName: feature.name, strength });
 
     return this;
   }

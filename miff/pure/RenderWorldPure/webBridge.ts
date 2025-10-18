@@ -11,6 +11,9 @@
 
 import { RenderWorldPure } from './index';
 import { EventBus } from '../EventsPure';
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('RenderWorldWebBridge');
 
 interface WebRendererConfig {
   canvas: HTMLCanvasElement;
@@ -220,7 +223,7 @@ export class RenderWorldWebBridge {
     this.gl.compileShader(shader);
 
     if (!this.gl.getShaderParameter(shader, this.gl.COMPILE_STATUS)) {
-      console.error('Shader compilation error: ' + this.gl.getShaderInfoLog(shader));
+      logger.error('Shader compilation error', { info: this.gl.getShaderInfoLog(shader) });
       this.gl.deleteShader(shader);
       return null;
     }
