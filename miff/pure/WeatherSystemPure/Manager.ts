@@ -515,7 +515,7 @@ export class WeatherSystemManager {
     zone.effects.splice(effectIndex, 1);
     this.effects.delete(effectId);
 
-    console.info('Weather effect removed', { zoneId, effectId });
+      logger.info('Weather effect removed', { zoneId, effectId });
     return true;
   }
 
