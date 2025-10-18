@@ -356,12 +356,12 @@ export class DataAnalysisManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      console.warn('DataAnalysisPure', 'Data Analysis System already initialized');
+      logger.warn('Data Analysis System already initialized');
       return;
     }
 
     try {
-      console.info('DataAnalysisPure', 'Initializing Data Analysis System...');
+      logger.info('Initializing Data Analysis System');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization ?? false) {
@@ -480,7 +480,7 @@ export class DataAnalysisManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        logger.warn('System not found', { systemId });
         return false;
       }
 
@@ -575,13 +575,13 @@ export class DataAnalysisManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        logger.warn('System not found', { systemId });
         return false;
       }
 
       const datasetIndex = system.datasets.findIndex(d => d.id === datasetId);
       if (datasetIndex === -1) {
-        console.warn('Dataset not found', { systemId, datasetId });
+        logger.warn('Dataset not found', { systemId, datasetId });
         return false;
       }
 
@@ -615,7 +615,7 @@ export class DataAnalysisManager {
 
       const dataset = system.datasets.find(d => d.id === analysisData.dataset);
       if (!dataset) {
-        console.warn('Dataset not found', { systemId, datasetId: analysisData.dataset });
+        logger.warn('Dataset not found', { systemId, datasetId: analysisData.dataset });
         return null;
       }
 
