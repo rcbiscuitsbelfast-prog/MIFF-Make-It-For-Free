@@ -147,9 +147,9 @@ export class TeleportationManager {
 
       // Log result
       if (result.success) {
-        console.log(`✅ Teleportation successful: ${request.entityId} → ${request.destinationId}`);
+        logger.info('Teleportation successful', { entityId: request.entityId, destinationId: request.destinationId });
       } else {
-        console.warn(`⚠️ Teleportation failed: ${request.entityId} - ${result.failureReason}`);
+        logger.warn('Teleportation failed', { entityId: request.entityId, failureReason: result.failureReason });
       }
 
       // Apply side effects if any
@@ -160,7 +160,7 @@ export class TeleportationManager {
       return result;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`❌ Teleportation error: ${error.message}`);
+      logger.error('Teleportation error', { error: err });
       return {
         success: false,
         entityId: request.entityId,
