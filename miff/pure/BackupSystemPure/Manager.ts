@@ -18,6 +18,9 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('BackupManager');
 
 export interface BackupSystemConfig {
   id?: string;
@@ -459,12 +462,12 @@ export class BackupSystemManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      console.warn('BackupSystemPure', 'Backup System Manager already initialized');
+      logger.warn('Backup System Manager already initialized');
       return;
     }
 
     try {
-      console.info('BackupSystemPure', 'Initializing Backup System Manager...');
+      logger.info('Initializing Backup System Manager');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization ?? false ?? false) {
@@ -477,7 +480,7 @@ export class BackupSystemManager {
       }
 
       this.isInitialized = true;
-      console.info('BackupSystemPure', 'Backup System Manager initialized successfully');
+      logger.info('Backup System Manager initialized successfully');
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -515,7 +518,7 @@ export class BackupSystemManager {
       this.systems.set(system.id, system);
       this.updateAnalytics();
 
-      console.info('Backup system created', { systemId: system.id, systemName: system.name });
+      logger.info('Backup system created', { systemId: system.id, systemName: system.name });
       return system;
 
     } catch (error: unknown) {
@@ -547,7 +550,7 @@ export class BackupSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        logger.warn('System not found', { systemId });
         return null;
       }
 
@@ -561,7 +564,7 @@ export class BackupSystemManager {
       this.systems.set(systemId, updatedSystem);
       this.updateAnalytics();
 
-      console.info('Backup system updated', { systemId, systemName: updatedSystem.name });
+      logger.info('Backup system updated', { systemId, systemName: updatedSystem.name });
       return updatedSystem;
 
     } catch (error: unknown) {
@@ -582,14 +585,14 @@ export class BackupSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        logger.warn('System not found', { systemId });
         return false;
       }
 
       this.systems.delete(systemId);
       this.updateAnalytics();
 
-      console.info('Backup system deleted', { systemId, systemName: system.name });
+      logger.info('Backup system deleted', { systemId, systemName: system.name });
       return true;
 
     } catch (error: unknown) {
@@ -643,7 +646,7 @@ export class BackupSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        logger.warn('System not found', { systemId });
         return null;
       }
 
@@ -656,7 +659,7 @@ export class BackupSystemManager {
       system.backups.push(backup);
       this.updateAnalytics();
 
-      console.info('Backup created', { systemId, backupId: backup.id, backupName: backup.name });
+      logger.info('Backup created', { systemId, backupId: backup.id, backupName: backup.name });
       return backup;
 
     } catch (error: unknown) {
@@ -677,18 +680,18 @@ export class BackupSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        logger.warn('System not found', { systemId });
         return false;
       }
 
       const backup = system.backups.find(b => b.id === backupId);
       if (!backup) {
-        console.warn('Backup not found', { systemId, backupId });
+        logger.warn('Backup not found', { systemId, backupId });
         return false;
       }
 
       backup.status = 'running';
-      console.info('Starting backup execution', { systemId, backupId, backupName: backup.name });
+      logger.info('Starting backup execution', { systemId, backupId, backupName: backup.name });
 
       // Simulate backup execution
       await this.performBackup(backup);
@@ -697,7 +700,7 @@ export class BackupSystemManager {
       backup.completedAt = Date.now();
       this.updateAnalytics();
 
-      console.info('Backup completed successfully', { systemId, backupId, backupName: backup.name });
+      logger.info('Backup completed successfully', { systemId, backupId, backupName: backup.name });
       return true;
 
     } catch (error: unknown) {
@@ -725,27 +728,27 @@ export class BackupSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        logger.warn('System not found', { systemId });
         return false;
       }
 
       const backup = system.backups.find(b => b.id === backupId);
       if (!backup) {
-        console.warn('Backup not found', { systemId, backupId });
+        logger.warn('Backup not found', { systemId, backupId });
         return false;
       }
 
       if (backup.status !== 'completed') {
-        console.warn('Backup not completed', { systemId, backupId, status: backup.status });
+        logger.warn('Backup not completed', { systemId, backupId, status: backup.status });
         return false;
       }
 
-      console.info('Starting backup restore', { systemId, backupId, destination });
+      logger.info('Starting backup restore', { systemId, backupId, destination });
 
       // Simulate restore operation
       await this.performRestore(backup, destination);
 
-      console.info('Backup restored successfully', { systemId, backupId, destination });
+      logger.info('Backup restored successfully', { systemId, backupId, destination });
       return true;
 
     } catch (error: unknown) {
@@ -766,7 +769,7 @@ export class BackupSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        logger.warn('System not found', { systemId });
         return null;
       }
 
@@ -776,7 +779,7 @@ export class BackupSystemManager {
       };
 
       system.schedules.push(schedule);
-      console.info('Backup schedule created', { systemId, scheduleId: schedule.id, scheduleName: schedule.name });
+      logger.info('Backup schedule created', { systemId, scheduleId: schedule.id, scheduleName: schedule.name });
       return schedule;
 
     } catch (error: unknown) {
@@ -797,7 +800,7 @@ export class BackupSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        logger.warn('System not found', { systemId });
         return null;
       }
 
@@ -807,7 +810,7 @@ export class BackupSystemManager {
       };
 
       system.policies.push(policy);
-      console.info('Backup policy created', { systemId, policyId: policy.id, policyName: policy.name });
+      logger.info('Backup policy created', { systemId, policyId: policy.id, policyName: policy.name });
       return policy;
 
     } catch (error: unknown) {
