@@ -3,6 +3,9 @@
 // Schema: Pure JSON outputs, deterministic, engine-agnostic
 
 import { OverlinkZone, DrawReducer, AssetBinding, ModuleConnection } from './OverlinkZone';
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('ScenarioPackOverlink');
 
 export type ScenarioState = {
   step: number;
@@ -157,7 +160,7 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput {
         crossfade: audioOptions?.crossfade ?? true
       };
       
-      overlink.playThemeAudio(defaultTheme as any, audioOpts).catch(console.error);
+      overlink.playThemeAudio(defaultTheme as any, audioOpts).catch((error: Error) => logger.error('Failed to play theme audio', { error }));
     }
   }
 
@@ -180,7 +183,7 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput {
   // Step 5.8: Setup badges if requested
   if (enableBadges && badgeOptions) {
     // Badge system is automatically initialized with sample data
-    console.log('Badge system initialized with contributor recognition');
+    logger.info('Badge system initialized with contributor recognition');
   }
 
   // Step 6: Activate modules
