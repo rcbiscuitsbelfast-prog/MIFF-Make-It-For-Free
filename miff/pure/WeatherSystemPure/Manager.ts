@@ -305,7 +305,7 @@ export class WeatherSystemManager {
     }
 
     this.isRunning = true;
-    console.info('WeatherSystemPure', 'Starting weather system');
+    logger.info('Starting weather system');
 
     // Start update interval
     if (this.config.enableRealTimeWeather) {
@@ -321,7 +321,7 @@ export class WeatherSystemManager {
       }, 100); // Update transitions every 100ms
     }
 
-    console.info('WeatherSystemPure', 'Weather system started');
+    logger.info('Weather system started');
   }
 
   /**
@@ -334,7 +334,7 @@ export class WeatherSystemManager {
     }
 
     this.isRunning = false;
-    console.info('WeatherSystemPure', 'Stopping weather system');
+    logger.info('Stopping weather system');
 
     // Stop update interval
     if (this.updateInterval) {
@@ -348,7 +348,7 @@ export class WeatherSystemManager {
       this.transitionInterval = null;
     }
 
-    console.info('WeatherSystemPure', 'Weather system stopped');
+    logger.info('Weather system stopped');
   }
 
   /**
@@ -373,7 +373,7 @@ export class WeatherSystemManager {
     };
 
     this.zones.set(zoneId, zone);
-    console.info('Weather zone created', { zoneId, name: zone.name });
+    logger.info('Weather zone created', { zoneId, name: zone.name });
 
     return zone;
   }
@@ -413,7 +413,7 @@ export class WeatherSystemManager {
     }
 
     this.zones.delete(zoneId);
-    console.info('Weather zone deleted', { zoneId, name: zone.name });
+    logger.info('Weather zone deleted', { zoneId, name: zone.name });
     return true;
   }
 
@@ -450,7 +450,7 @@ export class WeatherSystemManager {
       zone.lastUpdate = Date.now();
     }
 
-    console.info('Weather set for zone', { zoneId, weather: weather.temperature });
+    logger.info('Weather set for zone', { zoneId, weather: weather.temperature });
     return true;
   }
 
@@ -474,7 +474,7 @@ export class WeatherSystemManager {
     };
 
     this.transitions.set(transitionId, transition);
-    console.info('Weather transition created', { transitionId, zoneId });
+    logger.info('Weather transition created', { transitionId, zoneId });
 
     return transitionId;
   }
@@ -492,7 +492,7 @@ export class WeatherSystemManager {
     zone.effects.push(effect);
     this.effects.set(effect.id, effect);
 
-    console.info('Weather effect added', { zoneId, effectId: effect.id, type: effect.type });
+    logger.info('Weather effect added', { zoneId, effectId: effect.id, type: effect.type });
     return true;
   }
 
@@ -542,7 +542,7 @@ export class WeatherSystemManager {
    */
   public updateWeatherForecast(zoneId: string, forecast: WeatherForecast): void {
     this.forecasts.set(zoneId, forecast);
-    console.info('Weather forecast updated', { zoneId, hours: forecast.forecasts.length });
+    logger.info('Weather forecast updated', { zoneId, hours: forecast.forecasts.length });
   }
 
   /**
@@ -631,7 +631,7 @@ export class WeatherSystemManager {
 
       if (progress >= 1) {
         transition.completed = true;
-        console.info('Weather transition completed', { transitionId: transition.id });
+        logger.info('Weather transition completed', { transitionId: transition.id });
       }
     }
 
@@ -759,7 +759,7 @@ export class WeatherSystemManager {
    */
   public updateConfig(newConfig: Partial<WeatherSystemConfig>): void {
     this.config = { ...this.config, ...newConfig };
-    console.info('WeatherSystemManager configuration updated', { config: this.config });
+    logger.info('WeatherSystemManager configuration updated', { config: this.config });
   }
 
   /**
@@ -768,6 +768,6 @@ export class WeatherSystemManager {
   public destroy(): void {
     this.stop();
     MemoryManager.unregisterObject(this.memoryId);
-    console.info('WeatherSystemPure', 'WeatherSystemManager destroyed');
+    logger.info('WeatherSystemManager destroyed');
   }
 }
