@@ -1,5 +1,8 @@
 import { PlayerStatePure, PlayerStateSnapshot } from '../PlayerStatePure';
 import { PerfMetricsPure } from '../PerfMetricsPure';
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('ZoneServer');
 
 // Mock WebSocketBridgePure interface for ZoneServerPure
 interface WebSocketBridgePure {
@@ -269,7 +272,7 @@ export class ZoneServerPure {
         simulated += 1;
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.error(`Error simulating player ${id}:`, err instanceof Error ? message: String(err));
+        logger.error('Error simulating player', { playerId: id, error: err });
       }
     }
 
@@ -546,7 +549,7 @@ export class ZoneServerPure {
         callback({ type: eventType, data, zoneId: this.config.zoneId, timestamp: new Date() });
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.error(`Error in event listener for ${eventType}:`, err instanceof Error ? message: String(err));
+        logger.error('Error in zone event listener', { eventType, error: err });
       }
     }
   }

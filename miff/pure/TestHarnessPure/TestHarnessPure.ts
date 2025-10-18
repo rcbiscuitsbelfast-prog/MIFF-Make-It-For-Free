@@ -7,6 +7,10 @@
  * Attribution: Delta Engine (MIT License) - hot-reload and live code injection patterns
  */
 
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('TestHarness');
+
 export interface TestConfig {
   enabled: boolean;
   autoRun: boolean;
@@ -305,11 +309,11 @@ export class TestHarness {
 
   private startFileWatcher(): void {
     // In a real implementation, this would use fs.watch or similar
-    console.log('[TestHarnessPure] Hot reload enabled for paths:', this.hotReloadConfig.watchPaths);
+    logger.info('Hot reload enabled', { watchPaths: this.hotReloadConfig.watchPaths });
   }
 
   private stopFileWatcher(): void {
-    console.log('[TestHarnessPure] Hot reload disabled');
+    logger.info('Hot reload disabled');
   }
 
   // Code Injection Management
@@ -334,7 +338,7 @@ export class TestHarness {
     try {
       // In a real implementation, this would modify the actual code
       // For now, we'll simulate the injection
-      console.log(`[TestHarnessPure] Code injection applied: ${injection.id} -> ${injection.target}`);
+      logger.info('Code injection applied', { injectionId: injection.id, target: injection.target });
       
       // Store original function if it exists
       const target = (globalThis as any)[injection.target];
@@ -369,7 +373,7 @@ export class TestHarness {
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`[TestHarnessPure] Code injection failed: ${injection.id}`, err instanceof Error ? message: String(err));
+      logger.error('Code injection failed', { injectionId: injection.id, error: err });
     }
   }
 
@@ -385,10 +389,10 @@ export class TestHarness {
         delete (globalThis as any)[injection.target];
       }
       
-      console.log(`[TestHarnessPure] Code injection reverted: ${injection.id}`);
+      logger.info('Code injection reverted', { injectionId: injection.id });
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`[TestHarnessPure] Code injection revert failed: ${injection.id}`, err instanceof Error ? message: String(err));
+      logger.error('Code injection revert failed', { injectionId: injection.id, error: err });
     }
   }
 
@@ -447,7 +451,7 @@ export class TestHarness {
         }
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.error('[TestHarnessPure] Observer error:', err instanceof Error ? message: String(err));
+        logger.error('TestHarness observer error', { error: err });
       }
     });
   }
