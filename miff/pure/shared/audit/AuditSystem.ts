@@ -260,7 +260,7 @@ export class AuditSystem {
     const startTime = Date.now();
 
     try {
-      console.log('🔍 Starting comprehensive audit...');
+      logger.info('Starting comprehensive audit');
       
       // Clear previous issues
       this.issues.clear();
@@ -292,7 +292,7 @@ export class AuditSystem {
       }
       
       const duration = Date.now() - startTime;
-      console.log(`✅ Audit completed in ${duration}ms`);
+      logger.info('Audit completed', { durationMs: duration });
       
       return report;
     } finally {
@@ -308,7 +308,7 @@ export class AuditSystem {
       return;
     }
 
-    console.log('📊 Running code quality audit...');
+    logger.info('Running code quality audit');
     
     const files = this.getFilesToAudit();
     
@@ -329,7 +329,7 @@ export class AuditSystem {
       return;
     }
 
-    console.log('⚡ Running performance audit...');
+    logger.info('Running performance audit');
     
     // Check for performance anti-patterns
     const files = this.getFilesToAudit();
@@ -348,7 +348,7 @@ export class AuditSystem {
       return;
     }
 
-    console.log('🔒 Running security audit...');
+    logger.info('Running security audit');
     
     // Check for security vulnerabilities
     const files = this.getFilesToAudit();
@@ -367,7 +367,7 @@ export class AuditSystem {
       return;
     }
 
-    console.log('📦 Running dependency audit...');
+    logger.info('Running dependency audit');
     
     // Check package.json for outdated dependencies
     const packageJsonPath = path.join(process.cwd(), 'package.json');
@@ -385,7 +385,7 @@ export class AuditSystem {
       return;
     }
 
-    console.log('🧪 Running testing audit...');
+    logger.info('Running testing audit');
     
     // Check test coverage and quality
     const testFiles = this.getTestFiles();
@@ -404,7 +404,7 @@ export class AuditSystem {
       return;
     }
 
-    console.log('📚 Running documentation audit...');
+    logger.info('Running documentation audit');
     
     // Check documentation completeness
     const files = this.getFilesToAudit();
@@ -423,7 +423,7 @@ export class AuditSystem {
       return;
     }
 
-    console.log('📋 Running compliance audit...');
+    logger.info('Running compliance audit');
     
     // Check compliance with standards
     this.checkComplianceIssues();
@@ -437,7 +437,7 @@ export class AuditSystem {
       return;
     }
 
-    console.log('♿ Running accessibility audit...');
+    logger.info('Running accessibility audit');
     
     // Check accessibility issues
     const files = this.getFilesToAudit();
@@ -456,7 +456,7 @@ export class AuditSystem {
       return;
     }
 
-    console.log('🔧 Running maintainability audit...');
+    logger.info('Running maintainability audit');
     
     // Check maintainability issues
     const files = this.getFilesToAudit();
@@ -475,7 +475,7 @@ export class AuditSystem {
       return;
     }
 
-    console.log('🛡️ Running reliability audit...');
+    logger.info('Running reliability audit');
     
     // Check reliability issues
     const files = this.getFilesToAudit();
@@ -1136,7 +1136,7 @@ export class AuditSystem {
    */
   private async sendNotifications(report: AuditReport): Promise<void> {
     // This would send notifications via webhook, Slack, email, etc.
-    console.log('📧 Sending audit notifications...');
+    logger.info('Sending audit notifications');
   }
 
   /**
@@ -1162,7 +1162,7 @@ export class AuditSystem {
    */
   private startRealTimeMonitoring(): void {
     // This would watch for file changes and run audits
-    console.log('👀 Starting real-time monitoring...');
+    logger.info('Starting real-time monitoring');
   }
 
   /**
@@ -1242,6 +1242,9 @@ export const defaultAuditSystem = new AuditSystem({
   outputDir: './audit',
   enableRealTime: false,
   enableScheduling: true,
+  scheduleInterval: 24 * 60 * 60 * 1000, // 24 hours
+  enableIntegration: true
+});g: true,
   scheduleInterval: 24 * 60 * 60 * 1000, // 24 hours
   enableIntegration: true
 });
