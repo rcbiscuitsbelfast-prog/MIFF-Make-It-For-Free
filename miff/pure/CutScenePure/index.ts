@@ -19,6 +19,9 @@ import { CameraSystemPure } from '../CameraSystemPure';
 import { AudioPure } from '../AudioPure';
 import { AvatarSystemPure } from '../AvatarSystemPure';
 import { PixelAnimPure } from '../PixelAnimPure';
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('CutScenePure');
 
 // Animation system for cut scenes
 class AnimationPure {
@@ -53,7 +56,7 @@ class AnimationPure {
       });
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`Animation error: ${error}`);
+      logger.error('Animation error', { animationId, error: err });
       throw error;
     }
   }
@@ -145,10 +148,10 @@ class DialogueSystemPureStub {
       // Simulate dialogue loading
       await new Promise(resolve => setTimeout(resolve, 100));
       
-      console.log(`Started dialogue: ${dialogueId}`);
+      logger.info('Dialogue started', { dialogueId });
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`Dialogue error: ${error}`);
+      logger.error('Dialogue error', { dialogueId, error: err });
       throw error;
     }
   }
