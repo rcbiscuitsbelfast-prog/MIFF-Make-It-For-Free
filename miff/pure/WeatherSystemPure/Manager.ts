@@ -289,7 +289,7 @@ export class WeatherSystemManager {
     this.memoryId = `WeatherSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     MemoryManager.registerObject(this.memoryId, this, 'WeatherSystemManager');
 
-    console.info('WeatherSystemManager initialized', {
+    logger.info('WeatherSystemManager initialized', {
       config: this.config,
       memoryId: this.memoryId
     });
@@ -398,7 +398,7 @@ export class WeatherSystemManager {
     Object.assign(zone, updates);
     zone.lastUpdate = Date.now();
 
-    console.debug('Weather zone updated', { zoneId, updates });
+    logger.debug('Weather zone updated', { zoneId, updates });
     return true;
   }
 
@@ -561,7 +561,7 @@ export class WeatherSystemManager {
       zone.lastUpdate = Date.now();
     }
 
-    console.debug('Weather system updated', { zones: this.zones.size });
+    logger.debug('Weather system updated', { zones: this.zones.size });
   }
 
   /**
@@ -601,7 +601,7 @@ export class WeatherSystemManager {
       if (effect.endTime > 0 && currentTime > effect.endTime) {
         zone.effects.splice(i, 1);
         this.effects.delete(effect.id);
-        console.debug('Weather effect expired', { effectId: effect.id, type: effect.type });
+        logger.debug('Weather effect expired', { effectId: effect.id, type: effect.type });
         continue;
       }
 
