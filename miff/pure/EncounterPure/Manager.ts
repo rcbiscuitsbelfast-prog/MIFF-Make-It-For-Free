@@ -302,7 +302,7 @@ export class EncounterManager {
     this.areas.clear();
     this.encounterHistory = [];
     this.isInitialized = false;
-    console.log('[EncounterManager] Encounter system reset');
+    logger.info('Encounter system reset');
   }
 
   /**
@@ -310,7 +310,7 @@ export class EncounterManager {
    */
   dispose(): void {
     this.reset();
-    console.log('[EncounterManager] Encounter system disposed');
+    logger.info('Encounter system disposed');
   }
 }
 
