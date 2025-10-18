@@ -190,7 +190,7 @@ export class DropTable implements IDropTable {
   addEntry(entry: DropEntry): boolean {
     const errors = entry.validate({});
     if (errors.length > 0) {
-      console.warn('Invalid drop entry:', errors);
+      logger.warn('Invalid drop entry', { errors });
       return false;
     }
 
