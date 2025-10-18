@@ -350,7 +350,7 @@ export class TycoonSystemManager {
     this.initializeDefaultData();
     this.startManagement();
 
-    console.info('TycoonSystemManager initialized', {
+    logger.info('TycoonSystemManager initialized', {
       config: this.config,
       memoryId: this.memoryId
     });
@@ -430,13 +430,13 @@ export class TycoonSystemManager {
   public upgradeFacility(facilityId: string): boolean {
     const facility = this.facilities.get(facilityId);
     if (!facility) {
-      console.warn('Facility not found', { facilityId });
+      logger.warn('Facility not found', { facilityId });
       return false;
     }
 
     const upgradeCost = facility.upgradeCost;
     if (this.getCapital() < upgradeCost) {
-      console.warn('Insufficient capital for upgrade', { facilityId, cost: upgradeCost, capital: this.getCapital() });
+      logger.warn('Insufficient capital for upgrade', { facilityId, cost: upgradeCost, capital: this.getCapital() });
       return false;
     }
 
