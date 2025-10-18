@@ -13,6 +13,9 @@
 
 import { SplashScreenPure } from './index';
 import { EventBus } from '../EventsPure';
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('SplashScreenIntegration');
 
 interface IntegrationConfig {
   enableSplashScreen: boolean;
@@ -151,7 +154,7 @@ export class SplashScreenIntegration {
     const { htmlContent, config } = event;
 
     if (!this.config.enableSplashScreen) {
-      console.log('⚠️ Splash screen disabled via configuration');
+      logger.info('Splash screen disabled via configuration');
       return;
     }
 
@@ -165,10 +168,10 @@ export class SplashScreenIntegration {
         splashConfig: splashConfig
       });
 
-      console.log('✅ Splash screen injected into web export successfully');
+      logger.info('Splash screen injected into web export successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ Failed to inject splash screen into web export:', err instanceof Error ? message: String(err));
+      logger.error('Failed to inject splash screen into web export', { error: err });
       throw error;
     }
   }
@@ -177,7 +180,7 @@ export class SplashScreenIntegration {
     const { sceneContent, config } = event;
 
     if (!this.config.enableSplashScreen) {
-      console.log('⚠️ Splash screen disabled via configuration');
+      logger.info('Splash screen disabled via configuration');
       return;
     }
 
@@ -191,10 +194,10 @@ export class SplashScreenIntegration {
         splashConfig: splashConfig
       });
 
-      console.log('✅ Splash screen injected into Unity scene successfully');
+      logger.info('Splash screen injected into Unity scene successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ Failed to inject splash screen into Unity scene:', err instanceof Error ? message: String(err));
+      logger.error('Failed to inject splash screen into Unity scene', { error: err });
       throw error;
     }
   }
@@ -317,7 +320,7 @@ public class MIFFSplashScreen : MonoBehaviour
 
     const cliCommand = this.cliCommands.get(command);
     if (!cliCommand) {
-      console.error(`❌ Unknown CLI command: ${command}`);
+      logger.error('Unknown CLI command', { command });
       return;
     }
 
@@ -325,7 +328,7 @@ public class MIFFSplashScreen : MonoBehaviour
       await cliCommand.handler(flags);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`❌ CLI command '${command}' failed:`, err instanceof Error ? message: String(err));
+      logger.error('CLI command failed', { command, error: err });
       throw error;
     }
   }
@@ -348,7 +351,7 @@ public class MIFFSplashScreen : MonoBehaviour
 
     // Show splash screen
     await this.splashScreen.show(() => {
-      console.log('✅ Splash screen preview completed');
+      logger.info('Splash screen preview completed');
     });
 
     return {
@@ -416,9 +419,10 @@ public class MIFFSplashScreen : MonoBehaviour
 
   private async simulateWebExport(outputPath: string): Promise<any> {
     // Simulate the web export process
-    console.log(`📦 Exporting to web with splash screen integration...`);
-    console.log(`   Output path: ${outputPath}`);
-    console.log(`   Splash screen: ${this.config.enableSplashScreen ? 'enabled' : 'disabled'}`);
+    logger.info('Exporting to web with splash screen integration', { 
+      outputPath, 
+      splashScreenEnabled: this.config.enableSplashScreen 
+    });
 
     // In a real implementation, this would:
     // 1. Build the web application
@@ -442,9 +446,10 @@ public class MIFFSplashScreen : MonoBehaviour
 
   private async simulateUnityBuild(unityVersion: string): Promise<any> {
     // Simulate the Unity build process
-    console.log(`🏗️ Building Unity project with splash screen integration...`);
-    console.log(`   Unity version: ${unityVersion}`);
-    console.log(`   Splash screen: ${this.config.enableSplashScreen ? 'enabled' : 'disabled'}`);
+    logger.info('Building Unity project with splash screen integration', { 
+      unityVersion, 
+      splashScreenEnabled: this.config.enableSplashScreen 
+    });
 
     // In a real implementation, this would:
     // 1. Set up Unity project structure
@@ -485,7 +490,7 @@ public class MIFFSplashScreen : MonoBehaviour
       case 'unity':
         return this.injectIntoUnitySceneContent(content, this.config.splashScreenConfig);
       default:
-        console.warn(`⚠️ No injection method available for platform: ${this.config.targetPlatform}`);
+        logger.warn('No injection method available for platform', { platform: this.config.targetPlatform });
         return content;
     }
   }
