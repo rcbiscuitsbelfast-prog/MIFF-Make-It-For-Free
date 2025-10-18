@@ -13,6 +13,10 @@
  * @author MIFF Framework
  */
 
+import { Logger } from '../logging';
+
+const logger = Logger.create('PerformanceOptimizer');
+
 import { EventBus } from '../../EventBusPure/index.js';
 
 // ============================================================================
@@ -542,7 +546,7 @@ export class PerformanceOptimizer {
    */
   private clearUnusedCaches(): void {
     // Implementation would clear unused cache entries
-    console.log('Clearing unused caches...');
+    logger.info('Clearing unused caches');
   }
 
   /**
@@ -550,7 +554,7 @@ export class PerformanceOptimizer {
    */
   private optimizeMemoryUsage(): void {
     // Implementation would optimize memory usage
-    console.log('Optimizing memory usage...');
+    logger.info('Optimizing memory usage');
   }
 
   /**
@@ -558,7 +562,7 @@ export class PerformanceOptimizer {
    */
   private optimizeEventLoop(): void {
     // Implementation would optimize event loop
-    console.log('Optimizing event loop...');
+    logger.info('Optimizing event loop');
   }
 
   /**
@@ -566,7 +570,7 @@ export class PerformanceOptimizer {
    */
   private reduceCPUIntensiveOperations(): void {
     // Implementation would reduce CPU-intensive operations
-    console.log('Reducing CPU-intensive operations...');
+    logger.info('Reducing CPU-intensive operations');
   }
 
   /**
@@ -574,7 +578,7 @@ export class PerformanceOptimizer {
    */
   private optimizeAlgorithms(): void {
     // Implementation would optimize algorithms
-    console.log('Optimizing algorithms...');
+    logger.info('Optimizing algorithms');
   }
 
   /**
@@ -582,7 +586,7 @@ export class PerformanceOptimizer {
    */
   private enableCompression(): void {
     // Implementation would enable compression
-    console.log('Enabling compression...');
+    logger.info('Enabling compression');
   }
 
   /**
@@ -590,7 +594,7 @@ export class PerformanceOptimizer {
    */
   private optimizeDatabaseQueries(): void {
     // Implementation would optimize database queries
-    console.log('Optimizing database queries...');
+    logger.info('Optimizing database queries');
   }
 
   /**
@@ -598,7 +602,7 @@ export class PerformanceOptimizer {
    */
   private enableCaching(): void {
     // Implementation would enable caching
-    console.log('Enabling caching...');
+    logger.info('Enabling caching');
   }
 
   /**
@@ -606,7 +610,7 @@ export class PerformanceOptimizer {
    */
   private warmUpCache(): void {
     // Implementation would warm up cache
-    console.log('Warming up cache...');
+    logger.info('Warming up cache');
   }
 
   /**
@@ -614,7 +618,7 @@ export class PerformanceOptimizer {
    */
   private optimizeCachePolicies(): void {
     // Implementation would optimize cache policies
-    console.log('Optimizing cache policies...');
+    logger.info('Optimizing cache policies');
   }
 
   /**
@@ -622,7 +626,7 @@ export class PerformanceOptimizer {
    */
   private clearStaleCacheEntries(): void {
     // Implementation would clear stale cache entries
-    console.log('Clearing stale cache entries...');
+    logger.info('Clearing stale cache entries');
   }
 
   /**

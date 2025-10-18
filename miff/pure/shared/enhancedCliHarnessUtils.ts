@@ -9,6 +9,10 @@
  * @license MIT
  */
 
+import { Logger } from './logging';
+
+const logger = Logger.create('EnhancedCliHarnessUtils');
+
 // Types for enhanced CLI functionality
 interface CLIInput {
   op: string;
@@ -562,27 +566,27 @@ function generateMockResponse(resolvedPath: string, args: string[]): any {
  */
 export function registerReplayHooks(system): void {
   if (!system || typeof system.on !== 'function') {
-    console.warn('[ReplayHook] System does not support event handling');
+    logger.warn('ReplayHook: System does not support event handling');
     return;
   }
 
   system.on("hookRegistered", (hook: ReplayHook) => {
-    console.log(`[ReplayHook] Registered: ${hook.name}`);
+    logger.info('ReplayHook registered', { hookName: hook.name });
   });
 
   system.on("replayStart", async () => {
     const unresolved = detectUnresolvedHooks(system);
     if (unresolved.length > 0) {
-      console.warn(`[ReplayHook] Unresolved hooks:`, unresolved);
+      logger.warn('ReplayHook: Unresolved hooks', { unresolved });
     }
   });
 
   system.on("replayEnd", () => {
-    console.log('[ReplayHook] Replay session completed');
+    logger.info('ReplayHook: Replay session completed');
   });
 
   system.on("hookError", (error: Error, hook: ReplayHook) => {
-    console.error(`[ReplayHook] Error in hook ${hook.name}:`, error.message);
+    logger.error('ReplayHook: Error in hook', { hookName: hook.name, error: error.message });
   });
 }
 
