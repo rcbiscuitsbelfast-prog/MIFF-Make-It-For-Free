@@ -13,8 +13,10 @@
  */
 
 import { TypeEffectiveness } from '../CombatPure/engine';
+import { Logger } from '../shared/logging';
 
 const typeEffectiveness = new TypeEffectiveness();
+const logger = Logger.create('AIManager');
 
 // Enums
 export enum AIDecisionStyle {
@@ -877,13 +879,13 @@ export class AIManager {
   initialize(): void {
     if (this.isInitialized) return;
 
-    console.log('[AIManager] Initializing AI system...');
+    logger.info('Initializing AI system');
     
     // Initialize default behaviors
     this.initializeDefaultBehaviors();
     
     this.isInitialized = true;
-    console.log('[AIManager] AI system initialized successfully');
+    logger.info('AI system initialized successfully');
   }
 
   private initializeDefaultBehaviors(): void {
@@ -994,12 +996,12 @@ export class AIManager {
    */
   addBehavior(behavior: AIBehavior): boolean {
     if (!behavior.id || !behavior.name) {
-      console.error('[AIManager] Invalid behavior: missing required fields');
+      logger.error('Invalid behavior: missing required fields', { behavior });
       return false;
     }
 
     this.behaviors.set(behavior.id, behavior);
-    console.log(`[AIManager] Added behavior: ${behavior.name}`);
+    logger.info('Behavior added', { behaviorId: behavior.id, behaviorName: behavior.name, behaviorType: behavior.type });
     return true;
   }
 
@@ -1009,7 +1011,7 @@ export class AIManager {
   removeBehavior(behaviorId: string): boolean {
     const removed = this.behaviors.delete(behaviorId);
     if (removed) {
-      console.log(`[AIManager] Removed behavior: ${behaviorId}`);
+      logger.info('Behavior removed', { behaviorId });
     }
     return removed;
   }
@@ -1090,7 +1092,7 @@ export class AIManager {
     this.behaviors.clear();
     this.decisions = [];
     this.isInitialized = false;
-    console.log('[AIManager] AI system reset');
+    logger.info('AI system reset');
   }
 
   /**
@@ -1100,7 +1102,7 @@ export class AIManager {
     this.reset();
     this.neuralNetworks.clear();
     this.trainingData.clear();
-    console.log('[AIManager] AI system disposed');
+    logger.info('AI system disposed');
   }
 
   /**
@@ -1108,7 +1110,7 @@ export class AIManager {
    */
   createNeuralNetwork(networkId: string, inputSize: number, outputSize: number): SimpleNeuralNetwork | null {
     if (!this.config.enableNeuralNetworks) {
-      console.warn('[AIManager] Neural networks are disabled');
+      logger.warn('Neural networks are disabled', { networkId });
       return null;
     }
 
@@ -1122,7 +1124,7 @@ export class AIManager {
     });
 
     this.neuralNetworks.set(networkId, network);
-    console.log(`[AIManager] Created neural network: ${networkId}`);
+    logger.info('Neural network created', { networkId, inputSize, outputSize, layers: this.config.neuralNetworkLayers });
     return network;
   }
 
@@ -1139,7 +1141,7 @@ export class AIManager {
   trainNeuralNetwork(networkId: string, trainingData: TrainingData[]): boolean {
     const network = this.getNeuralNetwork(networkId);
     if (!network) {
-      console.error(`[AIManager] Neural network not found: ${networkId}`);
+      logger.error('Neural network not found for training', { networkId });
       return false;
     }
 
@@ -1160,7 +1162,7 @@ export class AIManager {
     this.trainingData.set(networkId, trainingData);
 
     const avgError = totalError / samples;
-    console.log(`[AIManager] Training completed for ${networkId}. Average error: ${avgError.toFixed(4)}`);
+    logger.info('Training completed', { networkId, averageError: avgError.toFixed(4), samples, iterations: this.config.trainingIterations });
 
     return avgError < 0.1; // Training successful if average error < 10%
   }
@@ -1171,7 +1173,7 @@ export class AIManager {
   predictWithNeuralNetwork(networkId: string, input: number[]): number[] | null {
     const network = this.getNeuralNetwork(networkId);
     if (!network) {
-      console.error(`[AIManager] Neural network not found: ${networkId}`);
+      logger.error('Neural network not found for prediction', { networkId });
       return null;
     }
 
@@ -1376,7 +1378,7 @@ export class AIPerformanceMonitor {
       this.collectMetrics();
     }, intervalMs);
 
-    console.log('[AIPerformanceMonitor] Started monitoring AI performance');
+    logger.info('AI performance monitoring started', { intervalMs });
   }
 
   /**
@@ -1391,7 +1393,7 @@ export class AIPerformanceMonitor {
     }
 
     this.isMonitoring = false;
-    console.log('[AIPerformanceMonitor] Stopped monitoring AI performance');
+    logger.info('AI performance monitoring stopped');
   }
 
   /**
@@ -1419,11 +1421,11 @@ export class AIPerformanceMonitor {
    */
   private logMetricsIfNeeded(metrics): void {
     if (metrics.averageError > 0.5) {
-      console.warn(`[AIPerformanceMonitor] High average error detected: ${metrics.averageError.toFixed(4)}`);
+      logger.warn('High average error detected', { averageError: metrics.averageError.toFixed(4) });
     }
 
     if (metrics.decisionAccuracy < 0.7) {
-      console.warn(`[AIPerformanceMonitor] Low decision accuracy detected: ${(metrics.decisionAccuracy * 100).toFixed(1)}%`);
+      logger.warn('Low decision accuracy detected', { decisionAccuracy: (metrics.decisionAccuracy * 100).toFixed(1) + '%' });
     }
 
     if (metrics.neuralNetworksCount > 10) {
@@ -1481,7 +1483,7 @@ Total Metrics Collected: ${this.metricsHistory.length}
    */
   resetHistory(): void {
     this.metricsHistory = [];
-    console.log('[AIPerformanceMonitor] Metrics history reset');
+    logger.info('AI metrics history reset');
   }
 }
 
