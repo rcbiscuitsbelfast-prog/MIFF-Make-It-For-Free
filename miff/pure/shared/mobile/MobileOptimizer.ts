@@ -4,6 +4,10 @@
  * Comprehensive mobile performance optimization system
  */
 
+import { Logger } from '../logging';
+
+const logger = Logger.create('MobileOptimizer');
+
 export interface MobileConfig {
   targetPlatform: 'ios' | 'android' | 'web-mobile' | 'hybrid';
   deviceClass: 'phone' | 'tablet' | 'phablet';
@@ -802,7 +806,7 @@ export class MobileOptimizer {
 
   private log(message: string, level: 'info' | 'debug' | 'warn' | 'error' = 'info'): void {
     const timestamp = new Date().toISOString();
-    console.log(`[MOBILEOPT:${level.toUpperCase()}] ${timestamp} - ${message}`);
+    logger.info('Mobile optimizer log', { level: level.toUpperCase(), timestamp, message });
   }
 
   /**

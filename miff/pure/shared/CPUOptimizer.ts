@@ -1,4 +1,7 @@
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
+import { Logger } from './logging';
+
+const logger = Logger.create('CPUOptimizer');
 /**
  * CPU Optimization System for MIFF Framework
  * 
@@ -183,12 +186,12 @@ export class CPUOptimizer {
       }
 
       this.optimizationResults.push(...results);
-      console.info(`✅ CPU optimization completed - ${results.length} optimizations applied`);
+      logger.info('CPU optimization completed', { optimizationCount: results.length });
 
       return results;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ CPU optimization failed:', err instanceof Error ? message: String(err));
+      logger.error('CPU optimization failed', { error: err });
       throw error;
     } finally {
       this.isOptimizing = false;
