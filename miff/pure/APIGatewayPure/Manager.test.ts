@@ -198,14 +198,20 @@ describe('APIGatewayManager', () => {
       expect(result).toBeUndefined();
     });
 
-    it('should handle invalid item deletions gracefully', async () => {'non-existent-id');
+    it('should handle invalid item deletions gracefully', async () => {
+      const result = await manager.deleteItem('non-existent-id');
       
       expect(result).toBe(false);
     });
   });
 
   describe('Performance', () => {
-    it('should handle multiple item operations efficiently', async () => {{
+    it('should handle multiple item operations efficiently', async () => {
+      const startTime = Date.now();
+      const promises = [];
+      
+      for (let i = 0; i < 10; i++) {
+        promises.push(manager.createItem({
           name: `Test Item ${i}`,
           type: 'test',
           status: 'active' as const,
