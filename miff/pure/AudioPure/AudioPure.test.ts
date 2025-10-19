@@ -4,7 +4,7 @@
  * Tests for AudioPure module covering sound management, spatial audio, and headless mode.
  */
 
-import { AudioSystem, AudioConfig, SoundDefinition, SpatialAudioConfig, AudioEvent } from './AudioPure';
+import { AudioSystem, AudioConfig, SoundDefinition, SpatialAudioConfig, AudioEvent } from './index';
 
 describe('AudioPure', () => {
   let config: AudioConfig;

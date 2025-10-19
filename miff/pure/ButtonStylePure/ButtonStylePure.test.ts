@@ -1,5 +1,5 @@
 import { describe, it, expect } from '@jest/globals';
-import { ButtonStylePure, createButtonStyle, applyTheme } from './index';
+import { ButtonStylePure, createButtonStyle } from './index';
 
 describe('ButtonStylePure', () => {
   describe('Button Style Creation', () => {

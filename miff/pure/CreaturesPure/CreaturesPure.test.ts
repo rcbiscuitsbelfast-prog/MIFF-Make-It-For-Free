@@ -1,5 +1,5 @@
 import { describe, it, expect } from '@jest/globals';
-import { CreaturesPure } from './index';
+import { Creatures as CreaturesPure } from './index';
 
 describe('CreaturesPure', () => {
   describe('Creature Creation', () => {

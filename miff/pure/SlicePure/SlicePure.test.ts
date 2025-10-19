@@ -1,5 +1,5 @@
 import { describe, it, expect } from '@jest/globals';
-import { SlicePure, createDataSlice, sliceData, windowData } from './index';
+import { SlicePure, createDataSlice, sliceData } from './index';
 
 describe('SlicePure', () => {
   describe('Data Slicing', () => {

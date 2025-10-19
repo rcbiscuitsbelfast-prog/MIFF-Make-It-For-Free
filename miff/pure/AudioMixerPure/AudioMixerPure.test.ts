@@ -1,5 +1,5 @@
 import { describe, it, expect } from '@jest/globals';
-import { AudioMixer } from './AudioMixerPure';
+import AudioMixer from './AudioMixerPure';
 
 describe('AudioMixerPure', () => {
   describe('Mixer Creation', () => {
