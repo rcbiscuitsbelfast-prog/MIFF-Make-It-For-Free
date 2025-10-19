@@ -925,7 +925,7 @@ export class RitualSystemPure {
       summonedEntities: ritual.summonedEntities.length
     });
 
-    console.log(`🎉 Ritual completed: ${ritual.definition.name} (Quality: ${(quality * 100).toFixed(1)}%)`);
+    logger.info('Ritual completed', { name: ritual.definition.name, quality: `${(quality * 100).toFixed(1)}%` });
     return result;
   }
 
@@ -1036,7 +1036,7 @@ export class RitualSystemPure {
    */
   updateConfig(newConfig: Partial<RitualConfig>): void {
     this.config = { ...this.config, ...newConfig };
-    console.log('Ritual configuration updated');
+    logger.info('Ritual configuration updated');
   }
 
   /**
