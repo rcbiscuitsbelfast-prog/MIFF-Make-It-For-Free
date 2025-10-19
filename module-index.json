@@ -1,0 +1,2054 @@
+[
+  {
+    "name": "AIProfilesPure",
+    "path": "miff/pure/AIProfilesPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 801,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "AIPure",
+    "path": "miff/pure/AIPure",
+    "files": 4,
+    "tests": 0,
+    "loc": 2993,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "APIGatewayPure",
+    "path": "miff/pure/APIGatewayPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 810,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "ARVRPure",
+    "path": "miff/pure/ARVRPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 785,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "AdvancedRenderingPure",
+    "path": "miff/pure/AdvancedRenderingPure",
+    "files": 1,
+    "tests": 1,
+    "loc": 113,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "AnimationSystemPure",
+    "path": "miff/pure/AnimationSystemPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 799,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "AssetManifestPure",
+    "path": "miff/pure/AssetManifestPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 214,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "AssetValidatorPure",
+    "path": "miff/pure/AssetValidatorPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 600,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "AudioBridgePure",
+    "path": "miff/pure/AudioBridgePure",
+    "files": 2,
+    "tests": 0,
+    "loc": 465,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "AudioMixerPure",
+    "path": "miff/pure/AudioMixerPure",
+    "files": 3,
+    "tests": 1,
+    "loc": 939,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "AudioPure",
+    "path": "miff/pure/AudioPure",
+    "files": 5,
+    "tests": 1,
+    "loc": 1903,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "AudioSystemPure",
+    "path": "miff/pure/AudioSystemPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 995,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "AvatarAssetRegistryPure",
+    "path": "miff/pure/AvatarAssetRegistryPure",
+    "files": 2,
+    "tests": 0,
+    "loc": 490,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "AvatarRendererGodotPure",
+    "path": "miff/pure/AvatarRendererGodotPure",
+    "files": 2,
+    "tests": 0,
+    "loc": 553,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "AvatarRendererWebPure",
+    "path": "miff/pure/AvatarRendererWebPure",
+    "files": 2,
+    "tests": 0,
+    "loc": 490,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "AvatarSystemPure",
+    "path": "miff/pure/AvatarSystemPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 1284,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "BackupSystemPure",
+    "path": "miff/pure/BackupSystemPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 1065,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "BattleAIPure",
+    "path": "miff/pure/BattleAIPure",
+    "files": 8,
+    "tests": 0,
+    "loc": 2195,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "BattleLoopPure",
+    "path": "miff/pure/BattleLoopPure",
+    "files": 2,
+    "tests": 0,
+    "loc": 838,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "BlockBuilderPure",
+    "path": "miff/pure/BlockBuilderPure",
+    "files": 2,
+    "tests": 0,
+    "loc": 69,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "BlockchainPure",
+    "path": "miff/pure/BlockchainPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 917,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "BridgeInspectorPure",
+    "path": "miff/pure/BridgeInspectorPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 943,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "BridgeSchemaPure",
+    "path": "miff/pure/BridgeSchemaPure",
+    "files": 4,
+    "tests": 0,
+    "loc": 1548,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "ButtonStylePure",
+    "path": "miff/pure/ButtonStylePure",
+    "files": 1,
+    "tests": 1,
+    "loc": 646,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "CIEnforcerPure",
+    "path": "miff/pure/CIEnforcerPure",
+    "files": 2,
+    "tests": 0,
+    "loc": 548,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "CacheManagerPure",
+    "path": "miff/pure/CacheManagerPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 921,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "CachingSystemPure",
+    "path": "miff/pure/CachingSystemPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 931,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "CameraBridgePure",
+    "path": "miff/pure/CameraBridgePure",
+    "files": 2,
+    "tests": 0,
+    "loc": 271,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "CameraSystemPure",
+    "path": "miff/pure/CameraSystemPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 2736,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "ChainManagerPure",
+    "path": "miff/pure/ChainManagerPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 568,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "ChainValidatorPure",
+    "path": "miff/pure/ChainValidatorPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 644,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "ChallengesPure",
+    "path": "miff/pure/ChallengesPure",
+    "files": 2,
+    "tests": 0,
+    "loc": 2524,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "CharacterControllerPure",
+    "path": "miff/pure/CharacterControllerPure",
+    "files": 2,
+    "tests": 1,
+    "loc": 936,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "CharacterCustomizationPure",
+    "path": "miff/pure/CharacterCustomizationPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 1223,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "CharacterGeneratorPure",
+    "path": "miff/pure/CharacterGeneratorPure",
+    "files": 1,
+    "tests": 1,
+    "loc": 210,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "CharacterSystemPure",
+    "path": "miff/pure/CharacterSystemPure",
+    "files": 2,
+    "tests": 1,
+    "loc": 962,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "ChatSystemPure",
+    "path": "miff/pure/ChatSystemPure",
+    "files": 2,
+    "tests": 1,
+    "loc": 922,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "CloudGamingPure",
+    "path": "miff/pure/CloudGamingPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 1175,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "CloudStoragePure",
+    "path": "miff/pure/CloudStoragePure",
+    "files": 2,
+    "tests": 1,
+    "loc": 890,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "ClueSystemPure",
+    "path": "miff/pure/ClueSystemPure",
+    "files": 2,
+    "tests": 1,
+    "loc": 919,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "CollisionSystemPure",
+    "path": "miff/pure/CollisionSystemPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 887,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "CombatCorePure",
+    "path": "miff/pure/CombatCorePure",
+    "files": 5,
+    "tests": 0,
+    "loc": 1470,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "CombatPure",
+    "path": "miff/pure/CombatPure",
+    "files": 5,
+    "tests": 0,
+    "loc": 2413,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "CombatScenarioPure",
+    "path": "miff/pure/CombatScenarioPure",
+    "files": 1,
+    "tests": 0,
+    "loc": 55,
+    "has_manager": false,
+    "has_index": false
+  },
+  {
+    "name": "CombatSystemPure",
+    "path": "miff/pure/CombatSystemPure",
+    "files": 2,
+    "tests": 1,
+    "loc": 955,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "ComputerVisionPure",
+    "path": "miff/pure/ComputerVisionPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 1762,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "ConfigManagerPure",
+    "path": "miff/pure/ConfigManagerPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 976,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "ContentManagementPure",
+    "path": "miff/pure/ContentManagementPure",
+    "files": 2,
+    "tests": 1,
+    "loc": 925,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "ConvertToGodotPure",
+    "path": "miff/pure/ConvertToGodotPure",
+    "files": 4,
+    "tests": 0,
+    "loc": 1783,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "ConvertToUnityPure",
+    "path": "miff/pure/ConvertToUnityPure",
+    "files": 4,
+    "tests": 0,
+    "loc": 2246,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "ConvertToWebPure",
+    "path": "miff/pure/ConvertToWebPure",
+    "files": 4,
+    "tests": 0,
+    "loc": 1572,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "CraftingPure",
+    "path": "miff/pure/CraftingPure",
+    "files": 4,
+    "tests": 0,
+    "loc": 896,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "CreaturesPure",
+    "path": "miff/pure/CreaturesPure",
+    "files": 1,
+    "tests": 1,
+    "loc": 66,
+    "has_manager": false,
+    "has_index": false
+  },
+  {
+    "name": "CryptocurrencyPure",
+    "path": "miff/pure/CryptocurrencyPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 936,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "CutScenePure",
+    "path": "miff/pure/CutScenePure",
+    "files": 3,
+    "tests": 0,
+    "loc": 2977,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "CutsceneSystemPure",
+    "path": "miff/pure/CutsceneSystemPure",
+    "files": 2,
+    "tests": 0,
+    "loc": 40,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "DataAnalysisPure",
+    "path": "miff/pure/DataAnalysisPure",
+    "files": 2,
+    "tests": 1,
+    "loc": 999,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "DataLakePure",
+    "path": "miff/pure/DataLakePure",
+    "files": 3,
+    "tests": 2,
+    "loc": 1991,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "DataMiningPure",
+    "path": "miff/pure/DataMiningPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 1154,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "DataPipelinePure",
+    "path": "miff/pure/DataPipelinePure",
+    "files": 3,
+    "tests": 2,
+    "loc": 1467,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "DataProcessingPure",
+    "path": "miff/pure/DataProcessingPure",
+    "files": 2,
+    "tests": 1,
+    "loc": 1141,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "DataStoragePure",
+    "path": "miff/pure/DataStoragePure",
+    "files": 2,
+    "tests": 1,
+    "loc": 977,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "DataVisualizationPure",
+    "path": "miff/pure/DataVisualizationPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 1724,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "DataWarehousePure",
+    "path": "miff/pure/DataWarehousePure",
+    "files": 3,
+    "tests": 2,
+    "loc": 1321,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "DatabasePure",
+    "path": "miff/pure/DatabasePure",
+    "files": 3,
+    "tests": 2,
+    "loc": 1054,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "DebugOverlayPure",
+    "path": "miff/pure/DebugOverlayPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 1882,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "DebuggingPure",
+    "path": "miff/pure/DebuggingPure",
+    "files": 2,
+    "tests": 1,
+    "loc": 948,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "DeploymentSystemPure",
+    "path": "miff/pure/DeploymentSystemPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 1190,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "DialogPure",
+    "path": "miff/pure/DialogPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 198,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "DialoguePure",
+    "path": "miff/pure/DialoguePure",
+    "files": 4,
+    "tests": 1,
+    "loc": 942,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "DialogueSystemPure",
+    "path": "miff/pure/DialogueSystemPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 843,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "DrivingSystemPure",
+    "path": "miff/pure/DrivingSystemPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 1240,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "EconomyPure",
+    "path": "miff/pure/EconomyPure",
+    "files": 4,
+    "tests": 0,
+    "loc": 2504,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "EcosystemExpansionPure",
+    "path": "miff/pure/EcosystemExpansionPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 1378,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "EdgeComputingPure",
+    "path": "miff/pure/EdgeComputingPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 1464,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "EffectsPure",
+    "path": "miff/pure/EffectsPure",
+    "files": 2,
+    "tests": 0,
+    "loc": 2515,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "EncounterPure",
+    "path": "miff/pure/EncounterPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 1177,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "EntityLinkerPure",
+    "path": "miff/pure/EntityLinkerPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 722,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "EquipmentPure",
+    "path": "miff/pure/EquipmentPure",
+    "files": 5,
+    "tests": 0,
+    "loc": 1020,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "ErrorHandlingPure",
+    "path": "miff/pure/ErrorHandlingPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 1314,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "EventBusPure",
+    "path": "miff/pure/EventBusPure",
+    "files": 3,
+    "tests": 1,
+    "loc": 1181,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "EventSystemPure",
+    "path": "miff/pure/EventSystemPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 1142,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "EventsPure",
+    "path": "miff/pure/EventsPure",
+    "files": 2,
+    "tests": 0,
+    "loc": 729,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "EvolutionPure",
+    "path": "miff/pure/EvolutionPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 1422,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "ExportAndroidPure",
+    "path": "miff/pure/ExportAndroidPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 1594,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "ExportWebPure",
+    "path": "miff/pure/ExportWebPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 819,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "FusionPure",
+    "path": "miff/pure/FusionPure",
+    "files": 4,
+    "tests": 0,
+    "loc": 1329,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "GameLogicPure",
+    "path": "miff/pure/GameLogicPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 1412,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "GameMenuPure",
+    "path": "miff/pure/GameMenuPure",
+    "files": 2,
+    "tests": 0,
+    "loc": 98,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "GodotBridgePure",
+    "path": "miff/pure/GodotBridgePure",
+    "files": 3,
+    "tests": 0,
+    "loc": 754,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "GraphicsPure",
+    "path": "miff/pure/GraphicsPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 1547,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "HUDPure",
+    "path": "miff/pure/HUDPure",
+    "files": 4,
+    "tests": 0,
+    "loc": 1747,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "HapticsPure",
+    "path": "miff/pure/HapticsPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 1872,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "HealthSystemPure",
+    "path": "miff/pure/HealthSystemPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 898,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "IdleSystemPure",
+    "path": "miff/pure/IdleSystemPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 2797,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "IndustryLeadershipPure",
+    "path": "miff/pure/IndustryLeadershipPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 1194,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "InputPure",
+    "path": "miff/pure/InputPure",
+    "files": 2,
+    "tests": 0,
+    "loc": 770,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "InputSystemPure",
+    "path": "miff/pure/InputSystemPure",
+    "files": 4,
+    "tests": 0,
+    "loc": 1822,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "InteractableRegistryPure",
+    "path": "miff/pure/InteractableRegistryPure",
+    "files": 1,
+    "tests": 0,
+    "loc": 645,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "InventoryPure",
+    "path": "miff/pure/InventoryPure",
+    "files": 3,
+    "tests": 1,
+    "loc": 676,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "ItemsPure",
+    "path": "miff/pure/ItemsPure",
+    "files": 2,
+    "tests": 0,
+    "loc": 1498,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "JointAnimPure",
+    "path": "miff/pure/JointAnimPure",
+    "files": 2,
+    "tests": 0,
+    "loc": 137,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "LicenseAuditPure",
+    "path": "miff/pure/LicenseAuditPure",
+    "files": 4,
+    "tests": 0,
+    "loc": 787,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "LogPure",
+    "path": "miff/pure/LogPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 2078,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "LoggingSystemPure",
+    "path": "miff/pure/LoggingSystemPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 1120,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "LootTablesPure",
+    "path": "miff/pure/LootTablesPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 701,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "LorePure",
+    "path": "miff/pure/LorePure",
+    "files": 2,
+    "tests": 0,
+    "loc": 167,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "MagicSystemPure",
+    "path": "miff/pure/MagicSystemPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 1574,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "MeshFactoryPure",
+    "path": "miff/pure/MeshFactoryPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 130,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "MiffAttributionPure",
+    "path": "miff/pure/MiffAttributionPure",
+    "files": 4,
+    "tests": 0,
+    "loc": 212,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "ModdingPure",
+    "path": "miff/pure/ModdingPure",
+    "files": 3,
+    "tests": 1,
+    "loc": 1025,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "MonitoringSystemPure",
+    "path": "miff/pure/MonitoringSystemPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 1587,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "MountSystemPure",
+    "path": "miff/pure/MountSystemPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 925,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "MovementPure",
+    "path": "miff/pure/MovementPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 1193,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "NPCsPure",
+    "path": "miff/pure/NPCsPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 955,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "NaturalLanguageProcessingPure",
+    "path": "miff/pure/NaturalLanguageProcessingPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 925,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "NavigationSystemPure",
+    "path": "miff/pure/NavigationSystemPure",
+    "files": 2,
+    "tests": 0,
+    "loc": 259,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "NetworkBridgePure",
+    "path": "miff/pure/NetworkBridgePure",
+    "files": 2,
+    "tests": 1,
+    "loc": 270,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "NetworkPure",
+    "path": "miff/pure/NetworkPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 1293,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "NeuralNetworkPure",
+    "path": "miff/pure/NeuralNetworkPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 1423,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "NodeGraphPure",
+    "path": "miff/pure/NodeGraphPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 95,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "NotificationSystemPure",
+    "path": "miff/pure/NotificationSystemPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 1301,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "ObstacleCoursePure",
+    "path": "miff/pure/ObstacleCoursePure",
+    "files": 2,
+    "tests": 1,
+    "loc": 645,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "OverlayFXPure",
+    "path": "miff/pure/OverlayFXPure",
+    "files": 1,
+    "tests": 1,
+    "loc": 272,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "OverlinkPure",
+    "path": "miff/pure/OverlinkPure",
+    "files": 7,
+    "tests": 4,
+    "loc": 2414,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "PartyPure",
+    "path": "miff/pure/PartyPure",
+    "files": 2,
+    "tests": 0,
+    "loc": 1068,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "PathfindingPure",
+    "path": "miff/pure/PathfindingPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 749,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "PerfMetricsPure",
+    "path": "miff/pure/PerfMetricsPure",
+    "files": 2,
+    "tests": 0,
+    "loc": 611,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "PerfPure",
+    "path": "miff/pure/PerfPure",
+    "files": 2,
+    "tests": 0,
+    "loc": 946,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "PermissionsPure",
+    "path": "miff/pure/PermissionsPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 834,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "PetCollectionPure",
+    "path": "miff/pure/PetCollectionPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 1840,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "PhysicsPure",
+    "path": "miff/pure/PhysicsPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 1014,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "PhysicsSystemPure",
+    "path": "miff/pure/PhysicsSystemPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 721,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "PixelAnimPure",
+    "path": "miff/pure/PixelAnimPure",
+    "files": 5,
+    "tests": 0,
+    "loc": 1354,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "PixelDrawPure",
+    "path": "miff/pure/PixelDrawPure",
+    "files": 2,
+    "tests": 0,
+    "loc": 598,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "PixelGenPure",
+    "path": "miff/pure/PixelGenPure",
+    "files": 2,
+    "tests": 0,
+    "loc": 613,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "PlatformBridgePure",
+    "path": "miff/pure/PlatformBridgePure",
+    "files": 2,
+    "tests": 1,
+    "loc": 983,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "PlayerStatePure",
+    "path": "miff/pure/PlayerStatePure",
+    "files": 2,
+    "tests": 0,
+    "loc": 405,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "PrefabBuilderPure",
+    "path": "miff/pure/PrefabBuilderPure",
+    "files": 2,
+    "tests": 0,
+    "loc": 110,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "ProceduralWorldPure",
+    "path": "miff/pure/ProceduralWorldPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 288,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "ProfilerPure",
+    "path": "miff/pure/ProfilerPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 728,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "ProgressionPure",
+    "path": "miff/pure/ProgressionPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 946,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "ProjectileSystemPure",
+    "path": "miff/pure/ProjectileSystemPure",
+    "files": 2,
+    "tests": 0,
+    "loc": 640,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "QuantumComputingPure",
+    "path": "miff/pure/QuantumComputingPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 1628,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "QuestModulePure",
+    "path": "miff/pure/QuestModulePure",
+    "files": 2,
+    "tests": 0,
+    "loc": 160,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "QuestScenarioPure",
+    "path": "miff/pure/QuestScenarioPure",
+    "files": 1,
+    "tests": 0,
+    "loc": 53,
+    "has_manager": false,
+    "has_index": false
+  },
+  {
+    "name": "QuestSystemPure",
+    "path": "miff/pure/QuestSystemPure",
+    "files": 2,
+    "tests": 0,
+    "loc": 413,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "QuestTimelinePure",
+    "path": "miff/pure/QuestTimelinePure",
+    "files": 2,
+    "tests": 0,
+    "loc": 172,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "QuestsPure",
+    "path": "miff/pure/QuestsPure",
+    "files": 4,
+    "tests": 0,
+    "loc": 1786,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "RNGPure",
+    "path": "miff/pure/RNGPure",
+    "files": 2,
+    "tests": 0,
+    "loc": 246,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "RacingSystemPure",
+    "path": "miff/pure/RacingSystemPure",
+    "files": 1,
+    "tests": 1,
+    "loc": 836,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "RaidSystemPure",
+    "path": "miff/pure/RaidSystemPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 940,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "RecommendationSystemPure",
+    "path": "miff/pure/RecommendationSystemPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 1318,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "RemixAuditPure",
+    "path": "miff/pure/RemixAuditPure",
+    "files": 2,
+    "tests": 0,
+    "loc": 509,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "RemixTaggingPure",
+    "path": "miff/pure/RemixTaggingPure",
+    "files": 4,
+    "tests": 0,
+    "loc": 475,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "RenderPayloadPure",
+    "path": "miff/pure/RenderPayloadPure",
+    "files": 4,
+    "tests": 0,
+    "loc": 968,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "RenderPayloadPure",
+    "path": "miff/pure/demos/RenderPayloadPure",
+    "files": 1,
+    "tests": 0,
+    "loc": 44,
+    "has_manager": false,
+    "has_index": false
+  },
+  {
+    "name": "RenderReplayPure",
+    "path": "miff/pure/RenderReplayPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 919,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "RenderWorldPure",
+    "path": "miff/pure/RenderWorldPure",
+    "files": 4,
+    "tests": 1,
+    "loc": 3164,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "ResourceManagerPure",
+    "path": "miff/pure/ResourceManagerPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 1155,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "RestaurantSimulationPure",
+    "path": "miff/pure/RestaurantSimulationPure",
+    "files": 1,
+    "tests": 0,
+    "loc": 1308,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "RewardsPure",
+    "path": "miff/pure/RewardsPure",
+    "files": 2,
+    "tests": 0,
+    "loc": 1103,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "RhythmChallengePure",
+    "path": "miff/pure/RhythmChallengePure",
+    "files": 2,
+    "tests": 0,
+    "loc": 919,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "RhythmSystemPure",
+    "path": "miff/pure/RhythmSystemPure",
+    "files": 2,
+    "tests": 0,
+    "loc": 51,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "RitualSystemPure",
+    "path": "miff/pure/RitualSystemPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 2231,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "SaveLoadPure",
+    "path": "miff/pure/SaveLoadPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 453,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "SavePure",
+    "path": "miff/pure/SavePure",
+    "files": 2,
+    "tests": 1,
+    "loc": 2271,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "SceneBuilderPure",
+    "path": "miff/pure/SceneBuilderPure",
+    "files": 4,
+    "tests": 0,
+    "loc": 1302,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "ScoreSystemPure",
+    "path": "miff/pure/ScoreSystemPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 936,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "SecuritySystemPure",
+    "path": "miff/pure/SecuritySystemPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 1305,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "ServiceDiscoveryPure",
+    "path": "miff/pure/ServiceDiscoveryPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 2157,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "SessionManifestPure",
+    "path": "miff/pure/SessionManifestPure",
+    "files": 4,
+    "tests": 0,
+    "loc": 1006,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "SettingsPure",
+    "path": "miff/pure/SettingsPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 1202,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "SharedSchemaPure",
+    "path": "miff/pure/SharedSchemaPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 49,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "SimpleGamePure",
+    "path": "miff/pure/SimpleGamePure",
+    "files": 2,
+    "tests": 1,
+    "loc": 1376,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "SkeletonAnimatorPure",
+    "path": "miff/pure/SkeletonAnimatorPure",
+    "files": 13,
+    "tests": 0,
+    "loc": 6426,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "SkillTreePure",
+    "path": "miff/pure/SkillTreePure",
+    "files": 3,
+    "tests": 0,
+    "loc": 821,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "SlicePure",
+    "path": "miff/pure/SlicePure",
+    "files": 2,
+    "tests": 1,
+    "loc": 2267,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "SnapBuilderPure",
+    "path": "miff/pure/SnapBuilderPure",
+    "files": 2,
+    "tests": 0,
+    "loc": 76,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "SocialDeductionPure",
+    "path": "miff/pure/SocialDeductionPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 1199,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "SpeechRecognitionPure",
+    "path": "miff/pure/SpeechRecognitionPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 1130,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "SpiritTamerDemoPure",
+    "path": "miff/pure/demos/SpiritTamerDemoPure",
+    "files": 2,
+    "tests": 0,
+    "loc": 685,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "SpiritTamerDemoPure",
+    "path": "miff/pure/SpiritTamerDemoPure",
+    "files": 4,
+    "tests": 0,
+    "loc": 1353,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "SpiritsPure",
+    "path": "miff/pure/SpiritsPure",
+    "files": 2,
+    "tests": 0,
+    "loc": 2493,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "SplashScreenPure",
+    "path": "miff/pure/SplashScreenPure",
+    "files": 4,
+    "tests": 0,
+    "loc": 1312,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "SportsSystemPure",
+    "path": "miff/pure/SportsSystemPure",
+    "files": 3,
+    "tests": 1,
+    "loc": 2135,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "StartMenuPure",
+    "path": "miff/pure/StartMenuPure",
+    "files": 2,
+    "tests": 0,
+    "loc": 94,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "StateManagerPure",
+    "path": "miff/pure/StateManagerPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 1158,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "StatsSystemPure",
+    "path": "miff/pure/StatsSystemPure",
+    "files": 6,
+    "tests": 0,
+    "loc": 1159,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "StatusEffectsPure",
+    "path": "miff/pure/StatusEffectsPure",
+    "files": 5,
+    "tests": 0,
+    "loc": 1410,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "StorySystemPure",
+    "path": "miff/pure/StorySystemPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 821,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "SurvivalSystemPure",
+    "path": "miff/pure/SurvivalSystemPure",
+    "files": 2,
+    "tests": 1,
+    "loc": 293,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "SyncManagerPure",
+    "path": "miff/pure/SyncManagerPure",
+    "files": 2,
+    "tests": 0,
+    "loc": 208,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "SyncPure",
+    "path": "miff/pure/SyncPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 946,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "TeamsPure",
+    "path": "miff/pure/TeamsPure",
+    "files": 5,
+    "tests": 0,
+    "loc": 4098,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "TeleportationSystemPure",
+    "path": "miff/pure/TeleportationSystemPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 2079,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "TestHarnessPure",
+    "path": "miff/pure/TestHarnessPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 1108,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "TestingSystemPure",
+    "path": "miff/pure/TestingSystemPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 1258,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "TextureSynthPure",
+    "path": "miff/pure/TextureSynthPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 99,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "ThemeParkPure",
+    "path": "miff/pure/ThemeParkPure",
+    "files": 2,
+    "tests": 0,
+    "loc": 745,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "TimeSeriesAnalysisPure",
+    "path": "miff/pure/TimeSeriesAnalysisPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 1323,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "TimeSystemPure",
+    "path": "miff/pure/TimeSystemPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 1087,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "TimelineSystemPure",
+    "path": "miff/pure/TimelineSystemPure",
+    "files": 1,
+    "tests": 1,
+    "loc": 807,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "TopplerDemoPure",
+    "path": "miff/pure/TopplerDemoPure",
+    "files": 4,
+    "tests": 0,
+    "loc": 397,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "TopplerDemoPure",
+    "path": "miff/pure/demos/TopplerDemoPure",
+    "files": 2,
+    "tests": 0,
+    "loc": 1021,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "TouchGesturePure",
+    "path": "miff/pure/TouchGesturePure",
+    "files": 3,
+    "tests": 0,
+    "loc": 116,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "TutorialScenarioPure",
+    "path": "miff/pure/TutorialScenarioPure",
+    "files": 1,
+    "tests": 0,
+    "loc": 37,
+    "has_manager": false,
+    "has_index": false
+  },
+  {
+    "name": "TycoonSystemPure",
+    "path": "miff/pure/TycoonSystemPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 1724,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "UIInterfacePure",
+    "path": "miff/pure/UIInterfacePure",
+    "files": 3,
+    "tests": 2,
+    "loc": 1688,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "UnityBridgePure",
+    "path": "miff/pure/UnityBridgePure",
+    "files": 3,
+    "tests": 0,
+    "loc": 1974,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "UnrealBridgePure",
+    "path": "miff/pure/UnrealBridgePure",
+    "files": 6,
+    "tests": 0,
+    "loc": 9247,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "ValidationPure",
+    "path": "miff/pure/ValidationPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 412,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "ValidationSystemPure",
+    "path": "miff/pure/ValidationSystemPure",
+    "files": 3,
+    "tests": 2,
+    "loc": 1110,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "VisualItemEventPure",
+    "path": "miff/pure/VisualItemEventPure",
+    "files": 2,
+    "tests": 0,
+    "loc": 111,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "VisualReplaySystemPure",
+    "path": "miff/pure/VisualReplaySystemPure",
+    "files": 2,
+    "tests": 0,
+    "loc": 1012,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "WeatherSystemPure",
+    "path": "miff/pure/WeatherSystemPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 1454,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "Web3Pure",
+    "path": "miff/pure/Web3Pure",
+    "files": 3,
+    "tests": 2,
+    "loc": 941,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "WebBridgePure",
+    "path": "miff/pure/WebBridgePure",
+    "files": 3,
+    "tests": 0,
+    "loc": 1044,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "WebSocketBridgePure",
+    "path": "miff/pure/WebSocketBridgePure",
+    "files": 2,
+    "tests": 0,
+    "loc": 303,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "WebSocketServerPure",
+    "path": "miff/pure/WebSocketServerPure",
+    "files": 1,
+    "tests": 0,
+    "loc": 243,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "WitcherExplorerDemoPure",
+    "path": "miff/pure/WitcherExplorerDemoPure",
+    "files": 2,
+    "tests": 0,
+    "loc": 436,
+    "has_manager": true,
+    "has_index": false
+  },
+  {
+    "name": "WitcherExplorerDemoPure",
+    "path": "miff/pure/demos/WitcherExplorerDemoPure",
+    "files": 2,
+    "tests": 0,
+    "loc": 958,
+    "has_manager": false,
+    "has_index": true
+  },
+  {
+    "name": "WorkflowEnginePure",
+    "path": "miff/pure/WorkflowEnginePure",
+    "files": 3,
+    "tests": 2,
+    "loc": 1303,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "WorldEnhancementsPure",
+    "path": "miff/pure/WorldEnhancementsPure",
+    "files": 1,
+    "tests": 0,
+    "loc": 34,
+    "has_manager": false,
+    "has_index": false
+  },
+  {
+    "name": "WorldLayoutPure",
+    "path": "miff/pure/WorldLayoutPure",
+    "files": 1,
+    "tests": 1,
+    "loc": 26,
+    "has_manager": false,
+    "has_index": false
+  },
+  {
+    "name": "WorldManifestPure",
+    "path": "miff/pure/WorldManifestPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 1276,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "XPLevelingPure",
+    "path": "miff/pure/XPLevelingPure",
+    "files": 3,
+    "tests": 0,
+    "loc": 1442,
+    "has_manager": true,
+    "has_index": true
+  },
+  {
+    "name": "ZoneServerPure",
+    "path": "miff/pure/ZoneServerPure",
+    "files": 3,
+    "tests": 1,
+    "loc": 1486,
+    "has_manager": false,
+    "has_index": true
+  }
+]

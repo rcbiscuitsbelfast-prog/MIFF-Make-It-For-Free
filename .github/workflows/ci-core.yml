@@ -3,10 +3,8 @@ name: Core CI Pipeline
 
 on:
   workflow_dispatch: # Manual trigger only while paused
-#  push: # PAUSED
-    branches: [ master, develop ]
-#  pull_request: # PAUSED
-    branches: [ master, develop ]
+#  push:     branches: [ master, develop ]
+#  pull_request:     branches: [ master, develop ]
 
 permissions:
   contents: read

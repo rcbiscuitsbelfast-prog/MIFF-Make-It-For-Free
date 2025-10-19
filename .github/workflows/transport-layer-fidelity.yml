@@ -3,12 +3,9 @@ name: Transport Layer Fidelity
 
 on:
   workflow_dispatch: # Manual trigger only while paused
-#  push: # PAUSED
-    branches: [ master, develop ]
-#  pull_request: # PAUSED
-    branches: [ master, develop ]
-#  schedule: # PAUSED
-    - cron: '0 5 * * 1' # Weekly on Mondays at 5 AM UTC
+#  push:     branches: [ master, develop ]
+#  pull_request:     branches: [ master, develop ]
+#  schedule:     - cron: '0 5 * * 1' # Weekly on Mondays at 5 AM UTC
   workflow_dispatch:
 
 permissions:

@@ -3,11 +3,9 @@ name: Repository Maintenance and Cleanup
 
 on:
   workflow_dispatch: # Manual trigger only while paused
-#  schedule: # PAUSED
-    - cron: '0 2 * * *' # Daily at 2 AM UTC
+#  schedule:     - cron: '0 2 * * *' # Daily at 2 AM UTC
   workflow_dispatch:
-#  push: # PAUSED
-    paths:
+#  push:     paths:
       - 'scripts/maintenance/**'
 
 permissions:

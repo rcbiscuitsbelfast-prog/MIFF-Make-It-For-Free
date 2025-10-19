@@ -3,12 +3,9 @@ name: Security and Compliance
 
 on:
   workflow_dispatch: # Manual trigger only while paused
-#  push: # PAUSED
-#    branches: [ master, develop ]
-#  pull_request: # PAUSED
-#    branches: [ master, develop ]
-#  schedule: # PAUSED
-#    - cron: '0 6 * * *' # Daily at 6 AM UTC
+#  push: #    branches: [ master, develop ]
+#  pull_request: #    branches: [ master, develop ]
+#  schedule: #    - cron: '0 6 * * *' # Daily at 6 AM UTC
 
 permissions:
   contents: read

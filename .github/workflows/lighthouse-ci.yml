@@ -3,10 +3,8 @@ name: Lighthouse CI
 
 on:
   workflow_dispatch: # Manual trigger only while paused
-#  push: # PAUSED
-    branches: [ master ]
-#  pull_request: # PAUSED
-    branches: [ master ]
+#  push:     branches: [ master ]
+#  pull_request:     branches: [ master ]
   workflow_dispatch:
 
 permissions:
