@@ -13,6 +13,10 @@
  * - Cross-platform audio processing
  */
 
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('AudioMixer');
+
 export enum AudioChannel {
   MASTER = 'master',
   MUSIC = 'music',
@@ -169,10 +173,10 @@ export class AudioMixerPure {
       }
 
       this.isInitialized = true;
-      console.log('🎵 AudioMixer initialized successfully');
+      logger.info('AudioMixer initialized successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('Failed to initialize AudioContext:', err instanceof Error ? message: String(err));
+      logger.error('Failed to initialize AudioContext', { error: err });
       this.isInitialized = false;
     }
   }
@@ -287,10 +291,10 @@ export class AudioMixerPure {
       };
 
       this.sources.set(id, source);
-      console.log(`✅ Audio loaded: ${id}`);
+      logger.info('Audio loaded', { id });
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`Failed to load audio ${id}:`, err instanceof Error ? message: String(err));
+      logger.error('Failed to load audio', { id, error: err });
       throw error;
     }
   }
@@ -302,7 +306,7 @@ export class AudioMixerPure {
       await this.loadAudioFromArrayBuffer(arrayBuffer, id);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`Failed to load audio from URL ${url}:`, err instanceof Error ? err.message : String(err));
+      logger.error('Failed to load audio from URL', { url, error: err });
       throw error;
     }
   }
@@ -319,13 +323,13 @@ export class AudioMixerPure {
     } = {}
   ): Promise<string | null> {
     if (!this.audioContext || !this.isInitialized) {
-      console.warn('Audio context not initialized');
+      logger.warn('Audio context not initialized');
       return null;
     }
 
     const source = this.sources.get(id);
     if (!source) {
-      console.warn(`Audio source not found: ${id}`);
+      logger.warn('Audio source not found', { id });
       return null;
     }
 
@@ -333,7 +337,7 @@ export class AudioMixerPure {
     const channel = options.channel || AudioChannel.SFX;
     const bus = this.getBusForChannel(channel);
     if (!bus) {
-      console.warn(`No bus found for channel: ${channel}`);
+      logger.warn('No bus found for channel', { channel });
       return null;
     }
 
@@ -387,10 +391,10 @@ export class AudioMixerPure {
     // Handle playback end
     bufferSource.onended = () => {
       this.activeSources.delete(instanceId);
-      console.log(`🎵 Audio ended: ${instanceId}`);
+      logger.info('Audio ended', { instanceId });
     };
 
-    console.log(`🎵 Playing audio: ${id} (instance: ${instanceId})`);
+    logger.info('Playing audio', { id, instanceId });
     return instanceId;
   }
 
@@ -419,7 +423,7 @@ export class AudioMixerPure {
       this.activeSources.delete(instanceId);
     }
 
-    console.log(`⏹️  Stopping audio: ${instanceId}`);
+    logger.info('Stopping audio', { instanceId });
   }
 
   public stopAllAudio(fadeOut: number = 0): void {
@@ -584,7 +588,7 @@ export class AudioMixerPure {
 
   public createBus(bus: AudioBus): void {
     this.buses.set(bus.id, bus);
-    console.log(`🚌 Created audio bus: ${bus.name} (${bus.id})`);
+    logger.info('Created audio bus', { name: bus.name, id: bus.id });
   }
 
   public getBus(busId: string): AudioBus | undefined {
@@ -868,7 +872,7 @@ export class AudioMixerPure {
   private updateBusRouting(bus: AudioBus): void {
     // Update bus volume and effects routing
     // In a real implementation, this would update the audio graph
-    console.log(`🔄 Updated bus routing for: ${bus.name}`);
+    logger.info('Updated bus routing', { name: bus.name });
   }
 
   private findGainNodeForSource(source: AudioBufferSourceNode): GainNode | null {

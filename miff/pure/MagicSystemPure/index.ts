@@ -11,6 +11,9 @@ import { EventBus } from '../EventsPure/index';
 import { HealthSystemPure } from '../HealthSystemPure/index';
 import { CombatPure } from '../CombatPure/index';
 import { RNGPure } from '../RNGPure/index';
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('MagicSystem');
 
 // Core interfaces and types
 export interface SpellElement {
@@ -708,7 +711,7 @@ export class MagicSystemPure {
 
   private log(message: string, level: 'info' | 'debug' | 'error' = 'info'): void {
     const timestamp = new Date().toISOString();
-    console.log(`[MAGIC:${level.toUpperCase()}] ${timestamp} - ${message}`);
+    logger.info('Magic system log', { level: level.toUpperCase(), timestamp, message });
   }
 }
 
