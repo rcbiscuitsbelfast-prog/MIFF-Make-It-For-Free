@@ -12,6 +12,9 @@
  */
 
 import { StructuredLogger, LogLevel } from '../logging/StructuredLogger';
+import { Logger } from '../logging';
+
+const logger = Logger.create('StandardErrorHandler');
 
 export enum ErrorCode {
   // General errors
@@ -167,7 +170,7 @@ export class StandardErrorHandler {
    * Handle an error with recovery attempts
    */
   async handleError(error: StandardError): Promise<boolean> {
-    console.error('StandardErrorHandler', 'Error occurred', {
+    logger.error('Error occurred', {
       code: error.code,
       message: error.message,
       severity: error.severity,
@@ -207,7 +210,7 @@ export class StandardErrorHandler {
         try {
           return fallback();
         } catch (fallbackError) {
-          console.error('StandardErrorHandler', 'Fallback operation also failed', {
+          logger.error('Fallback operation also failed', {
             originalError: error.message,
             fallbackError: fallbackError instanceof Error ? message: String(fallbackError)
           });
@@ -286,7 +289,7 @@ export class StandardErrorHandler {
     this.addRecoveryStrategy(ErrorCode.RESOURCE_LOAD_FAILED, {
       canRecover: () => true,
       recover: async (error) => {
-        console.info('StandardErrorHandler', 'Attempting to reload resource', {
+        logger.info('Attempting to reload resource', {
           module: error.context.module,
           operation: error.context.operation
         });
@@ -381,21 +384,21 @@ export class StandardErrorHandler {
     for (const strategy of strategies) {
       if (strategy.canRecover(error)) {
         try {
-          console.info('StandardErrorHandler', 'Attempting error recovery', {
+          logger.info('Attempting error recovery', {
             code: error.code,
             strategy: strategy.description
           });
           
           const recovered = await strategy.recover(error);
           if (recovered) {
-            console.info('StandardErrorHandler', 'Error recovery successful', {
+            logger.info('Error recovery successful', {
               code: error.code,
               strategy: strategy.description
             });
             return true;
           }
         } catch (recoveryError) {
-          console.warn('StandardErrorHandler', 'Recovery strategy failed', {
+          logger.warn('Recovery strategy failed', {
             code: error.code,
             strategy: strategy.description,
             error: recoveryError instanceof Error ? message: String(recoveryError)

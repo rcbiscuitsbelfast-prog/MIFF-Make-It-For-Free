@@ -73,7 +73,7 @@ export class CAPARegistryManager {
     this.updateMetrics();
     
     this.eventBus.emit('capa:created', capaEntry);
-    console.info(`📝 Created CAPA entry: ${id} - ${capaEntry.title}`);
+    logger.info('Created CAPA entry', { id, title: capaEntry.title });
 
     return capaEntry;
   }
@@ -84,7 +84,7 @@ export class CAPARegistryManager {
   async updateStatus(id: string, status: CAPAStatus, resolution?: string): Promise<boolean> {
     const entry = this.registry.entries.get(id);
     if (!entry) {
-      console.warn(`⚠️ CAPA entry not found: ${id}`);
+      logger.warn('CAPA entry not found', { id });
       return false;
     }
 
@@ -101,7 +101,7 @@ export class CAPARegistryManager {
     this.updateMetrics();
     
     this.eventBus.emit('capa:updated', { entry, previousStatus });
-    console.info(`📝 Updated CAPA entry: ${id} - ${previousStatus} → ${status}`);
+    logger.info('Updated CAPA entry', { id, previousStatus, newStatus: status });
 
     return true;
   }
@@ -264,10 +264,10 @@ export class CAPARegistryManager {
           }
           this.registry.entries.set(entry.id, entry);
         }
-        console.info(`📂 Loaded ${this.registry.entries.size} CAPA entries from storage`);
+        logger.info('Loaded CAPA entries from storage', { entryCount: this.registry.entries.size });
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.warn('⚠️ Failed to load CAPA entries:', error);
+        logger.warn('Failed to load CAPA entries', { error });
       }
     }
   }
@@ -285,7 +285,7 @@ export class CAPARegistryManager {
   }
 
   private async initializeFromAuditFindings(): Promise<void> {
-    console.info('📋 Initializing CAPA entries from audit findings...');
+    logger.info('Initializing CAPA entries from audit findings');
 
     // Schema Drift (Critical)
     await this.createEntry({
@@ -419,7 +419,7 @@ export class CAPARegistryManager {
       preventiveActions: []
     });
 
-    console.info(`✅ Created ${this.registry.entries.size} CAPA entries from audit findings`);
+    logger.info('Created CAPA entries from audit findings', { entryCount: this.registry.entries.size });
   }
 
   private generateId(): string {
