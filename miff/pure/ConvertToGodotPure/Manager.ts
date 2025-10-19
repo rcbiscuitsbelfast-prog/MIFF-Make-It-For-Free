@@ -624,18 +624,28 @@ void fragment():
 
   public updateConfig(config: Partial<GodotExportConfig>): void {
     this.config = { ...this.config, ...config };
-    console.log('Godot export configuration updated');
+    logger.info('Godot export configuration updated');
   }
 
   public exportProject(outputPath: string): { success: boolean; path: string; size: number } {
     // In a real implementation, this would export the Godot project
-    console.log(`Exporting Godot project to: ${outputPath}`);
+    logger.info('Exporting Godot project', { outputPath });
 
     // Simulate export process
     const projectPath = `${outputPath}/${this.config.projectName}`;
     const exportSize = Math.floor(Math.random() * 1000000) + 500000; // 500KB - 1.5MB
 
     return {
+      success: true,
+      path: projectPath,
+      size: exportSize
+    };
+  }
+}
+
+
+
+turn {
       success: true,
       path: projectPath,
       size: exportSize
