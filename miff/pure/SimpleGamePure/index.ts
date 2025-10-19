@@ -494,7 +494,7 @@ export class SimpleArcadeGame extends SimpleGame {
   }
 
   protected onStop(): void {
-    console.log(`⏹️ ${this.config.title} stopped!`);
+    logger.info('Game stopped', { title: this.config.title });
   }
 
   protected onUpdate(deltaTime: number): void {
@@ -638,7 +638,7 @@ export class SimpleRPGGame extends SimpleGame {
   }
 
   protected onStop(): void {
-    console.log(`⏹️ ${this.config.title} stopped!`);
+    logger.info('Game stopped', { title: this.config.title });
   }
 
   protected onUpdate(deltaTime: number): void {
@@ -646,7 +646,7 @@ export class SimpleRPGGame extends SimpleGame {
   }
 
   protected onAchievementUnlocked(achievement: Achievement): void {
-    console.log(`🏆 Achievement unlocked: ${achievement.name}`);
+    logger.info('Achievement unlocked', { achievement: achievement.name });
   }
 
   private spawnEnemies(): void {
@@ -768,7 +768,7 @@ export class SimpleCustomGame extends SimpleGame {
   }
 
   protected onStop(): void {
-    console.log(`⏹️ ${this.config.title} stopped!`);
+    logger.info('Game stopped', { title: this.config.title });
   }
 
   protected onUpdate(deltaTime: number): void {
