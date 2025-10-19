@@ -4,6 +4,9 @@
  */
 
 import { PerformanceMonitor, recordMetric } from '../performance/PerformanceMonitor';
+import { Logger } from '../logging';
+
+const logger = Logger.create('EnhancedTestRunner');
 
 export interface TestConfig {
   timeout: number;
@@ -72,7 +75,7 @@ export class EnhancedTestRunner {
    * Run all tests with enhanced monitoring
    */
   async runAllTests(): Promise<TestSuite[]> {
-    console.log('🚀 Starting enhanced test execution...');
+    logger.info('Starting enhanced test execution');
     
     const startTime = Date.now();
     const startMemory = process.memoryUsage();
@@ -100,7 +103,7 @@ export class EnhancedTestRunner {
       return results;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ Test execution failed:', err instanceof Error ? message: String(err));
+      logger.error('Test execution failed', { error: err });
       throw error;
     }
   }
@@ -260,7 +263,7 @@ ${this.performanceMonitor.getPerformanceReport()}
       suite.tests.some(test => test.status === 'failed'));
     
     if (failedTestSuites.length > 0) {
-      console.log('\n❌ Failed Tests Details:');
+      logger.info('Failed Tests Details');
       failedTestSuites.forEach((suite: any) => {
         const failedTests = suite.tests.filter((test: any) => test.status === 'failed');
         failedTests.forEach((test: any) => {
