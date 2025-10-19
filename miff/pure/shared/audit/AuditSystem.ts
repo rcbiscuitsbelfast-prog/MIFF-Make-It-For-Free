@@ -16,6 +16,9 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
+import { Logger } from '../logging';
+
+const logger = Logger.create('AuditSystem');
 
 // ============================================================================
 // AUDIT SYSTEM INTERFACES
