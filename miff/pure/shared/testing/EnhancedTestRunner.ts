@@ -267,9 +267,9 @@ ${this.performanceMonitor.getPerformanceReport()}
       failedTestSuites.forEach((suite: any) => {
         const failedTests = suite.tests.filter((test: any) => test.status === 'failed');
         failedTests.forEach((test: any) => {
-          console.log(`  ${suite.name} > ${test.name}`);
+          logger.error('Test failed', { suite: suite.name, test: test.name });
           if (test.error) {
-            console.log(`    Error: ${test.error}`);
+            logger.error('Test error details', { suite: suite.name, test: test.name, error: test.error });
           }
         });
       });
