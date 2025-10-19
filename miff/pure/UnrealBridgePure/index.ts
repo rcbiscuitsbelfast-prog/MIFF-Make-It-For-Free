@@ -2,6 +2,10 @@
 // Schema Version: v1.0
 // Compatible with Unreal Engine 4.27+ and 5.x
 
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('UnrealBridge');
+
 export enum UnrealBridgeType {
   ACTOR = 'actor',
   COMPONENT = 'component',
