@@ -1,3 +1,6 @@
+import { Logger } from "../logging";
+const logger = Logger.create("CapabilityGenerator");
+
 import { StructuredLogger } from '../logging/StructuredLogger';
 import { Capability, CapabilityMethod, CapabilityProperty, CapabilityEvent } from './CapabilitySystem';
 import * as fs from 'fs';
@@ -42,7 +45,7 @@ export class CapabilityGenerator {
    * Generate capability files for all modules
    */
   async generateAllCapabilities(): Promise<void> {
-    console.info('Generating capability files for all modules...');
+    logger.info('Generating capability files for all modules...');
     
     try {
       // Discover all modules
@@ -53,11 +56,11 @@ export class CapabilityGenerator {
         await this.generateCapabilityFile(moduleName, moduleInfo);
       }
       
-      console.info(`Generated capability files for ${this.modules.size} modules`);
+      logger.info(`Generated capability files for ${this.modules.size} modules`);
       
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('Failed to generate capabilities', { error: error.message });
+      logger.error('Failed to generate capabilities', { error: error.message });
       throw error;
     }
   }
@@ -66,7 +69,7 @@ export class CapabilityGenerator {
    * Discover all modules
    */
   private async discoverModules(): Promise<void> {
-    console.info('Discovering modules...');
+    logger.info('Discovering modules...');
     
     const pureDir = './miff/pure';
     const entries = fs.readdirSync(pureDir);
@@ -81,7 +84,7 @@ export class CapabilityGenerator {
       }
     }
     
-    console.info(`Discovered ${this.modules.size} modules`);
+    logger.info(`Discovered ${this.modules.size} modules`);
   }
 
   /**
@@ -123,7 +126,7 @@ export class CapabilityGenerator {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.warn(`Failed to analyze module ${name}`, { error: error.message });
+      logger.warn(`Failed to analyze module ${name}`, { error: error.message });
     }
 
     return moduleInfo;
@@ -181,11 +184,11 @@ export class CapabilityGenerator {
       const capabilityContent = this.generateCapabilityContent(capability);
       
       fs.writeFileSync(capabilityPath, capabilityContent);
-      console.info(`Generated capability file for ${moduleName}`);
+      logger.info(`Generated capability file for ${moduleName}`);
       
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`Failed to generate capability for ${moduleName}`, { error: error.message });
+      logger.error(`Failed to generate capability for ${moduleName}`, { error: error.message });
     }
   }
 

@@ -1,3 +1,6 @@
+import { Logger } from "../logging";
+const logger = Logger.create("PerformanceMonitor");
+
 /**
  * PerformanceMonitor - Comprehensive performance monitoring and metrics collection
  * Tracks memory usage, CPU performance, network metrics, and custom business metrics
@@ -211,17 +214,17 @@ export class PerformanceMonitor {
 
     // Memory usage alert
     if (metrics.memory.percentage > alertThresholds.memoryUsage) {
-      console.warn(`⚠️ High memory usage: ${metrics.memory.percentage.toFixed(2)}%`);
+      logger.warn(`⚠️ High memory usage: ${metrics.memory.percentage.toFixed(2)}%`);
     }
 
     // CPU usage alert
     if (metrics.cpu.usage > alertThresholds.cpuUsage) {
-      console.warn(`⚠️ High CPU usage: ${metrics.cpu.usage.toFixed(2)}%`);
+      logger.warn(`⚠️ High CPU usage: ${metrics.cpu.usage.toFixed(2)}%`);
     }
 
     // Network latency alert
     if (metrics.network.latency > alertThresholds.networkLatency) {
-      console.warn(`⚠️ High network latency: ${metrics.network.latency}ms`);
+      logger.warn(`⚠️ High network latency: ${metrics.network.latency}ms`);
     }
   }
 

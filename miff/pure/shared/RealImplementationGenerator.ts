@@ -1,3 +1,6 @@
+import { Logger } from "../logging";
+const logger = Logger.create("RealImplementationGenerator");
+
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * Real Implementation Generator for MIFF Framework
@@ -90,7 +93,7 @@ export class RealImplementationGenerator {
    * Generate real implementations for all target modules
    */
   async generateAllImplementations(): Promise<GeneratedImplementation[]> {
-    console.info('🔧 Generating real implementations for all target modules...');
+    logger.info('🔧 Generating real implementations for all target modules...');
     
     const results: GeneratedImplementation[] = [];
     
@@ -100,11 +103,11 @@ export class RealImplementationGenerator {
         results.push(...implementations);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.error(`❌ Error generating implementations for ${moduleId}:`, err instanceof Error ? message: String(err));
+        logger.error(`❌ Error generating implementations for ${moduleId}:`, err instanceof Error ? message: String(err));
       }
     }
     
-    console.info(`✅ Generated ${results.length} implementations`);
+    logger.info(`✅ Generated ${results.length} implementations`);
     return results;
   }
 
@@ -112,7 +115,7 @@ export class RealImplementationGenerator {
    * Generate implementations for a specific module
    */
   async generateModuleImplementations(moduleId: string): Promise<GeneratedImplementation[]> {
-    console.info(`🔧 Generating implementations for module: ${moduleId}`);
+    logger.info(`🔧 Generating implementations for module: ${moduleId}`);
     
     const implementations: GeneratedImplementation[] = [];
     
@@ -123,7 +126,7 @@ export class RealImplementationGenerator {
           implementations.push(implementation);
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-          console.error(`❌ Error generating ${template.name} for ${moduleId}:`, err instanceof Error ? message: String(err));
+          logger.error(`❌ Error generating ${template.name} for ${moduleId}:`, err instanceof Error ? message: String(err));
         }
       }
     }
@@ -163,7 +166,7 @@ export class RealImplementationGenerator {
       implementation.status = 'validated';
     } else {
       implementation.status = 'failed';
-      console.error(`❌ Validation failed for ${implementationId}:`, validation.errors);
+      logger.error(`❌ Validation failed for ${implementationId}:`, validation.errors);
     }
     
     this.generatedImplementations.set(implementationId, implementation);
@@ -325,7 +328,7 @@ export class {{moduleName}}Manager {
 
   private initialize(): void {
     // Initialize manager with real functionality
-    console.info('{{moduleName}}Manager initialized');
+    logger.info('{{moduleName}}Manager initialized');
   }
 
   async process(data): Promise<any> {
