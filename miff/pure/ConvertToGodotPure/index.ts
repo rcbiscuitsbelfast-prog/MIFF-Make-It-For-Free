@@ -371,7 +371,7 @@ export class GodotConverter {
         optimizationSavings: this.calculateOptimizationSavings()
       };
 
-      console.log('[GodotConverter] Conversion completed successfully');
+      logger.info('Godot conversion completed successfully');
 
       return {
         success: errors.length === 0,
