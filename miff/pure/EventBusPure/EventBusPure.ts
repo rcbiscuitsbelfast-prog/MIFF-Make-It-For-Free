@@ -232,7 +232,7 @@ export class EventBus {
       id: eventId,
       type: eventType,
       data,
-      timestamp: new Date(),
+      timestamp: Date.now(),
       source: options.source || 'local',
       priority: options.priority || EventPriority.NORMAL,
       metadata: options.metadata || {}

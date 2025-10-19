@@ -1,5 +1,7 @@
 import { describe, it, expect } from '@jest/globals';
-import { SavePure } from './index';
+import { SaveSystem } from './index';
+
+const SavePure = SaveSystem;
 
 describe('SavePure', () => {
   describe('Save System', () => {

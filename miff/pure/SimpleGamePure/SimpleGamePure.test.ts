@@ -1,5 +1,7 @@
 import { describe, it, expect } from '@jest/globals';
-import { SimpleGamePure } from './index';
+import { SimpleGame } from './index';
+
+const SimpleGamePure = SimpleGame;
 
 describe('SimpleGamePure', () => {
   describe('Game Creation', () => {
