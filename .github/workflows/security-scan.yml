@@ -4,13 +4,12 @@ name: Security Scan
 on:
   workflow_dispatch: # Manual trigger only while paused
 #  schedule: # PAUSED
-    # Run weekly on Sundays at 2 AM UTC
-    - cron: '0 2 * * 0'
+#    # Run weekly on Sundays at 2 AM UTC
+#    - cron: '0 2 * * 0'
 #  push: # PAUSED
-    branches: [ master ]
+#    branches: [ master ]
 #  pull_request: # PAUSED
-    branches: [ master ]
-  workflow_dispatch:
+#    branches: [ master ]
 
 permissions:
   contents: read
