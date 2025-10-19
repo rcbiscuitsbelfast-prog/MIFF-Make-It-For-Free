@@ -347,7 +347,7 @@ export class DialogueEngine {
     }
 
     // Update context
-    this.context.currentNode = nextNodeId;
+    this.context.currentNode = nextNodeId || 'end';
     if (node.content) {
       this.context.history.push(node.content);
     }
@@ -355,8 +355,8 @@ export class DialogueEngine {
     // Return result
     const result: DialogueResult = {
       node,
-      canContinue: !!nextNodeId && nextNodeId !== 'end',
-      isEnd: !nextNodeId || nextNodeId === 'end',
+      canContinue: !!(nextNodeId || 'end') && (nextNodeId || 'end') !== 'end',
+      isEnd: !(nextNodeId || 'end') || (nextNodeId || 'end') === 'end',
       context: { ...this.context }
     };
 

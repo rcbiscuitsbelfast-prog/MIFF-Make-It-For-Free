@@ -787,7 +787,8 @@ export class EquipmentManager {
     // Count by slot and rarity
     items.forEach((item: any) => {
       this.stats.itemsBySlot[item.slot] = (this.stats.itemsBySlot[item.slot] || 0) + 1;
-      this.stats.itemsByRarity[item.rarity]++;
+      const rarity = item.rarity as keyof typeof this.stats.itemsByRarity;
+      if (rarity in this.stats.itemsByRarity) this.stats.itemsByRarity[rarity]++;
     });
 
     // Calculate totals

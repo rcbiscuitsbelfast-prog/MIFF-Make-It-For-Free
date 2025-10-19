@@ -126,7 +126,7 @@ describe('InputSystemPure Golden Tests', () => {
         type: 'key',
         code: 'Space',
         value: 1,
-        timestamp: new Date(),
+        timestamp: Date.now(),
         source: 'test'
       };
 
@@ -142,7 +142,7 @@ describe('InputSystemPure Golden Tests', () => {
         type: 'key',
         code: 'Space',
         value: 1,
-        timestamp: new Date(),
+        timestamp: Date.now(),
         source: 'test'
       };
 
@@ -162,7 +162,7 @@ describe('InputSystemPure Golden Tests', () => {
         direction: 'right',
         distance: 100,
         duration: 200,
-        timestamp: new Date()
+        timestamp: Date.now()
       };
 
       const recognizeResult = manager.recognizeGesture(gesture);
@@ -179,7 +179,7 @@ describe('InputSystemPure Golden Tests', () => {
         direction: 'right',
         distance: 10, // Below threshold
         duration: 200,
-        timestamp: new Date()
+        timestamp: Date.now()
       };
 
       const recognizeResult = manager.recognizeGesture(gesture);
@@ -197,7 +197,7 @@ describe('InputSystemPure Golden Tests', () => {
         direction: 'right',
         distance: 100,
         duration: 200,
-        timestamp: new Date()
+        timestamp: Date.now()
       };
 
       const recognizeResult = manager.recognizeGesture(gesture);
@@ -221,7 +221,7 @@ describe('InputSystemPure Golden Tests', () => {
           type: eventData.type as any,
           code: eventData.code,
           value: eventData.value,
-          timestamp: new Date(),
+          timestamp: Date.now(),
           source: 'test'
         };
         manager.processInputEvent(event);
@@ -243,7 +243,7 @@ describe('InputSystemPure Golden Tests', () => {
           type: 'key',
           code: `Key${i}`,
           value: 1,
-          timestamp: new Date(),
+          timestamp: Date.now(),
           source: 'test'
         };
         manager.processInputEvent(event);
@@ -261,7 +261,7 @@ describe('InputSystemPure Golden Tests', () => {
         type: 'key',
         code: 'Space',
         value: 1,
-        timestamp: new Date(),
+        timestamp: Date.now(),
         source: 'test'
       };
       manager.processInputEvent(event);
@@ -282,7 +282,7 @@ describe('InputSystemPure Golden Tests', () => {
         type: 'key',
         code: 'Space',
         value: 1,
-        timestamp: new Date(),
+        timestamp: Date.now(),
         source: 'test'
       };
       manager.processInputEvent(event);
@@ -386,7 +386,7 @@ describe('InputSystemPure Golden Tests', () => {
           type: eventData.type as any,
           code: eventData.code,
           value: eventData.value,
-          timestamp: new Date(),
+          timestamp: Date.now(),
           source: 'workflow'
         };
         return manager.processInputEvent(event);
@@ -401,7 +401,7 @@ describe('InputSystemPure Golden Tests', () => {
         direction: 'right',
         distance: 100,
         duration: 200,
-        timestamp: new Date()
+        timestamp: Date.now()
       };
       const gestureResult = manager.recognizeGesture(gesture);
 

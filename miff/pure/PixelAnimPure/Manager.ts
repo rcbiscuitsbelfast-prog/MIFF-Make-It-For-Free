@@ -454,7 +454,7 @@ export class PixelAnimManager {
 
     // Check if animation is used in any sequences
     const usedInSequences = Array.from(this.sequences.values()).filter((seq: any) =>
-      seq.animations.some(anim => anim.name === name)
+      seq.animations.some((anim: any) => anim.name === name)
     );
 
     if (usedInSequences.length > 0) {
