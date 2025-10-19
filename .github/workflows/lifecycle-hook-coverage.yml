@@ -4,12 +4,11 @@ name: Lifecycle Hook Coverage
 on:
   workflow_dispatch: # Manual trigger only while paused
 #  push: # PAUSED
-    branches: [ master, develop ]
+#    branches: [ master, develop ]
 #  pull_request: # PAUSED
-    branches: [ master, develop ]
+#    branches: [ master, develop ]
 #  schedule: # PAUSED
-    - cron: '0 4 * * 1' # Weekly on Mondays at 4 AM UTC
-  workflow_dispatch:
+#    - cron: '0 4 * * 1' # Weekly on Mondays at 4 AM UTC
 
 permissions:
   contents: read
