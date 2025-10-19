@@ -11,6 +11,9 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { SafeJSONParser } from '/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
+import { Logger } from './logging';
+
+const logger = Logger.create('CAPARegistry');
 
 export class CAPARegistryManager {
   
