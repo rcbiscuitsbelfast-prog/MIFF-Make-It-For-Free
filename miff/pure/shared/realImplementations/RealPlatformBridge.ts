@@ -818,7 +818,7 @@ export class RealPlatformBridge {
       return result.state === 'granted';
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('Error requesting permission:', err instanceof Error ? message: String(err));
+      logger.error('Error requesting permission:', err instanceof Error ? message: String(err));
       return false;
     }
   }

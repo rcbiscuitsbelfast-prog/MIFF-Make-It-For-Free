@@ -328,7 +328,7 @@ export class EventBus {
     }
 
     if (this.config.enableLogging) {
-      console.log(`🌐 Event replicated: ${event.type} (${event?.id})`);
+      logger.info('Event replicated', { eventType: event.type, eventId: event?.id });
     }
   }
 

@@ -366,7 +366,7 @@ export class DocumentationGenerator {
       
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('❌ Error generating documentation:', err instanceof Error ? message: String(err));
+      logger.error('❌ Error generating documentation:', err instanceof Error ? message: String(err));
     }
   }
 
