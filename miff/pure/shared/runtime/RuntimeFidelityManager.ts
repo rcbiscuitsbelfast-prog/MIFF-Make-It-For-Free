@@ -1,6 +1,9 @@
 import { StructuredLogger } from '../logging/StructuredLogger';
 import { StandardErrorHandler } from '../error/StandardErrorHandler';
 import { EventBus } from '../../EventBusPure/index';
+import { Logger } from '../logging';
+
+const logger = Logger.create('RuntimeFidelityManager');
 
 /**
  * Runtime Fidelity Manager - Ensures consistent runtime behavior across bridge modules
@@ -254,7 +257,7 @@ export class RuntimeFidelityManager {
     bridge.performance = { ...bridge.performance, ...metrics };
     bridge.lastHealthCheck = new Date();
     
-    console.debug('Bridge metrics updated', { bridgeId, metrics });
+    logger.debug('Bridge metrics updated', { bridgeId, metrics });
   }
 
   /**
@@ -273,7 +276,7 @@ export class RuntimeFidelityManager {
       bridge.successRate = Math.max(0, bridge.successRate - 1);
     }
     
-    console.debug('Bridge operation recorded', { 
+    logger.debug('Bridge operation recorded', { 
       bridgeId, 
       success, 
       successRate: bridge.successRate 

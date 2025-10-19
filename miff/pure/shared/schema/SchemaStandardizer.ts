@@ -152,7 +152,7 @@ export class SchemaStandardizer {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      console.warn('Schema standardizer already initialized');
+      logger.warn('Schema standardizer already initialized');
       return;
     }
 

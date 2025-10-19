@@ -516,6 +516,7 @@ export class AuditSystem {
       }
 
       // Check for console.log statements (note: this is checking OTHER files, not this one)
+      // (This audit code looks for console.log in OTHER files - intentional)
       if (line.includes('console.log') && !file.includes('.test.')) {
         this.addIssue({
           id: this.generateId(),
