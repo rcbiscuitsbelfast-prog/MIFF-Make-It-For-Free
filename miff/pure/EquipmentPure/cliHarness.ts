@@ -45,7 +45,7 @@ function main() {
   const log: string[] = [];
   const mgr = new EquipmentManager({
     onEquip: (item) => log.push(`EQUIP ${item.id} -> ${item.slot}`),
-    onUnequip: (slot, item) => log.push(`UNEQUIP ${slot}${item ? ' ' + id: ''}`),
+    onUnequip: (slot, item) => log.push(`UNEQUIP ${slot}${item ? ' ' + item.id : ''}`),
     onModifierApplied: (m, item) => {/* trace modifiers on dump only */},
   }, invPort);
 

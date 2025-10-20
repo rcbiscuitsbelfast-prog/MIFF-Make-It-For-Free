@@ -772,7 +772,7 @@ export class UnrealAssetManagerPure {
         memoryUsage: 0,
         diskUsage: 0,
         warnings: [],
-        errors: [error instanceof Error ? message: 'Unknown error'],
+        errors: [error instanceof Error ? error.message : 'Unknown error'],
         metadata: {
           loadingStrategy: this.configuration.loadingStrategy,
           error: error
@@ -780,7 +780,7 @@ export class UnrealAssetManagerPure {
       };
 
       if (request.callback) {
-        request.callback(null, error instanceof Error ? message: 'Unknown error');
+        request.callback(null, error instanceof Error ? error.message : 'Unknown error');
       }
 
       logger.error(`[UnrealAssetManagerPure] Failed to load asset: ${request.assetId}`, err instanceof Error ? message: String(err));
@@ -1008,7 +1008,7 @@ export class UnrealAssetManagerPure {
         loadTime: new Date() - startTime,
         streamingTime,
         warnings: [],
-        errors: [error instanceof Error ? message: 'Unknown error'],
+        errors: [error instanceof Error ? error.message : 'Unknown error'],
         metadata: {
           distance: request.distance,
           angle: request.angle,
@@ -1114,7 +1114,7 @@ export class UnrealAssetManagerPure {
         compressionRatio: 0,
         qualityLoss: 0,
         warnings: [],
-        errors: [error instanceof Error ? message: 'Unknown error'],
+        errors: [error instanceof Error ? error.message : 'Unknown error'],
         metadata: {
           error: error
         }

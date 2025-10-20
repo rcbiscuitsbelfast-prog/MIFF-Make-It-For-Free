@@ -843,7 +843,7 @@ export class UnrealSceneBuilderPure {
         buildTime: 0,
         composition: null as any,
         warnings: [],
-        errors: [error instanceof Error ? message: 'Unknown error'],
+        errors: [error instanceof Error ? error.message : 'Unknown error'],
         metadata: {
           configuration: null,
           sourcePayloadId: payloadId,
