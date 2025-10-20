@@ -1,60 +1,74 @@
 import { describe, it, expect } from '@jest/globals';
-import AdvancedRenderingPure, { PixelMatrix, Color } from './index';
+import AdvancedRenderingPure, { PixelMatrix } from './index';
 
 describe('AdvancedRenderingPure', () => {
-  describe('Pixel Matrix', () => {
-    it('should create empty pixel matrix', () => {
-      const matrix = AdvancedRenderingPure.createMatrix(16, 16);
-
-      expect(matrix).toBeDefined();
-      expect(matrix.width).toBe(16);
-      expect(matrix.height).toBe(16);
-    });
-
-    it('should set pixel color', () => {
-      const matrix = AdvancedRenderingPure.createMatrix(8, 8);
-      const color: Color = { r: 255, g: 0, b: 0, a: 255 };
-
-      AdvancedRenderingPure.setPixel(matrix, 4, 4, color);
-      expect(matrix).toBeDefined();
-    });
-
-    it('should get pixel color', () => {
-      const matrix = AdvancedRenderingPure.createMatrix(8, 8);
-      const color: Color = { r: 255, g: 0, b: 0, a: 255 };
-
-      AdvancedRenderingPure.setPixel(matrix, 4, 4, color);
-      const retrieved = AdvancedRenderingPure.getPixel(matrix, 4, 4);
-
-      expect(retrieved).toEqual(color);
-    });
-  });
-
   describe('Rendering Effects', () => {
-    it('should apply blur effect', () => {
-      const matrix = AdvancedRenderingPure.createMatrix(16, 16);
+    it('should apply outline', () => {
+      const matrix: PixelMatrix = [
+        [null, null, null],
+        [null, '#FF0000', null],
+        [null, null, null]
+      ];
       
-      const blurred = AdvancedRenderingPure.applyBlur(matrix, 2);
-      expect(blurred).toBeDefined();
+      const outlined = AdvancedRenderingPure.applyOutline(matrix, { color: '#000000', thickness: 1 });
+      expect(outlined).toBeDefined();
+      expect(outlined.length).toBe(3);
     });
 
-    it('should apply glow effect', () => {
-      const matrix = AdvancedRenderingPure.createMatrix(16, 16);
+    it('should apply shading', () => {
+      const matrix: PixelMatrix = [
+        ['#FF0000', '#FF0000'],
+        ['#FF0000', '#FF0000']
+      ];
       
-      const glowing = AdvancedRenderingPure.applyGlow(matrix);
-      expect(glowing).toBeDefined();
+      const shaded = AdvancedRenderingPure.applyShading(matrix, { strength: 0.5, ambient: 0.3 });
+      expect(shaded).toBeDefined();
+      expect(shaded.length).toBe(2);
     });
-  });
 
-  describe('Color Operations', () => {
-    it('should blend colors', () => {
-      const color1: Color = { r: 255, g: 0, b: 0, a: 255 };
-      const color2: Color = { r: 0, g: 0, b: 255, a: 255 };
+    it('should apply lighting', () => {
+      const matrix: PixelMatrix = [
+        ['#FF0000', '#FF0000'],
+        ['#FF0000', '#FF0000']
+      ];
+      
+      const lit = AdvancedRenderingPure.applyLighting(matrix, {
+        direction: { x: 1, y: 0 },
+        int: '#FFFFFF',
+        intStrength: 0.3
+      });
+      expect(lit).toBeDefined();
+      expect(lit.length).toBe(2);
+    });
 
-      const blended = AdvancedRenderingPure.blendColors(color1, color2, 0.5);
-      expect(blended).toBeDefined();
-      expect(blended.r).toBeGreaterThan(0);
-      expect(blended.b).toBeGreaterThan(0);
+    it('should apply double thickness outline', () => {
+      const matrix: PixelMatrix = [
+        [null, null, null, null, null],
+        [null, null, '#FF0000', null, null],
+        [null, null, null, null, null]
+      ];
+      
+      const outlined = AdvancedRenderingPure.applyOutline(matrix, { color: '#000000', thickness: 2 });
+      expect(outlined).toBeDefined();
+    });
+
+    it('should handle empty matrix', () => {
+      const matrix: PixelMatrix = [];
+      
+      const outlined = AdvancedRenderingPure.applyOutline(matrix, { color: '#000000', thickness: 1 });
+      expect(outlined).toBeDefined();
+    });
+
+    it('should preserve matrix structure in shading', () => {
+      const matrix: PixelMatrix = [
+        ['#FF0000', null, '#00FF00'],
+        [null, '#0000FF', null]
+      ];
+      
+      const shaded = AdvancedRenderingPure.applyShading(matrix, { strength: 0.8, ambient: 0.2 });
+      expect(shaded[0][0]).toBeTruthy(); // Red pixel should be shaded
+      expect(shaded[0][1]).toBeFalsy(); // Null should stay null
+      expect(shaded[0][2]).toBeTruthy(); // Green pixel should be shaded
     });
   });
 });
