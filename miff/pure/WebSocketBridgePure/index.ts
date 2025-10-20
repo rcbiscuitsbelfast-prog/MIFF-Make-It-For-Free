@@ -66,12 +66,12 @@ export class WebSocketBridgePure {
               }
             } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-              logger.warn('Failed to parse WebSocket message', { error: err });
+              console.warn('Failed to parse WebSocket message:', err);
             }
           };
 
           this.ws.onerror = (error) => { 
-            logger.warn('WebSocket connection failed, falling back to simulation', { error });
+            console.warn('WebSocket connection failed, falling back to simulation:', error);
             this.isConnected = true; // Fallback to simulation
             this.onStatusChange?.('simulation');
             resolve(); // Resolve instead of reject to allow fallback
@@ -85,7 +85,7 @@ export class WebSocketBridgePure {
         });
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        logger.warn('WebSocket connection failed, falling back to simulation', { error: err });
+        console.warn('WebSocket connection failed, falling back to simulation:', err);
         this.isConnected = true; // Fallback to simulation
         this.onStatusChange?.('simulation');
       }

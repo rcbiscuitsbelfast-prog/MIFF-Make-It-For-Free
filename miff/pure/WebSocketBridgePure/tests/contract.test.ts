@@ -6,8 +6,9 @@ describe('WebSocketBridgePure Contract', () => {
 
   it('exposes stable API shape', () => {
     // For now, require the module and inspect exported members shape via ts-node
+    const modulePath = cli.replace(/\.ts$/, '').replace(/\\/g,'/');
     const code = `
-      import * as mod from '${cli.replace(/\\/g,'/')}';
+      import * as mod from '${modulePath}';
       const keys = Object.keys(mod).sort();
       console.log(JSON.stringify({ keys }, null, 2));
     `;
