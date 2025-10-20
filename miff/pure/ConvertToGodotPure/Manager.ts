@@ -643,13 +643,3 @@ void fragment():
   }
 }
 
-
-
-turn {
-      success: true,
-      path: projectPath,
-      size: exportSize
-    };
-  }
-}
-

@@ -1395,5 +1395,4 @@ export function cutSceneDemo(): any {
       'SceneFlowPure'
     ]
   };
-}};
-}
+};
