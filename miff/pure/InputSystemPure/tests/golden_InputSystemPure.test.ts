@@ -71,7 +71,7 @@ describe('InputSystemPure Golden Tests', () => {
         deviceId: 'keyboard'
       });
 
-      const buffer = await manager.getInputBuffer();
+      const buffer = manager.getInputBuffer();
       expect(buffer.ok).toBe(true);
     });
   });
@@ -86,7 +86,7 @@ describe('InputSystemPure Golden Tests', () => {
         deviceId: 'keyboard'
       });
 
-      const result = await manager.getInputStats();
+      const result = manager.getInputStats();
       expect(result.ok).toBe(true);
       expect(result.stats).toBeDefined();
     });

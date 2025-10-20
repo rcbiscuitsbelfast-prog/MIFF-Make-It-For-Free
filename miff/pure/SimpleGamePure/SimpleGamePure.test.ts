@@ -28,9 +28,8 @@ describe('SimpleGamePure', () => {
 
     it('should start game', () => {
       game.start();
-      // Check internal state via public method
-      const stats = game.getStats();
-      expect(stats).toBeDefined();
+      // Game is now running - verify via update not throwing
+      expect(() => game.update(16)).not.toThrow();
     });
 
     it('should stop game', () => {

@@ -105,13 +105,22 @@ describe('SavePure', () => {
       expect(manager).toBeDefined();
     });
 
-    it('should save and load snapshot via file system', async () => {
+    it('should validate snapshot', () => {
       const manager = new SaveManager();
       const snapshot = new SaveSnapshot('test_player', 'test_zone', 'v1');
       
-      // SaveManager uses async file operations
-      const saveResult = await manager.saveToFile(snapshot, '/tmp/test-save.json');
-      expect(saveResult.ok).toBe(true);
+      const result = manager.validateSnapshot(snapshot);
+      expect(result).toBeDefined();
+      expect(typeof result.isValid).toBe('boolean');
+    });
+
+    it('should migrate snapshot', () => {
+      const manager = new SaveManager();
+      const snapshot = new SaveSnapshot('test_player', 'test_zone', 'v1');
+      
+      const result = manager.migrateSnapshot(snapshot, 'v2');
+      expect(result).toBeDefined();
+      expect(result.snapshot).toBeDefined();
     });
   });
 

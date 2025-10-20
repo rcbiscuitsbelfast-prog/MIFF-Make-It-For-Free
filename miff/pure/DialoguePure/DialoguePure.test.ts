@@ -4,7 +4,7 @@
  * Tests for DialoguePure using actual DialogueEngine
  */
 
-import { DialogueEngine, DialogueTree, DialogueNode } from './DialoguePure';
+import { DialogueEngine, DialogueTree, DialogueNode } from './Manager';
 
 describe('DialoguePure', () => {
   let tree: DialogueTree;

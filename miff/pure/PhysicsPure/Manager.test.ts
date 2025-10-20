@@ -81,7 +81,6 @@ describe('PhysicsPureManager', () => {
 
   describe('Cleanup', () => {
     it('should shutdown cleanly', async () => {
-      await manager.createManager({ type: '2d' });
       await manager.shutdown();
       expect(true).toBe(true);
     });

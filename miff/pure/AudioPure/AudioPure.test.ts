@@ -10,12 +10,16 @@ describe('AudioPure', () => {
   let audioSystem: AudioSystem;
 
   beforeEach(() => {
-    const config = {
+    const config: AudioConfig = {
       sampleRate: 44100,
       channels: 2,
       bufferSize: 1024,
       spatialAudio: false,
-      maxSimultaneousSounds: 8
+      maxSimultaneousSounds: 8,
+      enableHRTF: false,
+      enableReverb: false,
+      enableFFT: false,
+      masterVolume: 1.0
     };
     audioSystem = new AudioSystem(config, true); // Headless mode
   });
