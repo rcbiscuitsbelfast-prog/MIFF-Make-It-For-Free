@@ -87,8 +87,8 @@ describe('InputSystemPure Golden Tests', () => {
       });
 
       const result = manager.getInputStats();
-      expect(result.ok).toBe(true);
-      expect(result.stats).toBeDefined();
+      expect(result.status).toBe('ok');
+      expect(result.result).toBeDefined();
     });
   });
 });

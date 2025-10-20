@@ -155,10 +155,11 @@ describe('SavePure', () => {
       expect(typeof id1).toBe('string');
     });
 
-    it('should create test snapshot', () => {
-      const snapshot = SaveUtils.createTestSnapshot();
+    it('should create comprehensive test snapshot', () => {
+      const snapshot = SaveUtils.createComprehensiveSnapshot();
       expect(snapshot).toBeDefined();
       expect(snapshot.playerId).toBeDefined();
+      expect(snapshot.partyRoster.length).toBeGreaterThan(0);
     });
   });
 });

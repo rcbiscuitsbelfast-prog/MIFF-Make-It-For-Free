@@ -4,7 +4,7 @@
  * Tests for PhysicsPureManager using actual implementation
  */
 
-import { PhysicsPureManager } from './Manager';
+import { PhysicsManager } from './Manager';
 
 describe('PhysicsPureManager', () => {
   let manager: PhysicsPureManager;

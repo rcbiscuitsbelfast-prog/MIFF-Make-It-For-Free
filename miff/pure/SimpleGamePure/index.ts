@@ -793,7 +793,7 @@ export const SimpleGameUtils = {
       name,
       description,
       icon,
-      unlockedAt: new Date()
+      unlockedAt: Date.now()
     };
   },
 

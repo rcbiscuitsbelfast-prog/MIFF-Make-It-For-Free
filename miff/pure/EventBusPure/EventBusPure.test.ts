@@ -27,7 +27,7 @@ describe('EventBusPure', () => {
       eventBus.on('test-event', listener);
       eventBus.off('test-event', listener);
       
-      eventBus.emit('test-event');
+      eventBus.emit('test-event', null, {});
       expect(listener).not.toHaveBeenCalled();
     });
   });
@@ -69,7 +69,7 @@ describe('EventBusPure', () => {
       eventBus.on('test-event', listener);
       
       eventBus.clear();
-      eventBus.emit('test-event');
+      eventBus.emit('test-event', null, {});
       
       expect(listener).not.toHaveBeenCalled();
     });
