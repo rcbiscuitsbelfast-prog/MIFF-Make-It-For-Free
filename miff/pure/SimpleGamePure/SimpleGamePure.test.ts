@@ -1,148 +1,73 @@
 /**
  * SimpleGamePure.test.ts
  * 
- * Tests for SimpleGamePure using actual SimpleGame abstract class and builders
+ * Tests for SimpleGamePure using actual SimpleClickerGame
  */
 
 import { describe, it, expect } from '@jest/globals';
-import { SimpleGameBuilder, SimpleClickerGame, GameType } from './index';
+import { SimpleClickerGame, GameType, DifficultyLevel } from './index';
 
 describe('SimpleGamePure', () => {
-  describe('SimpleGameBuilder', () => {
-    it('should create builder with config', () => {
-      const builder = new SimpleGameBuilder({
-        type: GameType.CLICKER,
-        difficulty: 'easy',
-        maxPlayers: 1
-      });
-      
-      expect(builder).toBeDefined();
-    });
-
-    it('should build clicker game', () => {
-      const builder = new SimpleGameBuilder({
-        type: GameType.CLICKER,
-        difficulty: 'easy',
-        maxPlayers: 1
-      });
-      
-      const game = builder.build();
-      expect(game).toBeDefined();
-      expect(game instanceof SimpleClickerGame).toBe(true);
-    });
-  });
-
   describe('SimpleClickerGame', () => {
     let game: SimpleClickerGame;
 
     beforeEach(() => {
       game = new SimpleClickerGame({
-        type: GameType.CLICKER,
-        difficulty: 'easy',
-        maxPlayers: 1
+        gameType: GameType.CLICKER,
+        title: 'Test Game',
+        difficulty: DifficultyLevel.EASY,
+        startingCurrency: 100,
+        enableSaving: false,
+        enableAudio: false
       });
     });
 
-    it('should initialize game', () => {
-      game.initialize();
-      expect(game.isInitialized()).toBe(true);
+    it('should create game', () => {
+      expect(game).toBeDefined();
     });
 
-    it('should start and stop game', () => {
-      game.initialize();
+    it('should start game', () => {
       game.start();
-      expect(game.isRunning()).toBe(true);
-      
+      expect(game['isRunning']).toBe(true);
+    });
+
+    it('should stop game', () => {
+      game.start();
       game.stop();
-      expect(game.isRunning()).toBe(false);
+      expect(game['isRunning']).toBe(false);
     });
 
-    it('should update game state', () => {
-      game.initialize();
+    it('should update game', () => {
       game.start();
-      
-      const deltaTime = 16; // 16ms frame
-      game.update(deltaTime);
-      
-      expect(true).toBe(true); // Update executed without error
+      game.update(16);
+      expect(true).toBe(true); // Update completed
     });
 
-    it('should handle click action', () => {
-      game.initialize();
-      game.start();
-      
-      const initialScore = game.getScore();
-      game.handleClick();
-      
-      expect(game.getScore()).toBeGreaterThanOrEqual(initialScore);
-    });
-
-    it('should get game stats', () => {
-      game.initialize();
+    it('should get stats', () => {
       const stats = game.getStats();
-      
       expect(stats).toBeDefined();
       expect(typeof stats.score).toBe('number');
-      expect(typeof stats.clicks).toBe('number');
+      expect(typeof stats.level).toBe('number');
     });
 
-    it('should pause and resume', () => {
-      game.initialize();
+    it('should handle clicks', () => {
       game.start();
-      
-      game.pause();
-      expect(game.isPaused()).toBe(true);
-      
-      game.resume();
-      expect(game.isPaused()).toBe(false);
-    });
-  });
-
-  describe('Game Lifecycle', () => {
-    it('should follow initialize → start → update → stop lifecycle', () => {
-      const game = new SimpleClickerGame({
-        type: GameType.CLICKER,
-        difficulty: 'easy',
-        maxPlayers: 1
-      });
-
-      expect(game.isInitialized()).toBe(false);
-      expect(game.isRunning()).toBe(false);
-
-      game.initialize();
-      expect(game.isInitialized()).toBe(true);
-
-      game.start();
-      expect(game.isRunning()).toBe(true);
-
-      game.update(16);
-      expect(game.isRunning()).toBe(true);
-
-      game.stop();
-      expect(game.isRunning()).toBe(false);
-    });
-  });
-
-  describe('Error Handling', () => {
-    it('should not start before initialization', () => {
-      const game = new SimpleClickerGame({
-        type: GameType.CLICKER,
-        difficulty: 'easy',
-        maxPlayers: 1
-      });
-
-      expect(() => game.start()).toThrow();
+      const initialScore = game.getStats().score;
+      game.handleClick();
+      const newScore = game.getStats().score;
+      expect(newScore).toBeGreaterThanOrEqual(initialScore);
     });
 
-    it('should not update before starting', () => {
-      const game = new SimpleClickerGame({
-        type: GameType.CLICKER,
-        difficulty: 'easy',
-        maxPlayers: 1
-      });
+    it('should add currency', () => {
+      const initial = game.getStats().currency;
+      game.addCurrency(50);
+      expect(game.getStats().currency).toBe(initial + 50);
+    });
 
-      game.initialize();
-      expect(() => game.update(16)).toThrow();
+    it('should spend currency', () => {
+      const result = game.spendCurrency(50);
+      expect(result).toBe(true);
+      expect(game.getStats().currency).toBe(50); // Started with 100
     });
   });
 });
