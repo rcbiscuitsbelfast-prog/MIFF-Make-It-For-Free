@@ -71,7 +71,7 @@ function main() {
         };
     }
   } catch (err) {
-    out = { log: ['error'], outputs: [{ error: err instanceof Error ? message: String(err) }] };
+    out = { log: ['error'], outputs: [{ error: err instanceof Error ? err.message : String(err) }] };
     process.exitCode = 1;
   }
 
