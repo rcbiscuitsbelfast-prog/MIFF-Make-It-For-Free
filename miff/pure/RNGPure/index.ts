@@ -161,7 +161,7 @@ export const RNGUtils = {
   /**
    * Pick a random element from an array
    */
-  pickRandom<T extends object>(array: T[], rng: IRNGProvider): T | undefined {
+  pickRandom<T>(array: T[], rng: IRNGProvider): T | undefined {
     if (array.length === 0) return undefined;
     const index = rng.nextInt(0, array.length);
     return array[index];
