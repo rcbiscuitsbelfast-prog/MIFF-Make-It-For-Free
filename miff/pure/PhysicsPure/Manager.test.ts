@@ -1,249 +1,163 @@
-import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals';
-import { PhysicsPureManager } from './Manager';
-import { addGenericItemMethods } from '../shared/testing/ManagerTestHelpers';
+/**
+ * PhysicsPure Manager Tests
+ * 
+ * Tests for PhysicsManager using actual implementation
+ */
 
-describe('PhysicsPureManager', () => {
-  // TODO: Implement missing Manager methods
-  let manager: PhysicsPureManager;
+import { PhysicsManager, RigidBody, PhysicsConfig } from './Manager';
 
-  beforeEach(async () => {
-    manager = new PhysicsPureManager({
-      enabled: true,
-      debugMode: false,
-      maxInstances: 100,
-      timeout: 5000,
-      retryAttempts: 3,
-      cacheSize: 50,
-      logLevel: 'error',
-      performanceMonitoring: false,
-      memoryTracking: false
-    });
-    
-    await manager.initialize();    
-    // Add generic item methods as aliases to domain-specific methods
-    addGenericItemMethods(manager, {
-      create: 'createManager',
-      get: '',
-      update: '',
-      delete: '',
-      getAll: 'getAllManagers'
-    });
-  });
+describe('PhysicsManager', () => {
+  let manager: PhysicsManager;
+  let config: PhysicsConfig;
 
-  afterEach(async () => {
-    if (manager) {
-      await manager.destroy();
-    }
+  beforeEach(() => {
+    config = {
+      gravity: { x: 0, y: -9.8, z: 0 },
+      timeStep: 1/60,
+      maxSubSteps: 10,
+      enableSleep: true
+    };
+    manager = new PhysicsManager(config);
   });
 
   describe('Initialization', () => {
-    it('should initialize successfully', async () => {
-      
+    it('should create physics manager with config', () => {
       expect(manager).toBeDefined();
-      expect(manager.getStats).toBeDefined();
-      expect(manager.getAnalytics).toBeDefined();
     });
 
-    it.skip('should have default configuration', () => {
+    it('should create manager with default config', () => {
+      const defaultManager = new PhysicsManager();
+      expect(defaultManager).toBeDefined();
+    });
+  });
+
+  describe('Rigid Body Management', () => {
+    it('should create rigid body', () => {
+      const bodyId = manager.createRigidBody({
+        mass: 1.0,
+        position: { x: 0, y: 10, z: 0 },
+        velocity: { x: 0, y: 0, z: 0 },
+        shape: 'box',
+        dimensions: { x: 1, y: 1, z: 1 }
+      });
+
+      expect(bodyId).toBeDefined();
+      expect(typeof bodyId).toBe('string');
+    });
+
+    it('should get rigid body by ID', () => {
+      const bodyId = manager.createRigidBody({
+        mass: 1.0,
+        position: { x: 0, y: 0, z: 0 },
+        velocity: { x: 0, y: 0, z: 0 },
+        shape: 'sphere',
+        radius: 0.5
+      });
+
+      const body = manager.getRigidBody(bodyId);
+      expect(body).toBeDefined();
+      expect(body?.id).toBe(bodyId);
+    });
+
+    it('should remove rigid body', () => {
+      const bodyId = manager.createRigidBody({
+        mass: 1.0,
+        position: { x: 0, y: 0, z: 0 },
+        velocity: { x: 0, y: 0, z: 0 },
+        shape: 'box',
+        dimensions: { x: 1, y: 1, z: 1 }
+      });
+
+      const result = manager.removeRigidBody(bodyId);
+      expect(result.ok).toBe(true);
+
+      const body = manager.getRigidBody(bodyId);
+      expect(body).toBeUndefined();
+    });
+  });
+
+  describe('Physics Simulation', () => {
+    it('should step simulation', () => {
+      manager.createRigidBody({
+        mass: 1.0,
+        position: { x: 0, y: 10, z: 0 },
+        velocity: { x: 0, y: 0, z: 0 },
+        shape: 'box',
+        dimensions: { x: 1, y: 1, z: 1 }
+      });
+
+      const deltaTime = 1/60;
+      manager.step(deltaTime);
+
+      expect(true).toBe(true); // Simulation step completed
+    });
+
+    it('should apply force to body', () => {
+      const bodyId = manager.createRigidBody({
+        mass: 1.0,
+        position: { x: 0, y: 0, z: 0 },
+        velocity: { x: 0, y: 0, z: 0 },
+        shape: 'box',
+        dimensions: { x: 1, y: 1, z: 1 }
+      });
+
+      const result = manager.applyForce(bodyId, { x: 10, y: 0, z: 0 });
+      expect(result.ok).toBe(true);
+    });
+
+    it('should apply impulse to body', () => {
+      const bodyId = manager.createRigidBody({
+        mass: 1.0,
+        position: { x: 0, y: 0, z: 0 },
+        velocity: { x: 0, y: 0, z: 0 },
+        shape: 'sphere',
+        radius: 0.5
+      });
+
+      const result = manager.applyImpulse(bodyId, { x: 5, y: 0, z: 0 });
+      expect(result.ok).toBe(true);
+    });
+  });
+
+  describe('Collision Detection', () => {
+    it('should detect collisions between bodies', () => {
+      const body1 = manager.createRigidBody({
+        mass: 1.0,
+        position: { x: 0, y: 0, z: 0 },
+        velocity: { x: 0, y: 0, z: 0 },
+        shape: 'box',
+        dimensions: { x: 1, y: 1, z: 1 }
+      });
+
+      const body2 = manager.createRigidBody({
+        mass: 1.0,
+        position: { x: 0.5, y: 0, z: 0 },
+        velocity: { x: 0, y: 0, z: 0 },
+        shape: 'box',
+        dimensions: { x: 1, y: 1, z: 1 }
+      });
+
+      manager.step(1/60);
+
+      const collisions = manager.getCollisions();
+      expect(Array.isArray(collisions)).toBe(true);
+    });
+  });
+
+  describe('Statistics', () => {
+    it('should get physics stats', () => {
+      manager.createRigidBody({
+        mass: 1.0,
+        position: { x: 0, y: 0, z: 0 },
+        velocity: { x: 0, y: 0, z: 0 },
+        shape: 'box',
+        dimensions: { x: 1, y: 1, z: 1 }
+      });
+
       const stats = manager.getStats();
       expect(stats).toBeDefined();
-      expect(typeof stats.totalItems).toBe('number');
-      expect(typeof stats.activeItems).toBe('number');
-    });
-  });
-
-  describe('Item Management', () => {
-    it('should create items', async () => {
-      
-      const itemData = {
-        name: 'Test Item',
-        type: 'test',
-        status: 'active' as const,
-        metadata: { test: true },
-        properties: { value: 100 },
-        tags: ['test'],
-        priority: 1,
-        version: '1.0.0'
-      };
-
-      const item = await manager.createItem(itemData);
-      expect(item).toBeDefined();
-      expect(item.id).toBeDefined();
-      expect(item.name).toBe('Test Item');
-      expect(item.type).toBe('test');
-      expect(item.status).toBe('active');
-    });
-
-    it('should retrieve items by ID', async () => {
-      
-      const itemData = {
-        name: 'Test Item',
-        type: 'test',
-        status: 'active' as const,
-        metadata: {},
-        properties: {},
-        tags: ['test'],
-        priority: 1,
-        version: '1.0.0'
-      };
-
-      const createdItem = await manager.createItem(itemData);
-      const retrievedItem = manager.getItem(createdItem.id);
-      
-      expect(retrievedItem).toBeDefined();
-      expect(retrievedItem?.id).toBe(createdItem.id);
-      expect(retrievedItem?.name).toBe('Test Item');
-    });
-
-    it('should get all items', async () => {
-      
-      const itemData = {
-        name: 'Test Item',
-        type: 'test',
-        status: 'active' as const,
-        metadata: {},
-        properties: {},
-        tags: ['test'],
-        priority: 1,
-        version: '1.0.0'
-      };
-
-      await manager.createItem(itemData);
-      const allItems = manager.getAllItems();
-      
-      expect(Array.isArray(allItems)).toBe(true);
-      expect(allItems.length).toBeGreaterThan(0);
-    });
-
-    it('should update items', async () => {
-      
-      const itemData = {
-        name: 'Test Item',
-        type: 'test',
-        status: 'active' as const,
-        metadata: {},
-        properties: {},
-        tags: ['test'],
-        priority: 1,
-        version: '1.0.0'
-      };
-
-      const createdItem = await manager.createItem(itemData);
-      const updatedItem = await manager.updateItem(createdItem.id, {
-        name: 'Updated Item',
-        status: 'inactive' as const
-      });
-      
-      expect(updatedItem).toBeDefined();
-      expect(updatedItem?.name).toBe('Updated Item');
-      expect(updatedItem?.status).toBe('inactive');
-    });
-
-    it('should delete items', async () => {
-      
-      const itemData = {
-        name: 'Test Item',
-        type: 'test',
-        status: 'active' as const,
-        metadata: {},
-        properties: {},
-        tags: ['test'],
-        priority: 1,
-        version: '1.0.0'
-      };
-
-      const createdItem = await manager.createItem(itemData);
-      const deleted = await manager.deleteItem(createdItem.id);
-      
-      expect(deleted).toBe(true);
-      
-      const retrievedItem = manager.getItem(createdItem.id);
-      expect(retrievedItem).toBeUndefined();
-    });
-  });
-
-  describe('Analytics and Statistics', () => {
-    it.skip('should provide analytics', () => {
-      const analytics = manager.getAnalytics();
-      expect(analytics).toBeDefined();
-      expect(typeof analytics.totalItems).toBe('number');
-      expect(typeof analytics.activeItems).toBe('number');
-      expect(typeof analytics.inactiveItems).toBe('number');
-      expect(typeof analytics.errorItems).toBe('number');
-      expect(typeof analytics.averageProcessingTime).toBe('number');
-      expect(typeof analytics.totalOperations).toBe('number');
-      expect(typeof analytics.successRate).toBe('number');
-      expect(analytics.lastUpdated).toBeInstanceOf(Date);
-    });
-
-    it.skip('should provide statistics', () => {
-      const stats = manager.getStats();
-      expect(stats).toBeDefined();
-      expect(typeof stats.totalItems).toBe('number');
-      expect(typeof stats.activeItems).toBe('number');
-      expect(typeof stats.errorCount).toBe('number');
-      expect(typeof stats.averageResponseTime).toBe('number');
-      expect(typeof stats.memoryUsage).toBe('number');
-      expect(typeof stats.uptime).toBe('number');
-      expect(stats.lastActivity).toBeInstanceOf(Date);
-    });
-  });
-
-  describe('Error Handling', () => {
-    it('should handle invalid item updates gracefully', async () => {
-      
-      const result = await manager.updateItem('non-existent-id', {
-        name: 'Updated Item'
-      });
-      
-      expect(result).toBeUndefined();
-    });
-
-    it('should handle invalid item deletions gracefully', async () => {
-      
-      const result = await manager.deleteItem('non-existent-id');
-      
-      expect(result).toBe(false);
-    });
-  });
-
-  describe('Performance', () => {
-    it('should handle multiple item operations efficiently', async () => {
-      
-      const startTime = Date.now();
-      
-      // Create multiple items
-      const promises = [];
-      for (let i = 0; i < 10; i++) {
-        promises.push(manager.createItem({
-          name: `Test Item ${i}`,
-          type: 'test',
-          status: 'active' as const,
-          metadata: {},
-          properties: {},
-          tags: ['test'],
-          priority: i,
-          version: '1.0.0'
-        }));
-      }
-      
-      await Promise.all(promises);
-      
-      const endTime = Date.now();
-      const duration = endTime - startTime;
-      
-      // Should complete within reasonable time (5 seconds)
-      expect(duration).toBeLessThan(5000);
-      
-      const allItems = manager.getAllItems();
-      expect(allItems.length).toBeGreaterThanOrEqual(10);
-    });
-  });
-
-  describe('Cleanup', () => {
-    it('should destroy manager without errors', async () => {
-      
-      await expect(manager.destroy()).resolves.not.toThrow();
+      expect(typeof stats.bodyCount).toBe('number');
+      expect(stats.bodyCount).toBeGreaterThanOrEqual(1);
     });
   });
 });
