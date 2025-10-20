@@ -222,7 +222,7 @@ export class XPLevelingManager {
       xpByCurrency: new Map(),
       skills: new Map(),
       stats: new Map(),
-      lastLevelUp: new Date(),
+      lastLevelUp: Date.now(),
       xpMultipliers: [],
       activeChallenges: []
     };
@@ -458,7 +458,7 @@ export class XPLevelingManager {
 
       // Calculate skill distribution
       entities.forEach((entity: any) => {
-        entity.skills.forEach((level, skillId) => {
+        entity.skills.forEach((level: number, skillId: string) => {
           stats.skillDistribution[skillId] = (stats.skillDistribution[skillId] || 0) + level;
         });
       });
@@ -881,8 +881,8 @@ export class XPLevelingManager {
 
       // Calculate XP by currency
       entities.forEach((entity: any) => {
-        entity.xpByCurrency.forEach((xp, currency) => {
-          detailedStats.totalXpByCurrency[currency] = (detailedStats.totalXpByCurrency[currency] || 0) + xp;
+        entity.xpByCurrency.forEach((xp: number, currency: string) => {
+          detailedStats.totalXpByCurrency[currency as keyof typeof detailedStats.totalXpByCurrency] = (detailedStats.totalXpByCurrency[currency as keyof typeof detailedStats.totalXpByCurrency] || 0) + xp;
         });
       });
 
@@ -898,7 +898,7 @@ export class XPLevelingManager {
 
       // Calculate skill distribution
       entities.forEach((entity: any) => {
-        entity.skills.forEach((level, skillId) => {
+        entity.skills.forEach((level: number, skillId: string) => {
           detailedStats.skillDistribution[skillId] = (detailedStats.skillDistribution[skillId] || 0) + level;
         });
       });
