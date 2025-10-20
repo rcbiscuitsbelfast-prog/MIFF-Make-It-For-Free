@@ -1,7 +1,7 @@
 #!/usr/bin/env -S node --no-warnings
 import fs from 'fs';
 import path from 'path';
-import { CombatEngine } from './Manager';
+import { CombatManager } from './Manager.js';
 import { InputSanitizer } from '../shared/security/InputSanitizer.js';
 
 type Cmd =
@@ -26,7 +26,7 @@ function main(){
     maxLength: 500
   }, '');
   
-  const mgr = new CombatEngine();
+  const mgr = new CombatManager();
   if (fs.existsSync(sample)){
     const j = JSON.parse(fs.readFileSync(path.resolve(sample), 'utf-8')) as {entities:{id:string;hp:number;atk:number;def:number}[]};
     for(const e of j.entities) mgr.create(e.id, e.hp, e.atk, e.def);

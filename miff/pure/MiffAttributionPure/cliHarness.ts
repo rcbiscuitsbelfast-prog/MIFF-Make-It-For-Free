@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { MiffAttributionManager } from './Manager';
+import { MiffAttributionManager } from './Manager.js';
 import { getOverride } from './override';
 import { InputSanitizer } from '../shared/security/InputSanitizer.js';
 
