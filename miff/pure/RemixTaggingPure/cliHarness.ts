@@ -1,7 +1,7 @@
 #!/usr/bin/env -S node --no-warnings
 import * as fs from 'fs';
 import * as path from 'path';
-import { RemixTaggingManager, type RemixLevel } from './Manager';
+import { RemixTaggingManager, type RemixLevel } from './Manager.js';
 import { addExportSupport } from '../shared/exportUtils';
 
 type Operation =

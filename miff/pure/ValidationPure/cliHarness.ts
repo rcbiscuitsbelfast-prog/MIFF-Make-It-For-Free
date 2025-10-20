@@ -9,7 +9,7 @@
  * @license MIT
  */
 
-import { ValidationManager, ValidationConfig, ValidationInput } from './Manager';
+import { ValidationManager, ValidationConfig, ValidationInput } from './Manager.js';
 import { parseCLIArgs, formatOutput } from '../shared/cliHarnessUtils';
 import * as fsLocal from 'fs';
 

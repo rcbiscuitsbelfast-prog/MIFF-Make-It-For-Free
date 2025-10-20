@@ -5,7 +5,7 @@
  * of all skeleton animator modules
  */
 
-import { SkeletonAnimatorManager } from './Manager';
+import { SkeletonAnimatorManager } from './Manager.js';
 import { RigBuilder } from './RigBuilder';
 import { LimbAttachment } from './LimbAttachment';
 import { SkinMeshGenerator } from './SkinMeshGenerator';

@@ -255,7 +255,7 @@ export class ChainManager {
     });
   }
 
-  private convertToYAML(data): string {
+  private convertToYAML(data: any): string {
     // Simple YAML conversion - in production, use a proper YAML library
     return `chain:
   id: ${data.chain.id}

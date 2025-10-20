@@ -1,7 +1,7 @@
 #!/usr/bin/env tsx
 
 import { RenderReplaySystem } from './index';
-import { RenderReplayManager, ReplayConfig } from './Manager';
+import { RenderReplayManager, ReplayConfig } from './Manager.js';
 import * as fs from 'fs';
 import * as path from 'path';
 

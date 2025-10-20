@@ -2,7 +2,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { ProceduralWorldManager, TerrainOptions, BiomeRulesSchema } from './Manager';
+import { ProceduralWorldManager, TerrainOptions, BiomeRulesSchema } from './Manager.js';
 import { parseComplexCLIArgs, formatOutput } from '../shared/cliHarnessUtils';
 
 function toInt(value: any, fallback: number): number { const n = parseInt(String(value)); return Number.isFinite(n) ? n : fallback; }

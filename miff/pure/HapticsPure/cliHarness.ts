@@ -1,6 +1,6 @@
 #!/usr/bin/env tsx
 import * as fs from 'fs';
-import { HapticsManager, HapticRequest } from './Manager';
+import { HapticsManager, HapticRequest } from './Manager.js';
 
 async function main() {
   const argv = process.argv.slice(2);

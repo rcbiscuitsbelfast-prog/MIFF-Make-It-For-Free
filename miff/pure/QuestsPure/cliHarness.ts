@@ -9,7 +9,7 @@
  * @license MIT
  */
 
-import { QuestsManager, Quest, QuestStep, QuestReward } from './Manager';
+import { QuestsManager, Quest, QuestStep, QuestReward } from './Manager.js';
 import * as fs from 'fs';
 import * as path from 'path';
 import { parseCLIArgs, formatOutput } from '../shared/cliHarnessUtils';

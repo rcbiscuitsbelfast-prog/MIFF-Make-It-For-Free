@@ -1,7 +1,7 @@
 #!/usr/bin/env -S node --no-warnings
 import fs from 'fs';
 import path from 'path';
-import { CraftingManager, Recipe, Inventory } from './Manager';
+import { CraftingManager, Recipe, Inventory } from './Manager.js';
 import { InputSanitizer } from '../shared/security/InputSanitizer.js';
 
 type Cmd =

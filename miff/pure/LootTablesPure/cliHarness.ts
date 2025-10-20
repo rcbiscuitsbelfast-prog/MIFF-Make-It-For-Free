@@ -1,7 +1,7 @@
 #!/usr/bin/env -S node --no-warnings
 import fs from 'fs';
 import path from 'path';
-import { LootTablesManager, LootTable, LootEntry } from './Manager';
+import { LootTablesManager, LootTable, LootEntry } from './Manager.js';
 
 type Cmd =
   | { op: 'list' }

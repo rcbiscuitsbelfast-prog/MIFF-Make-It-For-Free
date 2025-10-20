@@ -1,7 +1,7 @@
 #!/usr/bin/env -S node --no-warnings
 import fs from 'fs';
 import path from 'path';
-import { StoryManager, StoryArc, StoryNode } from './Manager';
+import { StoryManager, StoryArc, StoryNode } from './Manager.js';
 import { addExportSupport } from '../shared/exportUtils';
 
 type Cmd =

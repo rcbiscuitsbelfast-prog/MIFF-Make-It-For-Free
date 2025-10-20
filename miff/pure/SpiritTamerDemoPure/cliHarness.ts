@@ -1,6 +1,6 @@
 #!/usr/bin/env tsx
 
-import { SpiritTamerManager } from './Manager';
+import { SpiritTamerManager } from './Manager.js';
 import { exportDataToFormat, ExportFormat } from '../shared/exportUtils';
 import * as fs from 'fs';
 import * as path from 'path';

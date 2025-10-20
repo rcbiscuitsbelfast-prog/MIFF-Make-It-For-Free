@@ -1,4 +1,4 @@
-import { SharedSchemaManager } from './Manager';
+import { SharedSchemaManager } from './Manager.js';
 
 type Cmd = { op: 'dumpTypes' } | { op: 'list' } | { op: 'dump' };
 

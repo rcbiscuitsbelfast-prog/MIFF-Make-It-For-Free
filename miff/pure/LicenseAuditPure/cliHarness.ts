@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { LicenseAuditManager, LicenseType } from './Manager';
+import { LicenseAuditManager, LicenseType } from './Manager.js';
 
 type Cmd = 
   | { op: 'auditModule'; moduleId: string; moduleName: string; licenseType: LicenseType; dependencies?: string[]; licenseFiles?: string[] }

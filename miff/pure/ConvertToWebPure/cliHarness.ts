@@ -2,7 +2,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import { ConvertToWebManager } from './Manager';
+import { ConvertToWebManager } from './Manager.js';
 
 function main(){
   const file = process.argv[2!];

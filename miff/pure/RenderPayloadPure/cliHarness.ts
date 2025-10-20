@@ -9,7 +9,7 @@
  * @license MIT
  */
 
-import { RenderPayloadManager, FrameBuildOptions } from './Manager';
+import { RenderPayloadManager, FrameBuildOptions } from './Manager.js';
 import { parseCLIArgs, formatOutput } from '../shared/cliHarnessUtils';
 
 const { mode, args } = parseCLIArgs(process.argv);

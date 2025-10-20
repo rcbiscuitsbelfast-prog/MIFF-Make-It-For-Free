@@ -9,7 +9,7 @@
  * @license MIT
  */
 
-import { ScoreManager, ScoreEvent, ScoreBonus, ScorePenalty, Achievement } from './Manager';
+import { ScoreManager, ScoreEvent, ScoreBonus, ScorePenalty, Achievement } from './Manager.js';
 import { parseCLIArgs, formatOutput } from '../shared/cliHarnessUtils';
 
 const { mode, args } = parseCLIArgs(process.argv);

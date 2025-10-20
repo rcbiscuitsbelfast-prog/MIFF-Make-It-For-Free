@@ -1,7 +1,7 @@
 #!/usr/bin/env -S node --no-warnings
 import fs from 'fs';
 import path from 'path';
-import { ChainManager, QuestChain, ChainProgress } from './Manager';
+import { ChainManager, QuestChain, ChainProgress } from './Manager.js';
 import { addExportSupport } from '../shared/exportUtils';
 
 type Cmd =

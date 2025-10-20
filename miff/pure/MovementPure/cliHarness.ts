@@ -9,7 +9,7 @@
  * @license MIT
  */
 
-import { MovementManager, MovementPattern, Vector2 } from './Manager';
+import { MovementManager, MovementPattern, Vector2 } from './Manager.js';
 import { parseCLIArgs, formatOutput } from '../shared/cliHarnessUtils';
 
 const { mode, args } = parseCLIArgs(process.argv);

@@ -9,7 +9,7 @@
  * @license MIT
  */
 
-import { HealthSystemManager, Shield, RegenerationEffect } from './Manager';
+import { HealthSystemManager, Shield, RegenerationEffect } from './Manager.js';
 import { parseCLIArgs, formatOutput } from '../shared/cliHarnessUtils';
 
 const { mode, args } = parseCLIArgs(process.argv);

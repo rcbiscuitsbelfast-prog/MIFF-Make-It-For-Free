@@ -1,7 +1,7 @@
 #!/usr/bin/env tsx
 import * as fs from 'fs';
 import * as path from 'path';
-import { MeshFactoryManager } from './Manager';
+import { MeshFactoryManager } from './Manager.js';
 import { parseComplexCLIArgs, formatOutput } from '../shared/cliHarnessUtils';
 
 function main(){

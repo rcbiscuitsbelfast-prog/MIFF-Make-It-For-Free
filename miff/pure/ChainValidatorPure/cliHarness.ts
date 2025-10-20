@@ -1,7 +1,7 @@
 #!/usr/bin/env -S node --no-warnings
 import * as fs from 'fs';
 import * as path from 'path';
-import { ChainValidatorManager, type ChainNode, type ChainEdge } from './Manager';
+import { ChainValidatorManager, type ChainNode, type ChainEdge } from './Manager.js';
 import { addExportSupport } from '../shared/exportUtils';
 
 type Operation =
