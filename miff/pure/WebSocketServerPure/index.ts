@@ -52,7 +52,7 @@ export class WebSocketServerPure extends EventEmitter {
         const client: ClientConnection = {
           id: clientId,
           ws,
-          lastSeen: new Date(),
+          lastSeen: Date.now(),
           channels: new Set()
         };
 
