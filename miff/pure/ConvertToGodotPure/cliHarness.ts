@@ -2,7 +2,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import { ConvertToGodotManager } from './Manager';
+import { ConvertToGodotManager } from './Manager.js';
 
 function main(){
   const file = process.argv[2!];
