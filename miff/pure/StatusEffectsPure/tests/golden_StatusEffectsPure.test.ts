@@ -44,8 +44,8 @@ describe('StatusEffectsPure Golden Tests', () => {
           maxStacks: 5,
           currentStacks: 1,
           source: 'spider_bite',
-          appliedAt: new Date(),
-          expiresAt: new Date() + (10 * 1000)
+          appliedAt: Date.now(),
+          expiresAt: Date.now() + (10 * 1000)
         }
       ];
 
