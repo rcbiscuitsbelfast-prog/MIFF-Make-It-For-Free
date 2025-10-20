@@ -1,13 +1,13 @@
 import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals';
-import { GameLogicPureManager } from './Manager';
+import { GameLogicManager } from './Manager';
 import { addGenericItemMethods } from '../shared/testing/ManagerTestHelpers';
 
 describe('GameLogicPureManager', () => {
   // TODO: Implement missing Manager methods
-  let manager: GameLogicPureManager;
+  let manager: GameLogicManager;
 
   beforeEach(async () => {
-    manager = new GameLogicPureManager({
+    manager = new GameLogicManager({
       enabled: true,
       debugMode: false,
       maxInstances: 100,

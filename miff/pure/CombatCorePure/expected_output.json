@@ -1,7 +1,27 @@
 {
   "outputs": [
-    { "op": "list", "ids": ["hero", "slime"] },
-    { "attackerId": "hero", "defenderId": "slime", "damage": 6, "defenderHpAfter": 4, "victory": false },
-    { "op": "dump", "id": "slime", "hp": 4 }
+    {
+      "op": "list",
+      "entities": [
+        "hero",
+        "slime"
+      ]
+    },
+    {
+      "attackerId": "hero",
+      "defenderId": "slime",
+      "damage": 6,
+      "defenderHpAfter": 4,
+      "victory": false
+    },
+    {
+      "op": "dump",
+      "entity": {
+        "id": "slime",
+        "hp": 4,
+        "atk": 3,
+        "def": 1
+      }
+    }
   ]
 }

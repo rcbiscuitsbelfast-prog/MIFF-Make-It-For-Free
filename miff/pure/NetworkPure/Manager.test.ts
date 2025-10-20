@@ -1,13 +1,13 @@
 import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals';
-import { NetworkPureManager } from './Manager';
+import { NetworkManager } from './Manager';
 import { addGenericItemMethods } from '../shared/testing/ManagerTestHelpers';
 
 describe('NetworkPureManager', () => {
   // TODO: Implement missing Manager methods
-  let manager: NetworkPureManager;
+  let manager: NetworkManager;
 
   beforeEach(async () => {
-    manager = new NetworkPureManager({
+    manager = new NetworkManager({
       enabled: true,
       debugMode: false,
       maxInstances: 100,

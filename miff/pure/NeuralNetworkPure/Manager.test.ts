@@ -1,13 +1,13 @@
 import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals';
-import { NeuralNetworkPureManager } from './Manager';
+import { NeuralNetworkManager } from './Manager';
 import { addGenericItemMethods } from '../shared/testing/ManagerTestHelpers';
 
 describe('NeuralNetworkPureManager', () => {
   // TODO: Implement missing Manager methods
-  let manager: NeuralNetworkPureManager;
+  let manager: NeuralNetworkManager;
 
   beforeEach(async () => {
-    manager = new NeuralNetworkPureManager({
+    manager = new NeuralNetworkManager({
       enabled: true,
       debugMode: false,
       maxInstances: 100,

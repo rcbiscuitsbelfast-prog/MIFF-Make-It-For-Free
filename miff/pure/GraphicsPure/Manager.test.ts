@@ -1,13 +1,13 @@
 import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals';
-import { GraphicsPureManager } from './Manager';
+import { GraphicsManager } from './Manager';
 import { addGenericItemMethods } from '../shared/testing/ManagerTestHelpers';
 
 describe('GraphicsPureManager', () => {
   // TODO: Implement missing Manager methods
-  let manager: GraphicsPureManager;
+  let manager: GraphicsManager;
 
   beforeEach(async () => {
-    manager = new GraphicsPureManager({
+    manager = new GraphicsManager({
       enabled: true,
       debugMode: false,
       maxInstances: 100,
