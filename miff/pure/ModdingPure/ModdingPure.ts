@@ -138,7 +138,7 @@ export class PluginDiscovery {
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       plugin.status = 'error';
-      plugin.error = error instanceof Error ? message: 'Unknown error';
+      plugin.error = error instanceof Error ? error.message : 'Unknown error';
       logger.error('Failed to load plugin', { name: plugin.manifest.name, error: err });
     }
 
