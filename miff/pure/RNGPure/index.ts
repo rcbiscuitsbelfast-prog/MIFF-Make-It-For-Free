@@ -149,7 +149,7 @@ export const RNGUtils = {
   /**
    * Shuffle an array using the given RNG provider
    */
-  shuffle<T extends object>(array: T[], rng: IRNGProvider): T[] {
+  shuffle<T>(array: T[], rng: IRNGProvider): T[] {
     const result = [...array];
     for (let i = result.length - 1; i > 0; i--) {
       const j = rng.nextInt(0, i + 1);
