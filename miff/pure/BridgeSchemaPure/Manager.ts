@@ -260,7 +260,7 @@ export class BridgeSchemaManager {
       return { ok: true };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { ok: false, errors: [error instanceof Error ? message: 'Unknown error'] };
+      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
     }
   }
 
@@ -309,7 +309,7 @@ export class BridgeSchemaManager {
       return { ok: true, result: validation };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { ok: false, errors: [error instanceof Error ? message: 'Validation error'] };
+      return { ok: false, errors: [error instanceof Error ? error.message : 'Validation error'] };
     }
   }
 
@@ -326,7 +326,7 @@ export class BridgeSchemaManager {
       return { ok: true };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { ok: false, errors: [error instanceof Error ? message: 'Unknown error'] };
+      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
     }
   }
 
@@ -347,7 +347,7 @@ export class BridgeSchemaManager {
       return { ok: true, result: converted };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { ok: false, errors: [error instanceof Error ? message: 'Conversion error'] };
+      return { ok: false, errors: [error instanceof Error ? error.message : 'Conversion error'] };
     }
   }
 
@@ -375,7 +375,7 @@ export class BridgeSchemaManager {
       return { ok: true, schema: schemaDefinition };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { ok: false, errors: [error instanceof Error ? message: 'Schema generation error'] };
+      return { ok: false, errors: [error instanceof Error ? error.message : 'Schema generation error'] };
     }
   }
 
@@ -440,7 +440,7 @@ export class BridgeSchemaManager {
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      return { ok: false, errors: [error instanceof Error ? message: 'Export error'] };
+      return { ok: false, errors: [error instanceof Error ? error.message : 'Export error'] };
     }
   }
 
@@ -516,7 +516,7 @@ export class BridgeSchemaManager {
       if (value !== undefined) {
         // Apply transformation if available
         const transformKey = fromPath.split('.').pop();
-        const transformation = rule.transformations?.[transformKey];
+        const transformation = transformKey ? rule.transformations?.[transformKey] : undefined;
         const transformedValue = transformation ? transformation(value) : value;
         
         this.setValueByPath(result, toPath, transformedValue);
@@ -540,7 +540,7 @@ export class BridgeSchemaManager {
     target[lastKey] = value;
   }
 
-  private inferSchemaFromData(data): any {
+  private inferSchemaFromData(data: any): any {
     if (data === null || data === undefined) {
       return { type: 'null' };
     }

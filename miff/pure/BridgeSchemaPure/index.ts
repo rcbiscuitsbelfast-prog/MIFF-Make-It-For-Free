@@ -98,7 +98,7 @@ export class BridgeSchema {
     };
   }
 
-  private findReferences(obj): string[] {
+  private findReferences(obj: any): string[] {
     const refs: string[] = [];
     
     if (typeof obj === 'string' && obj.startsWith('ref:')) {
