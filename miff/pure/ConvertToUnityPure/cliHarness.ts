@@ -2,7 +2,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import { ConvertToUnityManager } from './Manager';
+import { ConvertToUnityManager } from './Manager.js';
 
 function printUsage(){
   console.log(`

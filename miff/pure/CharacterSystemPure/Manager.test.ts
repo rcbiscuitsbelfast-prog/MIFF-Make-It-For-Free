@@ -3,13 +3,13 @@
  * Generated test file for comprehensive coverage
  */
 
-import { Manager } from 'Manager';
+import { CharacterSystemManager } from './Manager';
 
 describe('Manager', () => {
-  let instance: Manager;
+  let instance: CharacterSystemManager;
 
   beforeEach(() => {
-    instance = new Manager();
+    instance = new CharacterSystemManager();
   });
 
   describe('constructor', () => {
