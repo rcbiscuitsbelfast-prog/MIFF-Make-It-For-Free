@@ -544,7 +544,7 @@ export class SceneBuilderManager {
       const result: SceneBuildResult = {
         success: true,
         sceneId: `scene_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        buildTime: new Date(),
+        buildTime: Date.now(),
         fileSize: 0, // Would be calculated from actual files
         assetCount: this.assets.size,
         nodeCount: this.nodes.size,
@@ -555,7 +555,7 @@ export class SceneBuilderManager {
         metadata: {
           configuration: this.configuration,
           template: templateId,
-          buildDuration: new Date()
+          buildDuration: Date.now()
         }
       };
 
@@ -569,18 +569,18 @@ export class SceneBuilderManager {
       const result: SceneBuildResult = {
         success: false,
         sceneId: `scene_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        buildTime: new Date(),
+        buildTime: Date.now(),
         fileSize: 0,
         assetCount: this.assets.size,
         nodeCount: this.nodes.size,
         optimizationStats: this.calculateOptimizationStats(),
-        exportPaths: {},
+        exportPaths: {} as Record<SceneExportFormat, string>,
         warnings: [],
-        errors: [error instanceof Error ? message: 'Unknown error'],
+        errors: [error instanceof Error ? err.message : 'Unknown error'],
         metadata: {
           configuration: this.configuration,
           template: templateId,
-          buildDuration: new Date(),
+          buildDuration: Date.now(),
           error: error
         }
       };
@@ -645,19 +645,19 @@ export class SceneBuilderManager {
     logger.info('Applying scene optimizations', { mode: this.configuration.optimizationMode });
 
     switch (this.configuration.optimizationMode) {
-      case CULLING:
+      case SceneOptimizationMode.CULLING:
         await this.applyCullingOptimizations();
         break;
-      case LOD:
+      case SceneOptimizationMode.LOD:
         await this.applyLODOptimizations();
         break;
-      case BATCHING:
+      case SceneOptimizationMode.BATCHING:
         await this.applyBatchingOptimizations();
         break;
-      case INSTANCING:
+      case SceneOptimizationMode.INSTANCING:
         await this.applyInstancingOptimizations();
         break;
-      case OCCLUSION:
+      case SceneOptimizationMode.OCCLUSION:
         await this.applyOcclusionOptimizations();
         break;
       default:
@@ -699,16 +699,16 @@ export class SceneBuilderManager {
       logger.info('Exporting scene', { format });
 
       switch (format) {
-        case UNITY:
+        case SceneExportFormat.UNITY:
           exportPaths[format] = await this.exportToUnity();
           break;
-        case GODOT:
+        case SceneExportFormat.GODOT:
           exportPaths[format] = await this.exportToGodot();
           break;
-        case WEBGL:
+        case SceneExportFormat.WEBGL:
           exportPaths[format] = await this.exportToWebGL();
           break;
-        case JSON:
+        case SceneExportFormat.JSON:
           exportPaths[format] = await this.exportToJSON();
           break;
         default:
@@ -939,7 +939,7 @@ export class SceneBuilderManager {
       triggers: Array.from(this.triggers.values()),
       colliders: Array.from(this.colliders.values()),
       postProcessing: Array.from(this.postProcessing.values()),
-      timestamp: new Date()
+      timestamp: Date.now()
     };
 
     return JSON.stringify(sceneData, null, 2);
