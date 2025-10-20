@@ -1,0 +1,663 @@
+[
+  {
+    "name": "AIProfileIntegrationLayer",
+    "path": "/workspace/miff/pure/AIProfileIntegrationLayer",
+    "structure": {
+      "has_index": true,
+      "has_manager": true,
+      "has_cli_harness": true,
+      "has_readme": true,
+      "pattern": "Manager"
+    },
+    "code_metrics": {
+      "total_files": 3,
+      "test_files": 1,
+      "has_tests": true,
+      "index_loc": 3,
+      "manager_loc": 537
+    },
+    "tests": {
+      "test_files": [
+        "golden_AIProfileIntegrationLayer.test.ts"
+      ],
+      "status": "failing",
+      "exit_code": 1,
+      "summary": "Tests:       0 total"
+    },
+    "exports": {
+      "export_count": 2,
+      "has_default_export": false,
+      "has_namespace": false,
+      "has_reexport": true
+    },
+    "dependencies": {},
+    "status": {},
+    "issues": []
+  },
+  {
+    "name": "AIProfilesPure",
+    "path": "/workspace/miff/pure/AIProfilesPure",
+    "structure": {
+      "has_index": true,
+      "has_manager": false,
+      "has_cli_harness": true,
+      "has_readme": true,
+      "pattern": "Direct"
+    },
+    "code_metrics": {
+      "total_files": 3,
+      "test_files": 1,
+      "has_tests": true,
+      "index_loc": 25
+    },
+    "tests": {
+      "test_files": [
+        "goldenAIProfiles.test.ts"
+      ],
+      "status": "passing",
+      "exit_code": 0,
+      "summary": "Tests:       1 passed, 1 total"
+    },
+    "exports": {
+      "export_count": 1,
+      "has_default_export": false,
+      "has_namespace": false,
+      "has_reexport": true
+    },
+    "dependencies": {},
+    "status": {},
+    "issues": []
+  },
+  {
+    "name": "AIPure",
+    "path": "/workspace/miff/pure/AIPure",
+    "structure": {
+      "has_index": true,
+      "has_manager": true,
+      "has_cli_harness": true,
+      "has_readme": true,
+      "pattern": "Manager"
+    },
+    "code_metrics": {
+      "total_files": 4,
+      "test_files": 1,
+      "has_tests": true,
+      "index_loc": 43,
+      "manager_loc": 1489
+    },
+    "tests": {
+      "test_files": [
+        "golden_AIPure.test.ts"
+      ],
+      "status": "timeout"
+    },
+    "exports": {
+      "export_count": 10,
+      "has_default_export": false,
+      "has_namespace": false,
+      "has_reexport": true
+    },
+    "dependencies": {},
+    "status": {},
+    "issues": []
+  },
+  {
+    "name": "APIGatewayPure",
+    "path": "/workspace/miff/pure/APIGatewayPure",
+    "structure": {
+      "has_index": true,
+      "has_manager": true,
+      "has_cli_harness": false,
+      "has_readme": false,
+      "pattern": "Manager"
+    },
+    "code_metrics": {
+      "total_files": 5,
+      "test_files": 2,
+      "has_tests": true,
+      "index_loc": 9,
+      "manager_loc": 725
+    },
+    "tests": {
+      "test_files": [
+        "Manager.test.ts",
+        "capabilities.test.ts"
+      ],
+      "status": "timeout"
+    },
+    "exports": {
+      "export_count": 1,
+      "has_default_export": false,
+      "has_namespace": false,
+      "has_reexport": true
+    },
+    "dependencies": {},
+    "status": {},
+    "issues": []
+  },
+  {
+    "name": "ARVRPure",
+    "path": "/workspace/miff/pure/ARVRPure",
+    "structure": {
+      "has_index": true,
+      "has_manager": true,
+      "has_cli_harness": false,
+      "has_readme": false,
+      "pattern": "Manager"
+    },
+    "code_metrics": {
+      "total_files": 5,
+      "test_files": 2,
+      "has_tests": true,
+      "index_loc": 9,
+      "manager_loc": 700
+    },
+    "tests": {
+      "test_files": [
+        "Manager.test.ts",
+        "capabilities.test.ts"
+      ],
+      "status": "timeout"
+    },
+    "exports": {
+      "export_count": 1,
+      "has_default_export": false,
+      "has_namespace": false,
+      "has_reexport": true
+    },
+    "dependencies": {},
+    "status": {},
+    "issues": []
+  },
+  {
+    "name": "AdvancedRenderingPure",
+    "path": "/workspace/miff/pure/AdvancedRenderingPure",
+    "structure": {
+      "has_index": true,
+      "has_manager": false,
+      "has_cli_harness": false,
+      "has_readme": false,
+      "pattern": "Direct"
+    },
+    "code_metrics": {
+      "total_files": 2,
+      "test_files": 1,
+      "has_tests": true,
+      "index_loc": 113
+    },
+    "tests": {
+      "test_files": [
+        "AdvancedRenderingPure.test.ts"
+      ],
+      "status": "timeout"
+    },
+    "exports": {
+      "export_count": 7,
+      "has_default_export": true,
+      "has_namespace": false,
+      "has_reexport": false
+    },
+    "dependencies": {},
+    "status": {},
+    "issues": []
+  },
+  {
+    "name": "AnimationSystemPure",
+    "path": "/workspace/miff/pure/AnimationSystemPure",
+    "structure": {
+      "has_index": true,
+      "has_manager": true,
+      "has_cli_harness": false,
+      "has_readme": false,
+      "pattern": "Manager"
+    },
+    "code_metrics": {
+      "total_files": 5,
+      "test_files": 2,
+      "has_tests": true,
+      "index_loc": 9,
+      "manager_loc": 714
+    },
+    "tests": {
+      "test_files": [
+        "Manager.test.ts",
+        "capabilities.test.ts"
+      ],
+      "status": "timeout"
+    },
+    "exports": {
+      "export_count": 1,
+      "has_default_export": false,
+      "has_namespace": false,
+      "has_reexport": true
+    },
+    "dependencies": {},
+    "status": {},
+    "issues": []
+  },
+  {
+    "name": "AssetManifestPure",
+    "path": "/workspace/miff/pure/AssetManifestPure",
+    "structure": {
+      "has_index": true,
+      "has_manager": false,
+      "has_cli_harness": true,
+      "has_readme": true,
+      "pattern": "Direct"
+    },
+    "code_metrics": {
+      "total_files": 3,
+      "test_files": 1,
+      "has_tests": true,
+      "index_loc": 38
+    },
+    "tests": {
+      "test_files": [
+        "goldenAssetManifestPure.test.ts"
+      ],
+      "status": "timeout"
+    },
+    "exports": {
+      "export_count": 6,
+      "has_default_export": false,
+      "has_namespace": false,
+      "has_reexport": false
+    },
+    "dependencies": {},
+    "status": {},
+    "issues": []
+  },
+  {
+    "name": "AssetValidatorPure",
+    "path": "/workspace/miff/pure/AssetValidatorPure",
+    "structure": {
+      "has_index": true,
+      "has_manager": false,
+      "has_cli_harness": true,
+      "has_readme": true,
+      "pattern": "Direct"
+    },
+    "code_metrics": {
+      "total_files": 3,
+      "test_files": 1,
+      "has_tests": true,
+      "index_loc": 438
+    },
+    "tests": {
+      "test_files": [
+        "golden_AssetValidatorPure.test.ts"
+      ],
+      "status": "timeout"
+    },
+    "exports": {
+      "export_count": 9,
+      "has_default_export": false,
+      "has_namespace": false,
+      "has_reexport": false
+    },
+    "dependencies": {},
+    "status": {},
+    "issues": []
+  },
+  {
+    "name": "AudioBridgePure",
+    "path": "/workspace/miff/pure/AudioBridgePure",
+    "structure": {
+      "has_index": true,
+      "has_manager": false,
+      "has_cli_harness": true,
+      "has_readme": true,
+      "pattern": "Direct"
+    },
+    "code_metrics": {
+      "total_files": 2,
+      "test_files": 1,
+      "has_tests": true,
+      "index_loc": 407
+    },
+    "tests": {
+      "test_files": [
+        "golden_AudioBridgePure.test.ts"
+      ],
+      "status": "timeout"
+    },
+    "exports": {
+      "export_count": 7,
+      "has_default_export": false,
+      "has_namespace": false,
+      "has_reexport": false
+    },
+    "dependencies": {},
+    "status": {},
+    "issues": []
+  },
+  {
+    "name": "AudioMixerPure",
+    "path": "/workspace/miff/pure/AudioMixerPure",
+    "structure": {
+      "has_index": true,
+      "has_manager": false,
+      "has_cli_harness": true,
+      "has_readme": false,
+      "pattern": "Direct"
+    },
+    "code_metrics": {
+      "total_files": 4,
+      "test_files": 1,
+      "has_tests": true,
+      "index_loc": 9
+    },
+    "tests": {
+      "test_files": [
+        "AudioMixerPure.test.ts"
+      ],
+      "status": "timeout"
+    },
+    "exports": {
+      "export_count": 1,
+      "has_default_export": false,
+      "has_namespace": false,
+      "has_reexport": true
+    },
+    "dependencies": {},
+    "status": {},
+    "issues": []
+  },
+  {
+    "name": "AudioPure",
+    "path": "/workspace/miff/pure/AudioPure",
+    "structure": {
+      "has_index": true,
+      "has_manager": true,
+      "has_cli_harness": true,
+      "has_readme": false,
+      "pattern": "Manager"
+    },
+    "code_metrics": {
+      "total_files": 6,
+      "test_files": 1,
+      "has_tests": true,
+      "index_loc": 690,
+      "manager_loc": 39
+    },
+    "tests": {
+      "test_files": [
+        "AudioPure.test.ts"
+      ],
+      "status": "timeout"
+    },
+    "exports": {
+      "export_count": 21,
+      "has_default_export": false,
+      "has_namespace": false,
+      "has_reexport": false
+    },
+    "dependencies": {},
+    "status": {},
+    "issues": []
+  },
+  {
+    "name": "AudioSystemPure",
+    "path": "/workspace/miff/pure/AudioSystemPure",
+    "structure": {
+      "has_index": true,
+      "has_manager": true,
+      "has_cli_harness": false,
+      "has_readme": false,
+      "pattern": "Manager"
+    },
+    "code_metrics": {
+      "total_files": 5,
+      "test_files": 2,
+      "has_tests": true,
+      "index_loc": 9,
+      "manager_loc": 910
+    },
+    "tests": {
+      "test_files": [
+        "Manager.test.ts",
+        "capabilities.test.ts"
+      ],
+      "status": "timeout"
+    },
+    "exports": {
+      "export_count": 1,
+      "has_default_export": false,
+      "has_namespace": false,
+      "has_reexport": true
+    },
+    "dependencies": {},
+    "status": {},
+    "issues": []
+  },
+  {
+    "name": "AvatarAssetRegistryPure",
+    "path": "/workspace/miff/pure/AvatarAssetRegistryPure",
+    "structure": {
+      "has_index": true,
+      "has_manager": false,
+      "has_cli_harness": true,
+      "has_readme": false,
+      "pattern": "Direct"
+    },
+    "code_metrics": {
+      "total_files": 2,
+      "test_files": 0,
+      "has_tests": false,
+      "index_loc": 23
+    },
+    "tests": {},
+    "exports": {
+      "export_count": 3,
+      "has_default_export": false,
+      "has_namespace": false,
+      "has_reexport": false
+    },
+    "dependencies": {},
+    "status": {},
+    "issues": []
+  },
+  {
+    "name": "AvatarRendererGodotPure",
+    "path": "/workspace/miff/pure/AvatarRendererGodotPure",
+    "structure": {
+      "has_index": true,
+      "has_manager": false,
+      "has_cli_harness": true,
+      "has_readme": false,
+      "pattern": "Direct"
+    },
+    "code_metrics": {
+      "total_files": 2,
+      "test_files": 2,
+      "has_tests": true,
+      "index_loc": 24
+    },
+    "tests": {
+      "test_files": [
+        "anchors.test.ts",
+        "manifest_mapping.test.ts"
+      ],
+      "status": "failing",
+      "exit_code": 1,
+      "summary": "Tests:       1 passed, 1 total"
+    },
+    "exports": {
+      "export_count": 1,
+      "has_default_export": false,
+      "has_namespace": false,
+      "has_reexport": false
+    },
+    "dependencies": {},
+    "status": {},
+    "issues": []
+  },
+  {
+    "name": "AvatarRendererWebPure",
+    "path": "/workspace/miff/pure/AvatarRendererWebPure",
+    "structure": {
+      "has_index": true,
+      "has_manager": false,
+      "has_cli_harness": true,
+      "has_readme": false,
+      "pattern": "Direct"
+    },
+    "code_metrics": {
+      "total_files": 2,
+      "test_files": 1,
+      "has_tests": true,
+      "index_loc": 20
+    },
+    "tests": {
+      "test_files": [
+        "layering.test.ts"
+      ],
+      "status": "timeout"
+    },
+    "exports": {
+      "export_count": 1,
+      "has_default_export": false,
+      "has_namespace": false,
+      "has_reexport": false
+    },
+    "dependencies": {},
+    "status": {},
+    "issues": []
+  },
+  {
+    "name": "AvatarSystemPure",
+    "path": "/workspace/miff/pure/AvatarSystemPure",
+    "structure": {
+      "has_index": true,
+      "has_manager": false,
+      "has_cli_harness": true,
+      "has_readme": false,
+      "pattern": "Direct"
+    },
+    "code_metrics": {
+      "total_files": 3,
+      "test_files": 2,
+      "has_tests": true,
+      "index_loc": 603
+    },
+    "tests": {
+      "test_files": [
+        "translation.test.ts",
+        "performance.test.ts"
+      ],
+      "status": "timeout"
+    },
+    "exports": {
+      "export_count": 12,
+      "has_default_export": false,
+      "has_namespace": true,
+      "has_reexport": false
+    },
+    "dependencies": {},
+    "status": {},
+    "issues": []
+  },
+  {
+    "name": "BackupSystemPure",
+    "path": "/workspace/miff/pure/BackupSystemPure",
+    "structure": {
+      "has_index": true,
+      "has_manager": true,
+      "has_cli_harness": false,
+      "has_readme": false,
+      "pattern": "Manager"
+    },
+    "code_metrics": {
+      "total_files": 5,
+      "test_files": 2,
+      "has_tests": true,
+      "index_loc": 9,
+      "manager_loc": 980
+    },
+    "tests": {
+      "test_files": [
+        "Manager.test.ts",
+        "capabilities.test.ts"
+      ],
+      "status": "timeout"
+    },
+    "exports": {
+      "export_count": 1,
+      "has_default_export": false,
+      "has_namespace": false,
+      "has_reexport": true
+    },
+    "dependencies": {},
+    "status": {},
+    "issues": []
+  },
+  {
+    "name": "BattleAIPure",
+    "path": "/workspace/miff/pure/BattleAIPure",
+    "structure": {
+      "has_index": true,
+      "has_manager": true,
+      "has_cli_harness": true,
+      "has_readme": true,
+      "pattern": "Manager"
+    },
+    "code_metrics": {
+      "total_files": 8,
+      "test_files": 1,
+      "has_tests": true,
+      "index_loc": 7,
+      "manager_loc": 776
+    },
+    "tests": {
+      "test_files": [
+        "golden_BattleAIPure.test.ts"
+      ],
+      "status": "failing",
+      "exit_code": 1,
+      "summary": "Tests:       0 total"
+    },
+    "exports": {
+      "export_count": 7,
+      "has_default_export": false,
+      "has_namespace": false,
+      "has_reexport": true
+    },
+    "dependencies": {},
+    "status": {},
+    "issues": []
+  },
+  {
+    "name": "BattleLoopPure",
+    "path": "/workspace/miff/pure/BattleLoopPure",
+    "structure": {
+      "has_index": true,
+      "has_manager": false,
+      "has_cli_harness": true,
+      "has_readme": true,
+      "pattern": "Direct"
+    },
+    "code_metrics": {
+      "total_files": 2,
+      "test_files": 1,
+      "has_tests": true,
+      "index_loc": 293
+    },
+    "tests": {
+      "test_files": [
+        "golden_BattleLoopPure.test.ts"
+      ],
+      "status": "failing",
+      "exit_code": 1,
+      "summary": "Tests:       0 total"
+    },
+    "exports": {
+      "export_count": 9,
+      "has_default_export": false,
+      "has_namespace": false,
+      "has_reexport": true
+    },
+    "dependencies": {},
+    "status": {},
+    "issues": []
+  }
+]
