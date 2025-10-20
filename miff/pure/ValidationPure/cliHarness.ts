@@ -27,6 +27,9 @@ try {
 // Parse additional arguments
 const format = args.find(arg => arg.startsWith('--format='))?.split('=')[1!] as 'json' | 'manifest' | 'summary' | 'report' || 'json';
 
+// Create manager instance
+const manager = new ValidationManager();
+
 let output: any;
 
 // Legacy positional short-circuit: if an input path is provided as first arg,
