@@ -357,7 +357,7 @@ export class AudioSystem {
       spectralCentroid,
       spectralRolloff,
       sampleRate: this.config.sampleRate,
-      timestamp: new Date()
+      timestamp: Date.now()
     };
   }
 
@@ -413,7 +413,7 @@ export class AudioSystem {
       type: 'stop',
       soundId: instance.soundId,
       timestamp: Date.now(),
-      data: { instanceId, duration: new Date() - instance.startTime }
+      data: { instanceId, duration: Date.now() - instance.startTime }
     });
 
     return true;

@@ -307,7 +307,7 @@ export class EventBus {
       event,
       target: 'broadcast',
       reliable: event.priority >= EventPriority.HIGH,
-      timestamp: new Date()
+      timestamp: Date.now()
     };
 
     this.stats.networkMessages++;

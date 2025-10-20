@@ -344,8 +344,8 @@ export class LogManager {
       entriesBySource: {} as Record<string, number>,
       averageEntriesPerMinute: 0,
       errorRate: 0,
-      lastEntryTime: new Date(),
-      oldestEntryTime: new Date()
+      lastEntryTime: Date.now(),
+      oldestEntryTime: Date.now()
     };
 
     this.initialize();
@@ -695,8 +695,8 @@ export class LogManager {
       entriesBySource: {} as Record<string, number>,
       averageEntriesPerMinute: 0,
       errorRate: 0,
-      lastEntryTime: new Date(),
-      oldestEntryTime: new Date()
+      lastEntryTime: Date.now(),
+      oldestEntryTime: Date.now()
     };
 
     // Reinitialize stats
