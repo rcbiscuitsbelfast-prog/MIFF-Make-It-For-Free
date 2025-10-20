@@ -129,7 +129,7 @@ export class InventoryManager {
       items: new Map(),
       equipped: new Map(),
       currency: new Map(),
-      lastUpdated: new Date()
+      lastUpdated: Date.now()
     };
 
     this.system.inventories.set(entityId, inventory);
@@ -183,7 +183,7 @@ export class InventoryManager {
       quantity,
       durability: itemDef.properties.durability,
       maxDurability: itemDef.properties.durability,
-      acquiredAt: new Date()
+      acquiredAt: Date.now()
     };
 
     const targetSlot = slot || this.findEmptySlot(inventory);
@@ -416,7 +416,7 @@ export class InventoryManager {
       fromSlot,
       toSlot,
       equipSlot,
-      timestamp: new Date()
+      timestamp: Date.now()
     };
 
     this.system.transactions.push(transaction);
@@ -465,7 +465,7 @@ export class InventoryManager {
         return slot;
       }
     }
-    return undefined;
+    return '';
   }
 
   private generateItemInstanceId(): string {
