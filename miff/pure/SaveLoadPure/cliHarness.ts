@@ -230,7 +230,7 @@ async function main() {
   } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
     result.status = 'error';
-    result.result = { error: error instanceof Error ? message: 'Unknown error' };
+    result.result = { error: error instanceof Error ? error.message : 'Unknown error' };
   }
 
   console.log(JSON.stringify(result, null, 2));

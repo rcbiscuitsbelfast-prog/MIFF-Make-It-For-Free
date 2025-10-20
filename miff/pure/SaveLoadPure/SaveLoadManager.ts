@@ -49,7 +49,7 @@ export class SaveLoadManager {
   }
 
   // Migration: if input lacks `saves`, wrap legacy data into a migrated slot
-  static migrateToV11(input): GameDataV11 {
+  static migrateToV11(input: any): GameDataV11 {
     // New blank
     const newBlank = (): GameDataV11 => ({ schemaVersion: 11 as const, currentSlot: '', saves: {} });
 
@@ -68,8 +68,8 @@ export class SaveLoadManager {
       currentSlot: slotId,
       saves: {},
       // copy known legacy fields (best-effort)
-      xp: Array.isArray(input.xp) ? xp: [],
-      levels: Array.isArray(input.levels) ? levels: [],
+      xp: Array.isArray(input.xp) ? input.xp : [],
+      levels: Array.isArray(input.levels) ? input.levels : [],
       settings: input.settings,
       quests: input.quests,
       inventory: input.inventory,
@@ -78,7 +78,7 @@ export class SaveLoadManager {
     };
     migrated.saves[slotId] = {
       id: slotId,
-      timestamp: new Date(),
+      timestamp: Date.now(),
       data: snapshot,
       autosave: false,
     };
