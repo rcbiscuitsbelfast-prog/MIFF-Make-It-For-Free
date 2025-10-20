@@ -411,7 +411,7 @@ export const InputUtils = {
       InputTokens.GAMEPAD.RB
     ];
 
-    return modifiers.includes(input);
+    return (modifiers as string[]).includes(input);
   },
 
   /**
@@ -429,7 +429,7 @@ export const InputUtils = {
       InputTokens.KEYBOARD.ARROW_RIGHT
     ];
 
-    return movements.includes(input);
+    return (movements as string[]).includes(input);
   }
 };
 
