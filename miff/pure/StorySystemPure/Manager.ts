@@ -216,7 +216,7 @@ export class StoryManager {
       value,
       type,
       description,
-      setAt: new Date(),
+      setAt: Date.now(),
       expiresAt
     };
 
