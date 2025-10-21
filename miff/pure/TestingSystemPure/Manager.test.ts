@@ -8,15 +8,19 @@ describe('TestingSystemManager', () => {
 
   beforeEach(async () => {
     manager = new TestingSystemPure({
-      enabled: true,
-      debugMode: false,
-      maxInstances: 100,
-      timeout: 5000,
-      retryAttempts: 3,
-      cacheSize: 50,
-      logLevel: 'error',
-      performanceMonitoring: false,
-      memoryTracking: false
+      enableTestingManagement: true,
+      enableTestAutomation: true,
+      enableTestOrchestration: true,
+      enableTestReporting: true,
+      enablePerformanceTesting: true,
+      enableMonitoring: false,
+      enableTestingAnalytics: true,
+      enableTestingReporting: true,
+      maxTestSuites: 100,
+      maxTestCases: 1000,
+      enableCloudSync: false,
+      enableBackup: false,
+      enableVersioning: false
     });
     
     await manager.initialize();    
@@ -166,7 +170,7 @@ describe('TestingSystemManager', () => {
 
   describe('Analytics and Statistics', () => {
     it.skip('should provide analytics', () => {
-      const analytics = manager.getAnalytics();
+      const analytics: any = manager.getAnalytics();
       expect(analytics).toBeDefined();
       expect(typeof analytics.totalItems).toBe('number');
       expect(typeof analytics.activeItems).toBe('number');

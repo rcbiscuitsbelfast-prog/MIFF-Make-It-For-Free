@@ -6,21 +6,17 @@
 import capabilities from './capabilities';
 
 describe('capabilities', () => {
-  let instance: capabilities;
-
-  beforeEach(() => {
-    instance = new capabilities();
+  it('should be defined', () => {
+    expect(capabilities).toBeDefined();
   });
 
-  describe('constructor', () => {
-    it('should create instance', () => {
-      expect(instance).toBeDefined();
-    });
+  it('should have required properties', () => {
+    expect(capabilities.id).toBeDefined();
+    expect(capabilities.name).toBeDefined();
+    expect(capabilities.version).toBeDefined();
   });
 
-  describe('basic functionality', () => {
-    it('should have basic methods', () => {
-      expect(typeof instance).toBe('object');
-    });
+  it('should be an object', () => {
+    expect(typeof capabilities).toBe('object');
   });
 });
