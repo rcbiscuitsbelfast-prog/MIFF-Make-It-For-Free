@@ -24,16 +24,7 @@ describe('TestingSystemManager', () => {
     });
     
     await manager.initialize();    
-    // Add generic item methods as aliases to domain-specific methods
-    addGenericItemMethods(manager, {
-      create: 'createManager',
-      get: 'getManager',
-      update: '',
-      delete: '',
-      getAll: 'getAllManagers',
-      getStats: 'getStats',
-      getAnalytics: 'getAnalytics'
-    });
+    // Generic item methods are now built into the class
   });
 
   afterEach(async () => {

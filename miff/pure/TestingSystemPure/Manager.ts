@@ -964,6 +964,7 @@ export class TestingSystemPure {
   private config: TestingSystemConfig;
   private performanceMetrics: TestingSystemPerformanceMetrics;
   private analytics: TestingSystemAnalytics;
+  private idCounter: number = 0;
 
   constructor(config: Partial<TestingSystemConfig> = {}) {
     this.config = {
@@ -1012,7 +1013,7 @@ export class TestingSystemPure {
   /**
    * Create a new testing system manager
    */
-  createManager(): TestingSystemOutput {
+  createManager(managerData: any = {}): TestingSystemOutput {
     if (!this.config.enableTestingManagement) {
       return {
         op: 'create-manager',
@@ -1021,8 +1022,9 @@ export class TestingSystemPure {
       };
     }
 
-    const manager: TestingSystemManager = {
-      id: managerData.id || `testingsystem-${Date.now()}`,
+    const managerId = managerData.id || `testingsystem-${Date.now()}-${this.idCounter++}`;
+    const manager: any = {
+      id: managerId,
       name: managerData.name || 'Unnamed Testing System Manager',
       type: managerData.type || 'unit',
       status: 'active',
@@ -1087,17 +1089,19 @@ export class TestingSystemPure {
         lastUpdate: 0
       },
       metadata: {},
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
       ...managerData
     };
 
-    this.managers.set(manager.id, manager);
+    this.managers.set(managerId, manager);
 
     return {
       op: 'create-manager',
       status: 'ok',
-      result: manager
+      ok: true,
+      result: manager,
+      data: manager
     };
   }
 
@@ -1219,21 +1223,19 @@ export class TestingSystemPure {
   
   // Generic CRUD methods for test compatibility
   async createItem(itemData: any): Promise<any> {
-    const result = this.createManager();
-    if (result.ok) {
-      return result.data;
-    }
-    throw new Error(result.issues?.join(', ') || 'Failed to create item');
+    const output = this.createManager(itemData);
+    return output.result || output.data;
   }
   
   getItem(id: string): any {
-    return this.managers.get(id);
+    const output = this.getManager(id);
+    return output.status === 'ok' ? output.result : undefined;
   }
   
   async updateItem(id: string, updates: any): Promise<any> {
     const manager = this.managers.get(id);
     if (manager) {
-      Object.assign(manager, updates);
+      Object.assign(manager, updates, { updatedAt: Date.now() });
       return manager;
     }
     return undefined;
@@ -1247,6 +1249,3 @@ export class TestingSystemPure {
     return this.getAllManagers();
   }
 }
-
-// Export the class (interface already exists above)
-export { TestingSystemPure };
