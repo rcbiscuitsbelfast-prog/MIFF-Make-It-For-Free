@@ -3,13 +3,13 @@
  * Generated test file for comprehensive coverage
  */
 
-import { capabilities } from './capabilities';
+import { loggingsystemCapability } from './capabilities';
 
-describe('capabilities', () => {
-  let instance: capabilities;
+describe('loggingsystemCapability', () => {
+  let instance: typeof loggingsystemCapability;
 
   beforeEach(() => {
-    instance = new capabilities();
+    instance = loggingsystemCapability;
   });
 
   describe('constructor', () => {

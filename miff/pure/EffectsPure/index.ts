@@ -462,21 +462,21 @@ export class BattleEffect implements IBattleEffect {
    */
   getEffectDescription(): string {
     switch (this.effectType) {
-      case STAT_MODIFIER:
+      case EffectType.STAT_MODIFIER:
         const modType = this.modifierType === ModifierType.FLAT ? 'flat' : 'percent';
         const sign = this.value >= 0 ? '+' : '';
         const displayValue = this.modifierType === ModifierType.PERCENT ?
           `${Math.round(this.value * 100)}%` : `${this.value}`;
         return `${this.name}: ${sign}${displayValue} ${modType} to ${this.targetStat.toUpperCase()}`;
-      case DAMAGE_OVER_TIME:
+      case EffectType.DAMAGE_OVER_TIME:
         return `${this.name}: ${this.value} damage per tick`;
-      case HEAL:
+      case EffectType.HEAL:
         return `${this.name}: ${this.value} healing`;
-      case STUN:
+      case EffectType.STUN:
         return `${this.name}: Stunned for ${this.getDurationDescription()}`;
-      case SHIELD:
+      case EffectType.SHIELD:
         return `${this.name}: ${this.value} shield`;
-      case CUSTOM:
+      case EffectType.CUSTOM:
         return `${this.name}: ${this.description}`;
       default:
         return `${this.name}: ${this.description}`;
@@ -1179,7 +1179,7 @@ export class EffectResolver implements IEffectResolver {
         resolvedEffects.push(group[0!]);
       } else {
         // Find effect with highest absolute value
-        const bestEffect = group.reduce((best, current) =>
+        const bestEffect = group.reduce((best: IActiveEffect, current: IActiveEffect) =>
           Math.abs(current.effect.value) > Math.abs(best.effect.value) ? current : best
         );
         resolvedEffects.push(bestEffect);
@@ -1221,7 +1221,7 @@ export class EffectResolver implements IEffectResolver {
     const statChanges = new Map<string, number>();
 
     switch (effect.effect.effectType) {
-      case STAT_MODIFIER:
+      case EffectType.STAT_MODIFIER:
         const currentValue = context.getEntityStat(effect.entityId, effect.effect.targetStat);
         const modifiedValue = this.calculateStatModification(effect.effect, currentValue);
         const change = modifiedValue - currentValue;
@@ -1230,20 +1230,20 @@ export class EffectResolver implements IEffectResolver {
         }
         break;
 
-      case DAMAGE_OVER_TIME:
+      case EffectType.DAMAGE_OVER_TIME:
         // Damage over time would be handled by the battle system
         statChanges.set(TargetStat.HP, -effect.effect.value * effect.stacks);
         break;
 
-      case HEAL:
+      case EffectType.HEAL:
         statChanges.set(TargetStat.HP, effect.effect.value * effect.stacks);
         break;
 
-      case SHIELD:
+      case EffectType.SHIELD:
         // Shield effects might add temporary HP
         break;
 
-      case STUN:
+      case EffectType.STUN:
         // Stun effects don't directly change stats
         break;
     }
@@ -1262,10 +1262,10 @@ export class EffectResolver implements IEffectResolver {
     }
 
     switch (effect.modifierType) {
-      case FLAT:
+      case ModifierType.FLAT:
         result += effect.value;
         break;
-      case PERCENT:
+      case ModifierType.PERCENT:
         result *= (1 + effect.value);
         break;
     }
@@ -1306,7 +1306,7 @@ export class EffectManager implements IEffectManager {
       return EffectApplicationResult.REJECTED;
     }
 
-    const errors = effect.validate({});
+    const errors = effect.validate();
     if (errors.length > 0) {
       logger.warn('Invalid effect', { effectId: effect.effectId, errors });
       return EffectApplicationResult.REJECTED;
@@ -1610,13 +1610,13 @@ export const EffectUtils = {
    */
   shouldTriggerOnPhase(effect: IBattleEffect, phase: EffectPhase): boolean {
     switch (phase) {
-      case PRE_TURN:
+      case EffectPhase.PRE_TURN:
         return effect.hasTrigger(EffectTrigger.ON_APPLY);
-      case SELECT_ACTION:
+      case EffectPhase.SELECT_ACTION:
         return effect.hasTrigger(EffectTrigger.ON_CAST);
-      case RESOLVE_ACTION:
+      case EffectPhase.RESOLVE_ACTION:
         return effect.hasTrigger(EffectTrigger.ON_HIT) || effect.hasTrigger(EffectTrigger.ON_CRIT);
-      case END_TURN:
+      case EffectPhase.END_TURN:
         return effect.hasTrigger(EffectTrigger.ON_TICK) || effect.hasTrigger(EffectTrigger.ON_REMOVE);
       default:
         return false;
@@ -1629,17 +1629,17 @@ export const EffectUtils = {
   getEffectPriority(effect: IBattleEffect): number {
     // Base priority on effect type
     switch (effect.effectType) {
-      case STUN:
+      case EffectType.STUN:
         return 100; // Highest priority
-      case SHIELD:
+      case EffectType.SHIELD:
         return 90;
-      case HEAL:
+      case EffectType.HEAL:
         return 80;
-      case DAMAGE_OVER_TIME:
+      case EffectType.DAMAGE_OVER_TIME:
         return 70;
-      case STAT_MODIFIER:
+      case EffectType.STAT_MODIFIER:
         return 50;
-      case CUSTOM:
+      case EffectType.CUSTOM:
         return 25;
       default:
         return 0;

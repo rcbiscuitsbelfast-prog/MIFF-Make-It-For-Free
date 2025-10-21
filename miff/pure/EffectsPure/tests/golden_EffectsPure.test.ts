@@ -1253,8 +1253,7 @@ describe('EffectsPure Golden Tests', () => {
         0,
         0,
         true, // stackable
-        5,    // max 5 stacks
-        true  // refresh on stack
+        5    // max 5 stacks
       );
 
       // Apply multiple stacks
@@ -1338,9 +1337,7 @@ describe('EffectsPure Golden Tests', () => {
         0,
         0,
         false,
-        1,
-        false,
-        EffectTrigger.ON_APPLY
+        1
       );
 
       const endTurnEffect = BattleEffect.heal(
@@ -1349,11 +1346,7 @@ describe('EffectsPure Golden Tests', () => {
         'Heals at end of turn',
         15,
         0,
-        0,
-        false,
-        1,
-        false,
-        EffectTrigger.ON_TICK
+        0
       );
 
       effectManager.applyEffect('player', preTurnEffect);
