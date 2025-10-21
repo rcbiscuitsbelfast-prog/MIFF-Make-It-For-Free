@@ -163,7 +163,7 @@ describe('SecuritySystemManager', () => {
 
   describe('Analytics and Statistics', () => {
     it.skip('should provide analytics', () => {
-      const analytics = manager.getAnalytics();
+      const analytics: any = manager.getAnalytics();
       expect(analytics).toBeDefined();
       expect(typeof analytics.totalItems).toBe('number');
       expect(typeof analytics.activeItems).toBe('number');
