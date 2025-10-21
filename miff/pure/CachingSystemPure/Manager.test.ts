@@ -1,13 +1,13 @@
 import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals';
-import { CachingSystemPureManager } from './Manager';
+import { CachingSystemManager } from './Manager';
 import { addGenericItemMethods } from '../shared/testing/ManagerTestHelpers';
 
 describe('CachingSystemPureManager', () => {
   // TODO: Implement missing Manager methods
-  let manager: CachingSystemPureManager;
+  let manager: CachingSystemManager;
 
   beforeEach(async () => {
-    manager = new CachingSystemPureManager({
+    manager = new CachingSystemManager({
       enabled: true,
       debugMode: false,
       maxInstances: 100,
