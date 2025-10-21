@@ -1,4 +1,4 @@
-import { runCLICommand } from '../../shared/testUtils';
+// runCLICommand removed from testUtils - using direct CLI execution
 
 describe('ModdingPure CLI Harness', () => {
   test('initialize - should initialize modding system', async () => {

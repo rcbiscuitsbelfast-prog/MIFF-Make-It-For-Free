@@ -988,6 +988,4 @@ export class DataAnalysisManager {
 
 // Export default instance
 export const dataAnalysisManager = new DataAnalysisManager();
-export default dataAnalysisManager;port default instance
-export const dataAnalysisManager = new DataAnalysisManager();
 export default dataAnalysisManager;

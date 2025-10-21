@@ -382,6 +382,10 @@ export class AudioSystem {
     }
   }
 
+  public getMasterVolume(): number {
+    return this.masterVolume;
+  }
+
   public enableHRTF(enable: boolean): void {
     this.hrtfEnabled = enable;
     logger.info('HRTF state changed', { enabled: enable });

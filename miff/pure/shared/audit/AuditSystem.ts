@@ -1248,7 +1248,4 @@ export const defaultAuditSystem = new AuditSystem({
   enableScheduling: true,
   scheduleInterval: 24 * 60 * 60 * 1000, // 24 hours
   enableIntegration: true
-});g: true,
-  scheduleInterval: 24 * 60 * 60 * 1000, // 24 hours
-  enableIntegration: true
 });

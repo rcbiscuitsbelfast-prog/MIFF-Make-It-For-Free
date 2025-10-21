@@ -257,7 +257,9 @@ export class RemixTaggingManager {
     };
 
     this.taggedModules.forEach((tag: any) => {
-      byLevel[tag.remixLevel]++;
+      if (tag.remixLevel && tag.remixLevel in byLevel) {
+        byLevel[tag.remixLevel as keyof typeof byLevel]++;
+      }
     });
 
     const lastUpdated = this.taggedModules.size > 0 

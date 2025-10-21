@@ -233,7 +233,7 @@ export class GenericUtils {
   /**
    * Deep merge with type safety
    */
-  static deepMerge<T extends Record<string, any>>(target: T, source: Partial<T extends object>): T {
+  static deepMerge<T extends Record<string, any>>(target: T, source: Partial<T>): T {
     const result = { ...target };
     
     for (const key in source) {
