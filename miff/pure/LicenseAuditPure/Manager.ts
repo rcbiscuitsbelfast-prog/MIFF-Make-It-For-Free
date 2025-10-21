@@ -545,13 +545,15 @@ export class LicenseAuditManager {
 
     this.auditedModules.forEach((module: any) => {
       // Count by status
-      const status = module.issues.some(i => i.severity === 'error') ? 'fail' :
-                    module.issues.some(i => i.severity === 'warning') || module.remixSafetyScore < this.config.maxRemixScore! ? 'warning' : 'pass';
+      const status = module.issues.some((i: any) => i.severity === 'error') ? 'fail' :
+                    module.issues.some((i: any) => i.severity === 'warning') || module.remixSafetyScore < this.config.maxRemixScore! ? 'warning' : 'pass';
       byStatus[status]++;
 
       // Count by license type
       const licenseType = module.license.type;
-      byLicenseType[licenseType] = (byLicenseType[licenseType] || 0) + 1;
+      if (licenseType && licenseType in byLicenseType) {
+        byLicenseType[licenseType as keyof typeof byLicenseType] = (byLicenseType[licenseType as keyof typeof byLicenseType] || 0) + 1;
+      }
 
       // Accumulate scores
       totalScore += module.remixSafetyScore;
