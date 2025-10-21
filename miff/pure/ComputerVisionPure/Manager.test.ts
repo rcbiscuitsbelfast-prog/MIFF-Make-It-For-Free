@@ -1,13 +1,13 @@
 import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals';
-import { ComputerVisionPureManager } from './Manager';
+import { ComputerVisionManager } from './Manager';
 import { addGenericItemMethods } from '../shared/testing/ManagerTestHelpers';
 
-describe('ComputerVisionPureManager', () => {
+describe('ComputerVisionManager', () => {
   // TODO: Implement missing Manager methods
-  let manager: ComputerVisionPureManager;
+  let manager: ComputerVisionManager;
 
   beforeEach(async () => {
-    manager = new ComputerVisionPureManager({
+    manager = new ComputerVisionManager({
       enabled: true,
       debugMode: false,
       maxInstances: 100,

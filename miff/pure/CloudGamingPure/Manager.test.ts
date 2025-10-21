@@ -1,13 +1,13 @@
 import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals';
-import { CloudGamingPureManager } from './Manager';
+import { CloudGamingManager } from './Manager';
 import { addGenericItemMethods } from '../shared/testing/ManagerTestHelpers';
 
-describe('CloudGamingPureManager', () => {
+describe('CloudGamingManager', () => {
   // TODO: Implement missing Manager methods
-  let manager: CloudGamingPureManager;
+  let manager: CloudGamingManager;
 
   beforeEach(async () => {
-    manager = new CloudGamingPureManager({
+    manager = new CloudGamingManager({
       enabled: true,
       debugMode: false,
       maxInstances: 100,

@@ -1,13 +1,13 @@
 import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals';
-import { NaturalLanguageProcessingPureManager } from './Manager';
+import { NaturalLanguageProcessingPure } from './Manager';
 import { addGenericItemMethods } from '../shared/testing/ManagerTestHelpers';
 
-describe('NaturalLanguageProcessingPureManager', () => {
+describe('NaturalLanguageProcessingPure', () => {
   // TODO: Implement missing Manager methods
-  let manager: NaturalLanguageProcessingPureManager;
+  let manager: NaturalLanguageProcessingPure;
 
   beforeEach(async () => {
-    manager = new NaturalLanguageProcessingPureManager({
+    manager = new NaturalLanguageProcessingPure({
       enabled: true,
       debugMode: false,
       maxInstances: 100,

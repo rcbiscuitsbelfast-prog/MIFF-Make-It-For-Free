@@ -3,7 +3,7 @@
  * Generated test file for comprehensive coverage
  */
 
-import { Manager } from 'Manager';
+import { Manager } from './Manager';
 
 describe('Manager', () => {
   let instance: Manager;
