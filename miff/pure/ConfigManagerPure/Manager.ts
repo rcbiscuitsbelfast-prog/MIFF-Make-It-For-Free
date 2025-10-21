@@ -860,8 +860,12 @@ export class ConfigManagerManager {
     };
 
     for (const manager of managers) {
-      managersByType[manager.type]++;
-      managersByStatus[manager.status]++;
+      if (manager.type && manager.type in managersByType) {
+        managersByType[manager.type as keyof typeof managersByType]++;
+      }
+      if (manager.status && manager.status in managersByStatus) {
+        managersByStatus[manager.status as keyof typeof managersByStatus]++;
+      }
     }
 
     return {

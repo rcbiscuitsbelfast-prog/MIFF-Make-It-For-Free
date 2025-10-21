@@ -684,7 +684,7 @@ async function main() {
       console.log(JSON.stringify(out));
       return;
     } catch (e) {
-      const message = e instanceof Error ? message: 'Unknown error';
+      const message = e instanceof Error ? e.message : 'Unknown error';
       const out = { op: 'dialogue.next', status: 'error', issue: message };
       console.log(JSON.stringify(out));
       process.exit(1);

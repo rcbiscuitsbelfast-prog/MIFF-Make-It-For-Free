@@ -1242,8 +1242,12 @@ export class ChallengeManager implements IChallengeManager {
     let totalRewardsEarned: Record<string, number> = {};
 
     allChallenges.forEach((challenge: any) => {
-      challengesByCategory[challenge.category]++;
-      challengesByDifficulty[challenge.difficulty]++;
+      if (challenge.category && challenge.category in challengesByCategory) {
+        challengesByCategory[challenge.category as keyof typeof challengesByCategory]++;
+      }
+      if (challenge.difficulty && challenge.difficulty in challengesByDifficulty) {
+        challengesByDifficulty[challenge.difficulty as keyof typeof challengesByDifficulty]++;
+      }
 
       if (this.isChallengeCompleted(challenge.challengeId)) {
         Object.entries(challenge.rewards).forEach(([item, amount]) => {

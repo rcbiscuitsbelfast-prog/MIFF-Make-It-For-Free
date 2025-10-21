@@ -672,7 +672,9 @@ export class AIProfileManager {
 
     // Count by role
     profiles.forEach((profile: any) => {
-      this.stats.profilesByRole[profile.role]++;
+      if (profile.role && profile.role in this.stats.profilesByRole) {
+        this.stats.profilesByRole[profile.role as keyof typeof this.stats.profilesByRole]++;
+      }
     });
 
     // Calculate averages
