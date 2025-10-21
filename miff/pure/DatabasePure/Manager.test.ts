@@ -1,13 +1,13 @@
 import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals';
-import { DatabasePureManager } from './Manager';
+import { DatabaseManager } from './Manager';
 import { addGenericItemMethods } from '../shared/testing/ManagerTestHelpers';
 
-describe('DatabasePureManager', () => {
+describe('DatabaseManager', () => {
   // TODO: Implement missing Manager methods
-  let manager: DatabasePureManager;
+  let manager: DatabaseManager;
 
   beforeEach(async () => {
-    manager = new DatabasePureManager({
+    manager = new DatabaseManager({
       enabled: true,
       debugMode: false,
       maxInstances: 100,

@@ -1,13 +1,13 @@
 import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals';
-import { SecuritySystemPureManager } from './Manager';
+import { SecuritySystemManager } from './Manager';
 import { addGenericItemMethods } from '../shared/testing/ManagerTestHelpers';
 
-describe('SecuritySystemPureManager', () => {
+describe('SecuritySystemManager', () => {
   // TODO: Implement missing Manager methods
-  let manager: SecuritySystemPureManager;
+  let manager: SecuritySystemManager;
 
   beforeEach(async () => {
-    manager = new SecuritySystemPureManager({
+    manager = new SecuritySystemManager({
       enabled: true,
       debugMode: false,
       maxInstances: 100,

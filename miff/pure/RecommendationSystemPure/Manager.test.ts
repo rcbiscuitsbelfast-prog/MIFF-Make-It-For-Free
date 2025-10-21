@@ -1,13 +1,13 @@
 import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals';
-import { RecommendationSystemPureManager } from './Manager';
+import { RecommendationSystemManager } from './Manager';
 import { addGenericItemMethods } from '../shared/testing/ManagerTestHelpers';
 
-describe('RecommendationSystemPureManager', () => {
+describe('RecommendationSystemManager', () => {
   // TODO: Implement missing Manager methods
-  let manager: RecommendationSystemPureManager;
+  let manager: RecommendationSystemManager;
 
   beforeEach(async () => {
-    manager = new RecommendationSystemPureManager({
+    manager = new RecommendationSystemManager({
       enabled: true,
       debugMode: false,
       maxInstances: 100,
