@@ -1,13 +1,13 @@
 import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals';
-import { TestingSystemManager } from './Manager';
+import { TestingSystemPure } from './Manager';
 import { addGenericItemMethods } from '../shared/testing/ManagerTestHelpers';
 
 describe('TestingSystemManager', () => {
   // TODO: Implement missing Manager methods
-  let manager: TestingSystemManager;
+  let manager: TestingSystemPure;
 
   beforeEach(async () => {
-    manager = new TestingSystemManager({
+    manager = new TestingSystemPure({
       enabled: true,
       debugMode: false,
       maxInstances: 100,
@@ -23,10 +23,12 @@ describe('TestingSystemManager', () => {
     // Add generic item methods as aliases to domain-specific methods
     addGenericItemMethods(manager, {
       create: 'createManager',
-      get: '',
+      get: 'getManager',
       update: '',
       delete: '',
-      getAll: 'getAllManagers'
+      getAll: 'getAllManagers',
+      getStats: 'getStats',
+      getAnalytics: 'getAnalytics'
     });
   });
 

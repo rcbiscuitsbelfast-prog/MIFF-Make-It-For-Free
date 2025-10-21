@@ -1173,4 +1173,38 @@ export class TestingSystemPure {
     this.performanceMetrics.totalEnvironments = totalEnvironments;
     this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
+  
+  /**
+   * Get statistics
+   */
+  getStats(): any {
+    return {
+      totalItems: this.managers.size,
+      activeItems: Array.from(this.managers.values()).filter((m: any) => m.status === 'active').length,
+      errorCount: 0,
+      averageResponseTime: this.performanceMetrics.averageTestDuration,
+      memoryUsage: this.performanceMetrics.memoryUsage,
+      uptime: this.performanceMetrics.uptime,
+      lastActivity: new Date()
+    };
+  }
+  
+  /**
+   * Initialize the manager
+   */
+  async initialize(): Promise<void> {
+    // Manager is initialized in constructor, this is a no-op for compatibility
+    return Promise.resolve();
+  }
+  
+  /**
+   * Destroy/cleanup the manager
+   */
+  async destroy(): Promise<void> {
+    this.managers.clear();
+    return Promise.resolve();
+  }
 }
+
+// Export with the name tests expect
+export { TestingSystemPure as TestingSystemManager };
