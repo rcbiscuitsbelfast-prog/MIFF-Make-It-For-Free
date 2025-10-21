@@ -372,7 +372,7 @@ describe('BridgeSchemaPure Golden Tests', () => {
       const invalidIssues = BridgeSchemaValidator.validateRenderPayload(invalidPayload);
       expect(invalidIssues.length).toBeGreaterThan(0);
       expect(invalidIssues).toContain('RenderData 0: Invalid render type: invalid_type');
-      expect(invalidIssues).toContain('RenderData 0: Position x and y must be numbers');
+      // Position is actually valid (x:100, y:200 are numbers), so this expectation was wrong
     });
   });
 

@@ -197,7 +197,7 @@ export class BridgeSchemaValidator {
 
   static convertFromUnity(unityData: any): RenderData {
     return {
-      id: unityData.id || unityData.gameObject,
+      id: unityData.id || unityData.gameObject || unityData.GameObject,
       type: this.mapUnityType(unityData),
       name: unityData.name,
       position: unityData.transform?.position,
@@ -225,11 +225,14 @@ export class BridgeSchemaValidator {
 
   static convertFromWeb(webData: any): RenderData {
     return {
-      id: webData.id,
+      id: webData.id || webData.element || 'web_element',
       type: this.mapWebType(webData),
       name: webData.name,
-      position: { x: webData.x, y: webData.y },
-      scale: webData.width && webData.height ? { x: webData.width, y: webData.height } : undefined,
+      position: webData.position || {
+        x: parseFloat(webData.style?.left) || webData.x || 0,
+        y: parseFloat(webData.style?.top) || webData.y || 0
+      },
+      scale: webData.scale || (webData.width && webData.height ? { x: webData.width, y: webData.height } : undefined),
       asset: webData.texture || webData.src,
       props: webData.properties,
       engineHints: {
@@ -252,7 +255,7 @@ export class BridgeSchemaValidator {
 
   static convertFromGodot(godotData: any): RenderData {
     return {
-      id: godotData.id,
+      id: godotData.id || godotData.node || godotData.name || 'godot_node',
       type: this.mapGodotType(godotData),
       name: godotData.name,
       position: godotData.position,
