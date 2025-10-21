@@ -1,33 +1,32 @@
 import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals';
-import { SecuritySystemManager } from './Manager';
+import { SecuritySystemPure } from './Manager';
 import { addGenericItemMethods } from '../shared/testing/ManagerTestHelpers';
 
 describe('SecuritySystemManager', () => {
   // TODO: Implement missing Manager methods
-  let manager: SecuritySystemManager;
+  let manager: SecuritySystemPure;
 
   beforeEach(async () => {
-    manager = new SecuritySystemManager({
-      enabled: true,
-      debugMode: false,
-      maxInstances: 100,
-      timeout: 5000,
-      retryAttempts: 3,
-      cacheSize: 50,
-      logLevel: 'error',
-      performanceMonitoring: false,
-      memoryTracking: false
+    manager = new SecuritySystemPure({
+      enableSecurityManagement: true,
+      enableAuthentication: true,
+      enableAuthorization: true,
+      enableEncryption: true,
+      enableThreatDetection: true,
+      enableAccessControl: true,
+      enablePerformanceOptimization: true,
+      enableMonitoring: false,
+      enableSecurityAnalytics: true,
+      enableSecurityReporting: true,
+      maxUsers: 1000,
+      maxSessions: 5000,
+      enableCloudSync: false,
+      enableBackup: false,
+      enableVersioning: false
     });
     
     await manager.initialize();    
-    // Add generic item methods as aliases to domain-specific methods
-    addGenericItemMethods(manager, {
-      create: 'createManager',
-      get: '',
-      update: '',
-      delete: '',
-      getAll: 'getAllManagers'
-    });
+    // Generic item methods are now built into the class
   });
 
   afterEach(async () => {
