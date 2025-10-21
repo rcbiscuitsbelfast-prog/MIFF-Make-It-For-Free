@@ -1104,7 +1104,8 @@ export class TestingSystemPure {
   /**
    * Get manager by ID
    */
-  getManager(): TestingSystemOutput {
+  getManager(managerId: string): TestingSystemOutput {
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -1247,5 +1248,5 @@ export class TestingSystemPure {
   }
 }
 
-// Export with the name tests expect
-export { TestingSystemPure as TestingSystemManager };
+// Export the class (interface already exists above)
+export { TestingSystemPure };
