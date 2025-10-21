@@ -520,6 +520,16 @@ describe('WeatherSystemPure', () => {
   // ============================================================================
 
   describe('Comprehensive Integration', () => {
+    let weatherManager: WeatherManagerPure;
+
+    beforeEach(() => {
+      weatherManager = new WeatherManagerPure(eventBus, {
+        initialWeather: 'clear',
+        initialIntensity: 'light',
+        seed: 12345
+      });
+    });
+
     test('should work with weather manager and renderer', () => {
       const mockRenderer = {
         updateVisibility: jest.fn(),

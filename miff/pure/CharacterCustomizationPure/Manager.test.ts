@@ -1,13 +1,13 @@
 import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals';
-import { CharacterCustomizationPureManager } from './Manager';
+import { CharacterCustomizationManager } from './Manager';
 import { addGenericItemMethods } from '../shared/testing/ManagerTestHelpers';
 
-describe('CharacterCustomizationPureManager', () => {
+describe('CharacterCustomizationManager', () => {
   // TODO: Implement missing Manager methods
-  let manager: CharacterCustomizationPureManager;
+  let manager: CharacterCustomizationManager;
 
   beforeEach(async () => {
-    manager = new CharacterCustomizationPureManager({
+    manager = new CharacterCustomizationManager({
       enabled: true,
       debugMode: false,
       maxInstances: 100,
