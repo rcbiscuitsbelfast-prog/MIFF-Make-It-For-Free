@@ -186,10 +186,10 @@ export class AnimationSystemManager {
 
   constructor(config?: Partial<AnimationSystemConfig>) {
     
-    this.performanceOptimizer = new PerformanceOptimizer({}, {});
-    this.memoryManager = new MemoryManager({});
-    this.errorHandler = new StandardErrorHandler({});
-    this.startTime = Date.now();
+    this.performanceOptimizer = new PerformanceOptimizer({} as any, {} as any);
+    this.memoryManager = new MemoryManager();
+    this.errorHandler = new StandardErrorHandler();
+    this.startTime = new Date();
 
     this.config = {
       enableAnimationCreation: true,
@@ -236,7 +236,7 @@ export class AnimationSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this.errorHandler.handleError({} as any);
       throw error;
     }
   }
@@ -253,8 +253,8 @@ export class AnimationSystemManager {
       const animation: Animation = {
         ...animationData,
         id: this.generateAnimationId(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
         version: '1.0.0',
         analytics: {
           totalAnimations: 0,
@@ -266,7 +266,7 @@ export class AnimationSystemManager {
         }
       };
 
-      this.animations.set(animation.id, animation);
+      this.animations.set(animation.id!, animation);
       this.updateAnalytics();
 
       logger.info('Animation created', { animationId: animation.id, animationName: animation.name });
@@ -274,7 +274,7 @@ export class AnimationSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this.errorHandler.handleError({} as any);
       throw error;
     }
   }
@@ -308,7 +308,7 @@ export class AnimationSystemManager {
       const updatedAnimation: Animation = {
         ...animation,
         ...updates,
-        updatedAt: new Date(),
+        updatedAt: Date.now(),
         version: this.incrementVersion(animation.version)
       };
 
@@ -320,7 +320,7 @@ export class AnimationSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this.errorHandler.handleError({} as any);
       throw error;
     }
   }
@@ -348,7 +348,7 @@ export class AnimationSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this.errorHandler.handleError({} as any);
       throw error;
     }
   }
@@ -409,7 +409,7 @@ export class AnimationSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this.errorHandler.handleError({} as any);
       return false;
     }
   }
@@ -438,7 +438,7 @@ export class AnimationSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this.errorHandler.handleError({} as any);
       return false;
     }
   }
@@ -466,7 +466,7 @@ export class AnimationSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this.errorHandler.handleError({} as any);
       return false;
     }
   }
@@ -509,7 +509,7 @@ export class AnimationSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this.errorHandler.handleError({} as any);
       return false;
     }
   }
@@ -543,10 +543,14 @@ export class AnimationSystemManager {
       );
 
       // Update animation value
-      animation.metadata?.currentValue = interpolatedValue;
+      if (animation.metadata) {
+        animation.metadata.currentValue = interpolatedValue;
+      }
     } else if (currentKeyframe) {
       // Use current keyframe value
-      animation.metadata?.currentValue = currentKeyframe.value;
+      if (animation.metadata) {
+        animation.metadata.currentValue = currentKeyframe.value;
+      }
     }
   }
 
@@ -635,7 +639,7 @@ export class AnimationSystemManager {
       animation.analytics = {
         totalAnimations: animations.length,
         activeAnimations: activeAnimations.length,
-        averageDuration: animations.length > 0 ? totalDuration / length: 0,
+        averageDuration: animations.length > 0 ? totalDuration / animations.length: 0,
         keyframeCount: totalKeyframes,
         transitionCount: totalTransitions,
         lastUpdated: new Date()
@@ -683,7 +687,7 @@ export class AnimationSystemManager {
 
     for (const animation of animations) {
       animationsByType[animation.type]++;
-      animationsByStatus[animation.status]++;
+      animationsByStatus[animation.status! as AnimationStatus]++;
     }
 
     return {
@@ -693,7 +697,7 @@ export class AnimationSystemManager {
       animationsByStatus,
       averageDuration: animations.length > 0 ? totalDuration / length: 0,
       totalKeyframes,
-      uptime: new Date() - this.startTime.getTime()
+      uptime: Date.now() - this.startTime.getTime()
     };
   }
 

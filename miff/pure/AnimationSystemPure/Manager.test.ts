@@ -1,33 +1,27 @@
 import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals';
 import { AnimationSystemManager } from './Manager';
-import { addGenericItemMethods } from '../shared/testing/ManagerTestHelpers';
 
 describe('AnimationSystemManager', () => {
-  // TODO: Implement missing Manager methods
   let manager: AnimationSystemManager;
 
   beforeEach(async () => {
     manager = new AnimationSystemManager({
-      enabled: true,
-      debugMode: false,
-      maxInstances: 100,
-      timeout: 5000,
-      retryAttempts: 3,
-      cacheSize: 50,
-      logLevel: 'error',
-      performanceMonitoring: false,
-      memoryTracking: false
+      enableAnimationCreation: true,
+      enableTimelineControl: true,
+      enableKeyframeControl: true,
+      enableAnimationBlending: true,
+      enableTransitions: true,
+      enablePerformanceOptimization: true,
+      enableCrossPlatformSupport: true,
+      enableMonitoring: true,
+      maxAnimations: 100,
+      maxKeyframes: 1000,
+      enableCloudSync: false,
+      enableBackup: false,
+      enableVersioning: true
     });
     
-    await manager.initialize();    
-    // Add generic item methods as aliases to domain-specific methods
-    addGenericItemMethods(manager, {
-      create: 'createAnimation',
-      get: '',
-      update: '',
-      delete: '',
-      getAll: 'getAllAnimations'
-    });
+    await manager.initialize();
   });
 
   afterEach(async () => {
@@ -38,192 +32,289 @@ describe('AnimationSystemManager', () => {
 
   describe('Initialization', () => {
     it('should initialize successfully', async () => {
-      
       expect(manager).toBeDefined();
-      expect(manager.getStats).toBeDefined();
-      expect(manager.getAnalytics).toBeDefined();
+      expect(manager.getAllAnimations).toBeDefined();
+      expect(manager.getStatistics).toBeDefined();
     });
 
-    it.skip('should have default configuration', () => {
-      const stats = manager.getStats();
+    it('should have default configuration', () => {
+      const stats = manager.getStatistics();
       expect(stats).toBeDefined();
-      expect(typeof stats.totalItems).toBe('number');
-      expect(typeof stats.activeItems).toBe('number');
+      expect(typeof stats.totalAnimations).toBe('number');
+      expect(typeof stats.activeAnimations).toBe('number');
     });
   });
 
-  describe('Item Management', () => {
-    it('should create items', async () => {
-      
-      const itemData = {
-        name: 'Test Item',
-        type: 'test',
-        status: 'active' as const,
+  describe('Animation Management', () => {
+    it('should create animations', async () => {
+      const animationData = {
+        name: 'Test Animation',
+        type: 'position' as const,
+        status: 'idle' as const,
+        timeline: {
+          duration: 1000,
+          startTime: 0,
+          endTime: 1000,
+          loop: false,
+          pingPong: false,
+          speed: 1.0,
+          currentTime: 0
+        },
+        keyframes: [],
+        blending: {
+          enabled: false,
+          mode: 'additive' as const,
+          weight: 1.0,
+          duration: 0,
+          curve: 'linear' as const
+        },
+        transitions: {
+          enabled: false,
+          duration: 0,
+          easing: 'linear' as const,
+          delay: 0,
+          properties: []
+        },
         metadata: { test: true },
-        properties: { value: 100 },
-        tags: ['test'],
-        priority: 1,
-        version: '1.0.0'
       };
 
-      const item = await manager.createItem(itemData);
-      expect(item).toBeDefined();
-      expect(item.id).toBeDefined();
-      expect(item.name).toBe('Test Item');
-      expect(item.type).toBe('test');
-      expect(item.status).toBe('active');
+      const animation = await manager.createAnimation(animationData);
+      expect(animation).toBeDefined();
+      expect(animation.id).toBeDefined();
+      expect(animation.name).toBe('Test Animation');
+      expect(animation.type).toBe('position');
+      expect(animation.status).toBe('idle');
     });
 
-    it('should retrieve items by ID', async () => {
-      
-      const itemData = {
-        name: 'Test Item',
-        type: 'test',
-        status: 'active' as const,
+    it('should retrieve animations by ID', async () => {
+      const animationData = {
+        name: 'Test Animation',
+        type: 'position' as const,
+        status: 'idle' as const,
+        timeline: {
+          duration: 1000,
+          startTime: 0,
+          endTime: 1000,
+          loop: false,
+          pingPong: false,
+          speed: 1.0,
+          currentTime: 0
+        },
+        keyframes: [],
+        blending: {
+          enabled: false,
+          mode: 'additive' as const,
+          weight: 1.0,
+          duration: 0,
+          curve: 'linear' as const
+        },
+        transitions: {
+          enabled: false,
+          duration: 0,
+          easing: 'linear' as const,
+          delay: 0,
+          properties: []
+        },
         metadata: {},
-        properties: {},
-        tags: ['test'],
-        priority: 1,
-        version: '1.0.0'
       };
 
-      const createdItem = await manager.createItem(itemData);
-      const retrievedItem = manager.getItem(createdItem.id);
+      const createdAnimation = await manager.createAnimation(animationData);
+      const allAnimations = manager.getAllAnimations();
+      const retrievedAnimation = allAnimations.find(anim => anim.id === createdAnimation.id);
       
-      expect(retrievedItem).toBeDefined();
-      expect(retrievedItem?.id).toBe(createdItem.id);
-      expect(retrievedItem?.name).toBe('Test Item');
+      expect(retrievedAnimation).toBeDefined();
+      expect(retrievedAnimation?.id).toBe(createdAnimation.id);
+      expect(retrievedAnimation?.name).toBe('Test Animation');
     });
 
-    it('should get all items', async () => {
-      
-      const itemData = {
-        name: 'Test Item',
-        type: 'test',
-        status: 'active' as const,
+    it('should get all animations', async () => {
+      const animationData = {
+        name: 'Test Animation',
+        type: 'position' as const,
+        status: 'idle' as const,
+        timeline: {
+          duration: 1000,
+          startTime: 0,
+          endTime: 1000,
+          loop: false,
+          pingPong: false,
+          speed: 1.0,
+          currentTime: 0
+        },
+        keyframes: [],
+        blending: {
+          enabled: false,
+          mode: 'additive' as const,
+          weight: 1.0,
+          duration: 0,
+          curve: 'linear' as const
+        },
+        transitions: {
+          enabled: false,
+          duration: 0,
+          easing: 'linear' as const,
+          delay: 0,
+          properties: []
+        },
         metadata: {},
-        properties: {},
-        tags: ['test'],
-        priority: 1,
-        version: '1.0.0'
       };
 
-      await manager.createItem(itemData);
-      const allItems = manager.getAllItems();
+      await manager.createAnimation(animationData);
+      const allAnimations = manager.getAllAnimations();
       
-      expect(Array.isArray(allItems)).toBe(true);
-      expect(allItems.length).toBeGreaterThan(0);
+      expect(Array.isArray(allAnimations)).toBe(true);
+      expect(allAnimations.length).toBeGreaterThan(0);
     });
 
-    it('should update items', async () => {
-      
-      const itemData = {
-        name: 'Test Item',
-        type: 'test',
-        status: 'active' as const,
+    it('should update animations', async () => {
+      const animationData = {
+        name: 'Test Animation',
+        type: 'position' as const,
+        status: 'idle' as const,
+        timeline: {
+          duration: 1000,
+          startTime: 0,
+          endTime: 1000,
+          loop: false,
+          pingPong: false,
+          speed: 1.0,
+          currentTime: 0
+        },
+        keyframes: [],
+        blending: {
+          enabled: false,
+          mode: 'additive' as const,
+          weight: 1.0,
+          duration: 0,
+          curve: 'linear' as const
+        },
+        transitions: {
+          enabled: false,
+          duration: 0,
+          easing: 'linear' as const,
+          delay: 0,
+          properties: []
+        },
         metadata: {},
-        properties: {},
-        tags: ['test'],
-        priority: 1,
-        version: '1.0.0'
       };
 
-      const createdItem = await manager.createItem(itemData);
-      const updatedItem = await manager.updateItem(createdItem.id, {
-        name: 'Updated Item',
-        status: 'inactive' as const
+      const createdAnimation = await manager.createAnimation(animationData);
+      const updatedAnimation = await manager.updateAnimation(createdAnimation.id!, {
+        name: 'Updated Animation',
+        status: 'playing' as const
       });
       
-      expect(updatedItem).toBeDefined();
-      expect(updatedItem?.name).toBe('Updated Item');
-      expect(updatedItem?.status).toBe('inactive');
+      expect(updatedAnimation).toBeDefined();
+      expect(updatedAnimation?.name).toBe('Updated Animation');
+      expect(updatedAnimation?.status).toBe('playing');
     });
 
-    it('should delete items', async () => {
-      
-      const itemData = {
-        name: 'Test Item',
-        type: 'test',
-        status: 'active' as const,
+    it('should delete animations', async () => {
+      const animationData = {
+        name: 'Test Animation',
+        type: 'position' as const,
+        status: 'idle' as const,
+        timeline: {
+          duration: 1000,
+          startTime: 0,
+          endTime: 1000,
+          loop: false,
+          pingPong: false,
+          speed: 1.0,
+          currentTime: 0
+        },
+        keyframes: [],
+        blending: {
+          enabled: false,
+          mode: 'additive' as const,
+          weight: 1.0,
+          duration: 0,
+          curve: 'linear' as const
+        },
+        transitions: {
+          enabled: false,
+          duration: 0,
+          easing: 'linear' as const,
+          delay: 0,
+          properties: []
+        },
         metadata: {},
-        properties: {},
-        tags: ['test'],
-        priority: 1,
-        version: '1.0.0'
       };
 
-      const createdItem = await manager.createItem(itemData);
-      const deleted = await manager.deleteItem(createdItem.id);
+      const createdAnimation = await manager.createAnimation(animationData);
+      const deleted = await manager.deleteAnimation(createdAnimation.id!);
       
       expect(deleted).toBe(true);
       
-      const retrievedItem = manager.getItem(createdItem.id);
-      expect(retrievedItem).toBeUndefined();
+      const allAnimations = manager.getAllAnimations();
+      const retrievedAnimation = allAnimations.find(anim => anim.id === createdAnimation.id);
+      expect(retrievedAnimation).toBeUndefined();
     });
   });
 
   describe('Analytics and Statistics', () => {
-    it.skip('should provide analytics', () => {
-      const analytics = manager.getAnalytics();
-      expect(analytics).toBeDefined();
-      expect(typeof analytics.totalItems).toBe('number');
-      expect(typeof analytics.activeItems).toBe('number');
-      expect(typeof analytics.inactiveItems).toBe('number');
-      expect(typeof analytics.errorItems).toBe('number');
-      expect(typeof analytics.averageProcessingTime).toBe('number');
-      expect(typeof analytics.totalOperations).toBe('number');
-      expect(typeof analytics.successRate).toBe('number');
-      expect(analytics.lastUpdated).toBeInstanceOf(Date);
-    });
-
-    it.skip('should provide statistics', () => {
-      const stats = manager.getStats();
+    it('should provide statistics', () => {
+      const stats = manager.getStatistics();
       expect(stats).toBeDefined();
-      expect(typeof stats.totalItems).toBe('number');
-      expect(typeof stats.activeItems).toBe('number');
-      expect(typeof stats.errorCount).toBe('number');
-      expect(typeof stats.averageResponseTime).toBe('number');
-      expect(typeof stats.memoryUsage).toBe('number');
+      expect(typeof stats.totalAnimations).toBe('number');
+      expect(typeof stats.activeAnimations).toBe('number');
+      expect(typeof stats.animationsByType).toBe('object');
       expect(typeof stats.uptime).toBe('number');
-      expect(stats.lastActivity).toBeInstanceOf(Date);
     });
   });
 
   describe('Error Handling', () => {
-    it('should handle invalid item updates gracefully', async () => {
-      
-      const result = await manager.updateItem('non-existent-id', {
-        name: 'Updated Item'
+    it('should handle invalid animation updates gracefully', async () => {
+      const result = await manager.updateAnimation('non-existent-id', {
+        name: 'Updated Animation'
       });
       
-      expect(result).toBeUndefined();
+      expect(result).toBeNull();
     });
 
-    it('should handle invalid item deletions gracefully', async () => {
-      
-      const result = await manager.deleteItem('non-existent-id');
+    it('should handle invalid animation deletions gracefully', async () => {
+      const result = await manager.deleteAnimation('non-existent-id');
       
       expect(result).toBe(false);
     });
   });
 
   describe('Performance', () => {
-    it('should handle multiple item operations efficiently', async () => {
-      
+    it('should handle multiple animation operations efficiently', async () => {
       const startTime = Date.now();
       
-      // Create multiple items
+      // Create multiple animations
       const promises = [];
       for (let i = 0; i < 10; i++) {
-        promises.push(manager.createItem({
-          name: `Test Item ${i}`,
-          type: 'test',
-          status: 'active' as const,
+        promises.push(manager.createAnimation({
+          name: `Test Animation ${i}`,
+          type: 'position' as const,
+          status: 'idle' as const,
+          timeline: {
+            duration: 1000,
+            startTime: 0,
+            endTime: 1000,
+            loop: false,
+            pingPong: false,
+            speed: 1.0,
+            currentTime: 0
+          },
+          keyframes: [],
+          blending: {
+            enabled: false,
+            mode: 'additive' as const,
+            weight: 1.0,
+            duration: 0,
+            curve: 'linear' as const
+          },
+          transitions: {
+            enabled: false,
+            duration: 0,
+            easing: 'linear' as const,
+            delay: 0,
+            properties: []
+          },
           metadata: {},
-          properties: {},
-          tags: ['test'],
-          priority: i,
-          version: '1.0.0'
         }));
       }
       
@@ -235,14 +326,13 @@ describe('AnimationSystemManager', () => {
       // Should complete within reasonable time (5 seconds)
       expect(duration).toBeLessThan(5000);
       
-      const allItems = manager.getAllItems();
-      expect(allItems.length).toBeGreaterThanOrEqual(10);
+      const allAnimations = manager.getAllAnimations();
+      expect(allAnimations.length).toBeGreaterThanOrEqual(10);
     });
   });
 
   describe('Cleanup', () => {
     it('should destroy manager without errors', async () => {
-      
       await expect(manager.destroy()).resolves.not.toThrow();
     });
   });
