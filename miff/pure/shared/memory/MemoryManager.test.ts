@@ -3,13 +3,13 @@
  * Generated test file for comprehensive coverage
  */
 
-import { MemoryManager } from 'MemoryManager';
+import { MemoryManager } from './MemoryManager';
 
 describe('MemoryManager', () => {
   let instance: MemoryManager;
 
   beforeEach(() => {
-    instance = new MemoryManager({});
+    instance = new MemoryManager();
   });
 
   describe('constructor', () => {

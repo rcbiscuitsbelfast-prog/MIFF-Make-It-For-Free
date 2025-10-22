@@ -105,7 +105,7 @@ export class RealEventBus extends EventEmitter {
     this.updateMetrics();
 
     // Return unsubscribe function
-    return () => this.unsubscribe(subscription.id);
+    return () => this.unsubscribe(subscription.id!);
   }
 
   /**

@@ -67,10 +67,21 @@ export class MobilePerformanceOptimizer {
   }
 
   /**
+   * Create a new MobilePerformanceOptimizer instance
+   */
+  static create(config?: Partial<PerformanceConfig>): MobilePerformanceOptimizer {
+    const instance = new MobilePerformanceOptimizer();
+    if (config) {
+      instance.config = { ...instance.config, ...config };
+    }
+    return instance;
+  }
+
+  /**
    * Detect device capabilities
    */
   private detectDeviceCapabilities(): DeviceCapabilities {
-    const userAgent = typeof navigator !== 'undefined' ? userAgent: '';
+    const userAgent = typeof navigator !== 'undefined' ? navigator.userAgent : '';
     const memory = this.getDeviceMemory();
     const cores = this.getCPUCores();
     const gpuTier = this.getGPUTier();
@@ -114,7 +125,7 @@ export class MobilePerformanceOptimizer {
     }
     
     // Fallback based on user agent
-    const userAgent = typeof navigator !== 'undefined' ? userAgent: '';
+    const userAgent = typeof navigator !== 'undefined' ? navigator.userAgent : '';
     if (/iPhone|iPad/i.test(userAgent)) {
       return 4096; // Assume 4GB for iOS devices
     } else if (/Android/i.test(userAgent)) {
@@ -140,23 +151,27 @@ export class MobilePerformanceOptimizer {
   private getGPUTier(): number {
     if (typeof window === 'undefined') return 1;
     
-    const canvas = document.createElement('canvas');
-    const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
-    
-    if (!gl) return 0;
-    
-    const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
-    if (debugInfo) {
-      const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+    try {
+      const canvas = document.createElement('canvas');
+      const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
       
-      // GPU tier detection based on renderer string
-      if (renderer.includes('Adreno 6') || renderer.includes('Mali-G7')) {
-        return 3; // High-end mobile GPU
-      } else if (renderer.includes('Adreno 5') || renderer.includes('Mali-G5')) {
-        return 2; // Mid-range mobile GPU
-      } else if (renderer.includes('Adreno 4') || renderer.includes('Mali-T8')) {
-        return 1; // Low-end mobile GPU
+      if (!gl) return 0;
+      
+      const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+      if (debugInfo) {
+        const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+        
+        // GPU tier detection based on renderer string
+        if (renderer.includes('Adreno 6') || renderer.includes('Mali-G7')) {
+          return 3; // High-end mobile GPU
+        } else if (renderer.includes('Adreno 5') || renderer.includes('Mali-G5')) {
+          return 2; // Mid-range mobile GPU
+        } else if (renderer.includes('Adreno 4') || renderer.includes('Mali-T8')) {
+          return 1; // Low-end mobile GPU
+        }
       }
+    } catch (error) {
+      return 1; // Default to mid-range if WebGL detection fails
     }
     
     return 2; // Default to mid-range
@@ -168,8 +183,12 @@ export class MobilePerformanceOptimizer {
   private supportsWebGL2(): boolean {
     if (typeof window === 'undefined') return false;
     
-    const canvas = document.createElement('canvas');
-    return !!(canvas.getContext('webgl2'));
+    try {
+      const canvas = document.createElement('canvas');
+      return !!(canvas.getContext('webgl2'));
+    } catch (error) {
+      return false;
+    }
   }
 
   /**
@@ -238,7 +257,7 @@ export class MobilePerformanceOptimizer {
     const level = this.currentPerformanceLevel;
     
     switch (level) {
-      case LOW:
+      case PerformanceLevel.LOW:
         return {
           targetFPS: 30,
           maxMemoryUsage: 256,
@@ -254,7 +273,7 @@ export class MobilePerformanceOptimizer {
           postProcessingQuality: 'low'
         };
       
-      case MEDIUM:
+      case PerformanceLevel.MEDIUM:
         return {
           targetFPS: 45,
           maxMemoryUsage: 512,
@@ -270,7 +289,7 @@ export class MobilePerformanceOptimizer {
           postProcessingQuality: 'medium'
         };
       
-      case HIGH:
+      case PerformanceLevel.HIGH:
         return {
           targetFPS: 60,
           maxMemoryUsage: 1024,
@@ -286,7 +305,7 @@ export class MobilePerformanceOptimizer {
           postProcessingQuality: 'high'
         };
       
-      case ULTRA:
+      case PerformanceLevel.ULTRA:
         return {
           targetFPS: 60,
           maxMemoryUsage: 2048,
@@ -300,6 +319,21 @@ export class MobilePerformanceOptimizer {
           textureQuality: 'ultra',
           shaderQuality: 'ultra',
           postProcessingQuality: 'ultra'
+        };
+      default:
+        return {
+          targetFPS: 30,
+          maxMemoryUsage: 256,
+          enableVSync: true,
+          enableAdaptiveQuality: true,
+          enableBatteryOptimization: true,
+          enableThermalThrottling: true,
+          maxParticleCount: 50,
+          maxLightCount: 4,
+          maxShadowCount: 2,
+          textureQuality: 'low',
+          shaderQuality: 'low',
+          postProcessingQuality: 'low'
         };
     }
   }

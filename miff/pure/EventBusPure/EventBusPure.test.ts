@@ -24,8 +24,8 @@ describe('EventBusPure', () => {
 
     it('should unsubscribe from event', () => {
       const listener = jest.fn();
-      eventBus.on('test-event', listener);
-      eventBus.off('test-event', listener);
+      const subscriptionId = eventBus.on('test-event', listener);
+      eventBus.off(subscriptionId);
       
       eventBus.emit('test-event', null, {});
       expect(listener).not.toHaveBeenCalled();

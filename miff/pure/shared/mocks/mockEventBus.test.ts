@@ -3,13 +3,13 @@
  * Generated test file for comprehensive coverage
  */
 
-import { mockEventBus } from 'mockEventBus';
+import { mockEventBus } from './mockEventBus';
 
 describe('mockEventBus', () => {
-  let instance: mockEventBus;
+  let instance: typeof mockEventBus;
 
   beforeEach(() => {
-    instance = new mockEventBus();
+    instance = mockEventBus;
   });
 
   describe('constructor', () => {

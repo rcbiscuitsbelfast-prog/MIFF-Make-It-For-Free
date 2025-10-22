@@ -1,5 +1,5 @@
 import { describe, it, expect } from '@jest/globals';
-import { MobilePerformanceOptimizer } from './index';
+import { MobilePerformanceOptimizer, PerformanceLevel } from './index';
 
 describe('MobilePerformanceOptimizer', () => {
   describe('Optimizer Creation', () => {
@@ -7,64 +7,66 @@ describe('MobilePerformanceOptimizer', () => {
       const optimizer = MobilePerformanceOptimizer.create();
 
       expect(optimizer).toBeDefined();
-      expect(optimizer.enabled).toBe(true);
+      expect(optimizer.getConfig()).toBeDefined();
     });
 
     it('should create optimizer with custom config', () => {
       const optimizer = MobilePerformanceOptimizer.create({
         targetFPS: 30,
-        adaptiveQuality: true
+        enableAdaptiveQuality: true
       });
 
-      expect(optimizer.targetFPS).toBe(30);
-      expect(optimizer.adaptiveQuality).toBe(true);
+      const config = optimizer.getConfig();
+      expect(config.targetFPS).toBe(30);
+      expect(config.enableAdaptiveQuality).toBe(true);
     });
   });
 
   describe('Performance Monitoring', () => {
     it('should monitor frame rate', () => {
       const optimizer = MobilePerformanceOptimizer.create();
-      const metrics = MobilePerformanceOptimizer.getMetrics(optimizer);
+      const stats = optimizer.getPerformanceStats();
 
-      expect(metrics).toBeDefined();
-      expect(metrics.fps).toBeDefined();
+      expect(stats).toBeDefined();
+      expect(stats.avgFPS).toBeDefined();
     });
 
     it('should detect performance issues', () => {
       const optimizer = MobilePerformanceOptimizer.create({ targetFPS: 60 });
-      const hasIssues = MobilePerformanceOptimizer.hasPerformanceIssues(optimizer, { currentFPS: 25 });
+      const isAcceptable = optimizer.isPerformanceAcceptable();
 
-      expect(typeof hasIssues).toBe('boolean');
+      expect(typeof isAcceptable).toBe('boolean');
     });
   });
 
   describe('Quality Adjustment', () => {
     it('should adjust quality based on performance', () => {
       const optimizer = MobilePerformanceOptimizer.create();
-      const adjusted = MobilePerformanceOptimizer.adjustQuality(optimizer, 'low');
+      optimizer.setPerformanceLevel(PerformanceLevel.LOW);
 
-      expect(adjusted).toBeDefined();
+      expect(optimizer.getPerformanceLevel()).toBe(PerformanceLevel.LOW);
     });
 
     it('should support quality levels', () => {
       const optimizer = MobilePerformanceOptimizer.create();
       
-      const low = MobilePerformanceOptimizer.adjustQuality(optimizer, 'low');
-      const medium = MobilePerformanceOptimizer.adjustQuality(optimizer, 'medium');
-      const high = MobilePerformanceOptimizer.adjustQuality(optimizer, 'high');
-
-      expect(low).toBeDefined();
-      expect(medium).toBeDefined();
-      expect(high).toBeDefined();
+      optimizer.setPerformanceLevel(PerformanceLevel.LOW);
+      expect(optimizer.getPerformanceLevel()).toBe(PerformanceLevel.LOW);
+      
+      optimizer.setPerformanceLevel(PerformanceLevel.MEDIUM);
+      expect(optimizer.getPerformanceLevel()).toBe(PerformanceLevel.MEDIUM);
+      
+      optimizer.setPerformanceLevel(PerformanceLevel.HIGH);
+      expect(optimizer.getPerformanceLevel()).toBe(PerformanceLevel.HIGH);
     });
   });
 
   describe('Battery Optimization', () => {
     it('should enable battery saving mode', () => {
       const optimizer = MobilePerformanceOptimizer.create();
-      const batterySave = MobilePerformanceOptimizer.enableBatterySaving(optimizer);
+      const config = optimizer.getConfig();
 
-      expect(batterySave).toBeDefined();
+      expect(config.enableBatteryOptimization).toBeDefined();
     });
   });
 });

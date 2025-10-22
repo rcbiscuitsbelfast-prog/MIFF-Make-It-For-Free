@@ -3,13 +3,13 @@
  * Generated test file for comprehensive coverage
  */
 
-import { StandardErrorHandler } from 'StandardErrorHandler';
+import { StandardErrorHandler } from './StandardErrorHandler';
 
 describe('StandardErrorHandler', () => {
   let instance: StandardErrorHandler;
 
   beforeEach(() => {
-    instance = new StandardErrorHandler({});
+    instance = new StandardErrorHandler();
   });
 
   describe('constructor', () => {

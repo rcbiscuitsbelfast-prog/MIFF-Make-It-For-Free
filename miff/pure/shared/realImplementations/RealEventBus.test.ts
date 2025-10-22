@@ -3,7 +3,7 @@
  * Generated test file for comprehensive coverage
  */
 
-import { RealEventBus } from 'RealEventBus';
+import { RealEventBus } from './RealEventBus';
 
 describe('RealEventBus', () => {
   let instance: RealEventBus;

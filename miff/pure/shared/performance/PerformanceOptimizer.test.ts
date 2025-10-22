@@ -3,13 +3,13 @@
  * Generated test file for comprehensive coverage
  */
 
-import { PerformanceOptimizer } from 'PerformanceOptimizer';
+import { PerformanceOptimizer } from './PerformanceOptimizer';
 
 describe('PerformanceOptimizer', () => {
   let instance: PerformanceOptimizer;
 
   beforeEach(() => {
-    instance = new PerformanceOptimizer({}, {});
+    instance = new PerformanceOptimizer({} as any, {} as any);
   });
 
   describe('constructor', () => {
