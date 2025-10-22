@@ -20,6 +20,7 @@ export interface IEventListener extends Disposable {
   readonly topic: string;
   readonly handler: (payload?: any) => void | Promise<void>;
   readonly disposed: boolean;
+  dispose(): void;
 }
 
 /**
@@ -29,6 +30,7 @@ export interface IAsyncEventListener extends Disposable {
   readonly topic: string;
   readonly handler: (payload?: any) => Promise<void>;
   readonly disposed: boolean;
+  dispose(): void;
 }
 
 /**
@@ -277,6 +279,10 @@ export class EventListener implements IEventListener {
   unsubscribe(): void {
     this.dispose();
   }
+
+  [Symbol.dispose](): void {
+    this.dispose();
+  }
 }
 
 /**
@@ -316,6 +322,10 @@ export class AsyncEventListener implements IAsyncEventListener {
    * Manual unsubscribe (alias for dispose)
    */
   unsubscribe(): void {
+    this.dispose();
+  }
+
+  [Symbol.dispose](): void {
     this.dispose();
   }
 }

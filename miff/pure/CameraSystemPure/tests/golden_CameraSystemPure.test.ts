@@ -7,8 +7,8 @@
 
 import { CameraSystemPure, CameraDefinition, CameraInstance } from '../index';
 import { EventBus } from '../../EventsPure/index';
-import { InputSystemPure } from '../../InputPure/index';
-import { RNGPure } from '../../RNGPure/index';
+import { InputMapper } from '../../InputPure/index';
+import { RNGProvider } from '../../RNGPure/index';
 
 // Mock classes for testing
 class MockEventBus {

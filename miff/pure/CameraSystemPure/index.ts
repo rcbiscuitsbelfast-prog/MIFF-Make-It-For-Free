@@ -10,6 +10,9 @@
 import { EventBus } from '../EventsPure/index';
 import { InputMapper } from '../InputPure/index';
 import { RNGProvider } from '../RNGPure/index';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
+
+const logger = StructuredLogger.getInstance();
 
 // Core interfaces and types
 export interface CameraDefinition {
@@ -763,12 +766,12 @@ export class CameraSystemPure {
   createCamera(cameraId: string, targetEntity?: string): CameraInstance | null {
     const definition = this.cameraDefinitions.get(cameraId);
     if (!definition) {
-      logger.warn('Camera definition not found', { cameraId });
+      StructuredLogger.warn('Camera definition not found', { cameraId }, 'CameraSystemPure');
       return null;
     }
 
     if (this.activeCameras.size >= this.config.maxActiveCameras) {
-      logger.warn('Maximum active cameras reached', { max: this.config.maxActiveCameras, current: this.activeCameras.size });
+      StructuredLogger.warn('Maximum active cameras reached', { max: this.config.maxActiveCameras, current: this.activeCameras.size }, 'CameraSystemPure');
       return null;
     }
 
@@ -791,10 +794,10 @@ export class CameraSystemPure {
         mode: definition.mode.type,
         activeTransitions: [],
         activeEffects: [],
-        lastInputTime: new Date(),
+        lastInputTime: Date.now(),
         inputIdleTime: 0
       },
-      lastUpdateTime: new Date(),
+      lastUpdateTime: Date.now(),
       updateCount: 0,
       performanceMetrics: {
         updateTime: 0,
@@ -822,7 +825,7 @@ export class CameraSystemPure {
       targetEntity
     });
 
-    logger.info('Camera created', { cameraName: definition.name, cameraId: instance.id });
+    StructuredLogger.info('Camera created', { cameraName: definition.name, cameraId: instance.id }, 'CameraSystemPure');
     return instance;
   }
 

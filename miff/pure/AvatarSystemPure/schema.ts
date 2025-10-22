@@ -187,7 +187,7 @@ export interface AvatarOptimizations {
   textureAtlas: boolean;
 }
 
-export function isAvatarManifest(value): value is AvatarManifest {
+export function isAvatarManifest(value: any): value is AvatarManifest {
   return !!value && typeof value === 'object' && typeof value.base === 'string' && typeof value.style === 'string';
 }
 
