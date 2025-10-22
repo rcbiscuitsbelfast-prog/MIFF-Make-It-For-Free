@@ -1104,7 +1104,7 @@ export class CombatUtils {
       summary += `, ${koCombatants.length} KO'd`;
     }
     if (state.over) {
-      summary += ` - ${state.winnerTeam ? 'VICTORY for ' + winnerTeam: 'DRAW'}`;
+      summary += ` - ${state.winnerTeam ? 'VICTORY for ' + state.winnerTeam: 'DRAW'}`;
     }
 
     return summary;
@@ -1113,9 +1113,9 @@ export class CombatUtils {
   // Missing CombatUtils methods
   static getActionSourceName(source: ActionSource): string {
     switch (source) {
-      case PLAYER: return 'Player';
-      case AI: return 'AI';
-      case ENGINE: return 'Engine';
+      case ActionSource.PLAYER: return 'Player';
+      case ActionSource.AI: return 'AI';
+      case ActionSource.ENGINE: return 'Engine';
       default: return 'Unknown';
     }
   }
