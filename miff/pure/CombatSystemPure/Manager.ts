@@ -326,11 +326,11 @@ export class CombatSystemManager {
 
   constructor(config?: Partial<CombatSystemConfig>) {
     
-    this.performanceOptimizer = new PerformanceOptimizer({}, {});
-    this.memoryManager = new MemoryManager({});
-    this.errorHandler = new StandardErrorHandler({});
-    this.logger = StructuredLogger.getInstance('CombatSystemManager');
-    this.startTime = Date.now();
+    this.performanceOptimizer = new PerformanceOptimizer({} as any, {} as any);
+    this.memoryManager = new MemoryManager();
+    this.errorHandler = new StandardErrorHandler();
+    this.logger = StructuredLogger.getInstance();
+    this.startTime = new Date();
 
     this.config = {
       enableMultiCombatSupport: true,
@@ -352,7 +352,7 @@ export class CombatSystemManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      StructuredLogger.warn('CombatSystemPure' ?? 'unknown', { context: { message: 'Combat System already initialized' } });
+      StructuredLogger.warn('CombatSystemPure', { context: { message: 'Combat System already initialized' } });
       return;
     }
 

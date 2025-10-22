@@ -3,13 +3,13 @@
  * Generated test file for comprehensive coverage
  */
 
-import { Manager } from 'Manager';
+import { CombatSystemManager } from './Manager';
 
-describe('Manager', () => {
-  let instance: Manager;
+describe('CombatSystemManager', () => {
+  let instance: CombatSystemManager;
 
   beforeEach(() => {
-    instance = new Manager();
+    instance = new CombatSystemManager();
   });
 
   describe('constructor', () => {
