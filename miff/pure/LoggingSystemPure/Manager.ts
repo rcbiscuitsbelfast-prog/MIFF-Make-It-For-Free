@@ -884,9 +884,9 @@ export class LoggingSystemPure {
     }
 
     const manager: LoggingSystemManager = {
-      id: managerData.id || `loggingsystem-${Date.now()}`,
-      name: managerData.name || 'Unnamed Logging System Manager',
-      type: managerData.type || 'centralized',
+      id: `loggingsystem-${Date.now()}`,
+      name: 'Unnamed Logging System Manager',
+      type: 'centralized',
       status: 'active',
       loggers: [],
       appenders: [],
@@ -949,12 +949,11 @@ export class LoggingSystemPure {
         lastUpdate: 0
       },
       metadata: {},
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      ...managerData
+      createdAt: Date.now(),
+      updatedAt: Date.now()
     };
 
-    this.managers.set(manager.id, manager);
+    this.managers.set(manager.id!, manager);
 
     return {
       op: 'create-manager',
@@ -966,12 +965,13 @@ export class LoggingSystemPure {
   /**
    * Get manager by ID
    */
-  getManager(): LoggingSystemOutput {
+  getManager(id: string): LoggingSystemOutput {
+    const manager = this.managers.get(id);
     if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',
-        issues: [`Manager ${managerId} not found`]
+        issues: [`Manager ${id} not found`]
       };
     }
 
