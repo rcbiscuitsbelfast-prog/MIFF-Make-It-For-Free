@@ -171,7 +171,7 @@ export class CraftingManager {
   }
 
   // Shims expected by cliHarnessWrapper
-  registerRecipe(recipe): void {
+  registerRecipe(recipe: Recipe): void {
     // Map minimal wrapper recipe to rich Recipe shape
     const normalized: Recipe = {
       id: recipe.id || recipe.name || `recipe_${Date.now()}`,

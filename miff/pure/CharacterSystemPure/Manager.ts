@@ -352,11 +352,11 @@ export class CharacterSystemManager {
 
   constructor(config?: Partial<CharacterSystemConfig>) {
     
-    this.performanceOptimizer = new PerformanceOptimizer({}, {});
-    this.memoryManager = new MemoryManager({});
-    this.errorHandler = new StandardErrorHandler({});
-    this.logger = StructuredLogger.getInstance('CharacterSystemManager');
-    this.startTime = Date.now();
+    this.performanceOptimizer = new PerformanceOptimizer({} as any, {} as any);
+    this.memoryManager = new MemoryManager();
+    this.errorHandler = new StandardErrorHandler();
+    this.logger = StructuredLogger.getInstance();
+    this.startTime = new Date();
 
     this.config = {
       enableMultiCharacterSupport: true,
