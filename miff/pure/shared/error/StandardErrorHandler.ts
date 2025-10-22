@@ -118,19 +118,13 @@ export interface ErrorRecoveryStrategy {
 }
 
 export class StandardErrorHandler {
-  
+  private logger: StructuredLogger;
   private recoveryStrategies: Map<ErrorCode, ErrorRecoveryStrategy[]> = new Map();
   private errorCounts: Map<ErrorCode, number> = new Map();
   private maxRetries: number = 3;
 
   constructor(logger?: StructuredLogger) {
-    this.logger = logger || StructuredLogger.getInstance({
-      level: LogLevel.ERROR,
-      enableConsole: true,
-      modules: {
-        'StandardErrorHandler': LogLevel.DEBUG
-      }
-    });
+    this.logger = logger || StructuredLogger.getInstance();
     
     this.initializeRecoveryStrategies();
   }
@@ -151,7 +145,7 @@ export class StandardErrorHandler {
       severity,
       context: {
         ...context,
-        timestamp: new Date()
+        timestamp: Date.now()
       },
       originalError,
       stack: originalError?.stack,
@@ -177,7 +171,7 @@ export class StandardErrorHandler {
       context: error.context,
       recoverable: error.recoverable,
       retryable: error.retryable
-    }, error.originalError);
+    });
 
     if (error.recoverable) {
       return await this.attemptRecovery(error);
@@ -212,7 +206,7 @@ export class StandardErrorHandler {
         } catch (fallbackError) {
           logger.error('Fallback operation also failed', {
             originalError: error.message,
-            fallbackError: fallbackError instanceof Error ? message: String(fallbackError)
+            fallbackError: fallbackError instanceof Error ? fallbackError.message: String(fallbackError)
           });
         }
       }
@@ -265,10 +259,10 @@ export class StandardErrorHandler {
    * Add a recovery strategy
    */
   addRecoveryStrategy(code: string, strategy: ErrorRecoveryStrategy): void {
-    if (!this.recoveryStrategies.has(code)) {
-      this.recoveryStrategies.set(code, []);
+    if (!this.recoveryStrategies.has(code as ErrorCode)) {
+      this.recoveryStrategies.set(code as ErrorCode, []);
     }
-    this.recoveryStrategies.get(code)?.push(strategy);
+    this.recoveryStrategies.get(code as ErrorCode)?.push(strategy);
   }
 
   private initializeRecoveryStrategies(): void {
@@ -337,7 +331,7 @@ export class StandardErrorHandler {
   }
 
   private getSuggestions(code: ErrorCode): string[] {
-    const suggestions: Record<ErrorCode, string[]> = {
+    const suggestions: Partial<Record<ErrorCode, string[]>> = {
       [ErrorCode.UNKNOWN_ERROR]: [
         'Check the error logs for more details',
         'Verify that all dependencies are properly installed',
@@ -401,7 +395,7 @@ export class StandardErrorHandler {
           logger.warn('Recovery strategy failed', {
             code: error.code,
             strategy: strategy.description,
-            error: recoveryError instanceof Error ? message: String(recoveryError)
+            error: recoveryError instanceof Error ? recoveryError.message: String(recoveryError)
           });
         }
       }
@@ -413,24 +407,24 @@ export class StandardErrorHandler {
   private logError(error: StandardError): void {
     const logLevel = this.getLogLevel(error.severity);
     
-    this.logger[logLevel]('StandardErrorHandler', error.message, {
+    StructuredLogger.error(error.message, {
       code: error.code,
       severity: error.severity,
       context: error.context,
       recoverable: error.recoverable,
       retryable: error.retryable,
       suggestions: error.suggestions
-    }, error.originalError);
+    });
   }
 
   private getLogLevel(severity: ErrorSeverity): 'error' | 'warn' | 'info' | 'debug' {
     switch (severity) {
-      case CRITICAL:
-      case HIGH:
+      case ErrorSeverity.CRITICAL:
+      case ErrorSeverity.HIGH:
         return 'error';
-      case MEDIUM:
+      case ErrorSeverity.MEDIUM:
         return 'warn';
-      case LOW:
+      case ErrorSeverity.LOW:
         return 'info';
       default:
         return 'debug';

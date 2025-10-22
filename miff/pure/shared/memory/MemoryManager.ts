@@ -149,5 +149,5 @@ export class MemoryManager {
 }
 
 // Export default instance
-export const memoryManager = new MemoryManager({});
+export const memoryManager = new MemoryManager();
 export { MemoryManager as default };

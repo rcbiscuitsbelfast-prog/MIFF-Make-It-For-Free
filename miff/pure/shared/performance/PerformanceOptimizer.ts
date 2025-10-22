@@ -302,7 +302,7 @@ export class PerformanceOptimizer {
       const err = error instanceof Error ? error : new Error(String(error));
             this.eventBus.publish('performance:optimizationError', {
               ruleId: rule.id,
-              error: error.message,
+              error: error instanceof Error ? error.message : String(error),
               timestamp: new Date()
             });
           }
@@ -437,21 +437,21 @@ export class PerformanceOptimizer {
    */
   private getMetricValue(metrics: PerformanceMetrics, metric: PerformanceMetric): number {
     switch (metric) {
-      case CPU_USAGE:
+      case PerformanceMetric.CPU_USAGE:
         return metrics.cpuUsage;
-      case MEMORY_USAGE:
+      case PerformanceMetric.MEMORY_USAGE:
         return metrics.memoryUsage;
-      case NETWORK_LATENCY:
+      case PerformanceMetric.NETWORK_LATENCY:
         return metrics.networkLatency;
-      case RESPONSE_TIME:
+      case PerformanceMetric.RESPONSE_TIME:
         return metrics.responseTime;
-      case THROUGHPUT:
+      case PerformanceMetric.THROUGHPUT:
         return metrics.throughput;
-      case ERROR_RATE:
+      case PerformanceMetric.ERROR_RATE:
         return metrics.errorRate;
-      case CACHE_HIT_RATE:
+      case PerformanceMetric.CACHE_HIT_RATE:
         return metrics.cacheHitRate;
-      case DATABASE_QUERY_TIME:
+      case PerformanceMetric.DATABASE_QUERY_TIME:
         return metrics.databaseQueryTime;
       default:
         return 0;

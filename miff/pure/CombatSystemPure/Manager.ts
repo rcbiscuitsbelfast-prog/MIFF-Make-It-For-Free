@@ -374,7 +374,7 @@ export class CombatSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this.errorHandler.handleError({} as any);
       throw error;
     }
   }
@@ -391,8 +391,8 @@ export class CombatSystemManager {
       const system: CombatSystem = {
         ...systemData,
         id: this.generateSystemId(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
         version: '1.0.0',
         analytics: {
           totalSystems: 0,
@@ -407,7 +407,7 @@ export class CombatSystemManager {
         }
       };
 
-      this.systems.set(system.id, system);
+      this.systems.set(system.id!, system);
       this.updateAnalytics();
 
       StructuredLogger.info('Combat system created', { systemId: system.id, systemName: system.name });
@@ -415,7 +415,7 @@ export class CombatSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this.errorHandler.handleError({} as any);
       throw error;
     }
   }
@@ -442,14 +442,14 @@ export class CombatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { systemId });
+        StructuredLogger.warn('System not found', { systemId });
         return null;
       }
 
       const updatedSystem: CombatSystem = {
         ...system,
         ...updates,
-        updatedAt: new Date(),
+        updatedAt: Date.now(),
         version: this.incrementVersion(system.version)
       };
 
@@ -461,7 +461,7 @@ export class CombatSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this.errorHandler.handleError({} as any);
       throw error;
     }
   }
@@ -477,7 +477,7 @@ export class CombatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { systemId });
+        StructuredLogger.warn('System not found', { systemId });
         return false;
       }
 
@@ -489,7 +489,7 @@ export class CombatSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this.errorHandler.handleError({} as any);
       throw error;
     }
   }
@@ -538,7 +538,7 @@ export class CombatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { systemId });
+        StructuredLogger.warn('System not found', { systemId });
         return null;
       }
 
@@ -558,7 +558,7 @@ export class CombatSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this.errorHandler.handleError({} as any);
       return null;
     }
   }
@@ -574,13 +574,13 @@ export class CombatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { systemId });
+        StructuredLogger.warn('System not found', { systemId });
         return null;
       }
 
       const combat = system.combats.find(c => c.id === combatId);
       if (!combat) {
-        StructuredLogger.warn('Combat not found' ?? 'unknown', { systemId, combatId });
+        StructuredLogger.warn('Combat not found', { systemId, combatId });
         return null;
       }
 
@@ -590,7 +590,7 @@ export class CombatSystemManager {
       };
 
       combat.participants.push(participant);
-      combat.turnOrder.push(participant.id);
+      combat.turnOrder.push(participant.id!);
       this.updateAnalytics();
 
       StructuredLogger.info('Participant added to combat', { systemId, combatId, participantId: participant.id, participantName: participant.name });
@@ -598,7 +598,7 @@ export class CombatSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this.errorHandler.handleError({} as any);
       return null;
     }
   }
@@ -614,18 +614,18 @@ export class CombatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { systemId });
+        StructuredLogger.warn('System not found', { systemId });
         return false;
       }
 
       const combat = system.combats.find(c => c.id === combatId);
       if (!combat) {
-        StructuredLogger.warn('Combat not found' ?? 'unknown', { systemId, combatId });
+        StructuredLogger.warn('Combat not found', { systemId, combatId });
         return false;
       }
 
       if (combat.participants.length < 2) {
-        StructuredLogger.warn('Not enough participants to start combat' ?? 'unknown', { systemId, combatId, participantCount: combat.participants.length });
+        StructuredLogger.warn('Not enough participants to start combat', { systemId, combatId, participantCount: combat.participants.length });
         return false;
       }
 
@@ -639,7 +639,7 @@ export class CombatSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this.errorHandler.handleError({} as any);
       return false;
     }
   }
@@ -655,37 +655,37 @@ export class CombatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { systemId });
+        StructuredLogger.warn('System not found', { systemId });
         return false;
       }
 
       const combat = system.combats.find(c => c.id === combatId);
       if (!combat) {
-        StructuredLogger.warn('Combat not found' ?? 'unknown', { systemId, combatId });
+        StructuredLogger.warn('Combat not found', { systemId, combatId });
         return false;
       }
 
       const participant = combat.participants.find(p => p.id === participantId);
       if (!participant) {
-        StructuredLogger.warn('Participant not found' ?? 'unknown', { systemId, combatId, participantId });
+        StructuredLogger.warn('Participant not found', { systemId, combatId, participantId });
         return false;
       }
 
       const ability = participant.abilities.find(a => a.id === abilityId);
       if (!ability) {
-        StructuredLogger.warn('Ability not found' ?? 'unknown', { systemId, combatId, participantId, abilityId });
+        StructuredLogger.warn('Ability not found', { systemId, combatId, participantId, abilityId });
         return false;
       }
 
       // Check if it's the participant's turn
       if (combat.turnOrder[combat.currentTurn] !== participantId) {
-        StructuredLogger.warn('Not participant\'s turn' ?? 'unknown', { systemId, combatId, participantId, currentTurn: combat.currentTurn });
+        StructuredLogger.warn('Not participant\'s turn', { systemId, combatId, participantId, currentTurn: combat.currentTurn });
         return false;
       }
 
       // Check mana cost
       if (participant.mana < ability.cost) {
-        StructuredLogger.warn('Insufficient mana' ?? 'unknown', { systemId, combatId, participantId, abilityId, required: ability.cost, available: participant.mana });
+        StructuredLogger.warn('Insufficient mana', { systemId, combatId, participantId, abilityId, required: ability.cost, available: participant.mana });
         return false;
       }
 
@@ -712,7 +712,7 @@ export class CombatSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this.errorHandler.handleError({} as any);
       return false;
     }
   }
@@ -727,8 +727,8 @@ export class CombatSystemManager {
       type: effect.type,
       value: effect.value,
       duration: effect.duration,
-      target: participant.id,
-      source: participant.id,
+      target: participant.id!,
+      source: participant.id!,
       metadata: {}
     };
 
@@ -747,19 +747,19 @@ export class CombatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { systemId });
+        StructuredLogger.warn('System not found', { systemId });
         return false;
       }
 
       const combat = system.combats.find(c => c.id === combatId);
       if (!combat) {
-        StructuredLogger.warn('Combat not found' ?? 'unknown', { systemId, combatId });
+        StructuredLogger.warn('Combat not found', { systemId, combatId });
         return false;
       }
 
       // Check if it's the participant's turn
       if (combat.turnOrder[combat.currentTurn] !== participantId) {
-        StructuredLogger.warn('Not participant\'s turn' ?? 'unknown', { systemId, combatId, participantId, currentTurn: combat.currentTurn });
+        StructuredLogger.warn('Not participant\'s turn', { systemId, combatId, participantId, currentTurn: combat.currentTurn });
         return false;
       }
 
@@ -779,7 +779,7 @@ export class CombatSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this.errorHandler.handleError({} as any);
       return false;
     }
   }
@@ -915,7 +915,7 @@ export class CombatSystemManager {
 
     for (const system of systems) {
       systemsByType[system.type]++;
-      systemsByStatus[system.status]++;
+      systemsByStatus[system.status! as SystemStatus]++;
     }
 
     return {
@@ -927,7 +927,7 @@ export class CombatSystemManager {
       activeCombats,
       totalParticipants,
       totalAbilities,
-      uptime: new Date() - this.startTime.getTime()
+      uptime: Date.now() - this.startTime.getTime()
     };
   }
 
