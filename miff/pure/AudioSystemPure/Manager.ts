@@ -560,16 +560,16 @@ export class AudioSystemManager {
         return false;
       }
 
-      const deviceIndex = system.devices.findIndex(device => device.id === device.id);
+      const deviceIndex = system.devices.findIndex(device => device.id === deviceId);
       if (deviceIndex === -1) {
-        StructuredLogger.warn('Device not found', { systemId, deviceId: id });
+        StructuredLogger.warn('Device not found', { systemId, deviceId });
         return false;
       }
 
       system.devices.splice(deviceIndex, 1);
       this.updateAnalytics();
 
-      StructuredLogger.info('Device removed from system', { systemId, deviceId: id });
+      StructuredLogger.info('Device removed from system', { systemId, deviceId });
       return true;
 
     } catch (error: unknown) {
@@ -826,7 +826,7 @@ export class AudioSystemManager {
         activeDevices: activeDevices,
         totalContexts: totalContexts,
         activeContexts: activeContexts,
-        averageLatency: systems.length > 0 ? totalLatency / length: 0,
+        averageLatency: systems.length > 0 ? totalLatency / systems.length: 0,
         lastUpdated: new Date()
       };
     }
@@ -876,7 +876,7 @@ export class AudioSystemManager {
 
     for (const system of systems) {
       systemsByType[system.type]++;
-      systemsByStatus[system.status]++;
+      systemsByStatus[system.status! as SystemStatus]++;
     }
 
     return {
@@ -888,8 +888,8 @@ export class AudioSystemManager {
       activeDevices,
       totalContexts,
       activeContexts,
-      averageLatency: systems.length > 0 ? totalLatency / length: 0,
-      uptime: new Date() - this.startTime.getTime()
+      averageLatency: systems.length > 0 ? totalLatency / systems.length: 0,
+      uptime: Date.now() - this.startTime.getTime()
     };
   }
 
