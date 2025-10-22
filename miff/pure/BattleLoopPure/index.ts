@@ -142,10 +142,10 @@ export class BattlePhaseManager {
 
   private initializeDefaultPhases(): void {
     this.phases = [
-      { name: 'preparation', duration: 5000, order: 0 },
-      { name: 'action_selection', duration: 10000, order: 1 },
-      { name: 'execution', duration: 15000, order: 2 },
-      { name: 'resolution', duration: 5000, order: 3 }
+      { name: 'pre_turn', duration: 5000, order: 0 },
+      { name: 'select_action', duration: 10000, order: 1 },
+      { name: 'resolve_action', duration: 15000, order: 2 },
+      { name: 'end_turn', duration: 5000, order: 3 }
     ];
   }
 
