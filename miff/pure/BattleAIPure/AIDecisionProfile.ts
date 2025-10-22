@@ -133,13 +133,13 @@ export class AIDecisionProfile implements IAIDecisionProfile {
 
   getStyleDescription(): string {
     switch (this.style) {
-      case AGGRESSIVE:
+      case AIDecisionStyle.AGGRESSIVE:
         return 'Focuses on high damage moves with relentless offense';
-      case DEFENSIVE:
+      case AIDecisionStyle.DEFENSIVE:
         return 'Prioritizes healing and protection to outlast opponents';
-      case TRICKSTER:
+      case AIDecisionStyle.TRICKSTER:
         return 'Prefers support and utility moves to control the battle';
-      case BALANCED:
+      case AIDecisionStyle.BALANCED:
       default:
         return 'Balanced approach between offense and defense';
     }

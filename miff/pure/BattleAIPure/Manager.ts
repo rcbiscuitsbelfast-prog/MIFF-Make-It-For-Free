@@ -607,7 +607,7 @@ export class BattleAIManager {
     this.performance.averageResponseTime = 
       (this.performance.averageResponseTime * (this.performance.totalDecisions - 1) + responseTime) / 
       this.performance.totalDecisions;
-    this.performance.lastUpdated = Date.now();
+    this.performance.lastUpdated = new Date();
   }
 
   /**
@@ -687,7 +687,7 @@ export class BattleAIManager {
     const strategy = this.strategies.get(strategyId);
     if (strategy) {
       strategy.usageCount++;
-      strategy.lastUsed = Date.now();
+      strategy.lastUsed = new Date();
       
       // Update success rate using exponential moving average
       const alpha = this.config.learningRate;
@@ -720,7 +720,7 @@ export class BattleAIManager {
   /**
    * Import AI state
    */
-  importState(state): void {
+  importState(state: any): void {
     if (state.strategies) {
       this.strategies = new Map(state.strategies.map((s: AIStrategyConfig) => [s.id, s]));
     }

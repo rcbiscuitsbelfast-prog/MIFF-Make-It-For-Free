@@ -154,14 +154,14 @@ describe('BattleAIPure Golden Tests', () => {
 
     test('should validate correctly', () => {
       const validProfile = new AIDecisionProfile('valid', AIDecisionStyle.BALANCED);
-      expect(validProfile.validate({})).toHaveLength(0);
+      expect(validProfile.validate()).toHaveLength(0);
 
       const invalidProfile = new AIDecisionProfile('', AIDecisionStyle.AGGRESSIVE, {
         [MoveCategory.DAMAGE]: -1,
         [MoveCategory.HEALING]: 3
       }, ['']);
 
-      const errors = invalidProfile.validate({});
+      const errors = invalidProfile.validate();
       expect(errors).toContain('Profile ID cannot be empty');
       expect(errors).toContain('damage weight must be between 0 and 2');
       expect(errors).toContain('healing weight must be between 0 and 2');
@@ -726,9 +726,9 @@ describe('BattleAIPure Golden Tests', () => {
       for (let i = 0; i < 1000; i++) {
         const profile = new AIDecisionProfile(
           `profile_${i}`,
-          i % 4 === 0 ? AGGRESSIVE:
-          i % 4 === 1 ? DEFENSIVE:
-          i % 4 === 2 ? BALANCED: AIDecisionStyle.TRICKSTER,
+          i % 4 === 0 ? AIDecisionStyle.AGGRESSIVE:
+          i % 4 === 1 ? AIDecisionStyle.DEFENSIVE:
+          i % 4 === 2 ? AIDecisionStyle.BALANCED: AIDecisionStyle.TRICKSTER,
           {
             [MoveCategory.DAMAGE]: 0.5 + Math.random(),
             [MoveCategory.HEALING]: 0.5 + Math.random(),
@@ -779,9 +779,9 @@ describe('BattleAIPure Golden Tests', () => {
       for (let i = 0; i < 500; i++) {
         const profile = new AIDecisionProfile(
           `complex_profile_${i}`,
-          i % 4 === 0 ? AGGRESSIVE:
-          i % 4 === 1 ? DEFENSIVE:
-          i % 4 === 2 ? BALANCED: AIDecisionStyle.TRICKSTER,
+          i % 4 === 0 ? AIDecisionStyle.AGGRESSIVE:
+          i % 4 === 1 ? AIDecisionStyle.DEFENSIVE:
+          i % 4 === 2 ? AIDecisionStyle.BALANCED: AIDecisionStyle.TRICKSTER,
           {
             [MoveCategory.DAMAGE]: 0.5 + Math.random(),
             [MoveCategory.HEALING]: 0.5 + Math.random(),
@@ -802,7 +802,7 @@ describe('BattleAIPure Golden Tests', () => {
         const profile = profiles[i];
         BattleAIUtils.compareProfiles(referenceProfile, profile);
         BattleAIUtils.getBehaviorDescription(profile);
-        profile.validate({});
+        profile.validate();
       }
 
       const endTime = performance.now();

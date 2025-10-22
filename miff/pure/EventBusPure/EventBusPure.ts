@@ -287,7 +287,7 @@ export class EventBus {
           }
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-          console.error(`Error in event handler ${handler.id}:`, err instanceof Error ? message: String(err));
+          console.error(`Error in event handler ${handler.id}:`, err instanceof Error ? err.message: String(err));
         }
       }
     }

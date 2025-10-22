@@ -22,7 +22,7 @@ export class AIControllerManager implements IAIControllerManager {
   }
 
   registerProfile(profile: IAIDecisionProfile): boolean {
-    if (profile.validate({}).length > 0) return false;
+    if (profile.validate().length > 0) return false;
     this.profiles.set(profile.profileID, profile);
     return true;
   }
@@ -63,7 +63,7 @@ export class AIControllerManager implements IAIControllerManager {
       updated.movePriorityWeights,
       updated.preferredTypes
     );
-    if (temp.validate({}).length > 0) return false;
+    if (temp.validate().length > 0) return false;
     this.profiles.set(updated.profileID, updated);
     if (updated.profileID !== id) this.profiles.delete(id);
     return true;
