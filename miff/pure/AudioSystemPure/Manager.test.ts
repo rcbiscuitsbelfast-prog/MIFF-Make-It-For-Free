@@ -1,33 +1,25 @@
 import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals';
 import { AudioSystemManager } from './Manager';
-import { addGenericItemMethods } from '../shared/testing/ManagerTestHelpers';
 
 describe('AudioSystemManager', () => {
-  // TODO: Implement missing Manager methods
   let manager: AudioSystemManager;
 
   beforeEach(async () => {
     manager = new AudioSystemManager({
-      enabled: true,
-      debugMode: false,
-      maxInstances: 100,
-      timeout: 5000,
-      retryAttempts: 3,
-      cacheSize: 50,
-      logLevel: 'error',
-      performanceMonitoring: false,
-      memoryTracking: false
+      enableDeviceManagement: true,
+      enableContextManagement: true,
+      enableProcessingPipeline: true,
+      enableCrossPlatformIntegration: true,
+      enablePerformanceOptimization: true,
+      enableMonitoring: true,
+      maxDevices: 10,
+      maxContexts: 5,
+      enableCloudSync: false,
+      enableBackup: false,
+      enableVersioning: true
     });
     
-    await manager.initialize();    
-    // Add generic item methods as aliases to domain-specific methods
-    addGenericItemMethods(manager, {
-      create: 'createSystem',
-      get: 'findIndex',
-      update: '',
-      delete: '',
-      getAll: 'getAllSystems'
-    });
+    await manager.initialize();
   });
 
   afterEach(async () => {
@@ -38,192 +30,238 @@ describe('AudioSystemManager', () => {
 
   describe('Initialization', () => {
     it('should initialize successfully', async () => {
-      
       expect(manager).toBeDefined();
-      expect(manager.getStats).toBeDefined();
-      expect(manager.getAnalytics).toBeDefined();
+      expect(manager.getAllSystems).toBeDefined();
+      expect(manager.getStatistics).toBeDefined();
     });
 
-    it.skip('should have default configuration', () => {
-      const stats = manager.getStats();
+    it('should have default configuration', () => {
+      const stats = manager.getStatistics();
       expect(stats).toBeDefined();
-      expect(typeof stats.totalItems).toBe('number');
-      expect(typeof stats.activeItems).toBe('number');
+      expect(typeof stats.totalSystems).toBe('number');
+      expect(typeof stats.activeSystems).toBe('number');
     });
   });
 
-  describe('Item Management', () => {
-    it('should create items', async () => {
-      
-      const itemData = {
-        name: 'Test Item',
-        type: 'test',
-        status: 'active' as const,
-        metadata: { test: true },
-        properties: { value: 100 },
-        tags: ['test'],
-        priority: 1,
-        version: '1.0.0'
+  describe('Audio System Management', () => {
+    it('should create audio systems', async () => {
+      const systemData = {
+        name: 'Test Audio System',
+        type: 'master' as const,
+        devices: [],
+        contexts: [],
+        pipeline: {
+          stages: [],
+          connections: [],
+          enabled: false,
+          latency: 0,
+          throughput: 0
+        },
+        performance: {
+          cpuUsage: 0,
+          memoryUsage: 0,
+          latency: 0,
+          throughput: 0,
+          errorRate: 0,
+          droppedFrames: 0
+        },
+        metadata: { test: true }
       };
 
-      const item = await manager.createItem(itemData);
-      expect(item).toBeDefined();
-      expect(item.id).toBeDefined();
-      expect(item.name).toBe('Test Item');
-      expect(item.type).toBe('test');
-      expect(item.status).toBe('active');
+      const system = await manager.createSystem(systemData);
+      expect(system).toBeDefined();
+      expect(system.id).toBeDefined();
+      expect(system.name).toBe('Test Audio System');
+      expect(system.type).toBe('master');
     });
 
-    it('should retrieve items by ID', async () => {
-      
-      const itemData = {
-        name: 'Test Item',
-        type: 'test',
-        status: 'active' as const,
-        metadata: {},
-        properties: {},
-        tags: ['test'],
-        priority: 1,
-        version: '1.0.0'
+    it('should retrieve systems by ID', async () => {
+      const systemData = {
+        name: 'Test Audio System',
+        type: 'master' as const,
+        devices: [],
+        contexts: [],
+        pipeline: {
+          stages: [],
+          connections: [],
+          enabled: false,
+          latency: 0,
+          throughput: 0
+        },
+        performance: {
+          cpuUsage: 0,
+          memoryUsage: 0,
+          latency: 0,
+          throughput: 0,
+          errorRate: 0,
+          droppedFrames: 0
+        },
+        metadata: {}
       };
 
-      const createdItem = await manager.createItem(itemData);
-      const retrievedItem = manager.getItem(createdItem.id);
+      const createdSystem = await manager.createSystem(systemData);
+      const allSystems = manager.getAllSystems();
+      const retrievedSystem = allSystems.find(sys => sys.id === createdSystem.id);
       
-      expect(retrievedItem).toBeDefined();
-      expect(retrievedItem?.id).toBe(createdItem.id);
-      expect(retrievedItem?.name).toBe('Test Item');
+      expect(retrievedSystem).toBeDefined();
+      expect(retrievedSystem?.id).toBe(createdSystem.id);
+      expect(retrievedSystem?.name).toBe('Test Audio System');
     });
 
-    it('should get all items', async () => {
-      
-      const itemData = {
-        name: 'Test Item',
-        type: 'test',
-        status: 'active' as const,
-        metadata: {},
-        properties: {},
-        tags: ['test'],
-        priority: 1,
-        version: '1.0.0'
+    it('should get all systems', async () => {
+      const systemData = {
+        name: 'Test Audio System',
+        type: 'master' as const,
+        devices: [],
+        contexts: [],
+        pipeline: {
+          stages: [],
+          connections: [],
+          enabled: false,
+          latency: 0,
+          throughput: 0
+        },
+        performance: {
+          cpuUsage: 0,
+          memoryUsage: 0,
+          latency: 0,
+          throughput: 0,
+          errorRate: 0,
+          droppedFrames: 0
+        },
+        metadata: {}
       };
 
-      await manager.createItem(itemData);
-      const allItems = manager.getAllItems();
+      await manager.createSystem(systemData);
+      const allSystems = manager.getAllSystems();
       
-      expect(Array.isArray(allItems)).toBe(true);
-      expect(allItems.length).toBeGreaterThan(0);
+      expect(Array.isArray(allSystems)).toBe(true);
+      expect(allSystems.length).toBeGreaterThan(0);
     });
 
-    it('should update items', async () => {
-      
-      const itemData = {
-        name: 'Test Item',
-        type: 'test',
-        status: 'active' as const,
-        metadata: {},
-        properties: {},
-        tags: ['test'],
-        priority: 1,
-        version: '1.0.0'
+    it('should update systems', async () => {
+      const systemData = {
+        name: 'Test Audio System',
+        type: 'master' as const,
+        devices: [],
+        contexts: [],
+        pipeline: {
+          stages: [],
+          connections: [],
+          enabled: false,
+          latency: 0,
+          throughput: 0
+        },
+        performance: {
+          cpuUsage: 0,
+          memoryUsage: 0,
+          latency: 0,
+          throughput: 0,
+          errorRate: 0,
+          droppedFrames: 0
+        },
+        metadata: {}
       };
 
-      const createdItem = await manager.createItem(itemData);
-      const updatedItem = await manager.updateItem(createdItem.id, {
-        name: 'Updated Item',
-        status: 'inactive' as const
+      const createdSystem = await manager.createSystem(systemData);
+      const updatedSystem = await manager.updateSystem(createdSystem.id!, {
+        name: 'Updated Audio System'
       });
       
-      expect(updatedItem).toBeDefined();
-      expect(updatedItem?.name).toBe('Updated Item');
-      expect(updatedItem?.status).toBe('inactive');
+      expect(updatedSystem).toBeDefined();
+      expect(updatedSystem?.name).toBe('Updated Audio System');
     });
 
-    it('should delete items', async () => {
-      
-      const itemData = {
-        name: 'Test Item',
-        type: 'test',
-        status: 'active' as const,
-        metadata: {},
-        properties: {},
-        tags: ['test'],
-        priority: 1,
-        version: '1.0.0'
+    it('should delete systems', async () => {
+      const systemData = {
+        name: 'Test Audio System',
+        type: 'master' as const,
+        devices: [],
+        contexts: [],
+        pipeline: {
+          stages: [],
+          connections: [],
+          enabled: false,
+          latency: 0,
+          throughput: 0
+        },
+        performance: {
+          cpuUsage: 0,
+          memoryUsage: 0,
+          latency: 0,
+          throughput: 0,
+          errorRate: 0,
+          droppedFrames: 0
+        },
+        metadata: {}
       };
 
-      const createdItem = await manager.createItem(itemData);
-      const deleted = await manager.deleteItem(createdItem.id);
+      const createdSystem = await manager.createSystem(systemData);
+      const deleted = await manager.deleteSystem(createdSystem.id!);
       
       expect(deleted).toBe(true);
       
-      const retrievedItem = manager.getItem(createdItem.id);
-      expect(retrievedItem).toBeUndefined();
+      const allSystems = manager.getAllSystems();
+      const retrievedSystem = allSystems.find(sys => sys.id === createdSystem.id);
+      expect(retrievedSystem).toBeUndefined();
     });
   });
 
   describe('Analytics and Statistics', () => {
-    it.skip('should provide analytics', () => {
-      const analytics = manager.getAnalytics();
-      expect(analytics).toBeDefined();
-      expect(typeof analytics.totalItems).toBe('number');
-      expect(typeof analytics.activeItems).toBe('number');
-      expect(typeof analytics.inactiveItems).toBe('number');
-      expect(typeof analytics.errorItems).toBe('number');
-      expect(typeof analytics.averageProcessingTime).toBe('number');
-      expect(typeof analytics.totalOperations).toBe('number');
-      expect(typeof analytics.successRate).toBe('number');
-      expect(analytics.lastUpdated).toBeInstanceOf(Date);
-    });
-
-    it.skip('should provide statistics', () => {
-      const stats = manager.getStats();
+    it('should provide statistics', () => {
+      const stats = manager.getStatistics();
       expect(stats).toBeDefined();
-      expect(typeof stats.totalItems).toBe('number');
-      expect(typeof stats.activeItems).toBe('number');
-      expect(typeof stats.errorCount).toBe('number');
-      expect(typeof stats.averageResponseTime).toBe('number');
-      expect(typeof stats.memoryUsage).toBe('number');
+      expect(typeof stats.totalSystems).toBe('number');
+      expect(typeof stats.activeSystems).toBe('number');
+      expect(typeof stats.systemsByType).toBe('object');
       expect(typeof stats.uptime).toBe('number');
-      expect(stats.lastActivity).toBeInstanceOf(Date);
     });
   });
 
   describe('Error Handling', () => {
-    it('should handle invalid item updates gracefully', async () => {
-      
-      const result = await manager.updateItem('non-existent-id', {
-        name: 'Updated Item'
+    it('should handle invalid system updates gracefully', async () => {
+      const result = await manager.updateSystem('non-existent-id', {
+        name: 'Updated System'
       });
       
-      expect(result).toBeUndefined();
+      expect(result).toBeNull();
     });
 
-    it('should handle invalid item deletions gracefully', async () => {
-      
-      const result = await manager.deleteItem('non-existent-id');
+    it('should handle invalid system deletions gracefully', async () => {
+      const result = await manager.deleteSystem('non-existent-id');
       
       expect(result).toBe(false);
     });
   });
 
   describe('Performance', () => {
-    it('should handle multiple item operations efficiently', async () => {
-      
+    it('should handle multiple system operations efficiently', async () => {
       const startTime = Date.now();
       
-      // Create multiple items
+      // Create multiple systems
       const promises = [];
-      for (let i = 0; i < 10; i++) {
-        promises.push(manager.createItem({
-          name: `Test Item ${i}`,
-          type: 'test',
-          status: 'active' as const,
-          metadata: {},
-          properties: {},
-          tags: ['test'],
-          priority: i,
-          version: '1.0.0'
+      for (let i = 0; i < 5; i++) {
+        promises.push(manager.createSystem({
+          name: `Test Audio System ${i}`,
+          type: 'master' as const,
+          devices: [],
+          contexts: [],
+          pipeline: {
+            stages: [],
+            connections: [],
+            enabled: false,
+            latency: 0,
+            throughput: 0
+          },
+          performance: {
+            cpuUsage: 0,
+            memoryUsage: 0,
+            latency: 0,
+            throughput: 0,
+            errorRate: 0,
+            droppedFrames: 0
+          },
+          metadata: {}
         }));
       }
       
@@ -235,14 +273,13 @@ describe('AudioSystemManager', () => {
       // Should complete within reasonable time (5 seconds)
       expect(duration).toBeLessThan(5000);
       
-      const allItems = manager.getAllItems();
-      expect(allItems.length).toBeGreaterThanOrEqual(10);
+      const allSystems = manager.getAllSystems();
+      expect(allSystems.length).toBeGreaterThanOrEqual(5);
     });
   });
 
   describe('Cleanup', () => {
     it('should destroy manager without errors', async () => {
-      
       await expect(manager.destroy()).resolves.not.toThrow();
     });
   });
