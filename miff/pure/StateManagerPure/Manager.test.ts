@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals';
-import { StateManagerPureManager } from './Manager';
+import { StateManagerManager } from './Manager';
 import { addGenericItemMethods } from '../shared/testing/ManagerTestHelpers';
 
 describe('StateManagerPureManager', () => {

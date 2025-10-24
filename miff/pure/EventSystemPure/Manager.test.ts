@@ -1,13 +1,13 @@
 import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals';
-import { EventSystemPureManager } from './Manager';
+import { EventSystemManager } from './Manager';
 import { addGenericItemMethods } from '../shared/testing/ManagerTestHelpers';
 
-describe('EventSystemPureManager', () => {
+describe('EventSystemManager', () => {
   // TODO: Implement missing Manager methods
-  let manager: EventSystemPureManager;
+  let manager: EventSystemManager;
 
   beforeEach(async () => {
-    manager = new EventSystemPureManager({
+    manager = new EventSystemPure({
       enabled: true,
       debugMode: false,
       maxInstances: 100,
@@ -245,5 +245,8 @@ describe('EventSystemPureManager', () => {
       
       await expect(manager.destroy()).resolves.not.toThrow();
     });
+  });
+});
+;
   });
 });
