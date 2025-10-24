@@ -20,8 +20,8 @@ test('golden equipment flow', () => {
     { slot:'armor', item:null },
     { slot:'mount', item:null },
   ]);
-  // modifiers payload shape
-  expect(got.outputs[3!].modifiers).toEqual([
+  // modifiers payload shape - unwrap EquipmentOutput result
+  expect(got.outputs[3!].modifiers.result).toEqual([
     { stat:'atk', value:10 },
     { stat:'spd', value:2 },
     { stat:'def', value:8 },

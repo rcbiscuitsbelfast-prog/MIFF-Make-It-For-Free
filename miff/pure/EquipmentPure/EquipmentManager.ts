@@ -74,7 +74,7 @@ export interface EquipmentFilter {
 export interface EquipmentOutput {
   op: string;
   status: 'ok' | 'error';
-  result?: EquippedItem | EquipmentStats | StatModifier[] | string;
+  result?: any; // Flexible result type to support various return structures
   issues?: string[];
 }
 
@@ -171,7 +171,7 @@ export class EquipmentManager {
    */
   getModifiers(): EquipmentOutput {
     const mods: StatModifier[] = [];
-    for (const item of this.equipped.values()) {
+    for (const item of Array.from(this.equipped.values())) {
       for (const modifier of item.modifiers) {
         mods.push({ ...modifier });
         this.hooks.onModifierApplied?.(modifier, item);
@@ -449,7 +449,7 @@ export class EquipmentManager {
   getActiveSets(): EquipmentOutput {
     const activeSets: { set: EquipmentSet; activePieces: number; bonuses: SetBonus[] }[] = [];
 
-    for (const set of this.equipmentSets.values()) {
+    for (const set of Array.from(this.equipmentSets.values())) {
       const activePieces = Array.from(this.equipped.values()).filter((item: any) =>
         item.set === set.id
       ).length;

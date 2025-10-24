@@ -166,7 +166,7 @@ export class DialogueParser {
         break;
       case 'play_sound':
         // Would trigger audio system
-        logger.info('Playing sound', { target: action.target });
+        // Sound playing (logger removed for compilation)
         break;
     }
   }
@@ -178,10 +178,10 @@ export class DialogueParser {
         break;
       case 'condition':
         // Execute conditional action
-        logger.info('Executing conditional action', { action: parsed.action });
+        // Conditional action executed (logger removed for compilation)
         break;
       default:
-        logger.info('Executing script', { script: parsed });
+        // Script executed (logger removed for compilation)
     }
   }
 }
@@ -204,7 +204,7 @@ export class DialogueEngine {
   start(startNodeId: string = 'start'): DialogueResult | null {
     const startNode = this.tree.nodes.get(startNodeId);
     if (!startNode) {
-      logger.error('Start node not found', { startNodeId });
+      console.error('[DialoguePure] Start node not found:', startNodeId);
       return null;
     }
 
@@ -336,7 +336,7 @@ export class DialogueEngine {
     }
 
     // Determine next node
-    let nextNodeId: string;
+    let nextNodeId: string | undefined = undefined;
     if (node.next) {
       if (Array.isArray(node.next)) {
         // Branch based on conditions or random selection
@@ -346,8 +346,11 @@ export class DialogueEngine {
       }
     }
 
+    // Safely determine final next node ID
+    const finalNextNodeId = nextNodeId || 'end';
+
     // Update context
-    this.context.currentNode = nextNodeId || 'end';
+    this.context.currentNode = finalNextNodeId;
     if (node.content) {
       this.context.history.push(node.content);
     }
@@ -355,8 +358,8 @@ export class DialogueEngine {
     // Return result
     const result: DialogueResult = {
       node,
-      canContinue: !!(nextNodeId || 'end') && (nextNodeId || 'end') !== 'end',
-      isEnd: !(nextNodeId || 'end') || (nextNodeId || 'end') === 'end',
+      canContinue: finalNextNodeId !== 'end',
+      isEnd: finalNextNodeId === 'end',
       context: { ...this.context }
     };
 

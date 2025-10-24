@@ -476,7 +476,7 @@ export class SimplePlatformerGame extends SimpleGame {
   }
 
   getCoins(): number { return this.coins; }
-  getPlatforms(): readonly typeof this.platforms { return this.platforms; }
+  getPlatforms() { return this.platforms; }
 }
 
 /**
@@ -584,13 +584,13 @@ export class SimpleArcadeGame extends SimpleGame {
   }
 
   private gameOver(): void {
-    logger.info('Arcade game over', { finalScore: this.getScore() });
+    logger.info('Arcade game over', { finalScore: this.stats.score });
     this.stop();
   }
 
   getLives(): number { return this.playerLives; }
-  getEnemies(): readonly typeof this.enemies { return this.enemies; }
-  getBullets(): readonly typeof this.bullets { return this.bullets; }
+  getEnemies() { return this.enemies; }
+  getBullets() { return this.bullets; }
 }
 
 /**
@@ -711,13 +711,15 @@ export class SimpleRPGGame extends SimpleGame {
     this.addCurrency(10 + Math.floor(Math.random() * 20));
     this.addScore(this.currentEnemy.experienceReward * 2);
 
+    // Save enemy reference before clearing
+    const defeatedEnemy = this.currentEnemy;
     this.inCombat = false;
     this.currentEnemy = null;
-    logger.info('Enemy defeated in RPG', { enemyName: enemy.name, xpGained: enemy.xpReward, goldGained: enemy.goldReward });
+    logger.info('Enemy defeated in RPG', { enemyName: defeatedEnemy.name, xpGained: defeatedEnemy.experienceReward });
   }
 
   private gameOver(): void {
-    logger.info('RPG game over', { reason: 'Player died', level: this.stats.level, gold: this.stats.gold });
+    logger.info('RPG game over', { reason: 'Player died', level: this.stats.level });
     this.stop();
   }
 
@@ -740,7 +742,7 @@ export class SimpleRPGGame extends SimpleGame {
     this.player.attack += 2;
     this.player.defense += 1;
 
-    logger.info('Player leveled up', { level: this.stats.level, hp: this.stats.hp, attack: this.stats.attack, defense: this.stats.defense });
+    logger.info('Player leveled up', { level: this.stats.level, hp: this.player.health, attack: this.player.attack, defense: this.player.defense });
   }
 
   startCombat(enemyId: string): boolean {
@@ -749,12 +751,12 @@ export class SimpleRPGGame extends SimpleGame {
 
     this.currentEnemy = enemy;
     this.inCombat = true;
-    logger.info('Combat started', { enemyName: enemy.name, enemyHp: enemy.hp, playerHp: this.stats.hp });
+    logger.info('Combat started', { enemyName: enemy.name, enemyHp: enemy.health, playerHp: this.player.health });
     return true;
   }
 
   getPlayer(): Readonly<typeof this.player> { return this.player; }
-  getEnemies(): readonly typeof this.enemies { return this.enemies; }
+  getEnemies() { return this.enemies; }
   getCurrentEnemy(): any { return this.currentEnemy; }
   isInCombat(): boolean { return this.inCombat; }
 }

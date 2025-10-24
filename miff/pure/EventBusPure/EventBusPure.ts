@@ -110,8 +110,29 @@ export class EventBus {
   /**
    * Backward-compatible alias: some modules call eventBus.emit(type, data)
    */
-  async emit(eventType: string, data: any, options: any = {}): Promise<string> {
+  async emit(eventType: string, data: any = null, options: any = {}): Promise<string> {
     return this.publish(eventType, data, options);
+  }
+
+  /**
+   * Subscribe to an event once (handler removed after first invocation)
+   */
+  once(
+    eventType: string,
+    handler: (event: Event) => void | Promise<void>,
+    options: { priority?: EventPriority; filter?: (event: Event) => boolean } = {}
+  ): string {
+    return this.subscribe(eventType, handler, { ...options, once: true });
+  }
+
+  /**
+   * Clear all event handlers and subscriptions
+   */
+  clear(): void {
+    this.handlers.clear();
+    this.subscriptions.clear();
+    this.events = [];
+    this.networkCallbacks.clear();
   }
 
   /**
