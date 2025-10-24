@@ -44,7 +44,7 @@ export function parseQuestText(text: string): ParseResult {
           step.next = rest;
         } else if(p.startsWith('branch:')){
           const rest = p.slice(7).trim();
-          step.next = { branch: rest.split(',').map(s=>s.trim()).map(rule=>{
+          step.next = { branch: rest.split(',').map((s: string)=>s.trim()).map((rule: string)=>{
             const mm = rule.match(/^(\w+)\s*->\s*(\w+)$/);
             return mm? { when: mm[1], next: mm[2] } : { when: 'unknown', next: 'unknown' };
           })};
