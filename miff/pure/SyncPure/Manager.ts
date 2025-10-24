@@ -38,7 +38,7 @@ export enum ConflictResolution {
 export interface SyncData {
   id: string;
   version: number;
-  timestamp: Date;
+  timestamp: Date | number;
   data: any;
   checksum: string;
   deviceId: string;
@@ -164,7 +164,7 @@ export class SyncManager {
       timestamp: new Date(),
       data,
       checksum: this.calculateChecksum(data),
-      deviceId: device.id,
+      deviceId: deviceId,
       userId,
       isDeleted: false
     };
@@ -195,7 +195,7 @@ export class SyncManager {
       timestamp: new Date(),
       data,
       checksum: this.calculateChecksum(data),
-      deviceId: device.id
+      deviceId: deviceId
     };
 
     this.data.set(id, updatedData);
@@ -221,9 +221,9 @@ export class SyncManager {
     const deletedData: SyncData = {
       ...existingData,
       version: existingData.version + 1,
-      timestamp: new Date(),
+      timestamp: Date.now(),
       isDeleted: true,
-      deviceId: device.id
+      deviceId: deviceId
     };
 
     this.data.set(id, deletedData);
@@ -336,15 +336,15 @@ export class SyncManager {
     let resolvedData: SyncData;
 
     switch (conflict.resolution) {
-      case LAST_WRITE_WINS:
+      case ConflictResolution.LAST_WRITE_WINS:
         resolvedData = conflict.localData.timestamp > conflict.remoteData.timestamp 
           ? conflict.localData 
           : conflict.remoteData;
         break;
-      case MERGE:
+      case ConflictResolution.MERGE:
         resolvedData = this.mergeData(conflict.localData, conflict.remoteData);
         break;
-      case AUTOMATIC:
+      case ConflictResolution.AUTOMATIC:
         resolvedData = this.autoResolveConflict(conflict);
         break;
       default:

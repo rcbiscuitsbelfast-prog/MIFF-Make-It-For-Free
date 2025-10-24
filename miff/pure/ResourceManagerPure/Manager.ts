@@ -992,7 +992,7 @@ export class ResourceManagerPure {
       metadata: {},
       createdAt: new Date(),
       updatedAt: new Date(),
-      ...managerData
+      ...data
     };
 
     this.managers.set(manager.id, manager);
@@ -1041,7 +1041,7 @@ export class ResourceManagerPure {
    * Get all managers
    */
   getAllManagers(): ResourceManager[] {
-    return Array.from(this.managers.values());
+    return Array.from(Array.from(this.managers.values()));
   }
 
   /**
