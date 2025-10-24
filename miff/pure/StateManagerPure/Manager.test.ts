@@ -1,13 +1,13 @@
 import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals';
-import { StateManagerManager } from './Manager';
+import { StateManagerPure } from './Manager';
 import { addGenericItemMethods } from '../shared/testing/ManagerTestHelpers';
 
-describe('StateManagerPureManager', () => {
+describe('StateManagerPure', () => {
   // TODO: Implement missing Manager methods
-  let manager: StateManagerPureManager;
+  let manager: StateManagerPure;
 
   beforeEach(async () => {
-    manager = new StateManagerPureManager({
+    manager = new StateManagerPure({
       enabled: true,
       debugMode: false,
       maxInstances: 100,
