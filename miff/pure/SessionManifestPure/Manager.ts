@@ -196,7 +196,7 @@ export class SessionManifestManager {
     const timeoutMs = this.config.sessionTimeout * 60 * 1000;
     let cleaned = 0;
 
-    for (const [sessionId, startTime] of this.sessionStartTimes.entries()) {
+    for (const [sessionId, startTime] of Array.from(this.sessionStartTimes.entries())) {
       if ((now - startTime) > timeoutMs) {
         this.sessions.delete(sessionId);
         this.sessionStartTimes.delete(sessionId);
@@ -219,7 +219,7 @@ export class SessionManifestManager {
     let totalPlayers = 0;
     let totalDuration = 0;
 
-    for (const [sessionId, session] of this.sessions.entries()) {
+    for (const [sessionId, session] of Array.from(this.sessions.entries())) {
       const startTime = this.sessionStartTimes.get(sessionId) || now;
       const isActive = (now - startTime) <= timeoutMs;
       

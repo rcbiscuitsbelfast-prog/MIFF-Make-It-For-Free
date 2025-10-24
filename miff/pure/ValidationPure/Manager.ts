@@ -54,11 +54,11 @@ export class ValidationManager {
 		if(this.config.rules.includes('combat_stat_keys')){
 			const expected = new Set(this.config.combatExpectedStatKeys||[]);
 			if(expected.size>0){
-				for(const e of input.stats||[]){
-					const keys = new Set((e.stats||[]).map(s=>s.key));
-					for(const need of expected){
-						if(!keys.has(need)) issues.push({ code:'combat_stat_keys', message:`${e.id} missing required combat stat '${need}'`, ref:`${e.id}.${need}` });
-					}
+			for(const e of input.stats||[]){
+				const keys = new Set((e.stats||[]).map(s=>s.key));
+				for(const need of Array.from(expected)){
+					if(!keys.has(need)) issues.push({ code:'combat_stat_keys', message:`${e.id} missing required combat stat '${need}'`, ref:`${e.id}.${need}` });
+				}
 				}
 			}
 		}

@@ -50,7 +50,7 @@ export class EventBus {
     if (handlers) {
       // Create a copy of handlers to avoid issues with concurrent modifications
       const handlersCopy = new Set(handlers);
-      for (const handler of handlersCopy) {
+      for (const handler of Array.from(handlersCopy)) {
         try {
           const result = handler(payload);
           // If handler returns a Promise, we need to handle it
@@ -82,7 +82,7 @@ export class EventBus {
       const handlersCopy = new Set(handlers);
       const promises: Promise<void>[] = [];
 
-      for (const handler of handlersCopy) {
+      for (const handler of Array.from(handlersCopy)) {
         try {
           const result = handler(payload);
           if (result && typeof result.then === 'function') {
@@ -105,7 +105,7 @@ export class EventBus {
       const asyncHandlersCopy = new Set(asyncHandlers);
       const promises: Promise<void>[] = [];
 
-      for (const handler of asyncHandlersCopy) {
+      for (const handler of Array.from(asyncHandlersCopy)) {
         try {
           promises.push(handler(payload));
         } catch (error: unknown) {
@@ -193,7 +193,7 @@ export class EventBus {
   getActiveTopics(): string[] {
     const syncTopics = Array.from(this.topicToHandlers.keys());
     const asyncTopics = Array.from(this.asyncTopicToHandlers.keys());
-    return [...new Set([...syncTopics, ...asyncTopics])];
+    return Array.from(new Set([...syncTopics, ...asyncTopics]));
   }
 
   /**
@@ -209,10 +209,10 @@ export class EventBus {
    */
   getTotalSubscriptions(): number {
     let total = 0;
-    for (const handlers of this.topicToHandlers.values()) {
+    for (const handlers of Array.from(this.topicToHandlers.values())) {
       total += handlers.size;
     }
-    for (const handlers of this.asyncTopicToHandlers.values()) {
+    for (const handlers of Array.from(this.asyncTopicToHandlers.values())) {
       total += handlers.size;
     }
     return total;
@@ -225,10 +225,10 @@ export class EventBus {
     let syncHandlers = 0;
     let asyncHandlers = 0;
 
-    for (const handlers of this.topicToHandlers.values()) {
+    for (const handlers of Array.from(this.topicToHandlers.values())) {
       syncHandlers += handlers.size;
     }
-    for (const handlers of this.asyncTopicToHandlers.values()) {
+    for (const handlers of Array.from(this.asyncTopicToHandlers.values())) {
       asyncHandlers += handlers.size;
     }
 

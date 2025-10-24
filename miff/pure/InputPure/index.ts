@@ -112,7 +112,7 @@ export class InputProfile {
     }
 
     // Try case-insensitive match
-    for (const [mapInput, mapActionId] of this._map.entries()) {
+    for (const [mapInput, mapActionId] of Array.from(this._map.entries())) {
       if (mapInput.toLowerCase() === input.toLowerCase()) {
         return this._actions.get(mapActionId) || null;
       }

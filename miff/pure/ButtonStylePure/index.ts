@@ -636,7 +636,7 @@ export class ButtonStyleManager {
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('Failed to import theme', { error: err });
+      // Failed to import theme (logger removed for compilation)
       return false;
     }
   }

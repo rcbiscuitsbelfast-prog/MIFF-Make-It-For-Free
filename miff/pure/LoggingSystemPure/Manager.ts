@@ -1000,7 +1000,7 @@ export class LoggingSystemPure {
    * Get all managers
    */
   getAllManagers(): LoggingSystemManager[] {
-    return Array.from(this.managers.values());
+    return Array.from(Array.from(this.managers.values()));
   }
 
   /**
@@ -1016,7 +1016,7 @@ export class LoggingSystemPure {
     let totalFormatters = 0;
     let totalDestinations = 0;
 
-    for (const manager of this.managers.values()) {
+    for (const manager of Array.from(this.managers.values())) {
       totalLoggers += manager.loggers.length;
       activeLoggers += manager.loggers.filter((l: any) => l.status === 'active').length;
       totalAppenders += manager.appenders.length;
