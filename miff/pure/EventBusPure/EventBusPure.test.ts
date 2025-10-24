@@ -33,24 +33,26 @@ describe('EventBusPure', () => {
   });
 
   describe('Event Emission', () => {
-    it('should emit event with data', () => {
+    it('should emit event with data', async () => {
       const listener = jest.fn();
       eventBus.on('data-event', listener);
       
       const testData = { value: 42 };
-      eventBus.emit('data-event', testData);
+      await eventBus.emit('data-event', testData);
       
-      expect(listener).toHaveBeenCalledWith(testData);
+      // EventBus calls handlers with the full Event object, not just data
+      expect(listener).toHaveBeenCalled();
+      expect(listener.mock.calls[0][0]).toMatchObject({ data: testData, type: 'data-event' });
     });
 
-    it('should call multiple listeners', () => {
+    it('should call multiple listeners', async () => {
       const listener1 = jest.fn();
       const listener2 = jest.fn();
       
       eventBus.on('multi-event', listener1);
       eventBus.on('multi-event', listener2);
       
-      eventBus.emit('multi-event');
+      await eventBus.emit('multi-event');
       
       expect(listener1).toHaveBeenCalled();
       expect(listener2).toHaveBeenCalled();
@@ -76,12 +78,12 @@ describe('EventBusPure', () => {
   });
 
   describe('Once Listeners', () => {
-    it('should fire listener only once', () => {
+    it('should fire listener only once', async () => {
       const listener = jest.fn();
       eventBus.once('once-event', listener);
       
-      eventBus.emit('once-event');
-      eventBus.emit('once-event');
+      await eventBus.emit('once-event');
+      await eventBus.emit('once-event');
       
       expect(listener).toHaveBeenCalledTimes(1);
     });
