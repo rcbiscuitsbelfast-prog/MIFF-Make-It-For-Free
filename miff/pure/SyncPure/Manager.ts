@@ -73,7 +73,7 @@ export interface SyncStats {
   failedSyncs: number;
   conflictsResolved: number;
   dataTransferred: number;
-  lastSyncTime: Date;
+  lastSyncTime: number;
   averageSyncTime: number;
 }
 
@@ -258,7 +258,7 @@ export class SyncManager {
     const startTime = Date.now();
 
     try {
-      this.eventBus.publish('sync:start');
+      this.eventBus.publish('sync:start', {});
       
       // Notify integrations
       this.integrations.forEach((integration: any) => {

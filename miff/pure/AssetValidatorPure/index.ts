@@ -108,8 +108,9 @@ export function validateAssetBundle(
   const recommendations: string[] = [];
 
   // Validate each scenario asset
+  const validationContext = { manifestAssets, platform, strictMode };
   for (const assetRef of scenarioAssets) {
-    const result = validateAsset(assetRef);
+    const result = validateAsset(assetRef, validationContext);
     results.push(result);
     
     if (result.status === 'missing' || result.status === 'invalid') {
