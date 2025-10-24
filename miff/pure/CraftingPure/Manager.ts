@@ -78,7 +78,7 @@ export interface CraftingFilter {
 export interface CraftingOutput {
   op: string;
   status: 'ok' | 'error';
-  result?: Recipe | Recipe[] | CraftResult | CraftingStats | CraftingSession;
+  result?: any;
   issues?: string[];
 }
 
@@ -178,9 +178,9 @@ export class CraftingManager {
       name: recipe.name || recipe.id || 'Custom Recipe',
       description: recipe.description || '',
       category: 'material',
-      inputs: recipe.inputs || recipe.materials || {},
+      inputs: recipe.inputs || {},
       outputs: recipe.outputs || { [recipe.id || 'crafted_item']: 1 },
-      craftingTime: recipe.craftTime || recipe.craftingTime || 10,
+      craftingTime: recipe.craftingTime || 10,
       difficulty: 'easy',
       quality: 'normal'
     };
@@ -354,7 +354,7 @@ export class CraftingManager {
     const session: CraftingSession = {
       id: sessionId,
       recipeId,
-      startTime: new Date(),
+      startTime: Date.now(),
       status: 'active',
       crafterId,
       quality: this.calculateBaseQuality(recipe),
@@ -432,7 +432,7 @@ export class CraftingManager {
       experience,
       success,
       sessionId,
-      craftingTime: new Date() - session.startTime,
+      craftingTime: Date.now() - session.startTime,
       metadata: {
         recipeId: session.recipeId,
         crafterId: session.crafterId,

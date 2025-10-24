@@ -7,9 +7,6 @@
 
 import { MagicSystemPure, SpellDefinition, ManaPool } from '../index';
 import { EventBus } from '../../EventsPure/index';
-import { HealthSystemPure } from '../../HealthSystemPure/index';
-import { CombatPure } from '../../CombatPure/index';
-import { RNGPure } from '../../RNGPure/index';
 
 // Mock classes for testing
 class MockEventBus {
@@ -408,7 +405,7 @@ describe('MagicSystemPure Golden Tests', () => {
       magicSystem.unlockSpell(TEST_CASTER, spellId);
 
       let eventEmitted = false;
-      eventBus.on('magic:spell-cast', (data) => {
+      eventBus.on('magic:spell-cast', (data: any) => {
         eventEmitted = true;
         expect(data.casterId).toBe(TEST_CASTER);
         expect(data.spellId).toBe(spellId);

@@ -33,16 +33,20 @@ function main(){
 		maxLength: 500
 	}, 'QuestScenarioPure/sample_quest.json');
 	
-	const commandsPath = InputSanitizer.getSafeArg(3, {
-		type: 'path',
+	const commandArg = InputSanitizer.getSafeArg(3, {
+		type: 'string',
 		required: false,
-		pattern: /\.json$/i,
+		pattern: /^(run|dump|.*\.json)$/i,
 		maxLength: 500
 	}, '');
 	
 	const scenario: Scenario = JSON.parse(fs.readFileSync(path.resolve(scenarioPath), 'utf-8'));
 	type Cmd = {op:'runScenario'}|{op:'dumpScenario'};
-	const cmds:Cmd[] = commandsPath? JSON.parse(fs.readFileSync(path.resolve(commandsPath),'utf-8')) : [{op:'runScenario'}];
+	const cmds:Cmd[] = commandArg && commandArg.endsWith('.json')
+		? JSON.parse(fs.readFileSync(path.resolve(commandArg),'utf-8')) 
+		: commandArg === 'dump'
+			? [{op:'dumpScenario'}]
+			: [{op:'runScenario'}];
 	const outputs: Output[]=[];
 	for(const c of cmds){
 		if(c.op==='runScenario') outputs.push(runScenario(scenario));

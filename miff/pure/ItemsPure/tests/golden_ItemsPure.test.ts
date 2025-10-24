@@ -22,7 +22,7 @@ import {
 class MockSpiritInstance implements ISpiritInstance {
   public id: string;
   public name: string;
-  public currentHP: number;
+  private _currentHP: number;
   public maxHP: number;
   public syncLevel?: number;
   private fainted: boolean;
@@ -31,14 +31,14 @@ class MockSpiritInstance implements ISpiritInstance {
     this.id = id;
     this.name = name;
     this.maxHP = maxHP;
-    this.currentHP = currentHP ?? maxHP;
+    this._currentHP = currentHP ?? maxHP;
     this.syncLevel = syncLevel;
-    this.fainted = this.currentHP <= 0;
+    this.fainted = this._currentHP <= 0;
   }
 
   // Add setter for currentHP to update fainted status
   set currentHP(value: number) {
-    (this as any)._currentHP = value;
+    this._currentHP = value;
     this.fainted = value <= 0;
     // Update fainted status when HP changes
     if (this.fainted && value > 0) {
@@ -47,7 +47,7 @@ class MockSpiritInstance implements ISpiritInstance {
   }
 
   get currentHP(): number {
-    return (this as any)._currentHP ?? this.maxHP;
+    return this._currentHP;
   }
 
   isFainted(): boolean {
