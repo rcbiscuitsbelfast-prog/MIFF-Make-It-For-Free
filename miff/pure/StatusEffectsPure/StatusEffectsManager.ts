@@ -80,7 +80,7 @@ export interface StatusFilter {
 export interface StatusOutput {
   op: string;
   status: 'ok' | 'error';
-  result?: StatusEntity | StatusEntity[] | TickResult | StatusStats;
+  result?: any;
   issues?: string[];
 }
 
