@@ -419,19 +419,19 @@ describe('EventsPure Golden Tests', () => {
 
   describe('Performance', () => {
     test('should handle many subscriptions efficiently', () => {
-      const handlers: Array<() => void> = [];
+      const handlerIds: string[] = [];
 
       // Create many subscriptions
       for (let i = 0; i < 1000; i++) {
-        const handler = eventBus.subscribe(`perf_topic_${i}`, () => {});
-        handlers.push(handler);
+        const handlerId = eventBus.subscribe(`perf_topic_${i}`, () => {});
+        handlerIds.push(handlerId);
       }
 
       expect(eventBus.getTotalSubscriptions()).toBe(1000);
       expect(eventBus.getActiveTopics()).toHaveLength(1000);
 
       // Clean up
-      handlers.forEach(handler => handler.dispose());
+      handlerIds.forEach(id => eventBus.unsubscribe(id));
       expect(eventBus.getTotalSubscriptions()).toBe(0);
     });
 
