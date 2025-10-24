@@ -383,7 +383,7 @@ export const EventUtils = {
   /**
    * Create a filtered event listener
    */
-  filter<T extends object>(
+  filter<T = any>(
     eventBus: EventBus,
     topic: string,
     predicate: (payload: T) => boolean,
@@ -401,7 +401,7 @@ export const EventUtils = {
   /**
    * Create a filtered async event listener
    */
-  filterAsync<T extends object>(
+  filterAsync<T = any>(
     eventBus: EventBus,
     topic: string,
     predicate: (payload: T) => boolean,

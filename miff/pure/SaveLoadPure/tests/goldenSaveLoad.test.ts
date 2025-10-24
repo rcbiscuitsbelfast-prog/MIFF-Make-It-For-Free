@@ -4,7 +4,7 @@ import fs from 'fs';
 test('golden save/load/delete/rollback flow', () => {
   const root = path.resolve(__dirname, '..');
   const harness = path.resolve(root, 'cliHarness.ts');
-  const saveFile = path.resolve('SaveLoadPure/tests/sample_save_state.json');
+  const saveFile = path.resolve(root, 'tests', 'sample_save_state.json');
 
   const commands = [
     { op: 'listSlots' },
