@@ -114,8 +114,25 @@ describe('LRUCache', () => {
   });
 
   describe('TTL (Time To Live)', () => {
+    const baseTimestamp = new Date('2024-01-01T00:00:00.000Z').getTime();
+    const nowMock = jest.spyOn(Date, 'now');
+    let elapsed = 0;
+
+    const advanceTime = async (ms: number) => {
+      await jest.advanceTimersByTimeAsync(ms);
+      elapsed += ms;
+      nowMock.mockImplementation(() => baseTimestamp + elapsed);
+    };
+
     beforeEach(() => {
       cache = new LRUCache({ maxSize: 3, ttl: 100 }); // 100ms TTL
+      elapsed = 0;
+      nowMock.mockImplementation(() => baseTimestamp);
+    });
+
+    afterEach(() => {
+      elapsed = 0;
+      nowMock.mockImplementation(() => baseTimestamp);
     });
 
     it('should expire entries after TTL', async () => {
@@ -123,8 +140,8 @@ describe('LRUCache', () => {
       
       expect(cache.get('a')).toBe(1);
       
-      // Wait for expiration
-      await new Promise(resolve => setTimeout(resolve, 150));
+      // Wait for expiration using fake timers
+      await advanceTime(150);
       
       expect(cache.get('a')).toBeUndefined();
       expect(cache.has('a')).toBe(false);
@@ -137,8 +154,8 @@ describe('LRUCache', () => {
       
       expect(cache.size).toBe(3);
       
-      // Wait for expiration
-      await new Promise(resolve => setTimeout(resolve, 150));
+      // Wait for expiration using fake timers
+      await advanceTime(150);
       
       const removed = cache.cleanup();
       

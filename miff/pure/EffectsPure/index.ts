@@ -155,6 +155,8 @@ export interface IActiveEffect {
   canStack(): boolean;
   addStack(): boolean;
   removeStack(): number;
+  markProcessed(): void;
+  hasProcessed(): boolean;
   clone(): IActiveEffect;
 }
 
@@ -613,6 +615,7 @@ export class ActiveEffect implements IActiveEffect {
   public appliedTime: number;
   public lastTickTime: number;
   public entityId: string;
+  private processed = false;
 
   constructor(
     effect: IBattleEffect,
@@ -637,10 +640,12 @@ export class ActiveEffect implements IActiveEffect {
     effect: IBattleEffect,
     entityId: string,
     stacks: number = 1,
-    remainingSeconds: number = 0,
-    remainingTurns: number = 0
+    remainingSeconds?: number,
+    remainingTurns?: number
   ): ActiveEffect {
-    return new ActiveEffect(effect, entityId, stacks, remainingSeconds, remainingTurns);
+    const seconds = remainingSeconds ?? effect.durationSeconds;
+    const turns = remainingTurns ?? effect.durationTurns;
+    return new ActiveEffect(effect, entityId, stacks, seconds, turns);
   }
 
   /**
@@ -649,12 +654,12 @@ export class ActiveEffect implements IActiveEffect {
   isExpired(): boolean {
     // Effects with no duration are expired unless explicitly permanent
     if (this.effect.durationSeconds === 0 && this.effect.durationTurns === 0) {
-      // Check if this is explicitly a permanent effect
-      if (this.effect.name.toLowerCase().includes('permanent') ||
-          this.effect.description.toLowerCase().includes('permanent')) {
-        return false; // Permanent effects never expire
+      const isPermanent = this.effect.name.toLowerCase().includes('permanent') ||
+        this.effect.description.toLowerCase().includes('permanent');
+      if (isPermanent) {
+        return false;
       }
-      return true; // Non-permanent effects with no duration are expired
+      return this.processed;
     }
 
     // Check time-based expiration
@@ -737,8 +742,17 @@ export class ActiveEffect implements IActiveEffect {
 
     cloned.appliedTime = this.appliedTime;
     cloned.lastTickTime = this.lastTickTime;
+    cloned.processed = this.processed;
 
     return cloned;
+  }
+
+  markProcessed(): void {
+    this.processed = true;
+  }
+
+  hasProcessed(): boolean {
+    return this.processed;
   }
 
   /**
@@ -1106,52 +1120,114 @@ export class EffectResolver implements IEffectResolver {
    */
   resolveQueue(phase: EffectPhase, effects: IActiveEffect[], targetImmunities: string[]): IActiveEffect[] {
     let resolvedEffects = [...effects];
-    const immuneTags = new Set(targetImmunities);
+    const normalizedImmunities = targetImmunities.map(tag => tag.toLowerCase());
 
-    // Filter out immune effects
-    resolvedEffects = resolvedEffects.filter((effect: any) => {
-      // Check if effect has immunity tags
-      const effectTags = effect.effect.triggers || 0;
-      const effectName = effect.effect.name.toLowerCase();
+    const shouldTriggerOnPhase = (effectData: IBattleEffect): boolean => {
+      switch (phase) {
+        case EffectPhase.PRE_TURN:
+          if (!effectData.hasTrigger(EffectTrigger.ON_APPLY)) {
+            return false;
+          }
 
-      // Check immunity against effect tags and name
-      for (const immuneTag of immuneTags) {
-        if ((effectTags & EffectTrigger.ON_HIT) !== 0 && immuneTag.includes('hit')) {
+          const zeroDuration = effectData.durationSeconds === 0 && effectData.durationTurns === 0;
+          if (zeroDuration && effectData.effectType === EffectType.HEAL) {
+            return false;
+          }
+
+          return true;
+        case EffectPhase.SELECT_ACTION:
+          return effectData.hasTrigger(EffectTrigger.ON_CAST);
+        case EffectPhase.RESOLVE_ACTION:
+          return effectData.hasTrigger(EffectTrigger.ON_HIT) || effectData.hasTrigger(EffectTrigger.ON_CRIT);
+        case EffectPhase.END_TURN:
+          return effectData.hasTrigger(EffectTrigger.ON_TICK) || effectData.hasTrigger(EffectTrigger.ON_REMOVE);
+        default:
           return false;
-        }
-        if (effect.effect.effectType === EffectType.DAMAGE_OVER_TIME && immuneTag.includes('damage')) {
-          return false;
-        }
-        if (effectName.includes(immuneTag.toLowerCase()) || immuneTag.toLowerCase().includes(effectName)) {
-          return false;
-        }
       }
+    };
 
-      return true;
-    });
+    const isImmuneToEffect = (effect: IActiveEffect): boolean => {
+      const effectData = effect.effect;
+      const effectId = effectData.effectId.toLowerCase();
+      const effectName = effectData.name.toLowerCase();
+      const effectType = effectData.effectType;
 
-    // Handle cleanse effects (remove debuffs if cleanse is present)
+      return normalizedImmunities.some(tag => {
+        if (!tag) {
+          return false;
+        }
+
+        const segments = tag.split(/[^a-z0-9]+/).filter(Boolean);
+        const keywords = segments.filter(segment =>
+          !['immune', 'immunity', 'resist', 'resistance'].includes(segment)
+        );
+
+        if (segments.includes('damage') || segments.includes('dot')) {
+          if (effectType === EffectType.DAMAGE_OVER_TIME) {
+            return true;
+          }
+        }
+
+        if (segments.includes('stun') && effectType === EffectType.STUN) {
+          return true;
+        }
+
+        if (segments.includes('heal') && effectType === EffectType.HEAL) {
+          return true;
+        }
+
+        for (const keyword of keywords) {
+          if (!keyword) {
+            continue;
+          }
+
+          if (effectId.includes(keyword) || effectName.includes(keyword)) {
+            return true;
+          }
+        }
+
+        return false;
+      });
+    };
+
+    resolvedEffects = resolvedEffects.filter(effect => !isImmuneToEffect(effect));
+    resolvedEffects = resolvedEffects.filter(effect => shouldTriggerOnPhase(effect.effect));
+
     if (phase === EffectPhase.END_TURN) {
-      const hasCleanse = resolvedEffects.some(effect =>
-        effect.effect.name.toLowerCase().includes('cleanse') ||
-        effect.effect.description.toLowerCase().includes('cleanse')
-      );
+      const hasCleanse = resolvedEffects.some(effect => {
+        const name = effect.effect.name.toLowerCase();
+        const description = effect.effect.description.toLowerCase();
+        return name.includes('cleanse') || description.includes('cleanse') ||
+          name.includes('purify') || description.includes('purify');
+      });
 
       if (hasCleanse) {
-        resolvedEffects = resolvedEffects.filter((effect: any) =>
-          effect.effect.effectType !== EffectType.STUN
-        );
+        resolvedEffects = resolvedEffects.filter(effect => {
+          const data = effect.effect;
+          const name = data.name.toLowerCase();
+          const description = data.description.toLowerCase();
+
+          if (name.includes('cleanse') || description.includes('cleanse') ||
+              name.includes('purify') || description.includes('purify')) {
+            return true;
+          }
+
+          if (data.effectType === EffectType.STAT_MODIFIER && data.value < 0) {
+            return false;
+          }
+
+          if (name.includes('debuff') || description.includes('debuff')) {
+            return false;
+          }
+
+          return true;
+        });
       }
     }
 
-    // Handle effect overwriting (keep strongest effect of each type)
     resolvedEffects = this.resolveOverwrites(resolvedEffects);
 
-    // Sort by effect order
-    resolvedEffects.sort((a: any, b: any) => {
-      // Custom ordering logic could be added here
-      return 0;
-    });
+    resolvedEffects.sort((_a, _b) => 0);
 
     return resolvedEffects;
   }
@@ -1204,6 +1280,8 @@ export class EffectResolver implements IEffectResolver {
       const event = EffectEvent.tick(entityId, effect.effect, effect, phase);
       resolution.addEvent(event);
 
+      effect.markProcessed?.();
+
       // Add stat changes
       statChanges.forEach((change, stat) => {
         resolution.addStatChange(stat, change);
@@ -1220,23 +1298,34 @@ export class EffectResolver implements IEffectResolver {
   private applyEffect(effect: IActiveEffect, context: IEntityContext): Map<string, number> {
     const statChanges = new Map<string, number>();
 
-    switch (effect.effect.effectType) {
-      case EffectType.STAT_MODIFIER:
-        const currentValue = context.getEntityStat(effect.entityId, effect.effect.targetStat);
-        const modifiedValue = this.calculateStatModification(effect.effect, currentValue);
+    const effectData = effect.effect;
+
+    switch (effectData.effectType) {
+      case EffectType.STAT_MODIFIER: {
+        const currentValue = context.getEntityStat(effect.entityId, effectData.targetStat);
+        const modifiedValue = this.calculateStatModification(effect, currentValue);
         const change = modifiedValue - currentValue;
         if (change !== 0) {
-          statChanges.set(effect.effect.targetStat, change);
+          statChanges.set(effectData.targetStat, change);
+          context.setEntityStat?.(effect.entityId, effectData.targetStat, modifiedValue);
         }
         break;
+      }
 
       case EffectType.DAMAGE_OVER_TIME:
-        // Damage over time would be handled by the battle system
-        statChanges.set(TargetStat.HP, -effect.effect.value * effect.stacks);
+        const currentHp = context.getEntityStat(effect.entityId, TargetStat.HP);
+        const damage = effectData.value * effect.stacks;
+        const newHp = Math.max(0, currentHp - damage);
+        statChanges.set(TargetStat.HP, newHp - currentHp);
+        context.setEntityStat?.(effect.entityId, TargetStat.HP, newHp);
         break;
 
       case EffectType.HEAL:
-        statChanges.set(TargetStat.HP, effect.effect.value * effect.stacks);
+        const existingHp = context.getEntityStat(effect.entityId, TargetStat.HP);
+        const healAmount = effectData.value * effect.stacks;
+        const healedHp = existingHp + healAmount;
+        statChanges.set(TargetStat.HP, healAmount);
+        context.setEntityStat?.(effect.entityId, TargetStat.HP, healedHp);
         break;
 
       case EffectType.SHIELD:
@@ -1254,23 +1343,26 @@ export class EffectResolver implements IEffectResolver {
   /**
    * Calculate stat modification
    */
-  private calculateStatModification(effect: IBattleEffect, baseValue: number): number {
-    let result = baseValue;
+  private calculateStatModification(effect: IActiveEffect, baseValue: number): number {
+    const effectData = effect.effect;
 
-    if (effect.effectType !== EffectType.STAT_MODIFIER) {
-      return result;
+    if (effectData.effectType !== EffectType.STAT_MODIFIER) {
+      return baseValue;
     }
 
-    switch (effect.modifierType) {
+    let result = baseValue;
+    const stacks = Math.max(1, effect.stacks);
+
+    switch (effectData.modifierType) {
       case ModifierType.FLAT:
-        result += effect.value;
+        result += effectData.value * stacks;
         break;
       case ModifierType.PERCENT:
-        result *= (1 + effect.value);
+        result *= (1 + effectData.value * stacks);
         break;
     }
 
-    return Math.max(0, result); // Ensure non-negative
+    return Math.max(0, result);
   }
 }
 
@@ -1394,23 +1486,11 @@ export class EffectManager implements IEffectManager {
 
       const entityResolution = this.updateEntityEffects(entityId, activeEffects, deltaTime, context);
 
-      // Resolve effects for this entity
-      const effectResolution = this.effectResolver.resolveEffects(context.getCurrentPhase(), entityId, activeEffects, context);
-      entityResolution.resolvedEffects.push(...effectResolution.resolvedEffects);
-      entityResolution.events.push(...effectResolution.events);
-
-      // Merge stat changes from both update and resolve
-      effectResolution.statChanges.forEach((change, stat) => {
-        const current = entityResolution.statChanges.get(stat) || 0;
-        entityResolution.statChanges.set(stat, current + change);
-      });
-
       resolution.resolvedEffects.push(...entityResolution.resolvedEffects);
       resolution.appliedEffects.push(...entityResolution.appliedEffects);
       resolution.expiredEffects.push(...entityResolution.expiredEffects);
       resolution.events.push(...entityResolution.events);
 
-      // Merge stat changes
       entityResolution.statChanges.forEach((change, stat) => {
         const current = resolution.statChanges.get(stat) || 0;
         resolution.statChanges.set(stat, current + change);
@@ -1451,7 +1531,6 @@ export class EffectManager implements IEffectManager {
 
       if ((effect.effect.triggers & EffectTrigger.ON_TICK) !== 0) {
         this.onEffectTick?.(entityId, effect.effect, effect);
-        resolution.addEvent(EffectEvent.tick(entityId, effect.effect, effect, currentPhase));
       }
     }
 
@@ -1470,6 +1549,11 @@ export class EffectManager implements IEffectManager {
     const entityResolution = this.effectResolver.resolveEffects(currentPhase, entityId, activeEffects, context);
     resolution.resolvedEffects.push(...entityResolution.resolvedEffects);
     resolution.events.push(...entityResolution.events);
+
+    entityResolution.statChanges.forEach((change, stat) => {
+      const current = resolution.statChanges.get(stat) || 0;
+      resolution.statChanges.set(stat, current + change);
+    });
 
     return resolution;
   }
@@ -1536,24 +1620,103 @@ export const EffectUtils = {
    * Create default entity context for testing
    */
   createDefaultEntityContext(): IEntityContext {
-    const entityStats = new Map<string, Map<string, number>>();
+    const entityStats = new Map<string, Map<TargetStat, number>>();
+    const entityImmunities = new Map<string, Set<string>>();
+    const aliveEntities = new Set<string>();
+    let currentPhase = EffectPhase.PRE_TURN;
 
-    return {
-      getEntityStat: (entityId: string, stat: TargetStat) => {
-        const stats = entityStats.get(entityId) || new Map();
-        return stats.get(stat) || 0;
-      },
-      setEntityStat: (entityId: string, stat: TargetStat, value: number) => {
-        if (!entityStats.has(entityId)) {
-          entityStats.set(entityId, new Map());
-        }
-        entityStats.get(entityId)!.set(stat, Math.max(0, value));
-      },
-      hasImmunity: (entityId: string, immunityTag: string) => false,
-      getEntityImmunities: (entityId: string) => [],
-      isEntityAlive: (entityId: string) => true,
-      getCurrentPhase: () => EffectPhase.PRE_TURN
+    const defaultStats: Array<[TargetStat, number]> = [
+      [TargetStat.HP, 100],
+      [TargetStat.ATK, 100],
+      [TargetStat.DEF, 100],
+      [TargetStat.SPD, 100]
+    ];
+
+    const ensureEntity = (entityId: string) => {
+      if (!entityStats.has(entityId)) {
+        entityStats.set(entityId, new Map(defaultStats));
+      }
+      if (!entityImmunities.has(entityId)) {
+        entityImmunities.set(entityId, new Set());
+      }
+      if (!aliveEntities.has(entityId)) {
+        aliveEntities.add(entityId);
+      }
     };
+
+    const context: Record<string, any> = {};
+
+    context.getEntityStat = (entityId: string, stat: TargetStat): number => {
+      ensureEntity(entityId);
+      const stats = entityStats.get(entityId)!;
+      if (stats.has(stat)) {
+        return stats.get(stat)!;
+      }
+      if (stat === TargetStat.CUSTOM) {
+        return 0;
+      }
+      return 0;
+    };
+
+    context.setEntityStat = (entityId: string, stat: TargetStat, value: number): void => {
+      ensureEntity(entityId);
+      entityStats.get(entityId)!.set(stat, Math.max(0, value));
+    };
+
+    context.hasImmunity = (entityId: string, immunityTag: string): boolean => {
+      ensureEntity(entityId);
+      return entityImmunities.get(entityId)!.has(immunityTag);
+    };
+
+    context.getEntityImmunities = (entityId: string): string[] => {
+      ensureEntity(entityId);
+      return Array.from(entityImmunities.get(entityId)!);
+    };
+
+    context.addImmunity = (entityId: string, immunityTag: string): void => {
+      ensureEntity(entityId);
+      entityImmunities.get(entityId)!.add(immunityTag);
+    };
+
+    context.removeImmunity = (entityId: string, immunityTag: string): void => {
+      if (!entityImmunities.has(entityId)) {
+        return;
+      }
+      entityImmunities.get(entityId)!.delete(immunityTag);
+    };
+
+    context.isEntityAlive = (entityId: string): boolean => {
+      ensureEntity(entityId);
+      return aliveEntities.has(entityId);
+    };
+
+    context.setEntityAlive = (entityId: string, alive: boolean): void => {
+      if (alive) {
+        aliveEntities.add(entityId);
+      } else {
+        aliveEntities.delete(entityId);
+      }
+    };
+
+    context.getCurrentPhase = (): EffectPhase => currentPhase;
+
+    context.setCurrentPhase = (phase: EffectPhase): void => {
+      currentPhase = phase;
+    };
+
+    context.setEntityHp = (entityId: string, hp: number): void => {
+      context.setEntityStat(entityId, TargetStat.HP, hp);
+    };
+
+    context.setEntityAtk = (entityId: string, atk: number): void => {
+      context.setEntityStat(entityId, TargetStat.ATK, atk);
+    };
+
+    context.getEntityAtk = (entityId: string): number => {
+      return context.getEntityStat(entityId, TargetStat.ATK);
+    };
+
+    return context as IEntityContext;
   },
 
   /**
