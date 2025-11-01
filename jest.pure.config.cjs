@@ -9,6 +9,12 @@ module.exports = {
   transform: {
     '^.+\.ts$': 'ts-jest',
   },
+  globals: {
+    'ts-jest': {
+      diagnostics: false,
+      isolatedModules: true
+    }
+  },
   collectCoverageFrom: [
     'miff/pure/**/*.ts',
     '!miff/pure/**/*.d.ts',

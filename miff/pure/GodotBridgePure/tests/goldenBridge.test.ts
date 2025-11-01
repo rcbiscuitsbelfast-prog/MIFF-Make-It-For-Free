@@ -1,4 +1,9 @@
-import { GodotBridgeManager, GodotBridgeConfiguration, GodotBridgeType } from '../index';
+import path from 'path';
+import fs from 'fs';
+import { execFileSync } from 'child_process';
+
+const root = path.resolve(__dirname, '..');
+const cliPath = path.resolve(root, 'cliHarness.ts');
 
 describe('GodotBridgePure Golden Tests', () => {
 
@@ -8,13 +13,12 @@ describe('GodotBridgePure Golden Tests', () => {
       npcId: 'npc_001',
       duration: 3600
     };
-    const testFile = path.resolve('GodotBridgePure/test_npc_sim.json');
+    const testFile = path.resolve(root, 'test_npc_sim.json');
     fs.writeFileSync(testFile, JSON.stringify(testData, null, 2));
 
     try {
       const output = execFileSync('npx', [
-        'ts-node',
-        '--compiler-options', '{"module":"commonjs"}',
+        'tsx',
         cliPath,
         'simulate',
         'npcs',
@@ -41,13 +45,12 @@ describe('GodotBridgePure Golden Tests', () => {
       zoneId: 'zone_village',
       includeQuests: true
     };
-    const testFile = path.resolve('GodotBridgePure/test_npc_render.json');
+    const testFile = path.resolve(root, 'test_npc_render.json');
     fs.writeFileSync(testFile, JSON.stringify(testData, null, 2));
 
     try {
       const output = execFileSync('npx', [
-        'ts-node',
-        '--compiler-options', '{"module":"commonjs"}',
+        'tsx',
         cliPath,
         'render',
         'npcs',
@@ -81,13 +84,12 @@ describe('GodotBridgePure Golden Tests', () => {
         questIds: ['quest_tutorial', 'quest_side_quest']
       }
     };
-    const testFile = path.resolve('GodotBridgePure/test_godot_npc.json');
+    const testFile = path.resolve(root, 'test_godot_npc.json');
     fs.writeFileSync(testFile, JSON.stringify(testData, null, 2));
 
     try {
       const output = execFileSync('npx', [
-        'ts-node',
-        '--compiler-options', '{"module":"commonjs"}',
+        'tsx',
         cliPath,
         'interop',
         'npcs',
@@ -107,8 +109,7 @@ describe('GodotBridgePure Golden Tests', () => {
 
   test('✓ dump module bridge info', () => {
     const output = execFileSync('npx', [
-      'ts-node',
-      '--compiler-options', '{"module":"commonjs"}',
+      'tsx',
       cliPath,
       'dump',
       'npcs'
@@ -132,13 +133,12 @@ describe('GodotBridgePure Golden Tests', () => {
         stats: [{ key: 'health', base: 100 }]
       }
     };
-    const testFile = path.resolve('GodotBridgePure/test_combat_sim.json');
+    const testFile = path.resolve(root, 'test_combat_sim.json');
     fs.writeFileSync(testFile, JSON.stringify(testData, null, 2));
 
     try {
       const output = execFileSync('npx', [
-        'ts-node',
-        '--compiler-options', '{"module":"commonjs"}',
+        'tsx',
         cliPath,
         'render',
         'combat',
@@ -168,13 +168,12 @@ describe('GodotBridgePure Golden Tests', () => {
         { id: 'item_potion', quantity: 3 }
       ]
     };
-    const testFile = path.resolve('GodotBridgePure/test_ui_render.json');
+    const testFile = path.resolve(root, 'test_ui_render.json');
     fs.writeFileSync(testFile, JSON.stringify(testData, null, 2));
 
     try {
       const output = execFileSync('npx', [
-        'ts-node',
-        '--compiler-options', '{"module":"commonjs"}',
+        'tsx',
         cliPath,
         'render',
         'ui',
@@ -201,8 +200,8 @@ describe('GodotBridgePure Golden Tests', () => {
       zoneId: 'zone_village',
       includeQuests: true
     };
-    const testFile = path.resolve('GodotBridgePure/test_npc_render.json');
-    const configFile = path.resolve('GodotBridgePure/test_gdscript_config.json');
+    const testFile = path.resolve(root, 'test_npc_render.json');
+    const configFile = path.resolve(root, 'test_gdscript_config.json');
     
     const config = {
       language: 'gdscript',
@@ -216,8 +215,7 @@ describe('GodotBridgePure Golden Tests', () => {
 
     try {
       const output = execFileSync('npx', [
-        'ts-node',
-        '--compiler-options', '{"module":"commonjs"}',
+        'tsx',
         cliPath,
         'render',
         'npcs',
@@ -246,8 +244,8 @@ describe('GodotBridgePure Golden Tests', () => {
       zoneId: 'zone_village',
       includeQuests: true
     };
-    const testFile = path.resolve('GodotBridgePure/test_npc_render.json');
-    const configFile = path.resolve('GodotBridgePure/test_csharp_config.json');
+    const testFile = path.resolve(root, 'test_npc_render.json');
+    const configFile = path.resolve(root, 'test_csharp_config.json');
     
     const config = {
       language: 'csharp',
@@ -261,8 +259,7 @@ describe('GodotBridgePure Golden Tests', () => {
 
     try {
       const output = execFileSync('npx', [
-        'ts-node',
-        '--compiler-options', '{"module":"commonjs"}',
+        'tsx',
         cliPath,
         'render',
         'npcs',

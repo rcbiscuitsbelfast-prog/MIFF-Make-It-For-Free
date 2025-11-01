@@ -128,7 +128,7 @@ function handleError(error: any, exitCode = 1) {
   const errorOutput = {
     op: 'error',
     status: 'error',
-    error: error instanceof Error ? message: String(error),
+    error: error instanceof Error ? error.message : String(error),
     timestamp: new Date()
   };
   
@@ -167,11 +167,11 @@ function runCLI(cliPath: string, args: string[] = []): string {
     const output = execFileSync('npx', ['tsx', resolvedPath, ...args], { encoding: 'utf-8', timeout: 15000 });
     return output.trim();
   } catch (error: unknown) {
-      const err = error instanceof Error ? error : new Error(String(error));
+    const err = error instanceof Error ? error : new Error(String(error));
     return JSON.stringify({
       op: 'error',
       status: 'error',
-      error: error instanceof Error ? message: String(error),
+      error: err.message,
       timestamp: new Date()
     });
   }

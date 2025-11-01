@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env tsx
 
 import {
   applyMount,
@@ -41,16 +41,24 @@ EXAMPLES:
 }
 
 async function main() {
-  const command = process.argv[2!];
+  const args = process.argv.slice(2);
 
-  if (!command) {
+  if (args.length === 0) {
     showUsage();
     process.exit(1);
   }
 
+  if (args[0] && args[0].endsWith('.json')) {
+    args.unshift('legacy');
+  }
+
+  const command = args[0]!;
+
+  const manager = new MountManager();
+
   switch (command) {
     case 'legacy': {
-      const inputFile = process.argv[3!];
+      const inputFile = args[1];
       if (!inputFile) {
         console.error('Error: legacy command requires input file');
         showUsage();
@@ -68,11 +76,15 @@ async function main() {
         const events: MountEvent[] = input.events;
 
         const result = applyMount(state, events);
-        console.log('=== LEGACY MOUNT SYSTEM RESULT ===');
-        console.log(JSON.stringify(result, null, 2));
+        const output = {
+          op: result.op,
+          status: result.status,
+          state: result.state
+        };
+        console.log(JSON.stringify(output, null, 2));
       } catch (error: unknown) {
-      const err = error instanceof Error ? error : new Error(String(error));
-        console.error('Error:', err instanceof Error ? message: String(err));
+        const err = error instanceof Error ? error : new Error(String(error));
+        console.error('Error:', err.message);
         process.exit(1);
       }
       break;
@@ -270,7 +282,7 @@ async function main() {
     }
 
     case 'create-mount': {
-      const [id, name, type, rarity] = process.argv.slice(3);
+      const [id, name, type, rarity] = args.slice(1);
       if (!id || !name || !type || !rarity) {
         console.error('Error: create-mount requires id, name, type, rarity');
         showUsage();
@@ -308,7 +320,7 @@ async function main() {
     }
 
     case 'train': {
-      const [mountId, activity] = process.argv.slice(3);
+      const [mountId, activity] = args.slice(1);
       if (!mountId || !activity) {
         console.error('Error: train requires mount-id and activity');
         showUsage();
@@ -322,7 +334,7 @@ async function main() {
     }
 
     case 'breed': {
-      const [mount1Id, mount2Id] = process.argv.slice(3);
+      const [mount1Id, mount2Id] = args.slice(1);
       if (!mount1Id || !mount2Id) {
         console.error('Error: breed requires mount1-id and mount2-id');
         showUsage();
@@ -336,7 +348,7 @@ async function main() {
     }
 
     case 'equip': {
-      const [mountId, equipmentJson] = process.argv.slice(3);
+      const [mountId, equipmentJson] = args.slice(1);
       if (!mountId || !equipmentJson) {
         console.error('Error: equip requires mount-id and equipment-json');
         showUsage();
@@ -357,7 +369,7 @@ async function main() {
     }
 
     case 'market': {
-      const type = process.argv[3!];
+      const type = args[1];
       if (!type) {
         console.error('Error: market requires mount type');
         showUsage();
@@ -385,9 +397,10 @@ async function main() {
   }
 }
 
-if (require.main === module) {
-  main().catch(error => {
-    console.error('Error:', err instanceof Error ? message: String(err));
+if (import.meta.url === `file://${process.argv[1!]}`) {
+  main().catch((error: unknown) => {
+    const err = error instanceof Error ? error : new Error(String(error));
+    console.error('Error:', err.message);
     process.exit(1);
   });
 }

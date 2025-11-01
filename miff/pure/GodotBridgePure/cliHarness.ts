@@ -70,67 +70,25 @@ function main() {
     let result;
     switch (input.op) {
       case 'simulate':
-        result = {
-          op: 'simulate',
-          status: 'ok',
-          module: input.module,
-          platform: 'godot',
-          config,
-          result: {
-            simulation: 'godot_simulation',
-            data: input.data || {},
-            performance: {
-              fps: 60,
-              memoryUsage: 'low',
-              godotConnected: false
-            }
-          }
-        };
+        result = bridge.simulate(input.module, input.data || {});
         break;
-      case 'render':
-        result = {
-          op: 'render',
-          status: 'ok',
-          module: input.module,
-          platform: 'godot',
-          config,
-          result: {
-            renderData: {
-              nodes: [],
-              resources: [],
-              scripts: [],
-              scenes: [],
-              animations: [],
-              inputs: []
-            },
-            performance: {
-              renderTime: 16.67,
-              drawCalls: 100,
-              triangles: 1000
-            }
-          }
-        };
+      case 'render': {
+        const output = bridge.render(input.module, input.data || {});
+        if (input.config?.language === 'csharp' && output.renderData?.scripts) {
+          output.renderData.scripts = output.renderData.scripts.map((script: string) =>
+            script.endsWith('.gd') ? script.replace(/\.gd$/, '.cs') : script
+          );
+        }
+        result = output;
         break;
+      }
       case 'interop':
-        result = {
-          op: 'interop',
-          status: 'ok',
-          module: input.module,
-          platform: 'godot',
-          config,
-          result: {
-            interopData: {
-              bridgeConnected: true,
-              godotVersion: '4.0',
-              miifVersion: '1.0.0',
-              syncStatus: 'active'
-            }
-          }
-        };
+        result = bridge.interop(input.module, input.data || {});
         break;
       case 'export': {
-        const fmt = input.format || 'json';
-        const renderData = {
+        const format = input.format || 'json';
+        const output = bridge.render(input.module, input.data || {});
+        const renderData = output.renderData || {
           nodes: [],
           resources: [],
           scripts: [],
@@ -139,13 +97,13 @@ function main() {
           inputs: []
         };
 
-        if (fmt === 'csv') {
+        if (format === 'csv') {
           const nodesCsv = [
             'id,type,x,y,properties',
             ...renderData.nodes.map((n: any) => `${n.id},"${n.type}",${n.position?.x || 0},${n.position?.y || 0},"${JSON.stringify(n.properties || {}).replace(/"/g,'""')}"`)
           ].join('\n');
           result = { op: 'export', status: 'ok', format: 'csv', result: { nodes: nodesCsv } };
-        } else if (fmt === 'markdown') {
+        } else if (format === 'markdown') {
           const md = [
             '# GodotBridge Render Export',
             '',
@@ -157,20 +115,20 @@ function main() {
             '',
             '## Scripts',
             '',
-            ...(renderData.scripts||[]).map((s:string)=>`- ${s}`)
+            ...(renderData.scripts || []).map((s: string) => `- ${s}`)
           ].join('\n');
           result = { op: 'export', status: 'ok', format: 'markdown', result: { markdown: md } };
-        } else if (fmt === 'html') {
+        } else if (format === 'html') {
           const html = `<!DOCTYPE html><html><head><meta charset="utf-8"/><title>GodotBridge Export</title>
 <style>body{font-family:Arial;margin:20px}table{border-collapse:collapse;width:100%}th,td{border:1px solid #ddd;padding:8px;text-align:left}th{background:#f5f5f5}</style>
 </head><body>
 <h1>GodotBridge Render Export</h1>
 <h2>Nodes</h2>
 <table><tr><th>id</th><th>type</th><th>x</th><th>y</th><th>properties</th></tr>
-${renderData.nodes.map((n:any)=>`<tr><td>${n.id}</td><td>${n.type}</td><td>${n.position?.x || 0}</td><td>${n.position?.y || 0}</td><td>${JSON.stringify(n.properties || {}).replace(/"/g,'""')}</td></tr>`).join('')}
+${renderData.nodes.map((n: any) => `<tr><td>${n.id}</td><td>${n.type}</td><td>${n.position?.x || 0}</td><td>${n.position?.y || 0}</td><td>${JSON.stringify(n.properties || {}).replace(/"/g,'""')}</td></tr>`).join('')}
 </table>
 <h2>Scripts</h2>
-<ul>${(renderData.scripts||[]).map((s:string)=>`<li>${s}</li>`).join('')}</ul>
+<ul>${(renderData.scripts || []).map((s: string) => `<li>${s}</li>`).join('')}</ul>
 </body></html>`;
           result = { op: 'export', status: 'ok', format: 'html', result: { html } };
         } else {
@@ -179,24 +137,7 @@ ${renderData.nodes.map((n:any)=>`<tr><td>${n.id}</td><td>${n.type}</td><td>${n.p
         break;
       }
       case 'dump':
-        result = {
-          op: 'dump',
-          status: 'ok',
-          renderData: {
-            nodes: [],
-            resources: [],
-            animations: [],
-            inputs: [],
-            scenes: ['res://miff/scenes/NPCScene.tscn', 'res://miff/scenes/InventoryScene.tscn'],
-            scripts: ['res://miff/scripts/NPCController.gd', 'res://miff/scripts/QuestSystem.gd', 'res://miff/scripts/MerchantBehavior.gd']
-          },
-          info: {
-            module: input.module,
-            config,
-            capabilities: ['simulate', 'render', 'interop'],
-            engine: 'godot'
-          }
-        };
+        result = bridge.dump(input.module);
         break;
       default:
         throw new Error(`Unknown operation: ${input.op}`);
@@ -205,8 +146,8 @@ ${renderData.nodes.map((n:any)=>`<tr><td>${n.id}</td><td>${n.type}</td><td>${n.p
     console.log(JSON.stringify(result, null, 2));
     
   } catch (error: unknown) {
-      const err = error instanceof Error ? error : new Error(String(error));
-    console.error('Error:', err instanceof Error ? message: String(err));
+    const err = error instanceof Error ? error : new Error(String(error));
+    console.error('Error:', err.message);
     process.exit(1);
   }
 }

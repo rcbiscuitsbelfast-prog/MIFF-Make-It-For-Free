@@ -347,7 +347,7 @@ export function recordInputEvent(
 ): InputEvent {
   const event: InputEvent = {
     frameNumber,
-    timestamp: new Date(),
+    timestamp: Date.now(),
     type,
     data
   };
@@ -383,7 +383,7 @@ export function addCheckpoint(
 ): Checkpoint {
   const checkpoint: Checkpoint = {
     frameNumber,
-    timestamp: new Date(),
+    timestamp: Date.now(),
     description,
     passed,
     metrics

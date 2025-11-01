@@ -21,17 +21,19 @@ function runScenario(s:Scenario): Output {
 	const inv = { ...s.inventory };
 	if(first.effect.inventory){ for(const k in first.effect.inventory) inv[k] = (inv[k]||0) + first.effect.inventory[k]! ; }
 	const status = first.effect.statusEffect || null;
-	return { op:'runScenario', status:'ok', events, finalState:{ inventory:inv, statusEffect:status } };
+	const statuses = status ? [{ ...status }] : [];
+	return { op:'runScenario', status:'ok', events, finalState:{ inventory:inv, statuses } };
 }
 
 function main(){
 	// SECURITY: Validate all inputs
+	const defaultScenarioPath = path.resolve(path.dirname(new URL(import.meta.url).pathname), 'scenario.json');
 	const scenarioPath = InputSanitizer.getSafeArg(2, {
 		type: 'path',
 		required: false,
 		pattern: /\.json$/i,
 		maxLength: 500
-	}, 'QuestScenarioPure/sample_quest.json');
+	}, defaultScenarioPath);
 	
 	const commandArg = InputSanitizer.getSafeArg(3, {
 		type: 'string',

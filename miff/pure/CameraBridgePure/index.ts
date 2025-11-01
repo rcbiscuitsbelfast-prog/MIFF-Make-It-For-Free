@@ -44,8 +44,8 @@ export class CameraManager {
         applied.push(cmd);
         this.commands.push(cmd);
       } catch (error: unknown) {
-      const err = error instanceof Error ? error : new Error(String(error));
-        issues.push(`Failed to process ${cmd.op}: ${error instanceof Error ? message: 'Unknown error'}`);
+        const err = error instanceof Error ? error : new Error(String(error));
+        issues.push(`Failed to process ${cmd.op}: ${err.message}`);
       }
     }
 

@@ -166,7 +166,8 @@ export class ProceduralWorldManager {
 		const flat: { x: number; y: number; z: number }[] = [];
 		for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) flat.push({ x, y, z: heightmap[y][x] });
 		flat.sort((a: any, b: any) => b.z - a.z);
-		const numSources = Math.max(1, Math.min(flat.length, Math.floor((opts.threshold <= 1 ? threshold: 0.1) * flat.length)));
+		const threshold = opts.threshold <= 1 ? opts.threshold : 0.1;
+		const numSources = Math.max(1, Math.min(flat.length, Math.floor(threshold * flat.length)));
 		const maxR = opts.maxRivers ?? Math.min(10, numSources);
 		const maxLen = opts.maxLength ?? (w + h) * 4;
 		const segs: RiverSegment[] = [];

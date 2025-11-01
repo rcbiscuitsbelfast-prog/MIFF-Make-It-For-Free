@@ -28,8 +28,7 @@ describe('GodotBridgePure Contract - RenderPayload parity and schema stability',
     fs.writeFileSync(cfgFile, JSON.stringify(cfg, null, 2));
 
     const output = execFileSync('npx', [
-      'ts-node',
-      '--compiler-options', '{"module":"commonjs"}',
+      'tsx',
       cliPath,
       'render',
       'npcs',
@@ -71,8 +70,7 @@ describe('GodotBridgePure Contract - RenderPayload parity and schema stability',
     fs.writeFileSync(cfgFile, JSON.stringify(cfg, null, 2));
 
     const output = execFileSync('npx', [
-      'ts-node',
-      '--compiler-options', '{"module":"commonjs"}',
+      'tsx',
       cliPath,
       'render',
       'npcs',

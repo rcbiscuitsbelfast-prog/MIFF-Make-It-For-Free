@@ -108,9 +108,8 @@ export function validateAssetBundle(
   const recommendations: string[] = [];
 
   // Validate each scenario asset
-  const validationContext = { manifestAssets, platform, strictMode };
   for (const assetRef of scenarioAssets) {
-    const result = validateAsset(assetRef, validationContext);
+    const result = validateAsset(assetRef, context);
     results.push(result);
     
     if (result.status === 'missing' || result.status === 'invalid') {
@@ -431,10 +430,10 @@ export function generateAssetReport(report: ValidationReport): string {
   }
   
   output += `Compliance:\n`;
-  output += `  Licensing: ${report.compliance.licensing ? '✓' : '✗'}\n`;
-  output += `  Attribution: ${report.compliance.attribution ? '✓' : '✗'}\n`;
-  output += `  Platform Support: ${report.compliance.platformSupport ? '✓' : '✗'}\n`;
-  output += `  Schema Validation: ${report.compliance.schemaValidation ? '✓' : '✗'}\n`;
+  output += `  Licensing: ${report.compliance.licensing ? '?' : '?'}\n`;
+  output += `  Attribution: ${report.compliance.attribution ? '?' : '?'}\n`;
+  output += `  Platform Support: ${report.compliance.platformSupport ? '?' : '?'}\n`;
+  output += `  Schema Validation: ${report.compliance.schemaValidation ? '?' : '?'}\n`;
   
   return output;
 }

@@ -38,6 +38,8 @@ function main() {
   ];
   const outputs: any[] = [];
 
+  const manager = new CameraManager();
+
   // Process commands
   const result = manager.process(cmds);
   outputs.push(result);

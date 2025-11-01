@@ -405,7 +405,7 @@ export class EnhancedStatsManager {
     // Cache the result
     this.calculationCache.set(entityId, {
       result: { entity, calculations },
-      timestamp: new Date()
+      timestamp: Date.now()
     });
 
     return {
@@ -619,7 +619,7 @@ export class EnhancedStatsManager {
     const topEntities = entities
       .map((entity: any) => ({
         entityId: entity.id,
-        totalStats: entity.stats.reduce((sum, stat) => sum + (stat.current || stat.base), 0),
+        totalStats: entity.stats.reduce((sum: number, stat: any) => sum + (stat.current || stat.base), 0),
         rank: 0
       }))
       .sort((a: any, b: any) => b.totalStats - a.totalStats)
@@ -914,7 +914,7 @@ export class EnhancedStatsManager {
       return eval(expression);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.warn('Formula evaluation failed', { formula, error: err });
+      console.warn('Formula evaluation failed', { formula, error: err });
       return 0;
     }
   }

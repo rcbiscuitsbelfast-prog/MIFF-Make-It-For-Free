@@ -1,7 +1,7 @@
 import path from 'path';
 
 test('WitcherExplorerDemoPure demo runs', () => {
-  const cli = path.resolve('WitcherExplorerDemoPure/cliHarness.ts');
+  const cli = path.resolve(__dirname, '..', 'cliHarness.ts');
   const out = (global as any).testUtils.runCLI(cli, []);
   const j = JSON.parse(out);
   expect(j.op).toBe('witcher_explorer_demo');

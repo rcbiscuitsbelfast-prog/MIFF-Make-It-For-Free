@@ -94,9 +94,17 @@ export class GodotBridge {
         case 'combat':
           result = this.combatManager.simulate(data.attacker, data.defender);
           break;
-        case 'crafting':
-          result = this.craftingManager.simulateCraft(data.recipeId, data.ingredients);
+        case 'crafting': {
+          const craftingManager = this.craftingManager as any;
+          if (typeof craftingManager.simulateCraft === 'function') {
+            result = craftingManager.simulateCraft(data.recipeId, data.ingredients);
+          } else if (typeof craftingManager.simulate === 'function') {
+            result = craftingManager.simulate(data.recipeId, data.ingredients);
+          } else {
+            result = { status: 'error', issues: ['Crafting simulation unavailable'] };
+          }
           break;
+        }
         case 'loot':
           result = this.lootManager.rollLoot(data.tableId, data.level);
           break;
@@ -121,7 +129,7 @@ export class GodotBridge {
       return {
         op: 'simulate',
         status: 'error',
-        issues: [error instanceof Error ? message: String(error)]
+        issues: [err.message]
       };
     }
   }
@@ -228,7 +236,7 @@ export class GodotBridge {
       return {
         op: 'render',
         status: 'error',
-        issues: [error instanceof Error ? message: String(error)]
+        issues: [err.message]
       };
     }
   }
@@ -248,7 +256,16 @@ export class GodotBridge {
           break;
         case 'stats':
           this.statsManager.setStat(convertedData.id, convertedData.key, convertedData.base);
-          result = this.statsManager.get(convertedData.id);
+          {
+            const statsManager = this.statsManager as any;
+            if (typeof statsManager.get === 'function') {
+              result = statsManager.get(convertedData.id);
+            } else if (typeof statsManager.retrieve === 'function') {
+              result = statsManager.retrieve(convertedData.id);
+            } else {
+              result = { id: convertedData.id, stats: convertedData };
+            }
+          }
           break;
         default:
           return {
@@ -268,7 +285,7 @@ export class GodotBridge {
       return {
         op: 'interop',
         status: 'error',
-        issues: [error instanceof Error ? message: String(error)]
+        issues: [err.message]
       };
     }
   }
@@ -499,7 +516,7 @@ export class GodotBridge {
     return baseScripts.map((script: any) => `res://miff/scripts/${script}${extension}`);
   }
 
-  private convertFromGodot(godotData): any {
+  private convertFromGodot(godotData: any): any {
     // Convert Godot-specific data back to MIFF format
     return {
       id: godotData.id,

@@ -12,7 +12,7 @@ describe('WebSocketBridgePure Contract', () => {
       const keys = Object.keys(mod).sort();
       console.log(JSON.stringify({ keys }, null, 2));
     `;
-    const out = execFileSync('npx', ['ts-node', '-e', code], { encoding: 'utf-8' });
+    const out = execFileSync('npx', ['tsx', '-e', code], { encoding: 'utf-8' });
     const result = JSON.parse(out);
     expect(Array.isArray(result.keys)).toBe(true);
     expect(result.keys.length).toBeGreaterThan(0);
