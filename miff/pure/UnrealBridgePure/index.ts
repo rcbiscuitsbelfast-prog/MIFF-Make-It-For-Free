@@ -1236,49 +1236,49 @@ export class UnrealBridgeManager {
 
   private async initializeCommunicationProtocol(): Promise<void> {
     switch (this.configuration.communicationProtocol) {
-      case MESSAGE_PASSING:
+      case UnrealCommunicationProtocol.MESSAGE_PASSING:
         await this.initializeMessagePassing();
         break;
-      case SHARED_MEMORY:
+      case UnrealCommunicationProtocol.SHARED_MEMORY:
         await this.initializeSharedMemory();
         break;
-      case NETWORK_SOCKETS:
+      case UnrealCommunicationProtocol.NETWORK_SOCKETS:
         await this.initializeNetworkSockets();
         break;
-      case FILE_SYSTEM:
+      case UnrealCommunicationProtocol.FILE_SYSTEM:
         await this.initializeFileSystem();
         break;
-      case DATABASE:
+      case UnrealCommunicationProtocol.DATABASE:
         await this.initializeDatabase();
         break;
-      case DIRECT_CALL:
+      case UnrealCommunicationProtocol.DIRECT_CALL:
         await this.initializeDirectCall();
         break;
-      case BLUEPRINT_EVENT:
+      case UnrealCommunicationProtocol.BLUEPRINT_EVENT:
         await this.initializeBlueprintEvent();
         break;
-      case DELEGATE_BINDING:
+      case UnrealCommunicationProtocol.DELEGATE_BINDING:
         await this.initializeDelegateBinding();
         break;
-      case INTERFACE_MESSAGING:
+      case UnrealCommunicationProtocol.INTERFACE_MESSAGING:
         await this.initializeInterfaceMessaging();
         break;
-      case WORLD_CONTEXT:
+      case UnrealCommunicationProtocol.WORLD_CONTEXT:
         await this.initializeWorldContext();
         break;
-      case GAME_INSTANCE:
+      case UnrealCommunicationProtocol.GAME_INSTANCE:
         await this.initializeGameInstance();
         break;
-      case SUBSYSTEM:
+      case UnrealCommunicationProtocol.SUBSYSTEM:
         await this.initializeSubsystem();
         break;
-      case NETWORK_REPLICATION:
+      case UnrealCommunicationProtocol.NETWORK_REPLICATION:
         await this.initializeNetworkReplication();
         break;
-      case CUSTOM_EVENT:
+      case UnrealCommunicationProtocol.CUSTOM_EVENT:
         await this.initializeCustomEvent();
         break;
-      case FUNCTION_LIBRARY:
+      case UnrealCommunicationProtocol.FUNCTION_LIBRARY:
         await this.initializeFunctionLibrary();
         break;
       default:
@@ -1467,25 +1467,25 @@ export class UnrealBridgeManager {
 
   private async establishConnection(connection: UnrealConnection): Promise<boolean> {
     switch (connection.protocol) {
-      case DIRECT_CALL:
+      case UnrealCommunicationProtocol.DIRECT_CALL:
         return await this.establishDirectCallConnection(connection);
-      case BLUEPRINT_EVENT:
+      case UnrealCommunicationProtocol.BLUEPRINT_EVENT:
         return await this.establishBlueprintEventConnection(connection);
-      case DELEGATE_BINDING:
+      case UnrealCommunicationProtocol.DELEGATE_BINDING:
         return await this.establishDelegateBindingConnection(connection);
-      case INTERFACE_MESSAGING:
+      case UnrealCommunicationProtocol.INTERFACE_MESSAGING:
         return await this.establishInterfaceMessagingConnection(connection);
-      case WORLD_CONTEXT:
+      case UnrealCommunicationProtocol.WORLD_CONTEXT:
         return await this.establishWorldContextConnection(connection);
-      case GAME_INSTANCE:
+      case UnrealCommunicationProtocol.GAME_INSTANCE:
         return await this.establishGameInstanceConnection(connection);
-      case SUBSYSTEM:
+      case UnrealCommunicationProtocol.SUBSYSTEM:
         return await this.establishSubsystemConnection(connection);
-      case NETWORK_REPLICATION:
+      case UnrealCommunicationProtocol.NETWORK_REPLICATION:
         return await this.establishNetworkReplicationConnection(connection);
-      case CUSTOM_EVENT:
+      case UnrealCommunicationProtocol.CUSTOM_EVENT:
         return await this.establishCustomEventConnection(connection);
-      case FUNCTION_LIBRARY:
+      case UnrealCommunicationProtocol.FUNCTION_LIBRARY:
         return await this.establishFunctionLibraryConnection(connection);
       default:
         return false;

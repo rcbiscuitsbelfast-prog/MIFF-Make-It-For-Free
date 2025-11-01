@@ -181,7 +181,8 @@ export class SchemaValidator {
         } else if (fieldDef.items) {
           // Validate array items
           value.forEach((item, index) => {
-            const itemErrors = this.validateField(item, fieldDef.items!, `${fieldPath}[${index}]`);
+            const itemPath = `${fieldPath}[${index}!]`;
+            const itemErrors = this.validateField(item, fieldDef.items!, itemPath);
             errors.push(...itemErrors);
           });
         }

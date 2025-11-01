@@ -3,6 +3,9 @@
 
 import { UnrealBridgeManager, UnrealAssetBridge, UnrealActorBridge, UnrealComponentBridge } from './index';
 import { RenderPayloadManager } from '../RenderPayloadPure';
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('UnrealAssetManager');
 
 export enum AssetLoadingStrategy {
   LAZY = 'lazy',
@@ -382,7 +385,7 @@ export class UnrealAssetManagerPure {
       logger.info('[UnrealAssetManagerPure] Asset manager initialized successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('[UnrealAssetManagerPure] Failed to initialize asset manager:', err instanceof Error ? message: String(err));
+      logger.error('[UnrealAssetManagerPure] Failed to initialize asset manager:', err instanceof Error ? err.message : String(err));
       throw new Error(`Asset manager initialization failed: ${error}`);
     }
   }
@@ -510,19 +513,19 @@ export class UnrealAssetManagerPure {
 
     // Initialize cache storage based on strategy
     switch (this.configuration.cachingStrategy) {
-      case MEMORY:
+      case AssetCachingStrategy.MEMORY:
         await this.initializeMemoryCache();
         break;
-      case DISK:
+      case AssetCachingStrategy.DISK:
         await this.initializeDiskCache();
         break;
-      case HYBRID:
+      case AssetCachingStrategy.HYBRID:
         await this.initializeHybridCache();
         break;
-      case VIRTUAL:
+      case AssetCachingStrategy.VIRTUAL:
         await this.initializeVirtualCache();
         break;
-      case PERSISTENT:
+      case AssetCachingStrategy.PERSISTENT:
         await this.initializePersistentCache();
         break;
       default:
@@ -558,7 +561,7 @@ export class UnrealAssetManagerPure {
   }
 
   private async initializeStreamingSystem(): Promise<void> {
-    if (this.configuration?.streamingMode || 'none' === AssetStreamingMode.NONE) {
+    if ((this.configuration?.streamingMode || 'none') === AssetStreamingMode.NONE) {
       logger.info('[UnrealAssetManagerPure] Streaming disabled');
       return;
     }
@@ -567,16 +570,16 @@ export class UnrealAssetManagerPure {
 
     // Initialize streaming components
     switch (this.configuration?.streamingMode || 'none') {
-      case ON_DEMAND:
+      case AssetStreamingMode.ON_DEMAND:
         await this.initializeOnDemandStreaming();
         break;
-      case PREDICTIVE:
+      case AssetStreamingMode.PREDICTIVE:
         await this.initializePredictiveStreaming();
         break;
-      case ADAPTIVE:
+      case AssetStreamingMode.ADAPTIVE:
         await this.initializeAdaptiveStreaming();
         break;
-      case PRIORITY:
+      case AssetStreamingMode.PRIORITY:
         await this.initializePriorityStreaming();
         break;
       default:
@@ -607,7 +610,7 @@ export class UnrealAssetManagerPure {
   }
 
   private async initializeOptimizationSystem(): Promise<void> {
-    if (this.configuration?.optimizationLevel || 'none' === AssetOptimizationLevel.NONE) {
+    if ((this.configuration?.optimizationLevel || 'none') === AssetOptimizationLevel.NONE) {
       logger.info('[UnrealAssetManagerPure] Optimization disabled');
       return;
     }
@@ -691,26 +694,26 @@ export class UnrealAssetManagerPure {
       // Load asset based on strategy
       let asset: UnrealAssetBridge | null = null;
 
-      switch (this.configuration.loadingStrategy) {
-        case LAZY:
+    switch (this.configuration.loadingStrategy) {
+      case AssetLoadingStrategy.LAZY:
           asset = await this.loadAssetLazy(request);
           break;
-        case EAGER:
+      case AssetLoadingStrategy.EAGER:
           asset = await this.loadAssetEager(request);
           break;
-        case PRELOAD:
+      case AssetLoadingStrategy.PRELOAD:
           asset = await this.loadAssetPreload(request);
           break;
-        case ON_DEMAND:
+      case AssetLoadingStrategy.ON_DEMAND:
           asset = await this.loadAssetOnDemand(request);
           break;
-        case STREAMING:
+      case AssetLoadingStrategy.STREAMING:
           asset = await this.loadAssetStreaming(request);
           break;
-        case VIRTUAL:
+      case AssetLoadingStrategy.VIRTUAL:
           asset = await this.loadAssetVirtual(request);
           break;
-        case PREDICTIVE:
+      case AssetLoadingStrategy.PREDICTIVE:
           asset = await this.loadAssetPredictive(request);
           break;
         default:
@@ -783,7 +786,7 @@ export class UnrealAssetManagerPure {
         request.callback(null, error instanceof Error ? error.message : 'Unknown error');
       }
 
-      logger.error(`[UnrealAssetManagerPure] Failed to load asset: ${request.assetId}`, err instanceof Error ? message: String(err));
+      logger.error(`[UnrealAssetManagerPure] Failed to load asset: ${request.assetId}`, err instanceof Error ? err.message : String(err));
       return response;
     }
   }
@@ -1017,7 +1020,7 @@ export class UnrealAssetManagerPure {
         }
       };
 
-      logger.error(`[UnrealAssetManagerPure] Failed to stream asset: ${request.assetId}`, err instanceof Error ? message: String(err));
+      logger.error(`[UnrealAssetManagerPure] Failed to stream asset: ${request.assetId}`, err instanceof Error ? err.message : String(err));
       return response;
     }
   }
@@ -1045,29 +1048,29 @@ export class UnrealAssetManagerPure {
 
       const level = optimizationLevel || this.configuration?.optimizationLevel || 'none';
 
-      switch (level) {
-        case NONE:
+    switch (level) {
+      case AssetOptimizationLevel.NONE:
           // No optimization
           break;
-        case FAST:
+      case AssetOptimizationLevel.FAST:
           // Fast optimization - minimal quality loss
           optimizedSize = Math.floor(originalSize * 0.9);
           compressionRatio = originalSize / optimizedSize;
           qualityLoss = 0.05;
           break;
-        case BALANCED:
+      case AssetOptimizationLevel.BALANCED:
           // Balanced optimization - moderate quality loss
           optimizedSize = Math.floor(originalSize * 0.7);
           compressionRatio = originalSize / optimizedSize;
           qualityLoss = 0.15;
           break;
-        case QUALITY:
+      case AssetOptimizationLevel.QUALITY:
           // Quality optimization - significant quality loss
           optimizedSize = Math.floor(originalSize * 0.5);
           compressionRatio = originalSize / optimizedSize;
           qualityLoss = 0.3;
           break;
-        case PRODUCTION:
+      case AssetOptimizationLevel.PRODUCTION:
           // Production optimization - maximum compression
           optimizedSize = Math.floor(originalSize * 0.3);
           compressionRatio = originalSize / optimizedSize;
@@ -1097,7 +1100,7 @@ export class UnrealAssetManagerPure {
       };
 
       logger.info(`[UnrealAssetManagerPure] Asset optimized successfully: ${assetId}`);
-      logger.info(`[UnrealAssetManagerPure] Size reduction: ${originalSize} → ${optimizedSize} (${compressionRatio.toFixed(2)}x compression)`);
+      logger.info(`[UnrealAssetManagerPure] Size reduction: ${originalSize} ? ${optimizedSize} (${compressionRatio.toFixed(2)}x compression)`);
       logger.info(`[UnrealAssetManagerPure] Quality loss: ${qualityLoss * 100}%`);
       return result;
 
@@ -1120,7 +1123,7 @@ export class UnrealAssetManagerPure {
         }
       };
 
-      logger.error(`[UnrealAssetManagerPure] Failed to optimize asset: ${assetId}`, err instanceof Error ? message: String(err));
+      logger.error(`[UnrealAssetManagerPure] Failed to optimize asset: ${assetId}`, err instanceof Error ? err.message : String(err));
       return result;
     }
   }

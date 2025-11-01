@@ -1,6 +1,6 @@
 import fs from 'fs';
 import { createStartMenuState, reduceStartMenuAction } from './index';
-import { InputSanitizer } from '../shared/security/InputSanitizer.js';
+import { InputSanitizer } from '../shared/security/InputSanitizer.ts';
 
 const input = process.stdin.read?.() || '';
 

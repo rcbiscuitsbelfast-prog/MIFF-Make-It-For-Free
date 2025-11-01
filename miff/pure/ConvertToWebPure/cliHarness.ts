@@ -1,13 +1,13 @@
-#!/usr/bin/env npx ts-node
+#!/usr/bin/env tsx
 
 import fs from 'fs';
 import path from 'path';
-import { ConvertToWebManager } from './Manager.js';
+import { ConvertToWebManager } from './Manager.ts';
 
 function main(){
   const file = process.argv[2!];
   if(!file){
-    console.log('Usage: npx ts-node ConvertToWebPure/cliHarness.ts <payload.json>');
+    console.log('Usage: npx tsx ConvertToWebPure/cliHarness.ts <payload.json>');
     return;
   }
   const payload = JSON.parse(fs.readFileSync(path.resolve(file), 'utf-8'));

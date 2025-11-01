@@ -1,14 +1,15 @@
 import { execFileSync } from 'child_process';
 import * as path from 'path';
 
-describe('WebBridgePure Contract', () => {
-  const cli = path.resolve('miff/pure/ConvertToWebPure/cliHarness.ts');
-  const sample = path.resolve('miff/pure/BridgeSchemaPure/sample_render.json');
+const cli = path.resolve(__dirname, '..', '..', 'ConvertToWebPure', 'cliHarness.ts');
+const sample = path.resolve(__dirname, '..', '..', 'BridgeSchemaPure', 'sample_render.json');
 
+describe('WebBridgePure Contract', () => {
   it('emits stable envelope for web render conversion', () => {
     const out = execFileSync('npx', [
-      'ts-node', '--compiler-options', '{"module":"commonjs"}',
-      cli, sample
+      'tsx',
+      cli,
+      sample
     ], { encoding: 'utf-8' });
     const result = JSON.parse(out);
     // Invariants: op tag, engine tag, items/issues arrays present

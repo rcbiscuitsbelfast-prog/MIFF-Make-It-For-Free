@@ -1,0 +1,195 @@
+[
+  {
+    "id": "npc_003",
+    "name": "Guard Captain Marcus",
+    "stats": [
+      { "key": "health", "base": 120 },
+      { "key": "mana", "base": 20 },
+      { "key": "strength", "base": 25 },
+      { "key": "wisdom", "base": 12 },
+      { "key": "defense", "base": 18 },
+      { "key": "agility", "base": 15 }
+    ],
+    "behavior": {
+      "type": "aggressive",
+      "aggression": 70,
+      "curiosity": 30,
+      "loyalty": 95,
+      "schedule": {
+        "activities": [
+          {
+            "time": "06:00",
+            "activity": "morning_patrol",
+            "location": {
+              "zoneId": "zone_gate",
+              "x": 15,
+              "y": 20
+            }
+          },
+          {
+            "time": "12:00",
+            "activity": "lunch_break",
+            "location": {
+              "zoneId": "zone_tavern",
+              "x": 8,
+              "y": 12
+            }
+          },
+          {
+            "time": "18:00",
+            "activity": "evening_patrol",
+            "location": {
+              "zoneId": "zone_gate",
+              "x": 15,
+              "y": 20
+            }
+          }
+        ]
+      }
+    },
+    "location": {
+      "zoneId": "zone_gate",
+      "x": 15,
+      "y": 20
+    },
+    "questIds": ["quest_guard_duty", "quest_bandit_hunt"],
+    "movementPattern": {
+      "type": "patrol",
+      "speed": 3,
+      "range": 10
+    },
+    "faction": "city_guards",
+    "reputation": 85,
+    "dialogueTree": {
+      "id": "guard_greeting",
+      "text": "Halt! State your business in the city.",
+      "options": [
+        {
+          "text": "I'm here on official business",
+          "nextNodeId": "guard_official",
+          "condition": {
+            "type": "quest_complete",
+            "target": "quest_tutorial",
+            "value": true
+          }
+        },
+        {
+          "text": "Just passing through",
+          "nextNodeId": "guard_pass",
+          "action": {
+            "type": "change_reputation",
+            "target": "city_guards",
+            "value": 5
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "npc_004",
+    "name": "Mystic Elara",
+    "stats": [
+      { "key": "health", "base": 80 },
+      { "key": "mana", "base": 100 },
+      { "key": "strength", "base": 8 },
+      { "key": "wisdom", "base": 30 },
+      { "key": "intelligence", "base": 25 },
+      { "key": "magic", "base": 35 }
+    ],
+    "behavior": {
+      "type": "friendly",
+      "aggression": 5,
+      "curiosity": 90,
+      "loyalty": 80
+    },
+    "location": {
+      "zoneId": "zone_tower",
+      "x": 5,
+      "y": 8
+    },
+    "questIds": ["quest_magic_training", "quest_ancient_knowledge"],
+    "movementPattern": {
+      "type": "idle",
+      "speed": 1
+    },
+    "faction": "mystics",
+    "reputation": 90,
+    "inventory": ["scroll_fireball", "potion_mana", "crystal_arcane"],
+    "dialogueTree": {
+      "id": "mystic_greeting",
+      "text": "Ah, a seeker of knowledge. What wisdom do you seek today?",
+      "options": [
+        {
+          "text": "Teach me magic",
+          "nextNodeId": "mystic_teaching",
+          "condition": {
+            "type": "stat_check",
+            "target": "intelligence",
+            "value": 15
+          }
+        },
+        {
+          "text": "Tell me about ancient lore",
+          "nextNodeId": "mystic_lore",
+          "action": {
+            "type": "give_quest",
+            "target": "quest_ancient_knowledge",
+            "value": true
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "npc_005",
+    "name": "Blacksmith Thorin",
+    "stats": [
+      { "key": "health", "base": 100 },
+      { "key": "mana", "base": 10 },
+      { "key": "strength", "base": 30 },
+      { "key": "wisdom", "base": 15 },
+      { "key": "crafting", "base": 25 }
+    ],
+    "behavior": {
+      "type": "merchant",
+      "aggression": 15,
+      "curiosity": 40,
+      "loyalty": 75,
+      "schedule": {
+        "activities": [
+          {
+            "time": "07:00",
+            "activity": "forge_opening",
+            "location": {
+              "zoneId": "zone_forge",
+              "x": 12,
+              "y": 18
+            }
+          },
+          {
+            "time": "17:00",
+            "activity": "forge_closing",
+            "location": {
+              "zoneId": "zone_forge",
+              "x": 12,
+              "y": 18
+            }
+          }
+        ]
+      }
+    },
+    "location": {
+      "zoneId": "zone_forge",
+      "x": 12,
+      "y": 18
+    },
+    "questIds": ["quest_weapon_crafting", "quest_armor_repair"],
+    "movementPattern": {
+      "type": "idle",
+      "speed": 1
+    },
+    "faction": "craftsmen",
+    "reputation": 80,
+    "inventory": ["sword_iron", "shield_steel", "hammer_masterwork"]
+  }
+]

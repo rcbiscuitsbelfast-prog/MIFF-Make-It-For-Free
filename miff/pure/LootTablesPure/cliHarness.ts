@@ -1,7 +1,7 @@
 #!/usr/bin/env -S node --no-warnings
 import fs from 'fs';
 import path from 'path';
-import { LootTablesManager, LootTable, LootEntry } from './Manager.js';
+import { LootTablesManager, LootTable, LootEntry } from './Manager.ts';
 
 type Cmd =
   | { op: 'list' }
@@ -23,6 +23,7 @@ function main() {
 
   const tablesData = JSON.parse(fs.readFileSync(tablesPath, 'utf-8'));
   const commands: Cmd[] = JSON.parse(fs.readFileSync(commandsPath, 'utf-8'));
+  const manager = new LootTablesManager();
   
   const outputs: any[] = [];
   const log: string[] = [];
@@ -92,8 +93,9 @@ function main() {
           break;
       }
     } catch (error: unknown) {
-      log.push(`Error executing ${cmd.op}: ${error.message}`);
-      outputs.push({ op: cmd.op, status: 'error', issues: [error.message] });
+      const err = error instanceof Error ? error : new Error(String(error));
+      log.push(`Error executing ${cmd.op}: ${err.message}`);
+      outputs.push({ op: cmd.op, status: 'error', issues: [err.message] });
     }
   });
 

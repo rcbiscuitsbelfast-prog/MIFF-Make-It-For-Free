@@ -1,6 +1,6 @@
 import fs from 'fs';
 import { createGameMenuState, reduceGameMenuAction } from './index';
-import { InputSanitizer } from '../shared/security/InputSanitizer.js';
+import { InputSanitizer } from '../shared/security/InputSanitizer.ts';
 
 // SECURITY: Validate all inputs
 const configPath = InputSanitizer.getSafeArg(2, {

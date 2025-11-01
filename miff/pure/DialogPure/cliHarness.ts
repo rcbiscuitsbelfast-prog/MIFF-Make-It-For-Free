@@ -2,7 +2,7 @@
 import fs from 'fs';
 import path from 'path';
 import { DialogSim } from './DialogSim';
-import { InputSanitizer } from '../shared/security/InputSanitizer.js';
+import { InputSanitizer } from '../shared/security/InputSanitizer.ts';
 
 type Cmd =
   | { op: 'listDialogs' }

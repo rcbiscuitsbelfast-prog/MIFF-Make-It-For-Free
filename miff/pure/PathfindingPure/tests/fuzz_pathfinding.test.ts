@@ -16,8 +16,10 @@ function runCLI(grid: number[][]) {
   };
   fs.writeFileSync(gridFile, JSON.stringify(payload, null, 2));
   const out = execFileSync('npx', [
-    'ts-node', '--compiler-options', '{"module":"commonjs"}',
-    cli, gridFile, path.resolve('miff/pure/PathfindingPure/tests/commands.json')
+    'tsx',
+    cli,
+    gridFile,
+    path.resolve('miff/pure/PathfindingPure/tests/commands.json')
   ], { encoding: 'utf-8' });
   return JSON.parse(out);
 }

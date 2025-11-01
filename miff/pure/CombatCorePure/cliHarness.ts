@@ -2,7 +2,7 @@
 import fs from 'fs';
 import path from 'path';
 import { CombatManager } from './Manager.js';
-import { InputSanitizer } from '../shared/security/InputSanitizer.js';
+import { InputSanitizer } from '../shared/security/InputSanitizer.ts';
 
 type Cmd =
   | { op: 'list' }

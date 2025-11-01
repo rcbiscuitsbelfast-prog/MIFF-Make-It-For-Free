@@ -5,6 +5,9 @@ import { UnrealBridgeManager, UnrealActorBridge, UnrealComponentBridge, UnrealEv
 import { CombatUtils, SpiritInstance } from '../CombatPure/engine';
 import { ItemUsageManager, Item } from '../ItemsPure';
 import { BattleAI, AIPolicy } from '../AIPure/Manager';
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('UnrealEventSync');
 
 export enum EventSyncMode {
   UNIDIRECTIONAL = 'unidirectional',     // MIFF → Unreal only
@@ -382,7 +385,7 @@ export class UnrealEventSyncPure {
       logger.info('[UnrealEventSyncPure] Event synchronization initialized successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('[UnrealEventSyncPure] Failed to initialize event synchronization:', err instanceof Error ? message: String(err));
+      logger.error('[UnrealEventSyncPure] Failed to initialize event synchronization:', err instanceof Error ? err.message : String(err));
       throw new Error(`Event synchronization initialization failed: ${error}`);
     }
   }
@@ -652,7 +655,7 @@ export class UnrealEventSyncPure {
       const processingTime = Date.now() - startTime;
       this.statistics.failedEvents++;
 
-      logger.error(`[UnrealEventSyncPure] Failed to sync event: ${miffEvent.type || miffEvent.name}`, err instanceof Error ? message: String(err));
+      logger.error(`[UnrealEventSyncPure] Failed to sync event: ${miffEvent.type || miffEvent.name}`, err instanceof Error ? err.message : String(err));
       return false;
     }
   }
@@ -961,7 +964,7 @@ export class UnrealEventSyncPure {
       return await this.bridgeManager.sendMessage(message);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error(`[UnrealEventSyncPure] Failed to process event immediately: ${event.name}`, err instanceof Error ? message: String(err));
+      logger.error(`[UnrealEventSyncPure] Failed to process event immediately: ${event.name}`, err instanceof Error ? err.message : String(err));
 
       // Add to dead letter queue if enabled
       if (this.configuration.enableDeadLetterQueue) {

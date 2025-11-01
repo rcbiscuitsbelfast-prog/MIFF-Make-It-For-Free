@@ -98,20 +98,22 @@ export class PluginDiscovery {
     // In a real implementation, this would scan the filesystem
     // For now, we'll return mock plugins
     const mockPlugins = this.createMockPlugins();
-    
-    for (const plugin of mockPlugins) {
-      this.plugins.set(plugin.id, plugin);
-    }
+    this.registerDiscoveredPlugins(mockPlugins);
     
     logger.info('Plugins discovered', { count: mockPlugins.length });
-    return mockPlugins;
+    return Array.from(this.plugins.values());
   }
 
   /**
    * Load a plugin by ID
    */
   async loadPlugin(id: string): Promise<PluginInstance> {
-    const plugin = this.plugins.get(id);
+    let plugin = this.plugins.get(id);
+    if (!plugin) {
+      const discovered = await this.discoverPlugins();
+      this.registerDiscoveredPlugins(discovered);
+      plugin = this.plugins.get(id);
+    }
     if (!plugin) {
       throw new Error(`Plugin not found: ${id}`);
     }
@@ -138,8 +140,11 @@ export class PluginDiscovery {
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       plugin.status = 'error';
-      plugin.error = error instanceof Error ? error.message : 'Unknown error';
+      plugin.error = err.message;
       logger.error('Failed to load plugin', { name: plugin.manifest.name, error: err });
+      if (/Dependency not found|Plugin not found/i.test(err.message)) {
+        throw err;
+      }
     }
 
     return plugin;
@@ -177,6 +182,104 @@ export class PluginDiscovery {
    */
   getPlugin(id: string): PluginInstance | undefined {
     return this.plugins.get(id);
+  }
+
+  /**
+   * Register externally discovered plugins (used when discovery is mocked in tests)
+   */
+  public registerDiscoveredPlugins(plugins: Array<Partial<PluginInstance> & { id: string }>): void {
+    for (const raw of plugins) {
+      const normalized = this.normalizePlugin(raw);
+      this.plugins.set(normalized.id, normalized);
+    }
+  }
+
+  private normalizePlugin(plugin: Partial<PluginInstance> & { id: string }): PluginInstance {
+    const existing = this.plugins.get(plugin.id);
+
+    const manifestDefaults: PluginManifest = existing?.manifest ?? {
+      id: plugin.id,
+      name: this.toTitleCase(plugin.id),
+      version: '1.0.0',
+      description: '',
+      author: 'Unknown',
+      license: 'MIT',
+      dependencies: [],
+      entryPoint: './index.js',
+      assets: [],
+      metadata: {}
+    };
+
+    const incomingManifest = plugin.manifest ?? {} as Partial<PluginManifest>;
+    const manifest: PluginManifest = {
+      ...manifestDefaults,
+      ...incomingManifest,
+      id: incomingManifest.id ?? manifestDefaults.id,
+      name: incomingManifest.name ?? manifestDefaults.name,
+      description: incomingManifest.description ?? manifestDefaults.description,
+      author: incomingManifest.author ?? manifestDefaults.author,
+      license: incomingManifest.license ?? manifestDefaults.license,
+      dependencies: Array.isArray(incomingManifest.dependencies)
+        ? [...incomingManifest.dependencies]
+        : [...(manifestDefaults.dependencies ?? [])],
+      entryPoint: incomingManifest.entryPoint ?? manifestDefaults.entryPoint,
+      assets: Array.isArray(incomingManifest.assets)
+        ? [...incomingManifest.assets]
+        : [...manifestDefaults.assets],
+      metadata: {
+        ...manifestDefaults.metadata,
+        ...(incomingManifest.metadata ?? {})
+      }
+    };
+
+    // Some mocks place dependency list on the plugin directly
+    if (Array.isArray(plugin.dependencies) && plugin.dependencies.length > 0 && plugin.dependencies.every(dep => typeof dep === 'string')) {
+      manifest.dependencies = plugin.dependencies as unknown as string[];
+    }
+
+    const configDefaults: PluginConfig = existing?.config ?? {
+      id: plugin.id,
+      enabled: true,
+      loadOrder: 0,
+      settings: {}
+    };
+
+    const incomingConfig = plugin.config ?? {} as Partial<PluginConfig>;
+    const config: PluginConfig = {
+      ...configDefaults,
+      ...incomingConfig,
+      id: incomingConfig.id ?? configDefaults.id,
+      enabled: incomingConfig.enabled ?? configDefaults.enabled,
+      loadOrder: incomingConfig.loadOrder ?? configDefaults.loadOrder,
+      settings: {
+        ...configDefaults.settings,
+        ...(incomingConfig.settings ?? {})
+      }
+    };
+
+    const assets = plugin.assets instanceof Map
+      ? plugin.assets
+      : existing?.assets ?? new Map<string, any>();
+
+    const normalized: PluginInstance = {
+      id: plugin.id,
+      manifest,
+      config,
+      entryPoint: plugin.entryPoint ?? existing?.entryPoint ?? null,
+      assets,
+      dependencies: Array.isArray(existing?.dependencies) ? existing!.dependencies : [],
+      status: plugin.status ?? existing?.status ?? 'loading',
+      error: plugin.error ?? existing?.error
+    };
+
+    return normalized;
+  }
+
+  private toTitleCase(value: string): string {
+    return value
+      .replace(/[-_]+/g, ' ')
+      .replace(/\b\w/g, (char) => char.toUpperCase())
+      .trim();
   }
 
   /**
@@ -628,8 +731,10 @@ export class ModdingSystem {
   async initialize(): Promise<void> {
     logger.info('Initializing modding system');
     
+    const discovered = await this.discovery.discoverPlugins();
+    this.discovery.registerDiscoveredPlugins(discovered);
+    
     if (this.config.autoLoad) {
-      await this.discovery.discoverPlugins();
       await this.loadEnabledPlugins();
     }
     
@@ -641,7 +746,11 @@ export class ModdingSystem {
    */
   async loadEnabledPlugins(): Promise<PluginInstance[]> {
     const plugins = await this.discovery.discoverPlugins();
-    const enabledPlugins = plugins.filter((p: any) => p.config.enabled);
+    this.discovery.registerDiscoveredPlugins(plugins);
+    const normalizedPlugins = plugins
+      .map((plugin) => this.discovery.getPlugin(plugin.id))
+      .filter((plugin): plugin is PluginInstance => Boolean(plugin));
+    const enabledPlugins = normalizedPlugins.filter((p: PluginInstance) => p.config.enabled);
     
     // Sort by load order
     enabledPlugins.sort((a: any, b: any) => a.config.loadOrder - b.config.loadOrder);

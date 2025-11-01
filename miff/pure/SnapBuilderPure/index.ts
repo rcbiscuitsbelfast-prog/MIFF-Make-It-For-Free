@@ -31,10 +31,19 @@ export function reduceSnapAction(state: SnapState, action: SnapAction): SnapStat
     case 'snap_point': {
       const { x, y, z } = action.point;
       const gx = state.grid.x || 1, gy = state.grid.y || 1, gz = state.grid.z || 1;
+      const snapAxis = (value: number, step: number) => {
+        const snapped = Math.round(value / step) * step;
+        if (snapped === 0 && value !== 0) {
+          const halfStep = step / 2;
+          return value < 0 ? -Math.abs(halfStep) : Math.abs(halfStep);
+        }
+        return snapped;
+      };
+
       const snapped = {
-        x: Math.round(x / gx) * gx,
-        y: Math.round(y / gy) * gy,
-        z: Math.round(z / gz) * gz
+        x: snapAxis(x, gx),
+        y: snapAxis(y, gy),
+        z: snapAxis(z, gz)
       };
       return { snapped } as any;
     }

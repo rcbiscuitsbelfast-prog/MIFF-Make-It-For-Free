@@ -301,7 +301,7 @@ class DialogueCLI {
       return {
         op: operation.op,
         status: 'error',
-        error: error instanceof Error ? message: 'Unknown error',
+        error: err.message,
         timestamp: new Date()
       };
     }
@@ -594,7 +594,7 @@ class DialogueCLI {
           '**Choices:**',
           '',
           ...node.choices.map((choice: any, i: number) => 
-            `${i + 1}. ${choice.text} → ${choice.next}`
+            `${i + 1}. ${choice.text} ? ${choice.next}`
           ),
           ''
         ] : ['*End of dialogue*', ''])
@@ -644,7 +644,7 @@ class DialogueCLI {
         <h4>Choices:</h4>
         ${node.choices.map((choice: any, i: number) => `
         <div class="choice">
-            ${i + 1}. ${choice.text} → ${choice.next}
+            ${i + 1}. ${choice.text} ? ${choice.next}
         </div>
         `).join('')}
         ` : '<p><em>End of dialogue</em></p>'}
@@ -672,8 +672,8 @@ async function main() {
     try {
       const jsonPath = argv[0!];
       const raw = JSON.parse(fs.readFileSync(path.resolve(jsonPath), 'utf-8')) as any;
-      const data: Dialogue = (raw && raw.dialogue) ? dialogue: raw;
-      const choiceIndex = typeof raw?.choiceIndex === 'number' ? choiceIndex: 0;
+      const data: Dialogue = (raw && raw.dialogue) ? raw.dialogue : raw;
+      const choiceIndex = typeof raw?.choiceIndex === 'number' ? raw.choiceIndex : 0;
       // Start then take first choice deterministically
       await cli.execute({ op: 'start', dialogue: data });
       const step = await cli.execute({ op: 'next', choiceIndex });

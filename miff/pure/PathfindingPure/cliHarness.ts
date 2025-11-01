@@ -1,7 +1,7 @@
 #!/usr/bin/env -S node --no-warnings
 import fs from 'fs';
 import path from 'path';
-import { PathfindingManager, Grid, Node } from './PathfindingManager';
+import { PathfindingManager, Grid, Node } from './PathfindingManager.ts';
 
 type Cmd = 
   | { op: 'list' }
@@ -9,6 +9,7 @@ type Cmd =
   | { op: 'dump' };
 
 function main() {
+  const manager = new PathfindingManager();
   const gridPath = process.argv[2!] || '';
   const commandsPath = process.argv[3!] || '';
 

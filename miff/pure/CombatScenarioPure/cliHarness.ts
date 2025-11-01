@@ -1,7 +1,7 @@
 #!/usr/bin/env -S node --no-warnings
 import fs from 'fs';
 import path from 'path';
-import { InputSanitizer } from '../shared/security/InputSanitizer.js';
+import { InputSanitizer } from '../shared/security/InputSanitizer.ts';
 
 type Scenario = {
 	schema: 'v13';
@@ -16,14 +16,23 @@ type Output = { op:'runScenario'|'dumpScenario'; status:'ok'|'error'; events:any
 function runScenario(s:Scenario): Output {
 	const events:any[]=[];
 	let xp = 0;
-	for(const e of s.arena.enemies){
-		const damage = Math.max(1, 7 - e.def);
-		events.push({ type:'combat', attacker:'hero', defender:e.id, damage, victory:true });
+	let coins = 0;
+	for (const enemy of s.arena.enemies) {
+		const damage = Math.max(1, 7 - enemy.def);
+		events.push({ type: 'combat', attacker: 'hero', defender: enemy.id, damage, victory: true });
+		events.push({ type: 'loot', from: enemy.id, drops: [{ id: 'coin', rarity: 'common' }] });
 		xp += s.progression.xpPerWin;
+		coins += 1;
 	}
-	const loot = { itemId:`loot_${s.loot.tableId}`, quantity:1 };
-	events.push({ type:'loot', ...loot });
-	return { op:'runScenario', status:'ok', events, finalState:{ xp, loot } };
+	return {
+		op: 'runScenario',
+		status: 'ok',
+		events,
+		finalState: {
+			hero: { xp },
+			inventory: { coin: coins }
+		}
+	};
 }
 
 function main(){

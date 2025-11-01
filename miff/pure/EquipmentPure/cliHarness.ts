@@ -2,7 +2,7 @@
 import fs from 'fs';
 import path from 'path';
 import { EquipmentManager, EquippedItem, StatModifier } from './EquipmentManager';
-import { InputSanitizer } from '../shared/security/InputSanitizer.js';
+import { InputSanitizer } from '../shared/security/InputSanitizer.ts';
 
 type CatalogItem = Omit<EquippedItem, 'source'>;
 

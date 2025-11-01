@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs';
 
 test('SpiritTamerDemoPure scenario matches golden', () => {
-	const cli = path.resolve('SpiritTamerDemoPure/cliHarness.ts');
+	const cli = path.resolve(__dirname, '..', 'cliHarness.ts');
 	const out = (global as any).testUtils.runCLI(cli, []);
   const got = JSON.parse(out);
   expect(got).toMatchObject({

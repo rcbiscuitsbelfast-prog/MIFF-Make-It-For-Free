@@ -1,8 +1,8 @@
 #!/usr/bin/env -S node --no-warnings
 import fs from 'fs';
 import path from 'path';
-import { CollisionManager, CollisionShape, AABB, Circle } from './Manager.js';
-import { InputSanitizer } from '../shared/security/InputSanitizer.js';
+import { CollisionManager, CollisionShape, AABB, Circle } from './Manager.ts';
+import { InputSanitizer } from '../shared/security/InputSanitizer.ts';
 
 type Cmd =
   | { op: 'list' }

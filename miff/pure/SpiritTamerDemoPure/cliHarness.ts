@@ -1,6 +1,6 @@
 #!/usr/bin/env tsx
 
-import { SpiritTamerManager } from './Manager.js';
+import { SpiritTamerManager } from './Manager.ts';
 import { exportDataToFormat, ExportFormat } from '../shared/exportUtils';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -83,7 +83,7 @@ class SpiritTamerCLI {
       return {
         op: operation.op,
         status: 'error',
-        error: error instanceof Error ? message: 'Unknown error',
+        error: err.message,
         timestamp: new Date()
       };
     }

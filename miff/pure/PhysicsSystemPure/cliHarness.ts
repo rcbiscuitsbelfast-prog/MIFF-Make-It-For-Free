@@ -1,8 +1,8 @@
 #!/usr/bin/env -S node --no-warnings
 import fs from 'fs';
 import path from 'path';
-import { PhysicsManager, PhysicsWorld, Body, Force, Constraint } from './Manager.js';
-import { InputSanitizer } from '../shared/security/InputSanitizer.js';
+import { PhysicsManager, PhysicsWorld, Body, Force, Constraint } from './Manager.ts';
+import { InputSanitizer } from '../shared/security/InputSanitizer.ts';
 
 type Cmd =
   | { op: 'list' }
@@ -124,7 +124,7 @@ function main(){
         }
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        outputs.push({ op: 'error', status: 'error', timestamp, issues: [String(error)] });
+        outputs.push({ op: 'error', status: 'error', timestamp, issues: [err.message] });
       }
     }
     

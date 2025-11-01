@@ -5,6 +5,9 @@ import { SceneBuilderManager, SceneBuildConfiguration, SceneLayer } from '../Sce
 import { UnrealBridgeManager, UnrealActorBridge, UnrealSceneBridge, UnrealLevelBridge, UnrealWorldBridge } from './index';
 import { RenderPayloadManager } from '../RenderPayloadPure';
 import { UnrealPayloadAdapterPure } from './UnrealPayloadAdapterPure';
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('UnrealSceneBuilder');
 
 export enum UnrealSceneType {
   LEVEL = 'level',
@@ -834,7 +837,7 @@ export class UnrealSceneBuilderPure {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('[UnrealSceneBuilderPure] Scene build failed:', err instanceof Error ? message: String(err));
+      logger.error('[UnrealSceneBuilderPure] Scene build failed:', err instanceof Error ? err.message : String(err));
 
       return {
         success: false,

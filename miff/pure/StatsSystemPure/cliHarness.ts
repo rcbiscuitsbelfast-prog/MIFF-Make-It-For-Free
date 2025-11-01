@@ -2,7 +2,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { StatsManager, Stat } from './StatsManager';
-import { InputSanitizer } from '../shared/security/InputSanitizer.js';
+import { InputSanitizer } from '../shared/security/InputSanitizer.ts';
 
 type Cmd =
   | { op: 'list' }

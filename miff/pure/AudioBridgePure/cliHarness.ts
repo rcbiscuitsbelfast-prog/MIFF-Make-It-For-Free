@@ -2,7 +2,7 @@
 import fs from 'fs';
 import path from 'path';
 import { AudioManager, AudioCmd } from './index';
-import { InputSanitizer } from '../shared/security/InputSanitizer.js';
+import { InputSanitizer } from '../shared/security/InputSanitizer.ts';
 
 type Cmd =
   | { op: 'process'; commands: AudioCmd[] }
@@ -27,6 +27,8 @@ function main() {
   }, '');
   
   const input = JSON.parse(fs.readFileSync(path.resolve(inputPath), 'utf-8'));
+
+  const manager = new AudioManager();
 
   const log: string[] = [];
 

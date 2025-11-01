@@ -1,9 +1,11 @@
+#!/usr/bin/env tsx
+
 /**
  * CLI Harness for NPCsPure
- * 
+ *
  * Provides comprehensive CLI interface for NPC management including
  * creation, updates, simulation, and multi-format export.
- * 
+ *
  * @module NPCsPure/cliHarness
  * @version 1.0.0
  * @license MIT
@@ -13,8 +15,8 @@ import { NPCsManager, NPC, NPBehavior } from './Manager';
 import * as fs from 'fs';
 import * as path from 'path';
 import { parseCLIArgs, formatOutput } from '../shared/cliHarnessUtils';
-import fs from 'fs';
-import path from 'path';
+
+const manager = new NPCsManager();
 
 const { mode, args } = parseCLIArgs(process.argv);
 
@@ -290,11 +292,11 @@ try {
       };
   }
 } catch (error: unknown) {
-      const err = error instanceof Error ? error : new Error(String(error));
+  const err = error instanceof Error ? error : new Error(String(error));
   output = {
     op: mode || 'unknown',
     status: 'error',
-    issues: [error instanceof Error ? message: 'Unknown error']
+    issues: [err.message]
   };
 }
 

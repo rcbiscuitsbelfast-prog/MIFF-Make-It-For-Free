@@ -1,15 +1,15 @@
-#!/usr/bin/env npx ts-node
+#!/usr/bin/env tsx
 
 import fs from 'fs';
 import path from 'path';
-import { ConvertToUnityManager } from './Manager.js';
+import { ConvertToUnityManager } from './Manager.ts';
 
 function printUsage(){
   console.log(`
 ConvertToUnityPure CLI
 
 Usage:
-  npx ts-node ConvertToUnityPure/cliHarness.ts <payload.json>
+  npx tsx ConvertToUnityPure/cliHarness.ts <payload.json>
 `);
 }
 

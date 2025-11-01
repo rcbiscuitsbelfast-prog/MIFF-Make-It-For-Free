@@ -44,29 +44,35 @@ export class TimeSystemPure {
   private lastUpdateTime: number = Date.now();
   private currentTimeScale: number = 1.0;
   private readonly UPDATE_INTERVAL = 1000;
-  private readonly REAL_TIME_TO_GAME_TIME = 60; // 1 real second = 60 game seconds
+  private readonly REAL_TIME_TO_GAME_TIME = 720; // 1 real second = 12 in-game minutes
+  private readonly BASE_DAY_LENGTH = 1440; // seconds per default game day (24 minutes)
 
-  constructor(eventBus: EventBus, config: TimeSystemConfig = {
-    initialTime: 0,
-    dayLength: 1440, // 24 minutes = 1 game day
-    defaultAcceleration: 'x1',
-    enableSeasons: true,
-    debugMode: false
-  }) {
+  constructor(eventBus: EventBus, config: TimeSystemConfig = {}) {
+    const defaults: TimeSystemConfig = {
+      initialTime: 0,
+      dayLength: this.BASE_DAY_LENGTH,
+      defaultAcceleration: 'x1',
+      enableSeasons: true,
+      debugMode: false
+    };
     this.eventBus = eventBus;
-    this.config = config;
+    this.config = { ...defaults, ...config };
     this.currentTimeData = this.createInitialTimeData();
     this.startTimeUpdateLoop();
   }
 
   private createInitialTimeData(): TimeData {
-    const gameTime = this.config.initialTime! || 0;
+    const gameTime = this.config.initialTime ?? 0;
+    return this.buildTimeData(gameTime);
+  }
+
+  private buildTimeData(gameTime: number): TimeData {
     return {
       currentTime: gameTime,
       realTime: Date.now(),
       timeOfDay: this.getTimeOfDay(gameTime),
       season: this.getSeason(gameTime),
-      dayOfYear: Math.floor(gameTime / (this.config.dayLength! || 1440)),
+      dayOfYear: Math.floor(gameTime / (this.config.dayLength ?? this.BASE_DAY_LENGTH)),
       hour: this.convertToHour(gameTime),
       minute: Math.floor((gameTime % 3600) / 60),
       second: Math.floor(gameTime % 60),
@@ -78,20 +84,21 @@ export class TimeSystemPure {
   }
 
   private getTimeOfDay(gameTime: number): TimeOfDay {
-    const hour = this.convertToHour(gameTime);
-    if (hour >= 5 && hour < 7) return 'dawn';
-    if (hour >= 7 && hour < 12) return 'morning';
+    const rawHour = this.convertToHour(gameTime);
+    const hour = ((rawHour % 24) + 24) % 24;
+    if (hour >= 6 && hour < 8) return 'dawn';
+    if (hour >= 8 && hour < 12) return 'morning';
     if (hour >= 12 && hour < 13) return 'noon';
-    if (hour >= 13 && hour < 18) return 'afternoon';
-    if (hour >= 18 && hour < 20) return 'dusk';
-    if (hour >= 20 && hour < 22) return 'evening';
-    if (hour >= 22 && hour < 24) return 'night';
+    if (hour >= 13 && hour < 19) return 'afternoon';
+    if (hour >= 19 && hour < 21) return 'dusk';
+    if (hour >= 21 && hour < 23) return 'evening';
+    if (hour >= 23 && hour < 24) return 'night';
     return 'midnight';
   }
 
   private getSeason(gameTime: number): Season {
     if (!this.config.enableSeasons) return 'summer';
-    const dayOfYear = Math.floor(gameTime / (this.config.dayLength! || 1440));
+    const dayOfYear = Math.floor(gameTime / (this.config.dayLength ?? this.BASE_DAY_LENGTH));
     const seasonIndex = Math.floor((dayOfYear % 120) / 30); // 30 days per season
     switch (seasonIndex) {
       case 0: return 'spring';
@@ -103,17 +110,20 @@ export class TimeSystemPure {
   }
 
   private convertToHour(gameTime: number): number {
-    const dayLength = this.config.dayLength! || 1440;
-    return (gameTime % dayLength) / (dayLength / 24);
+    const dayLength = this.config.dayLength ?? this.BASE_DAY_LENGTH;
+    const baseHour = gameTime / 3600;
+    const ratio = this.BASE_DAY_LENGTH / dayLength;
+    return baseHour * ratio;
   }
 
   private getDayProgress(gameTime: number): number {
-    const dayLength = this.config.dayLength! || 1440;
-    return (gameTime % dayLength) / dayLength;
+    const hour = this.convertToHour(gameTime);
+    const normalizedHour = ((hour % 24) + 24) % 24;
+    return normalizedHour / 24;
   }
 
   private getSeasonProgress(gameTime: number): number {
-    const dayOfYear = Math.floor(gameTime / (this.config.dayLength! || 1440));
+    const dayOfYear = Math.floor(gameTime / (this.config.dayLength ?? this.BASE_DAY_LENGTH));
     return (dayOfYear % 30) / 30; // 30 days per season
   }
 
@@ -174,30 +184,35 @@ export class TimeSystemPure {
     const newTimeData = this.currentTimeData;
 
     // Emit general time change
-    this.eventBus.emit('time:change', {
+    this.emitWithEnvelope('time:change', {
       oldTime: oldTimeData,
       newTime: newTimeData,
-      deltaTime: newTimeData.currentTime - oldTimeData.currentTime,
-      timestamp: new Date()
+      deltaTime: newTimeData.currentTime - oldTimeData.currentTime
     });
 
     // Emit time of day change
     if (oldTimeData.timeOfDay !== newTimeData.timeOfDay) {
-      this.eventBus.emit('time:time_of_day_change', {
+      this.emitWithEnvelope('time:time_of_day_change', {
         old: oldTimeData.timeOfDay,
-        new: newTimeData.timeOfDay,
-        timestamp: new Date()
+        new: newTimeData.timeOfDay
       });
     }
 
     // Emit season change
     if (oldTimeData.season !== newTimeData.season) {
-      this.eventBus.emit('time:season_change', {
+      this.emitWithEnvelope('time:season_change', {
         old: oldTimeData.season,
-        new: newTimeData.season,
-        timestamp: new Date()
+        new: newTimeData.season
       });
     }
+  }
+
+  private emitWithEnvelope(eventType: string, data: Record<string, any>): void {
+    this.eventBus.emit(eventType, {
+      type: eventType,
+      data,
+      timestamp: new Date()
+    });
   }
 
   // Public API methods
@@ -206,6 +221,7 @@ export class TimeSystemPure {
   }
 
   public setTimeAcceleration(acceleration: TimeAcceleration): void {
+    const previous = this.currentTimeData.acceleration;
     switch (acceleration) {
       case 'paused': this.currentTimeScale = 0; break;
       case 'x1': this.currentTimeScale = 1; break;
@@ -218,6 +234,12 @@ export class TimeSystemPure {
     }
 
     this.currentTimeData.acceleration = acceleration;
+    if (previous !== acceleration) {
+      this.emitWithEnvelope('time:acceleration_change', {
+        oldAcceleration: previous,
+        newAcceleration: acceleration
+      });
+    }
   }
 
   public getCurrentAcceleration(): TimeAcceleration {
@@ -228,8 +250,10 @@ export class TimeSystemPure {
     this.isPaused = paused;
     if (paused) {
       this.currentTimeScale = 0;
+      this.currentTimeData.acceleration = 'paused';
     } else {
-      this.setTimeAcceleration(this.config.defaultAcceleration! || 'x1');
+      const defaultAcceleration = this.config.defaultAcceleration! || 'x1';
+      this.setTimeAcceleration(defaultAcceleration);
     }
   }
 
@@ -246,10 +270,8 @@ export class TimeSystemPure {
   }
 
   public reset(initialTime?: number): void {
-    this.currentTimeData = this.createInitialTimeData();
-    if (initialTime !== undefined) {
-      this.currentTimeData.currentTime = initialTime;
-    }
+    const gameTime = initialTime ?? (this.config.initialTime ?? 0);
+    this.currentTimeData = this.buildTimeData(gameTime);
   }
 }
 
