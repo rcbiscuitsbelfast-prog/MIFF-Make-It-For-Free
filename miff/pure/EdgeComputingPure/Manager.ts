@@ -1252,14 +1252,72 @@ export class EdgeComputingPure {
   /**
    * Execute task
    */
+  /**
+   * Execute task
+   */
   executeTask(managerId: string, taskId: string): EdgeComputingOutput {
     const manager = this.managers.get(managerId);
+    if (!manager) {
       return {
         op: 'execute-task',
         status: 'error',
         issues: [`Manager ${managerId} not found`]
       };
     }
+
+    const task = manager.tasks.find(t => t.id === taskId);
+    if (!task) {
+      return {
+        op: 'execute-task',
+        status: 'error',
+        issues: [`Task ${taskId} not found`]
+      };
+    }
+
+    if (task.status !== 'pending') {
+      return {
+        op: 'execute-task',
+        status: 'error',
+        issues: ['Task is not in pending status']
+      };
+    }
+
+    // Find suitable node
+    const node = this.findSuitableNode(manager, task);
+    if (!node) {
+      return {
+        op: 'execute-task',
+        status: 'error',
+        issues: ['No suitable node found for task']
+      };
+    }
+
+    task.status = 'running';
+    task.nodeId = node.id;
+    task.startedAt = Date.now();
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.runningTasks++;
+
+    // Simulate task execution
+    setTimeout(() => {
+      task.status = 'completed';
+      task.completedAt = Date.now();
+      task.progress = 100;
+      this.performanceMetrics.runningTasks--;
+      this.performanceMetrics.completedTasks++;
+    }, 1000);
+
+    return {
+      op: 'execute-task',
+      status: 'ok',
+      result: {
+        taskId,
+        nodeId: node.id,
+        estimatedDuration: 1000
+      }
+    };
+  }
+
 
     const task = manager.tasks.find(t => t.id === taskId);
     if (!task) {
