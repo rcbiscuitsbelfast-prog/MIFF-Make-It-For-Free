@@ -88,7 +88,7 @@ export class XPManager {
       enableStatGrowth: true,
       enableEvolutionTriggers: true,
       xpMultiplier: 1.0,
-      levelCap: 100,
+      levelCap: curve.maxLevel || 100,
       debugMode: false,
       ...config
     };
@@ -124,7 +124,8 @@ export class XPManager {
 
   public addXP(spirit: SpiritInstance, amount: number): void {
     if (!spirit) return;
-    if (amount <= 0) return;
+    // Handle invalid XP values
+    if (isNaN(amount) || !isFinite(amount) || amount <= 0) return;
 
     const actualAmount = Math.floor(amount * this.config.xpMultiplier);
     spirit.experience = (spirit.experience || 0) + actualAmount;
@@ -140,14 +141,8 @@ export class XPManager {
       timestamp: new Date()
     });
 
-    // Check for level up
-    if (this.checkLevelUp(spirit)) {
-      this.eventBus.publish('spirit:level_up', {
-        spiritId: spirit.instanceId,
-        newLevel: spirit.level,
-        timestamp: new Date()
-      });
-    }
+    // Check for level up (event is emitted inside levelUp())
+    this.checkLevelUp(spirit);
   }
 
   public checkLevelUp(spirit: SpiritInstance): boolean {
@@ -172,15 +167,19 @@ export class XPManager {
 
     // Perform level up
     spirit.level = nextLevel;
-    spirit.experience -= neededXP;
+    // Keep total XP (don't subtract) - allows tracking total XP earned
+    // spirit.experience -= neededXP;
 
     // Apply stat growth
     if (this.config.enableStatGrowth) {
       this.applyStatGrowth(spirit);
+    } else {
+      // Even without stat growth, restore HP (but don't modify maxHP)
+      spirit.currentHP = spirit.maxHP;
     }
 
-    // Apply level up effects
-    if (this.config.enableLevelUpEffects) {
+    // Apply level up effects (only if stat growth is enabled, as effects modify stats)
+    if (this.config.enableLevelUpEffects && this.config.enableStatGrowth) {
       this.applyLevelUpEffects(spirit);
     }
 
@@ -201,6 +200,12 @@ export class XPManager {
       timestamp: new Date()
     });
 
+    this.eventBus.publish('spirit:level_up', {
+      spiritId: spirit.instanceId,
+      newLevel: spirit.level,
+      timestamp: new Date()
+    });
+
     return true;
   }
 
@@ -209,12 +214,14 @@ export class XPManager {
 
     // Basic stat growth
     spirit.maxHP += 2 * levelUps;
-    spirit.currentHP = Math.min(spirit.currentHP + 2 * levelUps, spirit.maxHP);
     spirit.attack += 1 * levelUps;
     spirit.specialAttack += 1 * levelUps;
     spirit.defense += 0.5 * levelUps;
     spirit.specialDefense += 0.5 * levelUps;
     spirit.speed += 0.5 * levelUps;
+    
+    // Restore HP to new max after growth
+    spirit.currentHP = spirit.maxHP;
   }
 
   private applyLevelUpEffects(spirit: SpiritInstance): void {

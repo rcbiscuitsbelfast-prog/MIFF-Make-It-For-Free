@@ -314,10 +314,10 @@ describe('ProgressionPure Module', () => {
 
   describe('Event System Integration', () => {
     it('should emit XP gained event', (done) => {
-      eventBus.on('xp:gained', (data) => {
-        expect(data.spiritId).toBe(mockSpirit.instanceId);
-        expect(data.amount).toBeGreaterThan(0);
-        expect(data.totalXP).toBeGreaterThanOrEqual(data.amount);
+      eventBus.on('xp:gained', (event) => {
+        expect(event.data.spiritId).toBe(mockSpirit.instanceId);
+        expect(event.data.amount).toBeGreaterThan(0);
+        expect(event.data.totalXP).toBeGreaterThanOrEqual(event.data.amount);
         done();
       });
 
@@ -325,9 +325,10 @@ describe('ProgressionPure Module', () => {
     });
 
     it('should emit level up event', (done) => {
-      eventBus.on('spirit:level_up', (data) => {
-        expect(data.spiritId).toBe(mockSpirit.instanceId);
-        expect(data.newLevel).toBeGreaterThan(mockSpirit.level);
+      const initialLevel = mockSpirit.level;
+      eventBus.on('spirit:level_up', (event) => {
+        expect(event.data.spiritId).toBe(mockSpirit.instanceId);
+        expect(event.data.newLevel).toBeGreaterThan(initialLevel);
         done();
       });
 
@@ -338,10 +339,11 @@ describe('ProgressionPure Module', () => {
     });
 
     it('should emit progression level up event', (done) => {
-      eventBus.on('progression:level_up', (data) => {
-        expect(data.spiritId).toBe(mockSpirit.instanceId);
-        expect(data.previousLevel).toBe(mockSpirit.level);
-        expect(data.newLevel).toBeGreaterThan(data.previousLevel);
+      const initialLevel = mockSpirit.level;
+      eventBus.on('progression:level_up', (event) => {
+        expect(event.data.spiritId).toBe(mockSpirit.instanceId);
+        expect(event.data.previousLevel).toBe(initialLevel);
+        expect(event.data.newLevel).toBeGreaterThan(initialLevel);
         done();
       });
 
@@ -400,17 +402,19 @@ describe('ProgressionPure Module', () => {
     });
 
     it('should disable stat growth when configured', () => {
+      // Create fresh spirit for this test to avoid contamination
+      const testSpirit = new MockSpiritInstance('test_spirit_no_growth', 5);
       const customManager = new XPManager(eventBus, xpCurve, { enableStatGrowth: false });
-      const initialHP = mockSpirit.maxHP;
-      const initialAttack = mockSpirit.attack;
+      const initialHP = testSpirit.maxHP;
+      const initialAttack = testSpirit.attack;
 
       // Level up
-      const nextLevelXP = customManager.getNextLevelXP(mockSpirit);
-      customManager.setXP(mockSpirit, nextLevelXP);
-      customManager.checkLevelUp(mockSpirit);
+      const nextLevelXP = customManager.getNextLevelXP(testSpirit);
+      customManager.setXP(testSpirit, nextLevelXP);
+      customManager.checkLevelUp(testSpirit);
 
-      expect(mockSpirit.maxHP).toBe(initialHP);
-      expect(mockSpirit.attack).toBe(initialAttack);
+      expect(testSpirit.maxHP).toBe(initialHP);
+      expect(testSpirit.attack).toBe(initialAttack);
     });
   });
 
@@ -517,8 +521,8 @@ describe('ProgressionPure Module', () => {
 
   describe('Integration with Other Modules', () => {
     it('should work with EventBus for inter-module communication', (done) => {
-      eventBus.on('xp:gained', (data) => {
-        expect(data.spiritId).toBe(mockSpirit.instanceId);
+      eventBus.on('xp:gained', (event) => {
+        expect(event.data.spiritId).toBe(mockSpirit.instanceId);
         done();
       });
 
@@ -539,7 +543,11 @@ describe('ProgressionPure Module', () => {
       eventBus.on('xp:gained', checkDone);
       eventBus.on('progression:level_up', checkDone);
 
-      xpManager.addXP(mockSpirit, 100);
+      // Add enough XP to trigger a level up
+      const nextLevelXP = xpManager.getNextLevelXP(mockSpirit);
+      const currentXP = mockSpirit.experience || 0;
+      const xpNeeded = nextLevelXP - currentXP + 1; // +1 to ensure level up
+      xpManager.addXP(mockSpirit, xpNeeded);
     });
   });
 });
