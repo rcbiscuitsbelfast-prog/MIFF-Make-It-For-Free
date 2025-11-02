@@ -464,7 +464,6 @@ export type AssetCategory = 'hair' | 'clothing' | 'accessories' | 'body' | 'cust
 
 export class CharacterCustomizationManager {
   
-  private logger: StructuredLogger;
   private config: CharacterCustomizationConfig;
   private systems: Map<string, CharacterCustomization> = new Map();
   private isInitialized: boolean = false;
@@ -472,7 +471,6 @@ export class CharacterCustomizationManager {
 
   constructor(config?: Partial<CharacterCustomizationConfig>) {
     
-    this.logger = StructuredLogger.getInstance('CharacterCustomizationManager');
     this.startTime = Date.now();
 
     this.config = {
@@ -495,12 +493,12 @@ export class CharacterCustomizationManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      StructuredLogger.warn('Character Customization System already initialized');
+      logger.warn('Character Customization System already initialized');
       return;
     }
 
     try {
-      StructuredLogger.info('Initializing Character Customization System...');
+      logger.info('Initializing Character Customization System...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization ?? false) {
@@ -513,11 +511,11 @@ export class CharacterCustomizationManager {
       }
 
       this.isInitialized = true;
-      StructuredLogger.info('Character Customization System initialized successfully');
+      logger.info('Character Customization System initialized successfully');
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError();
+      logger.error();
       throw error;
     }
   }
@@ -534,8 +532,8 @@ export class CharacterCustomizationManager {
       const system: CharacterCustomization = {
         ...systemData,
         id: this.generateSystemId(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
         version: '1.0.0',
         analytics: {
           totalSystems: 0,
@@ -552,12 +550,12 @@ export class CharacterCustomizationManager {
       this.systems.set(system.id, system);
       this.updateAnalytics();
 
-      StructuredLogger.info('Character customization system created', { systemId: system.id, systemName: system.name });
+      logger.info('Character customization system created', { systemId: system.id, systemName: system.name });
       return system;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError();
+      logger.error();
       throw error;
     }
   }
@@ -584,26 +582,26 @@ export class CharacterCustomizationManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { systemId });
+        logger.warn('System not found' ?? 'unknown', { systemId });
         return null;
       }
 
       const updatedSystem: CharacterCustomization = {
         ...system,
         ...updates,
-        updatedAt: new Date(),
+        updatedAt: Date.now(),
         version: this.incrementVersion(system.version)
       };
 
       this.systems.set(systemId, updatedSystem);
       this.updateAnalytics();
 
-      StructuredLogger.info('Character customization system updated', { systemId, systemName: updatedSystem.name });
+      logger.info('Character customization system updated', { systemId, systemName: updatedSystem.name });
       return updatedSystem;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError();
+      logger.error();
       throw error;
     }
   }
@@ -619,19 +617,19 @@ export class CharacterCustomizationManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { systemId });
+        logger.warn('System not found' ?? 'unknown', { systemId });
         return false;
       }
 
       this.systems.delete(systemId);
       this.updateAnalytics();
 
-      StructuredLogger.info('Character customization system deleted', { systemId, systemName: system.name });
+      logger.info('Character customization system deleted', { systemId, systemName: system.name });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError();
+      logger.error();
       throw error;
     }
   }
@@ -680,7 +678,7 @@ export class CharacterCustomizationManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { systemId });
+        logger.warn('System not found' ?? 'unknown', { systemId });
         return null;
       }
 
@@ -692,12 +690,12 @@ export class CharacterCustomizationManager {
       system.characters.push(character);
       this.updateAnalytics();
 
-      StructuredLogger.info('Character added to system', { systemId, characterId: character.id, characterName: character.name });
+      logger.info('Character added to system', { systemId, characterId: character.id, characterName: character.name });
       return character;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError();
+      logger.error();
       return null;
     }
   }
@@ -713,25 +711,25 @@ export class CharacterCustomizationManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { systemId });
+        logger.warn('System not found' ?? 'unknown', { systemId });
         return false;
       }
 
       const characterIndex = system.characters.findIndex(c => c.id === characterId);
       if (characterIndex === -1) {
-        StructuredLogger.warn('Character not found' ?? 'unknown', { systemId, characterId });
+        logger.warn('Character not found' ?? 'unknown', { systemId, characterId });
         return false;
       }
 
       system.characters.splice(characterIndex, 1);
       this.updateAnalytics();
 
-      StructuredLogger.info('Character removed from system', { systemId, characterId });
+      logger.info('Character removed from system', { systemId, characterId });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError();
+      logger.error();
       return false;
     }
   }
@@ -747,25 +745,25 @@ export class CharacterCustomizationManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { systemId });
+        logger.warn('System not found' ?? 'unknown', { systemId });
         return false;
       }
 
       const character = system.characters.find(c => c.id === characterId);
       if (!character) {
-        StructuredLogger.warn('Character not found' ?? 'unknown', { systemId, characterId });
+        logger.warn('Character not found' ?? 'unknown', { systemId, characterId });
         return false;
       }
 
       character.appearance = { ...character.appearance, ...appearance };
       this.updateAnalytics();
 
-      StructuredLogger.debug('Character appearance updated', { systemId, characterId });
+      logger.debug('Character appearance updated', { systemId, characterId });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError();
+      logger.error();
       return false;
     }
   }
@@ -781,25 +779,25 @@ export class CharacterCustomizationManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { systemId });
+        logger.warn('System not found' ?? 'unknown', { systemId });
         return false;
       }
 
       const character = system.characters.find(c => c.id === characterId);
       if (!character) {
-        StructuredLogger.warn('Character not found' ?? 'unknown', { systemId, characterId });
+        logger.warn('Character not found' ?? 'unknown', { systemId, characterId });
         return false;
       }
 
       character.customization = { ...character.customization, ...customization };
       this.updateAnalytics();
 
-      StructuredLogger.debug('Character customization updated', { systemId, characterId });
+      logger.debug('Character customization updated', { systemId, characterId });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError();
+      logger.error();
       return false;
     }
   }
@@ -815,31 +813,31 @@ export class CharacterCustomizationManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { systemId });
+        logger.warn('System not found' ?? 'unknown', { systemId });
         return false;
       }
 
       const character = system.characters.find(c => c.id === characterId);
       if (!character) {
-        StructuredLogger.warn('Character not found' ?? 'unknown', { systemId, characterId });
+        logger.warn('Character not found' ?? 'unknown', { systemId, characterId });
         return false;
       }
 
       const preset = system.presets.find(p => p.id === presetId);
       if (!preset) {
-        StructuredLogger.warn('Preset not found' ?? 'unknown', { systemId, presetId });
+        logger.warn('Preset not found' ?? 'unknown', { systemId, presetId });
         return false;
       }
 
       character.customization = { ...preset.customization };
       this.updateAnalytics();
 
-      StructuredLogger.info('Preset applied to character', { systemId, characterId, presetId });
+      logger.info('Preset applied to character', { systemId, characterId, presetId });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError();
+      logger.error();
       return false;
     }
   }
@@ -855,13 +853,13 @@ export class CharacterCustomizationManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { systemId });
+        logger.warn('System not found' ?? 'unknown', { systemId });
         return null;
       }
 
       const character = system.characters.find(c => c.id === characterId);
       if (!character) {
-        StructuredLogger.warn('Character not found' ?? 'unknown', { systemId, characterId });
+        logger.warn('Character not found' ?? 'unknown', { systemId, characterId });
         return null;
       }
 
@@ -874,12 +872,12 @@ export class CharacterCustomizationManager {
       system.presets.push(preset);
       this.updateAnalytics();
 
-      StructuredLogger.info('Preset created from character', { systemId, characterId, presetId: preset.id });
+      logger.info('Preset created from character', { systemId, characterId, presetId: preset.id });
       return preset;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError();
+      logger.error();
       return null;
     }
   }
@@ -895,7 +893,7 @@ export class CharacterCustomizationManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { systemId });
+        logger.warn('System not found' ?? 'unknown', { systemId });
         return null;
       }
 
@@ -907,12 +905,12 @@ export class CharacterCustomizationManager {
       system.assets.push(asset);
       this.updateAnalytics();
 
-      StructuredLogger.info('Asset added to system', { systemId, assetId: asset.id, assetName: asset.name });
+      logger.info('Asset added to system', { systemId, assetId: asset.id, assetName: asset.name });
       return asset;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError();
+      logger.error();
       return null;
     }
   }
@@ -928,25 +926,25 @@ export class CharacterCustomizationManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { systemId });
+        logger.warn('System not found' ?? 'unknown', { systemId });
         return false;
       }
 
       const assetIndex = system.assets.findIndex(a => a.id === assetId);
       if (assetIndex === -1) {
-        StructuredLogger.warn('Asset not found' ?? 'unknown', { systemId, assetId });
+        logger.warn('Asset not found' ?? 'unknown', { systemId, assetId });
         return false;
       }
 
       system.assets.splice(assetIndex, 1);
       this.updateAnalytics();
 
-      StructuredLogger.info('Asset removed from system', { systemId, assetId });
+      logger.info('Asset removed from system', { systemId, assetId });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError();
+      logger.error();
       return false;
     }
   }
@@ -962,7 +960,7 @@ export class CharacterCustomizationManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { systemId });
+        logger.warn('System not found' ?? 'unknown', { systemId });
         return null;
       }
 
@@ -970,7 +968,7 @@ export class CharacterCustomizationManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError();
+      logger.error();
       return null;
     }
   }
@@ -986,7 +984,7 @@ export class CharacterCustomizationManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { systemId });
+        logger.warn('System not found' ?? 'unknown', { systemId });
         return [];
       }
 
@@ -994,7 +992,7 @@ export class CharacterCustomizationManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError();
+      logger.error();
       return [];
     }
   }
@@ -1117,12 +1115,12 @@ export class CharacterCustomizationManager {
    * Destroy the Character Customization System
    */
   async destroy(): Promise<void> {
-    StructuredLogger.info('CharacterCustomizationPure', { context: { message: 'Destroying Character Customization System...' } });
+    logger.info('CharacterCustomizationPure', { context: { message: 'Destroying Character Customization System...' } });
 
     this.systems.clear();
     this.isInitialized = false;
 
-    StructuredLogger.info('CharacterCustomizationPure', { context: { message: 'Character Customization System destroyed' } });
+    logger.info('CharacterCustomizationPure', { context: { message: 'Character Customization System destroyed' } });
   }
 }
 
