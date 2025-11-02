@@ -1073,7 +1073,7 @@ export class EdgeComputingPure {
    * Get manager by ID
    */
   getManager(): EdgeComputingOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',
@@ -1092,7 +1092,7 @@ export class EdgeComputingPure {
    * Add edge node
    */
   addNode(): EdgeComputingOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'add-node',
         status: 'error',
@@ -1181,7 +1181,7 @@ export class EdgeComputingPure {
    * Create edge task
    */
   createTask(): EdgeComputingOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'create-task',
         status: 'error',
@@ -1248,7 +1248,7 @@ export class EdgeComputingPure {
    * Execute task
    */
   executeTask(): EdgeComputingOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'execute-task',
         status: 'error',

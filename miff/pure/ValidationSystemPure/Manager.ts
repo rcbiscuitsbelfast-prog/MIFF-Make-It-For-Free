@@ -960,7 +960,7 @@ export class ValidationSystemPure {
    * Get manager by ID
    */
   getManager(): ValidationSystemOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',

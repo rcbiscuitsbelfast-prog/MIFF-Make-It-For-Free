@@ -1835,7 +1835,7 @@ export class DataLakePure {
    * Get manager by ID
    */
   getManager(): DataLakeOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',

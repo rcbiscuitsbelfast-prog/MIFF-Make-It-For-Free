@@ -1148,7 +1148,7 @@ export class NotificationSystemPure {
    * Get manager by ID
    */
   getManager(): NotificationSystemOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',

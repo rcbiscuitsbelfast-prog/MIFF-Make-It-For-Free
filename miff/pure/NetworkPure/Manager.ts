@@ -1137,7 +1137,7 @@ export class NetworkPure {
    * Get manager by ID
    */
   getManager(): NetworkOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',

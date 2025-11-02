@@ -661,7 +661,7 @@ export class SpeechRecognitionPure {
    * Get manager by ID
    */
   getManager(): SpeechRecognitionOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',
@@ -680,7 +680,7 @@ export class SpeechRecognitionPure {
    * Start recognition session
    */
   startSession(): SpeechRecognitionOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'start-session',
         status: 'error',
@@ -741,7 +741,7 @@ export class SpeechRecognitionPure {
    * Process audio
    */
   processAudio(): SpeechRecognitionOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'process-audio',
         status: 'error',
@@ -804,7 +804,7 @@ export class SpeechRecognitionPure {
    * Add voice command
    */
   addVoiceCommand(): SpeechRecognitionOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'add-voice-command',
         status: 'error',
@@ -847,7 +847,7 @@ export class SpeechRecognitionPure {
    * Process voice command
    */
   processVoiceCommand(): SpeechRecognitionOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'process-voice-command',
         status: 'error',

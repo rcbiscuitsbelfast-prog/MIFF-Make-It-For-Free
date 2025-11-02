@@ -590,7 +590,7 @@ export class CryptocurrencyPure {
    * Get manager by ID
    */
   getManager(): CryptocurrencyOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',
@@ -609,7 +609,7 @@ export class CryptocurrencyPure {
    * Create wallet
    */
   createWallet(): CryptocurrencyOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'create-wallet',
         status: 'error',
@@ -655,7 +655,7 @@ export class CryptocurrencyPure {
    * Send transaction
    */
   sendTransaction(): CryptocurrencyOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'send-transaction',
         status: 'error',
@@ -725,7 +725,7 @@ export class CryptocurrencyPure {
    * Create portfolio
    */
   createPortfolio(): CryptocurrencyOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'create-portfolio',
         status: 'error',

@@ -767,7 +767,7 @@ export class TimeSeriesAnalysisPure {
    * Get manager by ID
    */
   getManager(): TimeSeriesAnalysisOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',
@@ -786,7 +786,7 @@ export class TimeSeriesAnalysisPure {
    * Create time series
    */
   createTimeSeries(): TimeSeriesAnalysisOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'create-time-series',
         status: 'error',
@@ -830,7 +830,7 @@ export class TimeSeriesAnalysisPure {
    * Add data points to time series
    */
   addDataPoints(): TimeSeriesAnalysisOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'add-data-points',
         status: 'error',
@@ -873,7 +873,7 @@ export class TimeSeriesAnalysisPure {
    * Perform analysis
    */
   performAnalysis(): TimeSeriesAnalysisOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'perform-analysis',
         status: 'error',
@@ -929,7 +929,7 @@ export class TimeSeriesAnalysisPure {
    * Create forecast
    */
   createForecast(): TimeSeriesAnalysisOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'create-forecast',
         status: 'error',
