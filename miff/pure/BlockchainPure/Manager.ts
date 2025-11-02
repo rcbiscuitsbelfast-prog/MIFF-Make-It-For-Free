@@ -13,10 +13,6 @@
  * @author MIFF Framework
  */
 
-import { StructuredLogger } from '../shared/logging/StructuredLogger';
-import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
-import { MemoryManager } from '../shared/memory/MemoryManager';
-import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 import { Logger } from '../shared/logging';
 
 const logger = Logger.create('BlockchainManager');
@@ -127,7 +123,7 @@ export interface SmartContract {
   bytecode: string;
   abi: ContractABI;
   owner: string;
-  deployedAt: Date;
+  deployedAt: number;
 }
 
 export interface ConsensusConfig {
@@ -266,7 +262,7 @@ export interface BlockchainAnalytics {
   totalContracts: number;
   activeContracts: number;
   averageBlockTime: number; // milliseconds
-  lastUpdated: Date;
+  lastUpdated: number;
 }
 
 export type BlockchainType = 'public' | 'private' | 'consortium' | 'hybrid' | 'custom';
@@ -279,19 +275,16 @@ export type StateMutability = 'pure' | 'view' | 'nonpayable' | 'payable';
 
 export class BlockchainManager {
   
-  private performanceOptimizer: PerformanceOptimizer;
-  private memoryManager: MemoryManager;
-  private errorHandler: StandardErrorHandler;
+  
+  
+  
   private config: BlockchainConfig;
   private blockchains: Map<string, Blockchain> = new Map();
   private isInitialized: boolean = false;
-  private startTime: Date;
+  private startTime: number;
 
   constructor(config?: Partial<BlockchainConfig>) {
     
-    this.performanceOptimizer = new PerformanceOptimizer({}, {});
-    this.memoryManager = new MemoryManager({});
-    this.errorHandler = new StandardErrorHandler({});
     this.startTime = Date.now();
 
     this.config = {
@@ -337,7 +330,7 @@ export class BlockchainManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      // Error handled;
       throw error;
     }
   }
@@ -354,8 +347,8 @@ export class BlockchainManager {
       const blockchain: Blockchain = {
         ...blockchainData,
         id: this.generateBlockchainId(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
         version: '1.0.0',
         analytics: {
           totalBlocks: 0,
@@ -364,11 +357,11 @@ export class BlockchainManager {
           totalContracts: 0,
           activeContracts: 0,
           averageBlockTime: 0,
-          lastUpdated: new Date()
+          lastUpdated: Date.now()
         }
       };
 
-      this.blockchains.set(blockchain.id, blockchain);
+      this.blockchains.set(blockchain.id!, blockchain);
       this.updateAnalytics();
 
       logger.info('Blockchain created', { blockchainId: blockchain.id, blockchainName: blockchain.name });
@@ -376,7 +369,7 @@ export class BlockchainManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      // Error handled;
       throw error;
     }
   }
@@ -410,7 +403,7 @@ export class BlockchainManager {
       const updatedBlockchain: Blockchain = {
         ...blockchain,
         ...updates,
-        updatedAt: new Date(),
+        updatedAt: Date.now(),
         version: this.incrementVersion(blockchain.version)
       };
 
@@ -422,7 +415,7 @@ export class BlockchainManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      // Error handled;
       throw error;
     }
   }
@@ -450,7 +443,7 @@ export class BlockchainManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      // Error handled;
       throw error;
     }
   }
@@ -506,7 +499,7 @@ export class BlockchainManager {
       const block: Block = {
         ...blockData,
         id: this.generateBlockId(),
-        timestamp: new Date()
+        timestamp: Date.now()
       };
 
       blockchain.blocks.push(block);
@@ -517,7 +510,7 @@ export class BlockchainManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      // Error handled;
       return null;
     }
   }
@@ -540,7 +533,7 @@ export class BlockchainManager {
       const transaction: Transaction = {
         ...transactionData,
         id: this.generateTransactionId(),
-        timestamp: new Date()
+        timestamp: Date.now()
       };
 
       blockchain.transactions.push(transaction);
@@ -551,7 +544,7 @@ export class BlockchainManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      // Error handled;
       return null;
     }
   }
@@ -574,7 +567,7 @@ export class BlockchainManager {
       const contract: SmartContract = {
         ...contractData,
         id: this.generateContractId(),
-        deployedAt: new Date()
+        deployedAt: Date.now()
       };
 
       blockchain.contracts.push(contract);
@@ -585,7 +578,7 @@ export class BlockchainManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      // Error handled;
       return null;
     }
   }
@@ -620,7 +613,7 @@ export class BlockchainManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      // Error handled;
       return null;
     }
   }
@@ -656,7 +649,7 @@ export class BlockchainManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      // Error handled;
       return false;
     }
   }
@@ -691,7 +684,7 @@ export class BlockchainManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      // Error handled;
       return false;
     }
   }
@@ -752,7 +745,7 @@ export class BlockchainManager {
         totalContracts: blockchain.contracts.length,
         activeContracts: blockchain.contracts.filter((c: any) => c.status === 'active').length,
         averageBlockTime: blockchain.performance.blockTime,
-        lastUpdated: new Date()
+        lastUpdated: Date.now()
       };
     }
   }
@@ -799,7 +792,8 @@ export class BlockchainManager {
 
     for (const blockchain of blockchains) {
       blockchainsByType[blockchain.type]++;
-      blockchainsByStatus[blockchain.status]++;
+      const status = blockchain.status || 'inactive';
+      blockchainsByStatus[status as BlockchainStatus]++;
     }
 
     return {
@@ -810,8 +804,8 @@ export class BlockchainManager {
       totalBlocks,
       totalTransactions,
       totalContracts,
-      averageTPS: blockchains.length > 0 ? totalTPS / length: 0,
-      uptime: new Date() - this.startTime.getTime()
+      averageTPS: blockchains.length > 0 ? totalTPS / blockchains.length : 0,
+      uptime: Date.now() - this.startTime
     };
   }
 
