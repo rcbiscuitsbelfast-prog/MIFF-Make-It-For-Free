@@ -617,7 +617,7 @@ export class PhysicsPure {
       ...managerData
     };
 
-    this.managers.set(manager.id, manager);
+    this.managers.set(manager.id || `manager-${Date.now()}`, manager);
 
     return {
       op: 'create-manager',
@@ -630,6 +630,7 @@ export class PhysicsPure {
    * Get manager by ID
    */
   getManager(managerId: string): PhysicsOutput {
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'get-manager',
@@ -648,7 +649,8 @@ export class PhysicsPure {
   /**
    * Add rigid body to manager
    */
-  addBody(): PhysicsOutput {
+  addBody(managerId: string, body: Partial<RigidBody>): PhysicsOutput {
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'add-body',
@@ -709,7 +711,8 @@ export class PhysicsPure {
   /**
    * Add constraint to manager
    */
-  addConstraint(): PhysicsOutput {
+  addConstraint(managerId: string, constraint: Partial<Constraint>): PhysicsOutput {
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'add-constraint',
@@ -761,7 +764,8 @@ export class PhysicsPure {
   /**
    * Add force to body
    */
-  addForce(): PhysicsOutput {
+  addForce(managerId: string, force: Partial<Force>): PhysicsOutput {
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'add-force',
@@ -796,7 +800,8 @@ export class PhysicsPure {
   /**
    * Simulate physics step
    */
-  simulate(): PhysicsOutput {
+  simulate(managerId: string): PhysicsOutput {
+    const manager = this.managers.get(managerId);
     if (!manager) {
       return {
         op: 'simulate',
@@ -806,6 +811,7 @@ export class PhysicsPure {
     }
 
     const startTime = Date.now();
+    const deltaTime = this.timeStep;
 
     // Apply forces
     for (const body of manager.bodies) {
