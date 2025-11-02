@@ -1254,7 +1254,6 @@ export class EdgeComputingPure {
    */
   executeTask(managerId: string, taskId: string): EdgeComputingOutput {
     const manager = this.managers.get(managerId);
-    if (!manager) {
       return {
         op: 'execute-task',
         status: 'error',
