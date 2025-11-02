@@ -12,13 +12,16 @@
  * @author MIFF Framework
  */
 
-import { StructuredLogger } from '../shared/logging/StructuredLogger';
-import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
-import { MemoryManager } from '../shared/memory/MemoryManager';
-import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 import { Logger } from '../shared/logging';
 
 const logger = Logger.create('CachingSystemManager');
+
+export enum LogLevel {
+  DEBUG = 'debug',
+  INFO = 'info',
+  WARN = 'warn',
+  ERROR = 'error'
+}
 
 export interface CachingSystemConfig {
   id?: string;
@@ -189,9 +192,6 @@ export type CompressionAlgorithm = 'gzip' | 'brotli' | 'lz4' | 'zstd' | 'custom'
 
 export class CachingSystemManager {
   
-  private performanceOptimizer: PerformanceOptimizer;
-  private memoryManager: MemoryManager;
-  private errorHandler: StandardErrorHandler;
   private logger: StructuredLogger;
   private config: CachingSystemConfig;
   private systems: Map<string, CachingSystem> = new Map();
@@ -200,9 +200,6 @@ export class CachingSystemManager {
 
   constructor(config?: Partial<CachingSystemConfig>) {
     
-    this.performanceOptimizer = new PerformanceOptimizer({}, {});
-    this.memoryManager = new MemoryManager({});
-    this.errorHandler = new StandardErrorHandler({});
     this.logger = StructuredLogger.getInstance('CachingSystemManager');
     this.startTime = Date.now();
 
@@ -248,7 +245,7 @@ export class CachingSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       throw error;
     }
   }
@@ -287,7 +284,7 @@ export class CachingSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       throw error;
     }
   }
@@ -333,7 +330,7 @@ export class CachingSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       throw error;
     }
   }
@@ -361,7 +358,7 @@ export class CachingSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       throw error;
     }
   }
@@ -427,7 +424,7 @@ export class CachingSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return null;
     }
   }
@@ -461,7 +458,7 @@ export class CachingSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return false;
     }
   }
@@ -510,7 +507,7 @@ export class CachingSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return null;
     }
   }
@@ -563,7 +560,7 @@ export class CachingSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return false;
     }
   }
@@ -599,7 +596,7 @@ export class CachingSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return false;
     }
   }
@@ -633,7 +630,7 @@ export class CachingSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return false;
     }
   }

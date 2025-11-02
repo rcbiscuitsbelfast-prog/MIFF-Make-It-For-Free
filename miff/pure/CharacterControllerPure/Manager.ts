@@ -12,13 +12,16 @@
  * @author MIFF Framework
  */
 
-import { StructuredLogger } from '../shared/logging/StructuredLogger';
-import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
-import { MemoryManager } from '../shared/memory/MemoryManager';
-import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 import { Logger } from '../shared/logging';
 
 const logger = Logger.create('CharacterControllerManager');
+
+export enum LogLevel {
+  DEBUG = 'debug',
+  INFO = 'info',
+  WARN = 'warn',
+  ERROR = 'error'
+}
 
 export interface CharacterControllerConfig {
   id?: string;
@@ -333,9 +336,6 @@ export type ConditionOperator = 'equals' | 'not_equals' | 'greater_than' | 'less
 
 export class CharacterControllerManager {
   
-  private performanceOptimizer: PerformanceOptimizer;
-  private memoryManager: MemoryManager;
-  private errorHandler: StandardErrorHandler;
   private logger: StructuredLogger;
   private config: CharacterControllerConfig;
   private controllers: Map<string, CharacterController> = new Map();
@@ -344,9 +344,6 @@ export class CharacterControllerManager {
 
   constructor(config?: Partial<CharacterControllerConfig>) {
     
-    this.performanceOptimizer = new PerformanceOptimizer({}, {});
-    this.memoryManager = new MemoryManager({});
-    this.errorHandler = new StandardErrorHandler({});
     this.logger = StructuredLogger.getInstance('CharacterControllerManager');
     this.startTime = Date.now();
 
@@ -392,7 +389,7 @@ export class CharacterControllerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       throw error;
     }
   }
@@ -432,7 +429,7 @@ export class CharacterControllerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       throw error;
     }
   }
@@ -478,7 +475,7 @@ export class CharacterControllerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       throw error;
     }
   }
@@ -506,7 +503,7 @@ export class CharacterControllerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       throw error;
     }
   }
@@ -572,7 +569,7 @@ export class CharacterControllerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return null;
     }
   }
@@ -606,7 +603,7 @@ export class CharacterControllerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return false;
     }
   }
@@ -640,7 +637,7 @@ export class CharacterControllerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return false;
     }
   }
@@ -675,7 +672,7 @@ export class CharacterControllerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return false;
     }
   }
@@ -722,7 +719,7 @@ export class CharacterControllerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return false;
     }
   }
@@ -759,7 +756,7 @@ export class CharacterControllerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return false;
     }
   }
@@ -783,7 +780,7 @@ export class CharacterControllerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return null;
     }
   }
@@ -807,7 +804,7 @@ export class CharacterControllerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return [];
     }
   }

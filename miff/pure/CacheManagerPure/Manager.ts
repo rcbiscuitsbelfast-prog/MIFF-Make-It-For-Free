@@ -12,13 +12,16 @@
  * @author MIFF Framework
  */
 
-import { StructuredLogger } from '../shared/logging/StructuredLogger';
-import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
-import { MemoryManager } from '../shared/memory/MemoryManager';
-import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 import { Logger } from '../shared/logging';
 
 const logger = Logger.create('CacheManager');
+
+export enum LogLevel {
+  DEBUG = 'debug',
+  INFO = 'info',
+  WARN = 'warn',
+  ERROR = 'error'
+}
 
 export interface CacheManagerConfig {
   id?: string;
@@ -189,9 +192,6 @@ export type CompressionAlgorithm = 'gzip' | 'brotli' | 'lz4' | 'zstd' | 'custom'
 
 export class CacheManagerManager {
   
-  private performanceOptimizer: PerformanceOptimizer;
-  private memoryManager: MemoryManager;
-  private errorHandler: StandardErrorHandler;
   private logger: StructuredLogger;
   private config: CacheManagerConfig;
   private managers: Map<string, CacheManager> = new Map();
@@ -200,9 +200,6 @@ export class CacheManagerManager {
 
   constructor(config?: Partial<CacheManagerConfig>) {
     
-    this.performanceOptimizer = new PerformanceOptimizer({}, {});
-    this.memoryManager = new MemoryManager({});
-    this.errorHandler = new StandardErrorHandler({});
     this.logger = StructuredLogger.getInstance('CacheManagerManager');
     this.startTime = Date.now();
 
@@ -248,7 +245,7 @@ export class CacheManagerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       throw error;
     }
   }
@@ -287,7 +284,7 @@ export class CacheManagerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       throw error;
     }
   }
@@ -332,7 +329,7 @@ export class CacheManagerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       throw error;
     }
   }
@@ -359,7 +356,7 @@ export class CacheManagerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       throw error;
     }
   }
@@ -424,7 +421,7 @@ export class CacheManagerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return null;
     }
   }
@@ -457,7 +454,7 @@ export class CacheManagerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return false;
     }
   }
@@ -505,7 +502,7 @@ export class CacheManagerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return null;
     }
   }
@@ -557,7 +554,7 @@ export class CacheManagerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return false;
     }
   }
@@ -592,7 +589,7 @@ export class CacheManagerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return false;
     }
   }
@@ -625,7 +622,7 @@ export class CacheManagerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return false;
     }
   }

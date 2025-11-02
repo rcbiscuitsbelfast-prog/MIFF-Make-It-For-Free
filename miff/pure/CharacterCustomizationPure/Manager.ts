@@ -12,10 +12,6 @@
  * @author MIFF Framework
  */
 
-import { StructuredLogger } from '../shared/logging/StructuredLogger';
-import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
-import { MemoryManager } from '../shared/memory/MemoryManager';
-import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface CharacterCustomizationConfig {
   id?: string;
@@ -468,9 +464,6 @@ export type AssetCategory = 'hair' | 'clothing' | 'accessories' | 'body' | 'cust
 
 export class CharacterCustomizationManager {
   
-  private performanceOptimizer: PerformanceOptimizer;
-  private memoryManager: MemoryManager;
-  private errorHandler: StandardErrorHandler;
   private logger: StructuredLogger;
   private config: CharacterCustomizationConfig;
   private systems: Map<string, CharacterCustomization> = new Map();
@@ -479,9 +472,6 @@ export class CharacterCustomizationManager {
 
   constructor(config?: Partial<CharacterCustomizationConfig>) {
     
-    this.performanceOptimizer = new PerformanceOptimizer({}, {});
-    this.memoryManager = new MemoryManager({});
-    this.errorHandler = new StandardErrorHandler({});
     this.logger = StructuredLogger.getInstance('CharacterCustomizationManager');
     this.startTime = Date.now();
 
@@ -527,7 +517,7 @@ export class CharacterCustomizationManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       throw error;
     }
   }
@@ -567,7 +557,7 @@ export class CharacterCustomizationManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       throw error;
     }
   }
@@ -613,7 +603,7 @@ export class CharacterCustomizationManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       throw error;
     }
   }
@@ -641,7 +631,7 @@ export class CharacterCustomizationManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       throw error;
     }
   }
@@ -707,7 +697,7 @@ export class CharacterCustomizationManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return null;
     }
   }
@@ -741,7 +731,7 @@ export class CharacterCustomizationManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return false;
     }
   }
@@ -775,7 +765,7 @@ export class CharacterCustomizationManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return false;
     }
   }
@@ -809,7 +799,7 @@ export class CharacterCustomizationManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return false;
     }
   }
@@ -849,7 +839,7 @@ export class CharacterCustomizationManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return false;
     }
   }
@@ -889,7 +879,7 @@ export class CharacterCustomizationManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return null;
     }
   }
@@ -922,7 +912,7 @@ export class CharacterCustomizationManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return null;
     }
   }
@@ -956,7 +946,7 @@ export class CharacterCustomizationManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return false;
     }
   }
@@ -980,7 +970,7 @@ export class CharacterCustomizationManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return null;
     }
   }
@@ -1004,7 +994,7 @@ export class CharacterCustomizationManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return [];
     }
   }
