@@ -781,7 +781,7 @@ export class IdleSystemPure {
    * Get manager by ID
    */
   getManager(): IdleSystemOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',

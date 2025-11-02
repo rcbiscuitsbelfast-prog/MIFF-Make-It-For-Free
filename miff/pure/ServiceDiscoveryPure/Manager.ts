@@ -2007,7 +2007,7 @@ export class ServiceDiscoveryPure {
    * Get manager by ID
    */
   getManager(): ServiceDiscoveryOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',

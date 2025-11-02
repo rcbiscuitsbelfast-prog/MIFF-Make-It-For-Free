@@ -1008,7 +1008,7 @@ export class ResourceManagerPure {
    * Get manager by ID
    */
   getManager(): ResourceManagerOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',

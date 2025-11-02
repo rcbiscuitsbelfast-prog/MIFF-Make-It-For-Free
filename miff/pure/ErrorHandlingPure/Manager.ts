@@ -1155,7 +1155,7 @@ export class ErrorHandlingPure {
    * Get manager by ID
    */
   getManager(): ErrorHandlingOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',

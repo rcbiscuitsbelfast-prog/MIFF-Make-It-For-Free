@@ -867,7 +867,7 @@ export class IndustryLeadershipPure {
    * Add industry
    */
   addIndustry(): IndustryLeadershipOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+    if (!manager) {
       return {
         op: 'add-industry',
         status: 'error',
@@ -924,7 +924,7 @@ export class IndustryLeadershipPure {
    * Add competitor
    */
   addCompetitor(): IndustryLeadershipOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+    if (!manager) {
       return {
         op: 'add-competitor',
         status: 'error',
@@ -976,7 +976,7 @@ export class IndustryLeadershipPure {
    * Create strategy
    */
   createStrategy(): IndustryLeadershipOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+    if (!manager) {
       return {
         op: 'create-strategy',
         status: 'error',
@@ -1014,7 +1014,7 @@ export class IndustryLeadershipPure {
    * Create content
    */
   createContent(): IndustryLeadershipOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+    if (!manager) {
       return {
         op: 'create-content',
         status: 'error',
