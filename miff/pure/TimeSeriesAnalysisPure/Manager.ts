@@ -749,8 +749,8 @@ export class TimeSeriesAnalysisPure {
         lastUpdate: 0
       },
       metadata: {},
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
       ...managerData
     };
 
@@ -903,7 +903,7 @@ export class TimeSeriesAnalysisPure {
         metadata: {}
       },
       status: 'running',
-      createdAt: new Date(),
+      createdAt: Date.now(),
       metadata: {}
     };
 
@@ -965,7 +965,7 @@ export class TimeSeriesAnalysisPure {
         rSquared: 0
       },
       status: 'running',
-      createdAt: new Date(),
+      createdAt: Date.now(),
       metadata: {}
     };
 
