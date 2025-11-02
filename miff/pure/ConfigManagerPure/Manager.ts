@@ -280,15 +280,12 @@ export type ActionType = 'error' | 'warning' | 'transform' | 'notify' | 'custom'
 
 export class ConfigManagerManager {
   
-  private logger: StructuredLogger;
   private config: ConfigManagerConfig;
   private managers: Map<string, ConfigManager> = new Map();
   private isInitialized: boolean = false;
   private startTime: Date;
 
   constructor(config?: Partial<ConfigManagerConfig>) {
-    
-    this.logger = StructuredLogger.getInstance('ConfigManagerManager');
     this.startTime = Date.now();
 
     this.config = {
@@ -311,12 +308,12 @@ export class ConfigManagerManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      StructuredLogger.warn('ConfigManagerPure' ?? 'unknown', { context: { message: 'Config Manager already initialized' } });
+      logger.warn('ConfigManagerPure' ?? 'unknown', { context: { message: 'Config Manager already initialized' } });
       return;
     }
 
     try {
-      StructuredLogger.info('ConfigManagerPure', { context: { message: 'Initializing Config Manager...' } });
+      logger.info('ConfigManagerPure', { context: { message: 'Initializing Config Manager...' } });
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization ?? false) {
@@ -329,11 +326,11 @@ export class ConfigManagerManager {
       }
 
       this.isInitialized = true;
-      StructuredLogger.info('ConfigManagerPure', { context: { message: 'Config Manager initialized successfully' } });
+      logger.info('ConfigManagerPure', { context: { message: 'Config Manager initialized successfully' } });
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError();
+      logger.error();
       throw error;
     }
   }
@@ -350,8 +347,8 @@ export class ConfigManagerManager {
       const manager: ConfigManager = {
         ...managerData,
         id: this.generateManagerId(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
         version: '1.0.0',
         analytics: {
           totalManagers: 0,
@@ -367,12 +364,12 @@ export class ConfigManagerManager {
       this.managers.set(manager.id, manager);
       this.updateAnalytics();
 
-      StructuredLogger.info('Config manager created', { managerId: manager.id, managerName: manager.name });
+      logger.info('Config manager created', { managerId: manager.id, managerName: manager.name });
       return manager;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError();
+      logger.error();
       throw error;
     }
   }
@@ -397,27 +394,28 @@ export class ConfigManagerManager {
     }
 
     try {
+      const manager = this.managers.get(managerId);
       if (!manager) {
-        StructuredLogger.warn('Manager not found' ?? 'unknown', { managerId });
+        logger.warn('Manager not found' ?? 'unknown', { managerId });
         return null;
       }
 
       const updatedManager: ConfigManager = {
         ...manager,
         ...updates,
-        updatedAt: new Date(),
+        updatedAt: Date.now(),
         version: this.incrementVersion(manager.version)
       };
 
       this.managers.set(managerId, updatedManager);
       this.updateAnalytics();
 
-      StructuredLogger.info('Config manager updated', { managerId, managerName: updatedManager.name });
+      logger.info('Config manager updated', { managerId, managerName: updatedManager.name });
       return updatedManager;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError();
+      logger.error();
       throw error;
     }
   }
@@ -431,20 +429,21 @@ export class ConfigManagerManager {
     }
 
     try {
+      const manager = this.managers.get(managerId);
       if (!manager) {
-        StructuredLogger.warn('Manager not found' ?? 'unknown', { managerId });
+        logger.warn('Manager not found' ?? 'unknown', { managerId });
         return false;
       }
 
       this.managers.delete(managerId);
       this.updateAnalytics();
 
-      StructuredLogger.info('Config manager deleted', { managerId, managerName: manager.name });
+      logger.info('Config manager deleted', { managerId, managerName: manager.name });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError();
+      logger.error();
       throw error;
     }
   }
@@ -492,7 +491,7 @@ export class ConfigManagerManager {
 
     try {
       if (!manager) {
-        StructuredLogger.warn('Manager not found' ?? 'unknown', { managerId });
+        logger.warn('Manager not found' ?? 'unknown', { managerId });
         return null;
       }
 
@@ -505,12 +504,12 @@ export class ConfigManagerManager {
       manager.configs.push(configuration);
       this.updateAnalytics();
 
-      StructuredLogger.info('Configuration added to manager', { managerId, configId: configuration.id, configName: configuration.name });
+      logger.info('Configuration added to manager', { managerId, configId: configuration.id, configName: configuration.name });
       return configuration;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError();
+      logger.error();
       return null;
     }
   }
@@ -525,25 +524,25 @@ export class ConfigManagerManager {
 
     try {
       if (!manager) {
-        StructuredLogger.warn('Manager not found' ?? 'unknown', { managerId });
+        logger.warn('Manager not found' ?? 'unknown', { managerId });
         return false;
       }
 
       const configIndex = manager.configs.findIndex(c => c.id === configId);
       if (configIndex === -1) {
-        StructuredLogger.warn('Configuration not found' ?? 'unknown', { managerId, configId });
+        logger.warn('Configuration not found' ?? 'unknown', { managerId, configId });
         return false;
       }
 
       manager.configs.splice(configIndex, 1);
       this.updateAnalytics();
 
-      StructuredLogger.info('Configuration removed from manager', { managerId, configId });
+      logger.info('Configuration removed from manager', { managerId, configId });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError();
+      logger.error();
       return false;
     }
   }
@@ -558,13 +557,13 @@ export class ConfigManagerManager {
 
     try {
       if (!manager) {
-        StructuredLogger.warn('Manager not found' ?? 'unknown', { managerId });
+        logger.warn('Manager not found' ?? 'unknown', { managerId });
         return null;
       }
 
       const configuration = manager.configs.find(c => c.id === configId);
       if (!configuration) {
-        StructuredLogger.warn('Configuration not found' ?? 'unknown', { managerId, configId });
+        logger.warn('Configuration not found' ?? 'unknown', { managerId, configId });
         return null;
       }
 
@@ -579,12 +578,12 @@ export class ConfigManagerManager {
       manager.configs[configIndex] = updatedConfiguration;
       this.updateAnalytics();
 
-      StructuredLogger.info('Configuration updated', { managerId, configId });
+      logger.info('Configuration updated', { managerId, configId });
       return updatedConfiguration;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError();
+      logger.error();
       return null;
     }
   }
@@ -599,7 +598,7 @@ export class ConfigManagerManager {
 
     try {
       if (!manager) {
-        StructuredLogger.warn('Manager not found' ?? 'unknown', { managerId });
+        logger.warn('Manager not found' ?? 'unknown', { managerId });
         return null;
       }
 
@@ -607,7 +606,7 @@ export class ConfigManagerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError();
+      logger.error();
       return null;
     }
   }
@@ -622,19 +621,19 @@ export class ConfigManagerManager {
 
     try {
       if (!manager) {
-        StructuredLogger.warn('Manager not found' ?? 'unknown', { managerId });
+        logger.warn('Manager not found' ?? 'unknown', { managerId });
         return { valid: false, errors: ['Manager not found'] };
       }
 
       const configuration = manager.configs.find(c => c.id === configId);
       if (!configuration) {
-        StructuredLogger.warn('Configuration not found' ?? 'unknown', { managerId, configId });
+        logger.warn('Configuration not found' ?? 'unknown', { managerId, configId });
         return { valid: false, errors: ['Configuration not found'] };
       }
 
       const schema = manager.schemas.find(s => s.id === configuration.schema);
       if (!schema) {
-        StructuredLogger.warn('Schema not found' ?? 'unknown', { managerId, configId, schemaId: configuration.schema });
+        logger.warn('Schema not found' ?? 'unknown', { managerId, configId, schemaId: configuration.schema });
         return { valid: false, errors: ['Schema not found'] };
       }
 
@@ -679,7 +678,7 @@ export class ConfigManagerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError();
+      logger.error();
       return { valid: false, errors: [error.message] };
     }
   }
@@ -714,7 +713,7 @@ export class ConfigManagerManager {
 
     try {
       if (!manager) {
-        StructuredLogger.warn('Manager not found' ?? 'unknown', { managerId });
+        logger.warn('Manager not found' ?? 'unknown', { managerId });
         return null;
       }
 
@@ -726,12 +725,12 @@ export class ConfigManagerManager {
       manager.schemas.push(schema);
       this.updateAnalytics();
 
-      StructuredLogger.info('Schema added to manager', { managerId, schemaId: schema.id, schemaName: schema.name });
+      logger.info('Schema added to manager', { managerId, schemaId: schema.id, schemaName: schema.name });
       return schema;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError();
+      logger.error();
       return null;
     }
   }
@@ -746,25 +745,25 @@ export class ConfigManagerManager {
 
     try {
       if (!manager) {
-        StructuredLogger.warn('Manager not found' ?? 'unknown', { managerId });
+        logger.warn('Manager not found' ?? 'unknown', { managerId });
         return false;
       }
 
       const schemaIndex = manager.schemas.findIndex(s => s.id === schemaId);
       if (schemaIndex === -1) {
-        StructuredLogger.warn('Schema not found' ?? 'unknown', { managerId, schemaId });
+        logger.warn('Schema not found' ?? 'unknown', { managerId, schemaId });
         return false;
       }
 
       manager.schemas.splice(schemaIndex, 1);
       this.updateAnalytics();
 
-      StructuredLogger.info('Schema removed from manager', { managerId, schemaId });
+      logger.info('Schema removed from manager', { managerId, schemaId });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError();
+      logger.error();
       return false;
     }
   }
@@ -881,12 +880,12 @@ export class ConfigManagerManager {
    * Destroy the Config Manager
    */
   async destroy(): Promise<void> {
-    StructuredLogger.info('ConfigManagerPure', { context: { message: 'Destroying Config Manager...' } });
+    logger.info('ConfigManagerPure', { context: { message: 'Destroying Config Manager...' } });
 
     this.managers.clear();
     this.isInitialized = false;
 
-    StructuredLogger.info('ConfigManagerPure', { context: { message: 'Config Manager destroyed' } });
+    logger.info('ConfigManagerPure', { context: { message: 'Config Manager destroyed' } });
   }
 }
 
