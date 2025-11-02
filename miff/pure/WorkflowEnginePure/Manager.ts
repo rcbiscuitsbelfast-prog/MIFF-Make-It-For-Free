@@ -1143,8 +1143,11 @@ export class WorkflowEnginePure {
   /**
    * Get manager by ID
    */
-  getManager(): WorkflowEngineOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+  getManager(managerId: string, data: any): WorkflowEngineOutput {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',

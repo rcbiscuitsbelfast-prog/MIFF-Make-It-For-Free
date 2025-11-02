@@ -966,8 +966,11 @@ export class DataWarehousePure {
   /**
    * Get manager by ID
    */
-  getManager(): DataWarehouseOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+  getManager(managerId: string, data: any): DataWarehouseOutput {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',
@@ -985,8 +988,11 @@ export class DataWarehousePure {
   /**
    * Create database
    */
-  createDatabase(): DataWarehouseOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+  createDatabase(managerId: string, data: any): DataWarehouseOutput {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'create-database',
         status: 'error',
@@ -1054,8 +1060,11 @@ export class DataWarehousePure {
   /**
    * Create table
    */
-  createTable(): DataWarehouseOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+  createTable(managerId: string, data: any): DataWarehouseOutput {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'create-table',
         status: 'error',
@@ -1114,8 +1123,11 @@ export class DataWarehousePure {
   /**
    * Create ETL process
    */
-  createETLProcess(): DataWarehouseOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+  createETLProcess(managerId: string, data: any): DataWarehouseOutput {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'create-etl-process',
         status: 'error',

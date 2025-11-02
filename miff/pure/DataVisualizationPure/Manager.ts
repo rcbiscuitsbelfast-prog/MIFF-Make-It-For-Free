@@ -1327,8 +1327,11 @@ export class DataVisualizationPure {
   /**
    * Get manager by ID
    */
-  getManager(): DataVisualizationOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+  getManager(managerId: string, data: any): DataVisualizationOutput {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',
@@ -1346,8 +1349,11 @@ export class DataVisualizationPure {
   /**
    * Create chart
    */
-  createChart(): DataVisualizationOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+  createChart(managerId: string, data: any): DataVisualizationOutput {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'create-chart',
         status: 'error',

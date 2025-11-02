@@ -1424,8 +1424,11 @@ export class MonitoringSystemPure {
   /**
    * Get manager by ID
    */
-  getManager(): MonitoringSystemOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+  getManager(managerId: string, data: any): MonitoringSystemOutput {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',

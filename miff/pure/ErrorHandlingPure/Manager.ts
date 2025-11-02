@@ -1154,8 +1154,11 @@ export class ErrorHandlingPure {
   /**
    * Get manager by ID
    */
-  getManager(): ErrorHandlingOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+  getManager(managerId: string, data: any): ErrorHandlingOutput {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',

@@ -935,8 +935,11 @@ export class DeploymentSystemPure {
   /**
    * Get manager by ID
    */
-  getManager(): DeploymentOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+  getManager(managerId: string, data: any): DeploymentOutput {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',
@@ -954,8 +957,11 @@ export class DeploymentSystemPure {
   /**
    * Deploy application
    */
-  deployApplication(): DeploymentOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+  deployApplication(managerId: string, data: any): DeploymentOutput {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'deploy-application',
         status: 'error',

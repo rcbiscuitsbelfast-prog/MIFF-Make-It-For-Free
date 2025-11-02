@@ -1490,8 +1490,11 @@ export class ComputerVisionPure {
   /**
    * Get manager by ID
    */
-  getManager(): ComputerVisionOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+  getManager(managerId: string, data: any): ComputerVisionOutput {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',
@@ -1509,8 +1512,11 @@ export class ComputerVisionPure {
   /**
    * Create vision model
    */
-  createModel(): ComputerVisionOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+  createModel(managerId: string, data: any): ComputerVisionOutput {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'create-model',
         status: 'error',

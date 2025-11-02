@@ -1018,8 +1018,11 @@ export class CloudGamingPure {
   /**
    * Get manager by ID
    */
-  getManager(): CloudGamingOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+  getManager(managerId: string, data: any): CloudGamingOutput {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',

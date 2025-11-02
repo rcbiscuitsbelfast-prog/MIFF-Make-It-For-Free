@@ -619,8 +619,11 @@ export class Web3Pure {
   /**
    * Get manager by ID
    */
-  getManager(): Web3Output {
-    // TODO: Add managerId parameter    if (!manager) {
+  getManager(managerId: string, data: any): Web3Output {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',
@@ -638,8 +641,11 @@ export class Web3Pure {
   /**
    * Add blockchain to manager
    */
-  addBlockchain(): Web3Output {
-    // TODO: Add managerId parameter    if (!manager) {
+  addBlockchain(managerId: string, data: any): Web3Output {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'add-blockchain',
         status: 'error',
@@ -678,8 +684,11 @@ export class Web3Pure {
   /**
    * Add wallet to manager
    */
-  addWallet(): Web3Output {
-    // TODO: Add managerId parameter    if (!manager) {
+  addWallet(managerId: string, data: any): Web3Output {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'add-wallet',
         status: 'error',
@@ -722,8 +731,11 @@ export class Web3Pure {
   /**
    * Deploy smart contract
    */
-  deployContract(): Web3Output {
-    // TODO: Add managerId parameter    if (!manager) {
+  deployContract(managerId: string, data: any): Web3Output {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'deploy-contract',
         status: 'error',
@@ -766,8 +778,11 @@ export class Web3Pure {
   /**
    * Send transaction
    */
-  sendTransaction(): Web3Output {
-    // TODO: Add managerId parameter    if (!manager) {
+  sendTransaction(managerId: string, data: any): Web3Output {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'send-transaction',
         status: 'error',

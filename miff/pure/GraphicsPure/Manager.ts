@@ -1387,8 +1387,11 @@ export class GraphicsPure {
   /**
    * Get manager by ID
    */
-  getManager(): GraphicsOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+  getManager(managerId: string, data: any): GraphicsOutput {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',
