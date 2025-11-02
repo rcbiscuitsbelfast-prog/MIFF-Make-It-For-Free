@@ -13,13 +13,16 @@
  * @author MIFF Framework
  */
 
-import { StructuredLogger } from '../shared/logging/StructuredLogger';
-import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
-import { MemoryManager } from '../shared/memory/MemoryManager';
-import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 import { Logger } from '../shared/logging';
 
 const logger = Logger.create('AnimationManager');
+
+export enum LogLevel {
+  DEBUG = 'debug',
+  INFO = 'info',
+  WARN = 'warn',
+  ERROR = 'error'
+}
 
 export interface AnimationSystemConfig {
   id?: string;
@@ -176,19 +179,12 @@ export type BlendingCurve = 'linear' | 'smooth' | 'sharp' | 'custom';
 
 export class AnimationSystemManager {
   
-  private performanceOptimizer: PerformanceOptimizer;
-  private memoryManager: MemoryManager;
-  private errorHandler: StandardErrorHandler;
   private config: AnimationSystemConfig;
   private animations: Map<string, Animation> = new Map();
   private isInitialized: boolean = false;
   private startTime: Date;
 
   constructor(config?: Partial<AnimationSystemConfig>) {
-    
-    this.performanceOptimizer = new PerformanceOptimizer({} as any, {} as any);
-    this.memoryManager = new MemoryManager();
-    this.errorHandler = new StandardErrorHandler();
     this.startTime = new Date();
 
     this.config = {
@@ -236,7 +232,7 @@ export class AnimationSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError({} as any);
+      logger.errorError({} as any);
       throw error;
     }
   }
@@ -274,7 +270,7 @@ export class AnimationSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError({} as any);
+      logger.errorError({} as any);
       throw error;
     }
   }
@@ -320,7 +316,7 @@ export class AnimationSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError({} as any);
+      logger.errorError({} as any);
       throw error;
     }
   }
@@ -348,7 +344,7 @@ export class AnimationSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError({} as any);
+      logger.errorError({} as any);
       throw error;
     }
   }
@@ -409,7 +405,7 @@ export class AnimationSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError({} as any);
+      logger.errorError({} as any);
       return false;
     }
   }
@@ -438,7 +434,7 @@ export class AnimationSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError({} as any);
+      logger.errorError({} as any);
       return false;
     }
   }
@@ -466,7 +462,7 @@ export class AnimationSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError({} as any);
+      logger.errorError({} as any);
       return false;
     }
   }
@@ -509,7 +505,7 @@ export class AnimationSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError({} as any);
+      logger.errorError({} as any);
       return false;
     }
   }
