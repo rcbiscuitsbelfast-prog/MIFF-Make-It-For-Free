@@ -866,8 +866,11 @@ export class IndustryLeadershipPure {
   /**
    * Add industry
    */
-  addIndustry(): IndustryLeadershipOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+  addIndustry(managerId: string, industry: Partial<Industry>): IndustryLeadershipOutput {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'add-industry',
         status: 'error',
@@ -923,8 +926,11 @@ export class IndustryLeadershipPure {
   /**
    * Add competitor
    */
-  addCompetitor(): IndustryLeadershipOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+  addCompetitor(managerId: string, competitor: Partial<Competitor>): IndustryLeadershipOutput {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'add-competitor',
         status: 'error',
@@ -975,8 +981,11 @@ export class IndustryLeadershipPure {
   /**
    * Create strategy
    */
-  createStrategy(): IndustryLeadershipOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+  createStrategy(managerId: string, strategy: Partial<Strategy>): IndustryLeadershipOutput {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'create-strategy',
         status: 'error',
@@ -1013,8 +1022,11 @@ export class IndustryLeadershipPure {
   /**
    * Create content
    */
-  createContent(): IndustryLeadershipOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+  createContent(managerId: string, content: Partial<Content>): IndustryLeadershipOutput {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'create-content',
         status: 'error',
