@@ -232,7 +232,7 @@ export class AnimationSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError({} as any);
+      logger.error({} as any);
       throw error;
     }
   }
@@ -270,7 +270,7 @@ export class AnimationSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError({} as any);
+      logger.error({} as any);
       throw error;
     }
   }
@@ -316,7 +316,7 @@ export class AnimationSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError({} as any);
+      logger.error({} as any);
       throw error;
     }
   }
@@ -344,7 +344,7 @@ export class AnimationSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError({} as any);
+      logger.error({} as any);
       throw error;
     }
   }
@@ -405,7 +405,7 @@ export class AnimationSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError({} as any);
+      logger.error({} as any);
       return false;
     }
   }
@@ -434,7 +434,7 @@ export class AnimationSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError({} as any);
+      logger.error({} as any);
       return false;
     }
   }
@@ -462,7 +462,7 @@ export class AnimationSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError({} as any);
+      logger.error({} as any);
       return false;
     }
   }
@@ -505,7 +505,7 @@ export class AnimationSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError({} as any);
+      logger.error({} as any);
       return false;
     }
   }
