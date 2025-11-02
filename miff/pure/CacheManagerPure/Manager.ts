@@ -307,6 +307,7 @@ export class CacheManagerManager {
     }
 
     try {
+      const manager = this.managers.get(managerId);
       if (!manager) {
         logger.warn('Manager not found' ?? 'unknown', { managerId });
         return null;
@@ -341,6 +342,7 @@ export class CacheManagerManager {
     }
 
     try {
+      const manager = this.managers.get(managerId);
       if (!manager) {
         logger.warn('Manager not found' ?? 'unknown', { managerId });
         return false;
@@ -401,6 +403,7 @@ export class CacheManagerManager {
     }
 
     try {
+      const manager = this.managers.get(managerId);
       if (!manager) {
         logger.warn('Manager not found' ?? 'unknown', { managerId });
         return null;
@@ -433,6 +436,7 @@ export class CacheManagerManager {
     }
 
     try {
+      const manager = this.managers.get(managerId);
       if (!manager) {
         logger.warn('Manager not found' ?? 'unknown', { managerId });
         return false;
@@ -466,6 +470,7 @@ export class CacheManagerManager {
     }
 
     try {
+      const manager = this.managers.get(managerId);
       if (!manager) {
         logger.warn('Manager not found' ?? 'unknown', { managerId });
         return null;
@@ -514,6 +519,7 @@ export class CacheManagerManager {
     }
 
     try {
+      const manager = this.managers.get(managerId);
       if (!manager) {
         logger.warn('Manager not found' ?? 'unknown', { managerId });
         return false;
@@ -566,6 +572,7 @@ export class CacheManagerManager {
     }
 
     try {
+      const manager = this.managers.get(managerId);
       if (!manager) {
         logger.warn('Manager not found' ?? 'unknown', { managerId });
         return false;
@@ -601,6 +608,7 @@ export class CacheManagerManager {
     }
 
     try {
+      const manager = this.managers.get(managerId);
       if (!manager) {
         logger.warn('Manager not found' ?? 'unknown', { managerId });
         return false;

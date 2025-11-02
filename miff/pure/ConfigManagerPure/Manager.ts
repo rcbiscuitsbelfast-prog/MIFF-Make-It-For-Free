@@ -395,6 +395,7 @@ export class ConfigManagerManager {
 
     try {
       const manager = this.managers.get(managerId);
+      const manager = this.managers.get(managerId);
       if (!manager) {
         logger.warn('Manager not found' ?? 'unknown', { managerId });
         return null;
@@ -429,6 +430,7 @@ export class ConfigManagerManager {
     }
 
     try {
+      const manager = this.managers.get(managerId);
       const manager = this.managers.get(managerId);
       if (!manager) {
         logger.warn('Manager not found' ?? 'unknown', { managerId });
@@ -490,6 +492,7 @@ export class ConfigManagerManager {
     }
 
     try {
+      const manager = this.managers.get(managerId);
       if (!manager) {
         logger.warn('Manager not found' ?? 'unknown', { managerId });
         return null;
@@ -523,6 +526,7 @@ export class ConfigManagerManager {
     }
 
     try {
+      const manager = this.managers.get(managerId);
       if (!manager) {
         logger.warn('Manager not found' ?? 'unknown', { managerId });
         return false;
@@ -556,6 +560,7 @@ export class ConfigManagerManager {
     }
 
     try {
+      const manager = this.managers.get(managerId);
       if (!manager) {
         logger.warn('Manager not found' ?? 'unknown', { managerId });
         return null;
@@ -620,6 +625,7 @@ export class ConfigManagerManager {
     }
 
     try {
+      const manager = this.managers.get(managerId);
       if (!manager) {
         logger.warn('Manager not found' ?? 'unknown', { managerId });
         return { valid: false, errors: ['Manager not found'] };
@@ -712,6 +718,7 @@ export class ConfigManagerManager {
     }
 
     try {
+      const manager = this.managers.get(managerId);
       if (!manager) {
         logger.warn('Manager not found' ?? 'unknown', { managerId });
         return null;
@@ -744,6 +751,7 @@ export class ConfigManagerManager {
     }
 
     try {
+      const manager = this.managers.get(managerId);
       if (!manager) {
         logger.warn('Manager not found' ?? 'unknown', { managerId });
         return false;
