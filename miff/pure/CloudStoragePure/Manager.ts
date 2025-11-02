@@ -271,7 +271,6 @@ export type ActionType = 'delete' | 'archive' | 'move' | 'custom';
 
 export class CloudStorageManager {
   
-  private logger: StructuredLogger;
   private config: CloudStorageConfig;
   private storages: Map<string, CloudStorage> = new Map();
   private isInitialized: boolean = false;
@@ -279,7 +278,6 @@ export class CloudStorageManager {
 
   constructor(config?: Partial<CloudStorageConfig>) {
     
-    this.logger = StructuredLogger.getInstance('CloudStorageManager');
     this.startTime = Date.now();
 
     this.config = {
@@ -302,12 +300,12 @@ export class CloudStorageManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      StructuredLogger.warn('CloudStoragePure' ?? 'unknown', { context: { message: 'Cloud Storage already initialized' } });
+      logger.warn('CloudStoragePure' ?? 'unknown', { context: { message: 'Cloud Storage already initialized' } });
       return;
     }
 
     try {
-      StructuredLogger.info('CloudStoragePure', { context: { message: 'Initializing Cloud Storage...' } });
+      logger.info('CloudStoragePure', { context: { message: 'Initializing Cloud Storage...' } });
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization ?? false) {
@@ -320,11 +318,11 @@ export class CloudStorageManager {
       }
 
       this.isInitialized = true;
-      StructuredLogger.info('CloudStoragePure', { context: { message: 'Cloud Storage initialized successfully' } });
+      logger.info('CloudStoragePure', { context: { message: 'Cloud Storage initialized successfully' } });
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError();
+      logger.error();
       throw error;
     }
   }
@@ -341,8 +339,8 @@ export class CloudStorageManager {
       const storage: CloudStorage = {
         ...storageData,
         id: this.generateStorageId(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
         version: '1.0.0',
         analytics: {
           totalStorages: 0,
@@ -360,12 +358,12 @@ export class CloudStorageManager {
       this.storages.set(storage.id, storage);
       this.updateAnalytics();
 
-      StructuredLogger.info('Cloud storage created', { storageId: storage.id, storageName: storage.name });
+      logger.info('Cloud storage created', { storageId: storage.id, storageName: storage.name });
       return storage;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError();
+      logger.error();
       throw error;
     }
   }
@@ -392,26 +390,26 @@ export class CloudStorageManager {
     try {
       const storage = this.storages.get(storageId);
       if (!storage) {
-        StructuredLogger.warn('Storage not found' ?? 'unknown', { storageId });
+        logger.warn('Storage not found' ?? 'unknown', { storageId });
         return null;
       }
 
       const updatedStorage: CloudStorage = {
         ...storage,
         ...updates,
-        updatedAt: new Date(),
+        updatedAt: Date.now(),
         version: this.incrementVersion(storage.version)
       };
 
       this.storages.set(storageId, updatedStorage);
       this.updateAnalytics();
 
-      StructuredLogger.info('Cloud storage updated', { storageId, storageName: updatedStorage.name });
+      logger.info('Cloud storage updated', { storageId, storageName: updatedStorage.name });
       return updatedStorage;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError();
+      logger.error();
       throw error;
     }
   }
@@ -427,19 +425,19 @@ export class CloudStorageManager {
     try {
       const storage = this.storages.get(storageId);
       if (!storage) {
-        StructuredLogger.warn('Storage not found' ?? 'unknown', { storageId });
+        logger.warn('Storage not found' ?? 'unknown', { storageId });
         return false;
       }
 
       this.storages.delete(storageId);
       this.updateAnalytics();
 
-      StructuredLogger.info('Cloud storage deleted', { storageId, storageName: storage.name });
+      logger.info('Cloud storage deleted', { storageId, storageName: storage.name });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError();
+      logger.error();
       throw error;
     }
   }
@@ -488,7 +486,7 @@ export class CloudStorageManager {
     try {
       const storage = this.storages.get(storageId);
       if (!storage) {
-        StructuredLogger.warn('Storage not found' ?? 'unknown', { storageId });
+        logger.warn('Storage not found' ?? 'unknown', { storageId });
         return null;
       }
 
@@ -500,12 +498,12 @@ export class CloudStorageManager {
       storage.providers.push(provider);
       this.updateAnalytics();
 
-      StructuredLogger.info('Provider added to storage', { storageId, providerId: provider.id, providerName: provider.name });
+      logger.info('Provider added to storage', { storageId, providerId: provider.id, providerName: provider.name });
       return provider;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError();
+      logger.error();
       return null;
     }
   }
@@ -521,25 +519,25 @@ export class CloudStorageManager {
     try {
       const storage = this.storages.get(storageId);
       if (!storage) {
-        StructuredLogger.warn('Storage not found' ?? 'unknown', { storageId });
+        logger.warn('Storage not found' ?? 'unknown', { storageId });
         return false;
       }
 
       const providerIndex = storage.providers.findIndex(p => p.id === providerId);
       if (providerIndex === -1) {
-        StructuredLogger.warn('Provider not found' ?? 'unknown', { storageId, providerId });
+        logger.warn('Provider not found' ?? 'unknown', { storageId, providerId });
         return false;
       }
 
       storage.providers.splice(providerIndex, 1);
       this.updateAnalytics();
 
-      StructuredLogger.info('Provider removed from storage', { storageId, providerId });
+      logger.info('Provider removed from storage', { storageId, providerId });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError();
+      logger.error();
       return false;
     }
   }
@@ -555,13 +553,13 @@ export class CloudStorageManager {
     try {
       const storage = this.storages.get(storageId);
       if (!storage) {
-        StructuredLogger.warn('Storage not found' ?? 'unknown', { storageId });
+        logger.warn('Storage not found' ?? 'unknown', { storageId });
         return null;
       }
 
       const provider = storage.providers.find(p => p.id === fileData.provider);
       if (!provider) {
-        StructuredLogger.warn('Provider not found' ?? 'unknown', { storageId, providerId: fileData.provider });
+        logger.warn('Provider not found' ?? 'unknown', { storageId, providerId: fileData.provider });
         return null;
       }
 
@@ -576,12 +574,12 @@ export class CloudStorageManager {
       storage.files.push(file);
       this.updateAnalytics();
 
-      StructuredLogger.info('File uploaded', { storageId, fileId: file.id, fileName: file.name });
+      logger.info('File uploaded', { storageId, fileId: file.id, fileName: file.name });
       return file;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError();
+      logger.error();
       return null;
     }
   }
@@ -597,25 +595,25 @@ export class CloudStorageManager {
     try {
       const storage = this.storages.get(storageId);
       if (!storage) {
-        StructuredLogger.warn('Storage not found' ?? 'unknown', { storageId });
+        logger.warn('Storage not found' ?? 'unknown', { storageId });
         return null;
       }
 
       const file = storage.files.find(f => f.id === fileId);
       if (!file) {
-        StructuredLogger.warn('File not found' ?? 'unknown', { storageId, fileId });
+        logger.warn('File not found' ?? 'unknown', { storageId, fileId });
         return null;
       }
 
       file.lastModified = Date.now();
       this.updateAnalytics();
 
-      StructuredLogger.info('File downloaded', { storageId, fileId, fileName: file.name });
+      logger.info('File downloaded', { storageId, fileId, fileName: file.name });
       return file;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError();
+      logger.error();
       return null;
     }
   }
@@ -631,25 +629,25 @@ export class CloudStorageManager {
     try {
       const storage = this.storages.get(storageId);
       if (!storage) {
-        StructuredLogger.warn('Storage not found' ?? 'unknown', { storageId });
+        logger.warn('Storage not found' ?? 'unknown', { storageId });
         return false;
       }
 
       const fileIndex = storage.files.findIndex(f => f.id === fileId);
       if (fileIndex === -1) {
-        StructuredLogger.warn('File not found' ?? 'unknown', { storageId, fileId });
+        logger.warn('File not found' ?? 'unknown', { storageId, fileId });
         return false;
       }
 
       storage.files.splice(fileIndex, 1);
       this.updateAnalytics();
 
-      StructuredLogger.info('File deleted', { storageId, fileId });
+      logger.info('File deleted', { storageId, fileId });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError();
+      logger.error();
       return false;
     }
   }
@@ -665,7 +663,7 @@ export class CloudStorageManager {
     try {
       const storage = this.storages.get(storageId);
       if (!storage) {
-        StructuredLogger.warn('Storage not found' ?? 'unknown', { storageId });
+        logger.warn('Storage not found' ?? 'unknown', { storageId });
         return null;
       }
 
@@ -678,12 +676,12 @@ export class CloudStorageManager {
       storage.buckets.push(bucket);
       this.updateAnalytics();
 
-      StructuredLogger.info('Bucket created', { storageId, bucketId: bucket.id, bucketName: bucket.name });
+      logger.info('Bucket created', { storageId, bucketId: bucket.id, bucketName: bucket.name });
       return bucket;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError();
+      logger.error();
       return null;
     }
   }
@@ -699,25 +697,25 @@ export class CloudStorageManager {
     try {
       const storage = this.storages.get(storageId);
       if (!storage) {
-        StructuredLogger.warn('Storage not found' ?? 'unknown', { storageId });
+        logger.warn('Storage not found' ?? 'unknown', { storageId });
         return false;
       }
 
       const bucketIndex = storage.buckets.findIndex(b => b.id === bucketId);
       if (bucketIndex === -1) {
-        StructuredLogger.warn('Bucket not found' ?? 'unknown', { storageId, bucketId });
+        logger.warn('Bucket not found' ?? 'unknown', { storageId, bucketId });
         return false;
       }
 
       storage.buckets.splice(bucketIndex, 1);
       this.updateAnalytics();
 
-      StructuredLogger.info('Bucket deleted', { storageId, bucketId });
+      logger.info('Bucket deleted', { storageId, bucketId });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.errorError();
+      logger.error();
       return false;
     }
   }
@@ -860,12 +858,12 @@ export class CloudStorageManager {
    * Destroy the Cloud Storage
    */
   async destroy(): Promise<void> {
-    StructuredLogger.info('CloudStoragePure', { context: { message: 'Destroying Cloud Storage...' } });
+    logger.info('CloudStoragePure', { context: { message: 'Destroying Cloud Storage...' } });
 
     this.storages.clear();
     this.isInitialized = false;
 
-    StructuredLogger.info('CloudStoragePure', { context: { message: 'Cloud Storage destroyed' } });
+    logger.info('CloudStoragePure', { context: { message: 'Cloud Storage destroyed' } });
   }
 }
 
