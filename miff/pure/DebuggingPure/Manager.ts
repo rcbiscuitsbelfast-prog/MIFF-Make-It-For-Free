@@ -874,7 +874,7 @@ export class DebuggingPure {
    * Get manager by ID
    */
   getManager(): DebuggingOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',

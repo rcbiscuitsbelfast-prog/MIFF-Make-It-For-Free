@@ -1328,7 +1328,7 @@ export class DataVisualizationPure {
    * Get manager by ID
    */
   getManager(): DataVisualizationOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',
@@ -1347,7 +1347,7 @@ export class DataVisualizationPure {
    * Create chart
    */
   createChart(): DataVisualizationOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'create-chart',
         status: 'error',

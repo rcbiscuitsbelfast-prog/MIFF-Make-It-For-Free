@@ -1295,7 +1295,7 @@ export class UIInterfacePure {
    * Get manager by ID
    */
   getManager(): UIInterfaceOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',
@@ -1314,7 +1314,7 @@ export class UIInterfacePure {
    * Create UI component
    */
   createComponent(): UIInterfaceOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'create-component',
         status: 'error',
@@ -1469,7 +1469,7 @@ export class UIInterfacePure {
    * Create UI layout
    */
   createLayout(): UIInterfaceOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'create-layout',
         status: 'error',

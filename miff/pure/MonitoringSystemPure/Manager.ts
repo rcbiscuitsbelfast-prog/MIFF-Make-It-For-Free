@@ -1425,7 +1425,7 @@ export class MonitoringSystemPure {
    * Get manager by ID
    */
   getManager(): MonitoringSystemOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',

@@ -1014,7 +1014,7 @@ export class EcosystemExpansionPure {
    * Get manager by ID
    */
   getManager(): EcosystemExpansionOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',
@@ -1033,7 +1033,7 @@ export class EcosystemExpansionPure {
    * Create partnership
    */
   createPartnership(): EcosystemExpansionOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'create-partnership',
         status: 'error',
@@ -1115,7 +1115,7 @@ export class EcosystemExpansionPure {
    * Create integration
    */
   createIntegration(): EcosystemExpansionOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'create-integration',
         status: 'error',
@@ -1193,7 +1193,7 @@ export class EcosystemExpansionPure {
    * Create community
    */
   createCommunity(): EcosystemExpansionOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'create-community',
         status: 'error',

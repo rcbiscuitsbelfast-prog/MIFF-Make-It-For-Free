@@ -1491,7 +1491,7 @@ export class ComputerVisionPure {
    * Get manager by ID
    */
   getManager(): ComputerVisionOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',
@@ -1510,7 +1510,7 @@ export class ComputerVisionPure {
    * Create vision model
    */
   createModel(): ComputerVisionOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'create-model',
         status: 'error',

@@ -1019,7 +1019,7 @@ export class CloudGamingPure {
    * Get manager by ID
    */
   getManager(): CloudGamingOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',

@@ -936,7 +936,7 @@ export class DeploymentSystemPure {
    * Get manager by ID
    */
   getManager(): DeploymentOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',
@@ -955,7 +955,7 @@ export class DeploymentSystemPure {
    * Deploy application
    */
   deployApplication(): DeploymentOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'deploy-application',
         status: 'error',

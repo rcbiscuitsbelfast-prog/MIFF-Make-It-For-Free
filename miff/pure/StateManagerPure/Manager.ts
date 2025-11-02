@@ -1008,7 +1008,7 @@ export class StateManagerPure {
    * Get manager by ID
    */
   getManager(): StateManagerOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',

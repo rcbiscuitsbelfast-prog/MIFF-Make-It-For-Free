@@ -1388,7 +1388,7 @@ export class GraphicsPure {
    * Get manager by ID
    */
   getManager(): GraphicsOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',

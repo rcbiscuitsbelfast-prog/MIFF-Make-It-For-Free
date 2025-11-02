@@ -1161,7 +1161,7 @@ export class NeuralNetworkPure {
    * Get manager by ID
    */
   getManager(): NeuralNetworkOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',
@@ -1180,7 +1180,7 @@ export class NeuralNetworkPure {
    * Create neural network model
    */
   createModel(): NeuralNetworkOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'create-model',
         status: 'error',

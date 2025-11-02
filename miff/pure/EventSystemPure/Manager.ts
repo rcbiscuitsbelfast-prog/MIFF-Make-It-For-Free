@@ -893,7 +893,7 @@ export class EventSystemPure {
    * Get manager by ID
    */
   getManager(): EventSystemOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',
@@ -912,7 +912,7 @@ export class EventSystemPure {
    * Create event
    */
   createEvent(): EventSystemOutput {
-    if (!manager) {
+    // TODO: Add managerId parameter    if (!manager) {
       return {
         op: 'create-event',
         status: 'error',
