@@ -231,20 +231,43 @@ export type CacheStrategy = 'memory' | 'redis' | 'file' | 'database';
 
 export class APIGatewayManager {
   
+  private logger: StructuredLogger;
   private performanceOptimizer: PerformanceOptimizer;
   private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
   private config: APIGatewayConfig;
   private gateways: Map<string, APIGateway> = new Map();
   private isInitialized: boolean = false;
-  private startTime: Date;
+  private startTime: number;
 
   constructor(config?: Partial<APIGatewayConfig>) {
     
-    this.performanceOptimizer = new PerformanceOptimizer({}, {});
-    this.memoryManager = new MemoryManager({});
-    this.errorHandler = new StandardErrorHandler({});
-    this.startTime = new Date();
+    this.logger = new StructuredLogger({ moduleName: 'APIGatewayManager' });
+    this.performanceOptimizer = new PerformanceOptimizer({
+      enableMemoryOptimization: true,
+      enableCPUOptimization: true,
+      enableNetworkOptimization: true,
+      enableCaching: true,
+      enableBatching: true,
+      enableCompression: true,
+      enableLazyLoading: true,
+      enableCodeSplitting: true,
+      enableTreeShaking: true,
+      enableMinification: true,
+      enableGarbageCollection: true,
+      enableResourcePooling: true,
+      enableLoadBalancing: true,
+      enableAsyncProcessing: true,
+      enableParallelProcessing: true,
+      enableStreamProcessing: true,
+      enableWorkerThreads: true,
+      enableServiceWorkers: true,
+      maxMemoryUsage: 1024,
+      targetFrameRate: 60
+    }, this.logger);
+    this.memoryManager = new MemoryManager({ maxMemoryMB: 512, enableGC: true, enableMonitoring: true });
+    this.errorHandler = new StandardErrorHandler({ enableLogging: true, enableReporting: true, enableRecovery: true });
+    this.startTime = Date.now();
 
     this.config = {
       enableRouting: true,
@@ -271,12 +294,12 @@ export class APIGatewayManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      logger.warn('API Gateway Manager already initialized');
+      this.this.logger.warn('API Gateway Manager already initialized');
       return;
     }
 
     try {
-      logger.info('Initializing API Gateway Manager');
+      this.this.logger.info('Initializing API Gateway Manager');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization ?? false) {
@@ -289,11 +312,11 @@ export class APIGatewayManager {
       }
 
       this.isInitialized = true;
-      logger.info('API Gateway Manager initialized successfully');
+      this.this.logger.info('API Gateway Manager initialized successfully');
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this.errorHandler.handleError(err, { context: 'APIGatewayManager.initialize' });
       throw error;
     }
   }
@@ -310,8 +333,8 @@ export class APIGatewayManager {
       const gateway: APIGateway = {
         ...gatewayData,
         id: this.generateGatewayId(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
         version: '1.0.0',
         analytics: {
           totalRequests: 0,
@@ -319,19 +342,19 @@ export class APIGatewayManager {
           failedRequests: 0,
           averageResponseTime: 0,
           peakConcurrency: 0,
-          lastUpdated: new Date()
+          lastUpdated: Date.now()
         }
       };
 
-      this.gateways.set(gateway.id, gateway);
+      this.gateways.set(gateway.id!, gateway);
       this.updateAnalytics();
 
-      logger.info('API Gateway created', { gatewayId: gateway.id, gatewayName: gateway.name });
+      this.logger.info('API Gateway created', { gatewayId: gateway.id, gatewayName: gateway.name });
       return gateway;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this.errorHandler.handleError(err, { context: 'APIGatewayManager.createGateway' });
       throw error;
     }
   }
@@ -358,26 +381,26 @@ export class APIGatewayManager {
     try {
       const gateway = this.gateways.get(gatewayId);
       if (!gateway) {
-        logger.warn('Gateway not found', { gatewayId });
+        this.logger.warn('Gateway not found', { gatewayId });
         return null;
       }
 
       const updatedGateway: APIGateway = {
         ...gateway,
         ...updates,
-        updatedAt: new Date(),
+        updatedAt: Date.now(),
         version: this.incrementVersion(gateway.version)
       };
 
       this.gateways.set(gatewayId, updatedGateway);
       this.updateAnalytics();
 
-      logger.info('API Gateway updated', { gatewayId, gatewayName: updatedGateway.name });
+      this.logger.info('API Gateway updated', { gatewayId, gatewayName: updatedGateway.name });
       return updatedGateway;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this.errorHandler.handleError(err, { context: 'APIGatewayManager.updateGateway' });
       throw error;
     }
   }
@@ -393,19 +416,19 @@ export class APIGatewayManager {
     try {
       const gateway = this.gateways.get(gatewayId);
       if (!gateway) {
-        logger.warn('Gateway not found for deletion', { gatewayId });
+        this.logger.warn('Gateway not found for deletion', { gatewayId });
         return false;
       }
 
       this.gateways.delete(gatewayId);
       this.updateAnalytics();
 
-      logger.info('API Gateway deleted', { gatewayId, gatewayName: gateway.name });
+      this.logger.info('API Gateway deleted', { gatewayId, gatewayName: gateway.name });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this.errorHandler.handleError(err, { context: 'APIGatewayManager.deleteGateway' });
       throw error;
     }
   }
@@ -454,21 +477,21 @@ export class APIGatewayManager {
     try {
       const gateway = this.gateways.get(gatewayId);
       if (!gateway) {
-        logger.warn('Gateway not found for request', { gatewayId });
+        this.logger.warn('Gateway not found for request', { gatewayId });
         return this.createErrorResponse(404, 'Gateway not found');
       }
 
       // Find matching route
       const route = this.findMatchingRoute(gateway, request);
       if (!route) {
-        logger.warn('No matching route found', { gatewayId, path: request.path, method: request.method });
+        this.logger.warn('No matching route found', { gatewayId, path: request.path, method: request.method });
         return this.createErrorResponse(404, 'Route not found');
       }
 
       // Apply policies
       const policyResult = await this.applyPolicies(gateway, route, request);
       if (!policyResult.allowed) {
-        logger.warn('Request blocked by policy', { gatewayId, policy: policyResult.policy });
+        this.logger.warn('Request blocked by policy', { gatewayId, policy: policyResult.policy });
         return this.createErrorResponse(403, 'Request blocked by policy');
       }
 
@@ -478,12 +501,12 @@ export class APIGatewayManager {
       // Update analytics
       this.updateGatewayAnalytics(gateway, request, response);
 
-      logger.debug('Request processed', { gatewayId, path: request.path, status: response?.status ?? 0 });
+      this.logger.debug('Request processed', { gatewayId, path: request.path, status: response?.status ?? 0 });
       return response;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      this.errorHandler.handleError(err, { context: 'APIGatewayManager.processRequest' });
       return this.createErrorResponse(500, 'Internal server error');
     }
   }
@@ -610,7 +633,7 @@ export class APIGatewayManager {
         failedRequests: gateway.analytics.failedRequests,
         averageResponseTime: gateway.analytics.averageResponseTime,
         peakConcurrency: gateway.analytics.peakConcurrency,
-        lastUpdated: new Date()
+        lastUpdated: Date.now()
       };
     }
   }
@@ -665,8 +688,8 @@ export class APIGatewayManager {
       gatewaysByStatus,
       totalRequests,
       successRate: totalRequests > 0 ? totalSuccessful / totalRequests : 0,
-      averageResponseTime: gateways.length > 0 ? totalResponseTime / length: 0,
-      uptime: new Date() - this.startTime.getTime()
+      averageResponseTime: gateways.length > 0 ? totalResponseTime / gateways.length : 0,
+      uptime: Date.now() - this.startTime
     };
   }
 
@@ -674,12 +697,12 @@ export class APIGatewayManager {
    * Destroy the API Gateway Manager
    */
   async destroy(): Promise<void> {
-    logger.info('Destroying API Gateway Manager');
+    this.logger.info('Destroying API Gateway Manager');
 
     this.gateways.clear();
     this.isInitialized = false;
 
-    logger.info('API Gateway Manager destroyed');
+    this.logger.info('API Gateway Manager destroyed');
   }
 }
 

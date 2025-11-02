@@ -154,7 +154,7 @@ export class AIProfileIntegrationLayer {
       reasoning: this.generateReasoning(profile, chosenAction, situation),
       confidence: chosenAction.confidence,
       alternatives,
-      timestamp: new Date()
+      timestamp: Date.now()
     };
 
     // Store decision for learning
@@ -391,7 +391,7 @@ export class AIProfileIntegrationLayer {
     return appliedBonuses;
   }
 
-  private analyzeSituation(gameState): string {
+  private analyzeSituation(gameState: any): string {
     // Analyze game state and return situation description
     const elements = [];
     
@@ -403,7 +403,7 @@ export class AIProfileIntegrationLayer {
     return elements.join('_') || 'neutral';
   }
 
-  private generateAvailableActions(gameState): AIAction[] {
+  private generateAvailableActions(gameState: any): AIAction[] {
     const actions: AIAction[] = [];
 
     // Generate basic actions based on game state

@@ -241,28 +241,32 @@ export class AdvancedAI {
         experiences: [],
         patterns: new Map(),
         preferences: new Map(),
-        lastUpdate: new Date()
+        lastUpdate: Date.now()
       };
       this.memories.set(aiId, memory);
     }
 
-    memory.experiences.push(experience);
-    memory.lastUpdate = Date.now();
+    if (memory) {
+      memory.experiences.push(experience);
+    }
+    if (memory) {
+      memory.lastUpdate = Date.now();
 
-    // Update patterns
-    const patternKey = `${experience.context.type}-${experience.action}`;
-    const currentCount = memory.patterns.get(patternKey) || 0;
-    memory.patterns.set(patternKey, currentCount + 1);
+      // Update patterns
+      const patternKey = `${experience.context.type}-${experience.action}`;
+      const currentCount = memory.patterns.get(patternKey) || 0;
+      memory.patterns.set(patternKey, currentCount + 1);
 
-    // Update preferences based on reward
-    const preferenceKey = experience.action;
-    const currentPreference = memory.preferences.get(preferenceKey) || 0;
-    const newPreference = currentPreference + (experience.reward * this.learningRate);
-    memory.preferences.set(preferenceKey, newPreference);
+      // Update preferences based on reward
+      const preferenceKey = experience.action;
+      const currentPreference = memory.preferences.get(preferenceKey) || 0;
+      const newPreference = currentPreference + (experience.reward * this.learningRate);
+      memory.preferences.set(preferenceKey, newPreference);
 
-    // Limit memory size
-    if (memory.experiences.length > 1000) {
-      memory.experiences = memory.experiences.slice(-500);
+      // Limit memory size
+      if (memory.experiences.length > 1000) {
+        memory.experiences = memory.experiences.slice(-500);
+      }
     }
   }
 

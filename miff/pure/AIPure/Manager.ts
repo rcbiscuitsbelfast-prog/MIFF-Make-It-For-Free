@@ -514,7 +514,7 @@ export class AIUtils {
     ];
   }
 
-  static createAdaptivePolicy(spirit): AIPolicy {
+  static createAdaptivePolicy(spirit: any): AIPolicy {
     const hpRatio = (spirit.currentHP || 1) / Math.max(1, spirit.maxHP || 1);
     const attack = spirit.attack || 0;
     const defense = spirit.defense || 0;
@@ -926,7 +926,7 @@ export class AIManager {
    * Register a policy
    */
   registerPolicy(policy: AIPolicy): boolean {
-    if (policy.validate({}).length > 0) return false;
+    if (policy.validate().length > 0) return false;
     this.policies.set(policy.policyId, policy);
     return true;
   }
@@ -971,7 +971,7 @@ export class AIManager {
     );
     updated.overrideRules = updates.overrideRules ?? existing.overrideRules;
 
-    if (updated.validate({}).length > 0) return false;
+    if (updated.validate().length > 0) return false;
     this.policies.set(updated.policyId, updated);
     return true;
   }
@@ -1040,7 +1040,7 @@ export class AIManager {
       options,
       selectedOption: options[0!] || 'none',
       confidence: 0.5,
-      timestamp: new Date()
+      timestamp: Date.now()
     };
 
     // Simple decision making logic
@@ -1200,7 +1200,7 @@ export class AIManager {
         trainingData.push({
           input,
           expectedOutput: output,
-          timestamp: new Date()
+          timestamp: Date.now()
         });
       }
     }
@@ -1223,7 +1223,7 @@ export class AIManager {
   /**
    * Extract features from battle state for neural network input
    */
-  private extractFeaturesFromBattleState(battleState): number[] {
+  private extractFeaturesFromBattleState(battleState: any): number[] {
     const features: number[] = [];
 
     if (battleState.playerSpirit) {
@@ -1260,7 +1260,7 @@ export class AIManager {
   /**
    * Extract output from battle result for neural network training
    */
-  private extractOutputFromBattleResult(result): number[] {
+  private extractOutputFromBattleResult(result: any): number[] {
     // Convert battle result to numerical representation
     // [player_health_ratio, opponent_health_ratio, battle_duration, victory_status]
     return [
@@ -1352,7 +1352,7 @@ export class AIManager {
       averageError,
       decisionAccuracy,
       processingTime: 0, // Would need to implement timing
-      timestamp: new Date()
+      timestamp: Date.now()
     };
   }
 }
@@ -1419,7 +1419,7 @@ export class AIPerformanceMonitor {
   /**
    * Log metrics if thresholds are exceeded
    */
-  private logMetricsIfNeeded(metrics): void {
+  private logMetricsIfNeeded(metrics: any): void {
     if (metrics.averageError > 0.5) {
       logger.warn('High average error detected', { averageError: metrics.averageError.toFixed(4) });
     }
