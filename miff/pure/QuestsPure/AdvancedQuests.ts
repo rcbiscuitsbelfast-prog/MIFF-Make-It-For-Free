@@ -5,7 +5,9 @@
  * complex branching, and procedural quest creation.
  */
 
-import { Quest, QuestStep, QuestReward, QuestStatus } from './index';
+import { Quest, QuestStep, QuestReward } from './index';
+
+type QuestStatus = 'available' | 'active' | 'completed' | 'failed' | 'abandoned';
 import { Logger } from '../shared/logging';
 
 const logger = Logger.create('AdvancedQuests');
@@ -234,7 +236,7 @@ export class AdvancedQuests {
     const context: QuestContext = {
       player,
       quest: {} as DynamicQuest,
-      timestamp: new Date()
+      timestamp: Date.now()
     };
 
     // Generate quest name and description
@@ -272,8 +274,8 @@ export class AdvancedQuests {
         seasonal: false
       },
       status: 'available',
-      createdAt: new Date(),
-      updatedAt: new Date()
+      createdAt: Date.now(),
+      updatedAt: Date.now()
     };
 
     this.dynamicQuests.set(quest.id, quest);
