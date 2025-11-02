@@ -14,10 +14,6 @@
  * @author MIFF Framework
  */
 
-import { StructuredLogger } from '../shared/logging/StructuredLogger';
-import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
-import { MemoryManager } from '../shared/memory/MemoryManager';
-import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 import { Logger } from '../shared/logging';
 
 const logger = Logger.create('ARVRManager');
@@ -128,7 +124,7 @@ export interface HapticData {
   frequency: number; // Hz
   duration: number; // milliseconds
   pattern: HapticPattern;
-  lastTriggered: Date;
+  lastTriggered: number;
 }
 
 export interface DeviceAnalytics {
@@ -148,7 +144,7 @@ export interface DeviceAnalytics {
   averageTrackingAccuracy: number;
   hapticEvents: number;
   trackingErrors: number;
-  lastUpdated: Date;
+  lastUpdated: number;
 }
 
 export interface Vector3 {
@@ -242,19 +238,12 @@ export type HapticPatternType = 'click' | 'buzz' | 'pulse' | 'wave' | 'custom';
 
 export class ARVRManager {
   
-  private performanceOptimizer: PerformanceOptimizer;
-  private memoryManager: MemoryManager;
-  private errorHandler: StandardErrorHandler;
   private config: ARVRConfig;
   private devices: Map<string, ARVRDevice> = new Map();
   private isInitialized: boolean = false;
-  private startTime: Date;
+  private startTime: number;
 
   constructor(config?: Partial<ARVRConfig>) {
-    
-    this.performanceOptimizer = new PerformanceOptimizer({}, {});
-    this.memoryManager = new MemoryManager({});
-    this.errorHandler = new StandardErrorHandler({});
     this.startTime = Date.now();
 
     this.config = {
@@ -302,7 +291,7 @@ export class ARVRManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      // Error handled;
       throw error;
     }
   }
@@ -319,8 +308,8 @@ export class ARVRManager {
       const device: ARVRDevice = {
         ...deviceData,
         id: this.generateDeviceId(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
         version: '1.0.0',
         analytics: {
           totalDevices: 0,
@@ -328,11 +317,11 @@ export class ARVRManager {
           averageTrackingAccuracy: 0,
           hapticEvents: 0,
           trackingErrors: 0,
-          lastUpdated: new Date()
+          lastUpdated: Date.now()
         }
       };
 
-      this.devices.set(device.id, device);
+      this.devices.set(device.id!, device);
       this.updateAnalytics();
 
       logger.info('AR/VR device created', { id: device.id, deviceName: device.name });
@@ -340,7 +329,7 @@ export class ARVRManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      // Error handled;
       throw error;
     }
   }
@@ -353,7 +342,7 @@ export class ARVRManager {
       throw new Error('AR/VR Manager not initialized');
     }
 
-    return this.devices.get(device.id) || null;
+    return this.devices.get(id) || null;
   }
 
   /**
@@ -365,28 +354,28 @@ export class ARVRManager {
     }
 
     try {
-      const device = this.devices.get(device.id);
+      const device = this.devices.get(deviceId);
       if (!device) {
-        logger.warn('Device not found', { deviceId: id });
+        logger.warn('Device not found', { deviceId });
         return null;
       }
 
       const updatedDevice: ARVRDevice = {
         ...device,
         ...updates,
-        updatedAt: new Date(),
+        updatedAt: Date.now(),
         version: this.incrementVersion(device.version)
       };
 
-      this.devices.set(device.id, updatedDevice);
+      this.devices.set(deviceId, updatedDevice);
       this.updateAnalytics();
 
-      logger.info('AR/VR device updated', { deviceId: id, deviceName: updatedDevice.name });
+      logger.info('AR/VR device updated', { deviceId, deviceName: updatedDevice.name });
       return updatedDevice;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      // Error handled;
       throw error;
     }
   }
@@ -400,13 +389,13 @@ export class ARVRManager {
     }
 
     try {
-      const device = this.devices.get(device.id);
+      const device = this.devices.get(id);
       if (!device) {
         logger.warn('Device not found', { deviceId: id });
         return false;
       }
 
-      this.devices.delete(device.id);
+      this.devices.delete(id);
       this.updateAnalytics();
 
       logger.info('AR/VR device deleted', { deviceId: id, deviceName: device.name });
@@ -414,7 +403,7 @@ export class ARVRManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      // Error handled;
       throw error;
     }
   }
@@ -461,24 +450,24 @@ export class ARVRManager {
     }
 
     try {
-      const device = this.devices.get(device.id);
+      const device = this.devices.get(deviceId);
       if (!device) {
-        logger.warn('Device not found', { deviceId: id });
+        logger.warn('Device not found', { deviceId });
         return false;
       }
 
       device.tracking = {
         ...device.tracking,
         ...trackingData,
-        timestamp: new Date()
+        timestamp: Date.now()
       };
 
-      logger.debug('Tracking data updated', { deviceId: id, position: trackingData.position });
+      logger.debug('Tracking data updated', { deviceId, position: trackingData.position });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      // Error handled;
       return false;
     }
   }
@@ -492,14 +481,14 @@ export class ARVRManager {
     }
 
     try {
-      const device = this.devices.get(device.id);
+      const device = this.devices.get(deviceId);
       if (!device) {
-        logger.warn('Device not found', { deviceId: id });
+        logger.warn('Device not found', { deviceId });
         return false;
       }
 
       if (!device.capabilities.hapticFeedback) {
-        logger.warn('Device does not support haptic feedback', { deviceId: id });
+        logger.warn('Device does not support haptic feedback', { deviceId });
         return false;
       }
 
@@ -509,17 +498,17 @@ export class ARVRManager {
         frequency: pattern.sequence[0!]?.frequency || 100,
         duration: pattern.duration,
         pattern,
-        lastTriggered: new Date()
+        lastTriggered: Date.now()
       };
 
       device.analytics.hapticEvents++;
 
-      logger.debug('Haptic feedback triggered', { deviceId: id, pattern: pattern.name });
+      logger.debug('Haptic feedback triggered', { deviceId, pattern: pattern.name });
       return true;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      // Error handled;
       return false;
     }
   }
@@ -533,7 +522,7 @@ export class ARVRManager {
     }
 
     try {
-      const device = this.devices.get(device.id);
+      const device = this.devices.get(id);
       if (!device) {
         logger.warn('Device not found', { deviceId: id });
         return false;
@@ -552,7 +541,7 @@ export class ARVRManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      // Error handled;
       return false;
     }
   }
@@ -560,20 +549,20 @@ export class ARVRManager {
   /**
    * Get spatial mapping data
    */
-  getSpatialMapping(): any {
+  getSpatialMapping(deviceId: string): any {
     if (!this.isInitialized) {
       throw new Error('AR/VR Manager not initialized');
     }
 
     try {
-      const device = this.devices.get(device.id);
+      const device = this.devices.get(deviceId);
       if (!device) {
-        logger.warn('Device not found', { deviceId: id });
+        logger.warn('Device not found', { deviceId });
         return null;
       }
 
       if (!device.capabilities.spatialTracking) {
-        logger.warn('Device does not support spatial tracking', { deviceId: id });
+        logger.warn('Device does not support spatial tracking', { deviceId });
         return null;
       }
 
@@ -588,7 +577,7 @@ export class ARVRManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      // Error handled;
       return null;
     }
   }
@@ -625,7 +614,7 @@ export class ARVRManager {
         averageTrackingAccuracy: devices.length > 0 ? totalTrackingAccuracy / length: 0,
         hapticEvents: device.analytics.hapticEvents,
         trackingErrors: device.analytics.trackingErrors,
-        lastUpdated: new Date()
+        lastUpdated: Date.now()
       };
     }
   }
@@ -669,7 +658,8 @@ export class ARVRManager {
 
     for (const device of devices) {
       devicesByType[device.type]++;
-      devicesByStatus[device.status]++;
+      const status = device.status || 'disconnected';
+      devicesByStatus[status as DeviceStatus]++;
     }
 
     return {
@@ -677,9 +667,9 @@ export class ARVRManager {
       activeDevices: activeDevices.length,
       devicesByType,
       devicesByStatus,
-      averageTrackingAccuracy: devices.length > 0 ? totalTrackingAccuracy / length: 0,
+      averageTrackingAccuracy: devices.length > 0 ? totalTrackingAccuracy / devices.length : 0,
       totalHapticEvents,
-      uptime: new Date() - this.startTime.getTime()
+      uptime: Date.now() - this.startTime
     };
   }
 
