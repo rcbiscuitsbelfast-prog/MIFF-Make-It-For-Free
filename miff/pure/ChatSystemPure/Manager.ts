@@ -12,10 +12,6 @@
  * @author MIFF Framework
  */
 
-import { StructuredLogger } from '../shared/logging/StructuredLogger';
-import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
-import { MemoryManager } from '../shared/memory/MemoryManager';
-import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface ChatSystemConfig {
   id?: string;
@@ -266,9 +262,6 @@ export type AttachmentType = 'image' | 'file' | 'video' | 'audio' | 'custom';
 
 export class ChatSystemManager {
   
-  private performanceOptimizer: PerformanceOptimizer;
-  private memoryManager: MemoryManager;
-  private errorHandler: StandardErrorHandler;
   private logger: StructuredLogger;
   private config: ChatSystemConfig;
   private systems: Map<string, ChatSystem> = new Map();
@@ -277,9 +270,6 @@ export class ChatSystemManager {
 
   constructor(config?: Partial<ChatSystemConfig>) {
     
-    this.performanceOptimizer = new PerformanceOptimizer({}, {});
-    this.memoryManager = new MemoryManager({});
-    this.errorHandler = new StandardErrorHandler({});
     this.logger = StructuredLogger.getInstance('ChatSystemManager');
     this.startTime = Date.now();
 
@@ -325,7 +315,7 @@ export class ChatSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       throw error;
     }
   }
@@ -365,7 +355,7 @@ export class ChatSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       throw error;
     }
   }
@@ -411,7 +401,7 @@ export class ChatSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       throw error;
     }
   }
@@ -439,7 +429,7 @@ export class ChatSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       throw error;
     }
   }
@@ -507,7 +497,7 @@ export class ChatSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return null;
     }
   }
@@ -541,7 +531,7 @@ export class ChatSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return false;
     }
   }
@@ -574,7 +564,7 @@ export class ChatSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return null;
     }
   }
@@ -608,7 +598,7 @@ export class ChatSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return false;
     }
   }
@@ -667,7 +657,7 @@ export class ChatSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return null;
     }
   }
@@ -699,7 +689,7 @@ export class ChatSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return [];
     }
   }
@@ -738,7 +728,7 @@ export class ChatSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return false;
     }
   }
@@ -778,7 +768,7 @@ export class ChatSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return false;
     }
   }

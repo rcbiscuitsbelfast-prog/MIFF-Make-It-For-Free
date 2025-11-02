@@ -12,10 +12,6 @@
  * @author MIFF Framework
  */
 
-import { StructuredLogger } from '../shared/logging/StructuredLogger';
-import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
-import { MemoryManager } from '../shared/memory/MemoryManager';
-import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface DataAnalysisConfig {
   id?: string;
@@ -321,9 +317,6 @@ export type ChartType = 'bar' | 'line' | 'pie' | 'scatter' | 'histogram' | 'cust
 
 export class DataAnalysisManager {
   
-  private performanceOptimizer: PerformanceOptimizer;
-  private memoryManager: MemoryManager;
-  private errorHandler: StandardErrorHandler;
   private config: DataAnalysisConfig;
   private systems: Map<string, DataAnalysis> = new Map();
   private isInitialized: boolean = false;
@@ -331,9 +324,6 @@ export class DataAnalysisManager {
 
   constructor(config?: Partial<DataAnalysisConfig>) {
     
-    this.performanceOptimizer = new PerformanceOptimizer({}, {});
-    this.memoryManager = new MemoryManager({});
-    this.errorHandler = new StandardErrorHandler({});
     this.startTime = Date.now();
 
     this.config = {
@@ -378,7 +368,7 @@ export class DataAnalysisManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       throw error;
     }
   }
@@ -418,7 +408,7 @@ export class DataAnalysisManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       throw error;
     }
   }
@@ -464,7 +454,7 @@ export class DataAnalysisManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       throw error;
     }
   }
@@ -492,7 +482,7 @@ export class DataAnalysisManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       throw error;
     }
   }
@@ -559,7 +549,7 @@ export class DataAnalysisManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return null;
     }
   }
@@ -593,7 +583,7 @@ export class DataAnalysisManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return false;
     }
   }
@@ -644,7 +634,7 @@ export class DataAnalysisManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      logger.errorError();
       return null;
     }
   }
@@ -696,7 +686,7 @@ export class DataAnalysisManager {
           analysis.results.errors.push(error.message);
         }
       }
-      this.errorHandler.handleError();
+      logger.errorError();
     }
   }
 
