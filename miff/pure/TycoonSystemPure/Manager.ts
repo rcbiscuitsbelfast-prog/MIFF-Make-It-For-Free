@@ -13,12 +13,16 @@
  * @author MIFF Framework
  */
 
-import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
-import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
-import { MemoryManager } from '../shared/memory/MemoryManager';
 import { Logger } from '../shared/logging';
 
 const logger = Logger.create('TycoonManager');
+
+export enum LogLevel {
+  DEBUG = 'debug',
+  INFO = 'info',
+  WARN = 'warn',
+  ERROR = 'error'
+}
 
 export enum BusinessType {
   RESTAURANT = 'restaurant',
@@ -306,7 +310,6 @@ export class TycoonSystemManager {
   private marketData: MarketData | null = null;
   private businessStats: BusinessStats | null = null;
   private integrations: Map<string, TycoonIntegration> = new Map();
-  private performanceOptimizer: PerformanceOptimizer;
   private managementInterval: NodeJS.Timeout | null = null;
   private isPaused: boolean = false;
 
@@ -324,29 +327,8 @@ export class TycoonSystemManager {
   }) {
     this.config = config;
 
-    // Initialize structured logging
-    this.logger = new StructuredLogger({
-      level: config.logLevel,
-      enableConsole: config.enableLogging,
-      performanceMonitoring: true,
-      modules: {
-        'TycoonSystemManager': LogLevel.DEBUG
-      }
-    });
-
-    // Initialize performance optimizer
-    this.performanceOptimizer = new PerformanceOptimizer({
-      enableOptimization: config.performanceMode === 'high',
-      enableMemoryOptimization: true,
-      enableCPUOptimization: true,
-      enableGPUOptimization: false,
-      enableNetworkOptimization: false
-    });
-
-    // Register with memory manager
     this.memoryId = `TycoonSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    MemoryManager.registerObject(this.memoryId, this, 'TycoonSystemManager');
-
+    
     this.initializeDefaultData();
     this.startManagement();
 
@@ -943,7 +925,6 @@ export class TycoonSystemManager {
    */
   public destroy(): void {
     this.stop();
-    MemoryManager.unregisterObject(this.memoryId);
     logger.info('TycoonSystemManager destroyed');
   }
 }

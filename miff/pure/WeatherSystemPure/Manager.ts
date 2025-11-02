@@ -12,12 +12,16 @@
  * @author MIFF Framework
  */
 
-import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
-import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
-import { MemoryManager } from '../shared/memory/MemoryManager';
 import { Logger } from '../shared/logging';
 
 const logger = Logger.create('WeatherManager');
+
+export enum LogLevel {
+  DEBUG = 'debug',
+  INFO = 'info',
+  WARN = 'warn',
+  ERROR = 'error'
+}
 
 export interface WeatherSystemConfig {
   id?: string;
@@ -249,7 +253,6 @@ export class WeatherSystemManager {
   private transitions: Map<string, WeatherTransition> = new Map();
   private forecasts: Map<string, WeatherForecast> = new Map();
   private effects: Map<string, WeatherEffect> = new Map();
-  private performanceOptimizer: PerformanceOptimizer;
   private updateInterval: NodeJS.Timeout | null = null;
   private transitionInterval: NodeJS.Timeout | null = null;
 
@@ -267,17 +270,8 @@ export class WeatherSystemManager {
     this.config = config;
 
     // Initialize structured logging
-    this.logger = new StructuredLogger({
-      level: config.logLevel,
-      enableConsole: config.enableLogging,
-      performanceMonitoring: true,
-      modules: {
-        'WeatherSystemManager': LogLevel.DEBUG
-      }
-    });
 
     // Initialize performance optimizer
-    this.performanceOptimizer = new PerformanceOptimizer({
       enableOptimization: true,
       enableMemoryOptimization: true,
       enableCPUOptimization: true,
@@ -287,7 +281,6 @@ export class WeatherSystemManager {
 
     // Register with memory manager
     this.memoryId = `WeatherSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    MemoryManager.registerObject(this.memoryId, this, 'WeatherSystemManager');
 
     logger.info('WeatherSystemManager initialized', {
       config: this.config,
@@ -767,7 +760,6 @@ export class WeatherSystemManager {
    */
   public destroy(): void {
     this.stop();
-    MemoryManager.unregisterObject(this.memoryId);
     logger.info('WeatherSystemManager destroyed');
   }
 }
