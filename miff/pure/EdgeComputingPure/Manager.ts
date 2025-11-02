@@ -1055,8 +1055,8 @@ export class EdgeComputingPure {
         lastUpdate: 0
       },
       metadata: {},
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
       ...managerData
     };
 
@@ -1228,7 +1228,7 @@ export class EdgeComputingPure {
         checksum: ''
       },
       progress: 0,
-      createdAt: new Date(),
+      createdAt: Date.now(),
       metadata: {},
       ...task
     };
