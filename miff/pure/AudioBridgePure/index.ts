@@ -1,5 +1,9 @@
 // AudioBridgePure - comprehensive audio command processing
 
+import { Logger } from '../shared/logging';
+
+const logger = Logger.create('AudioBridge');
+
 export type AudioCmd =
   | { op: 'play'; id: string; volume?: number; loop?: boolean; fadeIn?: number; channel?: string }
   | { op: 'playSpatial'; id: string; spatialConfig: SpatialAudioConfig; fadeIn?: number }
@@ -88,7 +92,7 @@ export class AudioManager {
         applied.push(cmd);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        issues.push(`Failed to process ${cmd.op}: ${error instanceof Error ? message: 'Unknown error'}`);
+        issues.push(`Failed to process ${cmd.op}: ${error instanceof Error ? err.message : 'Unknown error'}`);
       }
     }
 
@@ -379,7 +383,7 @@ export class AudioManager {
       frequencyData: new Float32Array(1024),
       timeData: new Float32Array(1024),
       sampleRate: 44100,
-      timestamp: new Date()
+      timestamp: Date.now()
     };
   }
 
@@ -400,8 +404,11 @@ export class AudioManager {
   }
 }
 
+// Default manager instance for backward compatibility
+const defaultManager = new AudioManager();
+
 // Legacy function for backward compatibility
 export function process(cmds: AudioCmd[]): AudioResult {
-  return manager.process(cmds);
+  return defaultManager.process(cmds);
 }
 

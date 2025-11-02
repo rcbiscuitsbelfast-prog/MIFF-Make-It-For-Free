@@ -8,6 +8,9 @@
  * Attribution: Crystal Space (LGPL) - FMOD plugin integration concepts
  */
 
+import { Logger } from '../shared/logging';
+const logger = Logger.create('AudioPure');
+
 export interface AudioConfig {
   sampleRate: number;
   channels: number;

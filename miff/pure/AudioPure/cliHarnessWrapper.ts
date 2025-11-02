@@ -7,6 +7,14 @@
 import { parseKeyValueArgs, handleSuccess, handleError } from '../shared/cliHarnessUtils';
 import { AudioManager, AudioClip } from './Manager';
 
+const manager = new AudioManager({
+  sampleRate: 44100,
+  channels: 2,
+  bufferSize: 4096,
+  maxSimultaneousSounds: 32,
+  spatialAudio: false
+});
+
 const { mode, params } = parseKeyValueArgs(process.argv);
 
 try {

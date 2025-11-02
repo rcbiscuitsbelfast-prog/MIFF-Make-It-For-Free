@@ -1,6 +1,9 @@
 // AudioPure - Comprehensive audio system for MIFF framework
 // Schema Version: v1
 
+
+import { Logger } from '../shared/logging';
+const logger = Logger.create('AudioPure');
 export enum AudioFormat {
   MP3 = 'mp3',
   WAV = 'wav',

@@ -644,28 +644,28 @@ export class AudioMixerPure {
       let effectNode: AudioNode | null = null;
 
       switch (effect.type) {
-        case REVERB:
+        case AudioEffectType.REVERB:
           effectNode = this.createReverbNode(effect.parameters);
           break;
-        case ECHO:
+        case AudioEffectType.ECHO:
           effectNode = this.createEchoNode(effect.parameters);
           break;
-        case DISTORTION:
+        case AudioEffectType.DISTORTION:
           effectNode = this.createDistortionNode(effect.parameters);
           break;
-        case EQUALIZER:
+        case AudioEffectType.EQUALIZER:
           effectNode = this.createEqualizerNode(effect.parameters);
           break;
-        case COMPRESSOR:
+        case AudioEffectType.COMPRESSOR:
           effectNode = this.createCompressorNode(effect.parameters);
           break;
-        case FILTER:
+        case AudioEffectType.FILTER:
           effectNode = this.createFilterNode(effect.parameters);
           break;
-        case CHORUS:
+        case AudioEffectType.CHORUS:
           effectNode = this.createChorusNode(effect.parameters);
           break;
-        case FLANGER:
+        case AudioEffectType.FLANGER:
           effectNode = this.createFlangerNode(effect.parameters);
           break;
       }
