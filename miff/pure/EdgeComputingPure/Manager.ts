@@ -1091,8 +1091,11 @@ export class EdgeComputingPure {
   /**
    * Add edge node
    */
-  addNode(): EdgeComputingOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+  addNode(managerId: string, node: Partial<EdgeNode>): EdgeComputingOutput {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'add-node',
         status: 'error',
