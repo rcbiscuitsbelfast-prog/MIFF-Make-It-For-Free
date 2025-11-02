@@ -269,17 +269,6 @@ export class WeatherSystemManager {
   }) {
     this.config = config;
 
-    // Initialize structured logging
-
-    // Initialize performance optimizer
-      enableOptimization: true,
-      enableMemoryOptimization: true,
-      enableCPUOptimization: true,
-      enableGPUOptimization: true,
-      enableNetworkOptimization: false
-    });
-
-    // Register with memory manager
     this.memoryId = `WeatherSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
     logger.info('WeatherSystemManager initialized', {
