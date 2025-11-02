@@ -929,8 +929,11 @@ export class RecommendationSystemPure {
   /**
    * Get manager by ID
    */
-  getManager(): RecommendationSystemOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+  getManager(managerId: string, data: any): RecommendationSystemOutput {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',
@@ -948,8 +951,11 @@ export class RecommendationSystemPure {
   /**
    * Create recommendation model
    */
-  createModel(): RecommendationSystemOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+  createModel(managerId: string, data: any): RecommendationSystemOutput {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'create-model',
         status: 'error',
@@ -1025,8 +1031,11 @@ export class RecommendationSystemPure {
   /**
    * Create user
    */
-  createUser(): RecommendationSystemOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+  createUser(managerId: string, data: any): RecommendationSystemOutput {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'create-user',
         status: 'error',
@@ -1099,8 +1108,11 @@ export class RecommendationSystemPure {
   /**
    * Create item
    */
-  createItem(): RecommendationSystemOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+  createItem(managerId: string, data: any): RecommendationSystemOutput {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'create-item',
         status: 'error',
@@ -1147,8 +1159,11 @@ export class RecommendationSystemPure {
   /**
    * Record interaction
    */
-  recordInteraction(): RecommendationSystemOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+  recordInteraction(managerId: string, data: any): RecommendationSystemOutput {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'record-interaction',
         status: 'error',
