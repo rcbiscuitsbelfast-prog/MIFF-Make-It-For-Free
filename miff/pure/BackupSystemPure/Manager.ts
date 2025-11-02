@@ -14,10 +14,6 @@
  * @author MIFF Framework
  */
 
-import { StructuredLogger } from '../shared/logging/StructuredLogger';
-import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
-import { MemoryManager } from '../shared/memory/MemoryManager';
-import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 import { Logger } from '../shared/logging';
 
 const logger = Logger.create('BackupManager');
@@ -90,7 +86,7 @@ export interface Backup {
   compressedSize: number; // bytes
   encryption: EncryptionConfig;
   schedule: string;
-  completedAt?: Date;
+  completedAt?: number;
 }
 
 export interface BackupSchedule {
@@ -110,8 +106,8 @@ export interface BackupSchedule {
   time: string; // HH:MM format
   days: number[]; // 0-6 (Sunday-Saturday)
   enabled: boolean;
-  lastRun?: Date;
-  nextRun?: Date;
+  lastRun?: number;
+  nextRun?: number;
 }
 
 export interface BackupPolicy {
@@ -403,8 +399,8 @@ export interface SystemAnalytics {
   totalSize: number; // bytes
   compressedSize: number; // bytes
   averageBackupTime: number; // seconds
-  lastBackup?: Date;
-  lastUpdated: Date;
+  lastBackup?: number;
+  lastUpdated: number;
 }
 
 export type SystemType = 'local' | 'cloud' | 'hybrid' | 'custom';
@@ -424,19 +420,12 @@ export type FilterType = 'include' | 'exclude' | 'regex' | 'extension';
 
 export class BackupSystemManager {
   
-  private performanceOptimizer: PerformanceOptimizer;
-  private memoryManager: MemoryManager;
-  private errorHandler: StandardErrorHandler;
   private config: BackupSystemConfig;
   private systems: Map<string, BackupSystem> = new Map();
   private isInitialized: boolean = false;
-  private startTime: Date;
+  private startTime: number;
 
   constructor(config?: Partial<BackupSystemConfig>) {
-    
-    this.performanceOptimizer = new PerformanceOptimizer({}, {});
-    this.memoryManager = new MemoryManager({});
-    this.errorHandler = new StandardErrorHandler({});
     this.startTime = Date.now();
 
     this.config = {
@@ -470,7 +459,7 @@ export class BackupSystemManager {
       logger.info('Initializing Backup System Manager');
 
       // Initialize performance optimizer
-      if (this.config.enablePerformanceOptimization ?? false ?? false) {
+      if (false) {
         // PerformanceOptimizer does not require initialization
       }
 
@@ -484,7 +473,7 @@ export class BackupSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      // Error handled;
       throw error;
     }
   }
@@ -501,8 +490,8 @@ export class BackupSystemManager {
       const system: BackupSystem = {
         ...systemData,
         id: this.generateSystemId(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
         version: '1.0.0',
         analytics: {
           totalBackups: 0,
@@ -511,11 +500,11 @@ export class BackupSystemManager {
           totalSize: 0,
           compressedSize: 0,
           averageBackupTime: 0,
-          lastUpdated: new Date()
+          lastUpdated: Date.now()
         }
       };
 
-      this.systems.set(system.id, system);
+      this.systems.set(system.id!, system);
       this.updateAnalytics();
 
       logger.info('Backup system created', { systemId: system.id, systemName: system.name });
@@ -523,7 +512,7 @@ export class BackupSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      // Error handled;
       throw error;
     }
   }
@@ -557,7 +546,7 @@ export class BackupSystemManager {
       const updatedSystem: BackupSystem = {
         ...system,
         ...updates,
-        updatedAt: new Date(),
+        updatedAt: Date.now(),
         version: this.incrementVersion(system.version)
       };
 
@@ -569,7 +558,7 @@ export class BackupSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      // Error handled;
       throw error;
     }
   }
@@ -597,7 +586,7 @@ export class BackupSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      // Error handled;
       throw error;
     }
   }
@@ -653,7 +642,7 @@ export class BackupSystemManager {
       const backup: Backup = {
         ...backupData,
         id: this.generateBackupId(),
-        createdAt: new Date()
+        createdAt: Date.now()
       };
 
       system.backups.push(backup);
@@ -664,7 +653,7 @@ export class BackupSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      // Error handled;
       return null;
     }
   }
@@ -705,7 +694,7 @@ export class BackupSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      // Error handled;
       const system = this.systems.get(systemId);
       if (system) {
         const backup = system.backups.find(b => b.id === backupId);
@@ -753,7 +742,7 @@ export class BackupSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      // Error handled;
       return false;
     }
   }
@@ -784,7 +773,7 @@ export class BackupSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      // Error handled;
       return null;
     }
   }
@@ -815,7 +804,7 @@ export class BackupSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
+      // Error handled;
       return null;
     }
   }
@@ -897,8 +886,8 @@ export class BackupSystemManager {
         compressedSize: system.backups.reduce((sum: any, b: any) => sum + b.compressedSize, 0),
         averageBackupTime: 0, // Would be calculated from actual backup times
         lastBackup: system.backups.length > 0 ? 
-          system.backups.sort((a: any, b: any) => b.createdAt.getTime() - a.createdAt.getTime())[0!].createdAt : undefined,
-        lastUpdated: new Date()
+          system.backups.sort((a: any, b: any) => b.createdAt - a.createdAt)[0!].createdAt : undefined,
+        lastUpdated: Date.now()
       };
     }
   }
@@ -946,7 +935,8 @@ export class BackupSystemManager {
 
     for (const system of systems) {
       systemsByType[system.type]++;
-      systemsByStatus[system.status]++;
+      const status = system.status || 'inactive';
+      systemsByStatus[status as SystemStatus]++;
     }
 
     return {
@@ -959,7 +949,7 @@ export class BackupSystemManager {
       failedBackups,
       totalSize,
       compressedSize,
-      uptime: new Date() - this.startTime.getTime()
+      uptime: Date.now() - this.startTime
     };
   }
 
