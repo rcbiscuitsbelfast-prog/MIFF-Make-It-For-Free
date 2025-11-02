@@ -643,8 +643,8 @@ export class SpeechRecognitionPure {
         lastUpdate: 0
       },
       metadata: {},
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
       ...managerData
     };
 
@@ -702,7 +702,7 @@ export class SpeechRecognitionPure {
       modelId,
       language,
       status: 'active',
-      startTime: new Date(),
+      startTime: Date.now(),
       duration: 0,
       audioData: {
         format: 'wav',
