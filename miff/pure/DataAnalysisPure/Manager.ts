@@ -368,7 +368,7 @@ export class DataAnalysisManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error();
+      logger.error("Error occurred");
       throw error;
     }
   }
@@ -408,7 +408,7 @@ export class DataAnalysisManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error();
+      logger.error("Error occurred");
       throw error;
     }
   }
@@ -454,7 +454,7 @@ export class DataAnalysisManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error();
+      logger.error("Error occurred");
       throw error;
     }
   }
@@ -482,7 +482,7 @@ export class DataAnalysisManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error();
+      logger.error("Error occurred");
       throw error;
     }
   }
@@ -549,7 +549,7 @@ export class DataAnalysisManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error();
+      logger.error("Error occurred");
       return null;
     }
   }
@@ -583,7 +583,7 @@ export class DataAnalysisManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error();
+      logger.error("Error occurred");
       return false;
     }
   }
@@ -634,7 +634,7 @@ export class DataAnalysisManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error();
+      logger.error("Error occurred");
       return null;
     }
   }
@@ -686,7 +686,7 @@ export class DataAnalysisManager {
           analysis.results.errors.push(error.message);
         }
       }
-      logger.error();
+      logger.error("Error occurred");
     }
   }
 

@@ -256,7 +256,7 @@ export class ContentManagementManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error();
+      logger.error("Error occurred");
       throw error;
     }
   }
@@ -296,7 +296,7 @@ export class ContentManagementManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error();
+      logger.error("Error occurred");
       throw error;
     }
   }
@@ -342,7 +342,7 @@ export class ContentManagementManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error();
+      logger.error("Error occurred");
       throw error;
     }
   }
@@ -370,7 +370,7 @@ export class ContentManagementManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error();
+      logger.error("Error occurred");
       throw error;
     }
   }
@@ -438,7 +438,7 @@ export class ContentManagementManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error();
+      logger.error("Error occurred");
       return null;
     }
   }
@@ -472,7 +472,7 @@ export class ContentManagementManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error();
+      logger.error("Error occurred");
       return false;
     }
   }
@@ -514,7 +514,7 @@ export class ContentManagementManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error();
+      logger.error("Error occurred");
       return null;
     }
   }
@@ -550,7 +550,7 @@ export class ContentManagementManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error();
+      logger.error("Error occurred");
       return false;
     }
   }
@@ -585,7 +585,7 @@ export class ContentManagementManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error();
+      logger.error("Error occurred");
       return false;
     }
   }
@@ -652,7 +652,7 @@ export class ContentManagementManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error();
+      logger.error("Error occurred");
       return [];
     }
   }
@@ -687,7 +687,7 @@ export class ContentManagementManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error();
+      logger.error("Error occurred");
       return null;
     }
   }
@@ -721,7 +721,7 @@ export class ContentManagementManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error();
+      logger.error("Error occurred");
       return null;
     }
   }
@@ -745,7 +745,7 @@ export class ContentManagementManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error();
+      logger.error("Error occurred");
       return null;
     }
   }
@@ -769,7 +769,7 @@ export class ContentManagementManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error();
+      logger.error("Error occurred");
       return [];
     }
   }

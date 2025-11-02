@@ -498,7 +498,7 @@ export class DataProcessingManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error();
+      logger.error("Error occurred");
       throw error;
     }
   }
@@ -538,7 +538,7 @@ export class DataProcessingManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error();
+      logger.error("Error occurred");
       throw error;
     }
   }
@@ -584,7 +584,7 @@ export class DataProcessingManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error();
+      logger.error("Error occurred");
       throw error;
     }
   }
@@ -612,7 +612,7 @@ export class DataProcessingManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error();
+      logger.error("Error occurred");
       throw error;
     }
   }
@@ -678,7 +678,7 @@ export class DataProcessingManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error();
+      logger.error("Error occurred");
       return null;
     }
   }
@@ -712,7 +712,7 @@ export class DataProcessingManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error();
+      logger.error("Error occurred");
       return false;
     }
   }
@@ -754,7 +754,7 @@ export class DataProcessingManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error();
+      logger.error("Error occurred");
       return false;
     }
   }
@@ -793,7 +793,7 @@ export class DataProcessingManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error();
+      logger.error("Error occurred");
       return false;
     }
   }
@@ -830,7 +830,7 @@ export class DataProcessingManager {
           pipeline.status = 'error';
         }
       }
-      logger.error();
+      logger.error("Error occurred");
     }
   }
 
@@ -872,7 +872,7 @@ export class DataProcessingManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error();
+      logger.error("Error occurred");
       throw error;
     }
   }
@@ -953,7 +953,7 @@ export class DataProcessingManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error();
+      logger.error("Error occurred");
       return null;
     }
   }
@@ -986,7 +986,7 @@ export class DataProcessingManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error();
+      logger.error("Error occurred");
       return null;
     }
   }
