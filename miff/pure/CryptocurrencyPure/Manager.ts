@@ -589,8 +589,11 @@ export class CryptocurrencyPure {
   /**
    * Get manager by ID
    */
-  getManager(): CryptocurrencyOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+  getManager(managerId: string, data: any): CryptocurrencyOutput {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',
@@ -608,8 +611,11 @@ export class CryptocurrencyPure {
   /**
    * Create wallet
    */
-  createWallet(): CryptocurrencyOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+  createWallet(managerId: string, data: any): CryptocurrencyOutput {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'create-wallet',
         status: 'error',
@@ -654,8 +660,11 @@ export class CryptocurrencyPure {
   /**
    * Send transaction
    */
-  sendTransaction(): CryptocurrencyOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+  sendTransaction(managerId: string, data: any): CryptocurrencyOutput {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'send-transaction',
         status: 'error',
@@ -724,8 +733,11 @@ export class CryptocurrencyPure {
   /**
    * Create portfolio
    */
-  createPortfolio(): CryptocurrencyOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+  createPortfolio(managerId: string, data: any): CryptocurrencyOutput {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'create-portfolio',
         status: 'error',

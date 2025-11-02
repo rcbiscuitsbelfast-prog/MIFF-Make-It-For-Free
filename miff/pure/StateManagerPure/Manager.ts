@@ -1007,8 +1007,11 @@ export class StateManagerPure {
   /**
    * Get manager by ID
    */
-  getManager(): StateManagerOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+  getManager(managerId: string, data: any): StateManagerOutput {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',

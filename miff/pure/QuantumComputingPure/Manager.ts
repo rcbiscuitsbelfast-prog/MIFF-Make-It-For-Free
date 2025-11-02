@@ -1477,8 +1477,11 @@ export class QuantumComputingPure {
   /**
    * Get manager by ID
    */
-  getManager(): QuantumComputingOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+  getManager(managerId: string, data: any): QuantumComputingOutput {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',

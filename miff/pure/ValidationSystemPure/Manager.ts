@@ -959,8 +959,11 @@ export class ValidationSystemPure {
   /**
    * Get manager by ID
    */
-  getManager(): ValidationSystemOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+  getManager(managerId: string, data: any): ValidationSystemOutput {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',

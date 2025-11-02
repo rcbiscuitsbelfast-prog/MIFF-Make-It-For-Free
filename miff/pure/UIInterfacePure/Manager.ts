@@ -1294,8 +1294,11 @@ export class UIInterfacePure {
   /**
    * Get manager by ID
    */
-  getManager(): UIInterfaceOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+  getManager(managerId: string, data: any): UIInterfaceOutput {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',
@@ -1313,8 +1316,11 @@ export class UIInterfacePure {
   /**
    * Create UI component
    */
-  createComponent(): UIInterfaceOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+  createComponent(managerId: string, data: any): UIInterfaceOutput {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'create-component',
         status: 'error',
@@ -1468,8 +1474,11 @@ export class UIInterfacePure {
   /**
    * Create UI layout
    */
-  createLayout(): UIInterfaceOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+  createLayout(managerId: string, data: any): UIInterfaceOutput {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'create-layout',
         status: 'error',

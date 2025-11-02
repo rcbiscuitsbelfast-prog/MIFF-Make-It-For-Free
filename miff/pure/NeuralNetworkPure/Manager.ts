@@ -1160,8 +1160,11 @@ export class NeuralNetworkPure {
   /**
    * Get manager by ID
    */
-  getManager(): NeuralNetworkOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+  getManager(managerId: string, data: any): NeuralNetworkOutput {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',
@@ -1179,8 +1182,11 @@ export class NeuralNetworkPure {
   /**
    * Create neural network model
    */
-  createModel(): NeuralNetworkOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+  createModel(managerId: string, data: any): NeuralNetworkOutput {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'create-model',
         status: 'error',

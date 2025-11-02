@@ -2006,8 +2006,11 @@ export class ServiceDiscoveryPure {
   /**
    * Get manager by ID
    */
-  getManager(): ServiceDiscoveryOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+  getManager(managerId: string, data: any): ServiceDiscoveryOutput {
+
+    const manager = this.managers.get(managerId);
+
+    if (!manager) {
       return {
         op: 'get-manager',
         status: 'error',
