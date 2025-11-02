@@ -1252,8 +1252,9 @@ export class EdgeComputingPure {
   /**
    * Execute task
    */
-  executeTask(): EdgeComputingOutput {
-    // TODO: Add managerId parameter    if (!manager) {
+  executeTask(managerId: string, taskId: string): EdgeComputingOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
       return {
         op: 'execute-task',
         status: 'error',
