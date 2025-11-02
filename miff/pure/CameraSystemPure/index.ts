@@ -766,12 +766,12 @@ export class CameraSystemPure {
   createCamera(cameraId: string, targetEntity?: string): CameraInstance | null {
     const definition = this.cameraDefinitions.get(cameraId);
     if (!definition) {
-      StructuredLogger.warn('Camera definition not found', { cameraId }, 'CameraSystemPure');
+      logger.warn('Camera definition not found', { cameraId }, 'CameraSystemPure');
       return null;
     }
 
     if (this.activeCameras.size >= this.config.maxActiveCameras) {
-      StructuredLogger.warn('Maximum active cameras reached', { max: this.config.maxActiveCameras, current: this.activeCameras.size }, 'CameraSystemPure');
+      logger.warn('Maximum active cameras reached', { max: this.config.maxActiveCameras, current: this.activeCameras.size }, 'CameraSystemPure');
       return null;
     }
 
@@ -825,7 +825,7 @@ export class CameraSystemPure {
       targetEntity
     });
 
-    StructuredLogger.info('Camera created', { cameraName: definition.name, cameraId: instance.id }, 'CameraSystemPure');
+    logger.info('Camera created', { cameraName: definition.name, cameraId: instance.id }, 'CameraSystemPure');
     return instance;
   }
 
