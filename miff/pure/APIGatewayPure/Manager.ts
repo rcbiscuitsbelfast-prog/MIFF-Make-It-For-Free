@@ -543,7 +543,7 @@ export class APIGatewayManager {
   private updateGatewayAnalytics(gateway: APIGateway, request: APIRequest, response: APIResponse): void {
     gateway.analytics.totalRequests++;
     
-    if (response?.status ?? 0 >= 200 && response?.status ?? 0 < 300) {
+    if ((response?.status ?? 0) >= 200 && (response?.status ?? 0) < 300) {
       gateway.analytics.successfulRequests++;
     } else {
       gateway.analytics.failedRequests++;
