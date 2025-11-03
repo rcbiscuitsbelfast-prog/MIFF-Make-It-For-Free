@@ -1,75 +1,22 @@
-/**
- * Capability definition for EventSystemPure
- * Generated automatically by CapabilityGenerator
- */
+export class capabilities {
+  id = 'eventsystem';
+  name = 'EventSystemPure';
+  description = 'EventSystem module providing core functionality';
+  version = '1.0.0';
+  type: 'core' | 'extension' = 'core';
+  category = 'general';
+  tags = ['miff', 'module', 'manager', 'eventsystem'];
+  dependencies = ['core-manager', 'core-logging'];
+  interfaces: string[] = [];
+  status: 'active' | 'inactive' = 'active';
+  createdAt: Date = new Date('2025-10-12T10:07:58.169Z');
+  updatedAt: Date = new Date('2025-10-12T10:07:58.169Z');
 
-export const eventsystemCapability = {
-  "id": "eventsystem",
-  "name": "EventSystemPure",
-  "description": "EventSystem module providing core functionality",
-  "version": "1.0.0",
-  "type": "core",
-  "category": "general",
-  "tags": [
-    "miff",
-    "module",
-    "manager",
-    "eventsystem"
-  ],
-  "dependencies": [
-    "core-manager",
-    "core-logging"
-  ],
-  "interfaces": [],
-  "methods": [
-    {
-      "name": "initialize",
-      "description": "Initialize the module manager",
-      "parameters": [],
-      "returnType": "Promise<void>",
-      "isAsync": true,
-      "isPublic": true,
-      "examples": [
-        "await manager.initialize();"
-      ]
-    },
-    {
-      "name": "destroy",
-      "description": "Destroy the module manager",
-      "parameters": [],
-      "returnType": "Promise<void>",
-      "isAsync": true,
-      "isPublic": true,
-      "examples": [
-        "await manager.destroy();"
-      ]
+  constructor(init?: Partial<capabilities>) {
+    if (init) {
+      Object.assign(this, init);
     }
-  ],
-  "properties": [
-    {
-      "name": "isInitialized",
-      "type": "boolean",
-      "description": "Whether the module is initialized",
-      "readOnly": true,
-      "defaultValue": false
-    }
-  ],
-  "events": [
-    {
-      "name": "moduleReady",
-      "description": "Module is ready for use",
-      "payload": "ModuleInfo",
-      "isAsync": true
-    }
-  ],
-  "metadata": {
-    "hasManager": true,
-    "hasCLI": false,
-    "hasIndex": false
-  },
-  "status": "active",
-  "createdAt": "2025-10-12T10:07:58.169Z",
-  "updatedAt": "2025-10-12T10:07:58.169Z"
-};
+  }
+}
 
-export default eventsystemCapability;
+export default capabilities;

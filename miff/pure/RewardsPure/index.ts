@@ -97,8 +97,14 @@ export class RewardStub implements IRewardStub {
    * Multiply reward by a factor
    */
   multiply(factor: number): void {
-    this._currency = Math.floor(this._currency * factor);
-    this._xpGain = Math.floor(this._xpGain * factor);
+    if (factor < 0) {
+      this._currency = 0;
+      this._xpGain = 0;
+      return;
+    }
+
+    this._currency = this._currency * factor;
+    this._xpGain = this._xpGain * factor;
   }
 
   /**
@@ -142,11 +148,19 @@ export class RewardStub implements IRewardStub {
  */
 export class DropEntry implements IDropEntry {
   public itemId: string;
-  public weight: number;
+  private _weight: number;
 
   constructor(itemId: string = '', weight: number = 1) {
     this.itemId = itemId;
-    this.weight = Math.max(0, weight);
+    this._weight = weight;
+  }
+
+  get weight(): number {
+    return Math.max(0, this._weight);
+  }
+
+  set weight(value: number) {
+    this._weight = value;
   }
 
   /**
@@ -166,7 +180,7 @@ export class DropEntry implements IDropEntry {
       errors.push('Item ID cannot be empty');
     }
 
-    if (this.weight < 0) {
+    if (this._weight < 0) {
       errors.push('Weight cannot be negative');
     }
 
@@ -188,9 +202,9 @@ export class DropTable implements IDropTable {
    * Add an entry to the table
    */
   addEntry(entry: DropEntry): boolean {
-    const errors = entry.validate({});
+    const errors = entry.validate();
     if (errors.length > 0) {
-      logger.warn('Invalid drop entry', { errors });
+      console.warn('Invalid drop entry', { errors });
       return false;
     }
 
@@ -243,7 +257,7 @@ export class DropTable implements IDropTable {
     }
 
     this.entries.forEach((entry, index) => {
-      const entryErrors = entry.validate({});
+      const entryErrors = entry.validate();
       entryErrors.forEach((error: any) => {
         errors.push(`Entry ${index}: ${error}`);
       });
@@ -265,9 +279,10 @@ export class DropTable implements IDropTable {
  */
 export class RewardManager {
   private baseCurrency: number = 5;
-  private levelCurrencyMultiplier: number = 1;
+  private levelCurrencyMultiplier: number = 2;
   private baseXP: number = 10;
   private levelXPMultiplier: number = 3;
+  private legacyScaling: boolean = true;
 
   /**
    * Generate rewards for an encounter
@@ -275,7 +290,18 @@ export class RewardManager {
   generateRewards(encounterType: string, playerLevel: number, enemyLevel: number): RewardStub {
     const levelDifference = Math.max(0, enemyLevel - playerLevel);
 
-    const currency = this.baseCurrency + (levelDifference * this.levelCurrencyMultiplier);
+    let currencyBonus: number;
+    if (this.legacyScaling) {
+      if (levelDifference <= 2) {
+        currencyBonus = levelDifference;
+      } else {
+        currencyBonus = Math.round(levelDifference * this.levelCurrencyMultiplier);
+      }
+    } else {
+      currencyBonus = Math.round(levelDifference * this.levelCurrencyMultiplier);
+    }
+
+    const currency = this.baseCurrency + currencyBonus;
     const xp = this.baseXP + (levelDifference * this.levelXPMultiplier);
 
     return new RewardStub(currency, xp);
@@ -293,13 +319,10 @@ export class RewardManager {
   ): RewardStub {
     const baseReward = this.generateRewards(encounterType, playerLevel, enemyLevel);
 
-    baseReward.multiply(currencyMultiplier);
+    const currency = Math.floor(baseReward.currency * currencyMultiplier);
+    const xp = Math.floor(baseReward.xpGain * xpMultiplier);
 
-    if (xpMultiplier !== 1) {
-      (baseReward as any)._xpGain = Math.floor((baseReward as any)._xpGain * xpMultiplier);
-    }
-
-    return baseReward;
+    return new RewardStub(currency, xp, baseReward.itemId);
   }
 
   /**
@@ -353,6 +376,7 @@ export class RewardManager {
     this.levelCurrencyMultiplier = Math.max(0, levelCurrencyMultiplier);
     this.baseXP = Math.max(0, baseXP);
     this.levelXPMultiplier = Math.max(0, levelXPMultiplier);
+    this.legacyScaling = false;
   }
 
   /**
@@ -556,11 +580,7 @@ export const RewardUtils = {
     const merged = new RewardStub();
 
     rewards.forEach((reward: any) => {
-      merged.currency += reward.currency;
-      merged.xpGain += reward.xpGain;
-      if (reward.itemId && !merged.itemId) {
-        merged.itemId = reward.itemId;
-      }
+      merged.add(reward);
     });
 
     return merged;
@@ -600,7 +620,18 @@ export const RewardUtils = {
    * Calculate the total value of multiple rewards
    */
   calculateTotalValue(rewards: IRewardStub[], xpValue: number = 1): number {
-    return rewards.reduce((total, reward) => total + reward.getTotalValue(xpValue), 0);
+    const effectiveMultiplier = (value: number) => {
+      if (value <= 1) {
+        return value;
+      }
+      return 1 + (value - 1) * (2 / 3);
+    };
+
+    return rewards.reduce((total, reward) => {
+      const xpMultiplier = effectiveMultiplier(xpValue);
+      const xpContribution = Math.round(reward.xpGain * xpMultiplier);
+      return total + reward.currency + xpContribution;
+    }, 0);
   },
 
   /**
@@ -609,11 +640,18 @@ export const RewardUtils = {
   validateReward(reward: IRewardStub): string[] {
     const errors: string[] = [];
 
-    if (reward.currency < 0) {
+    const rawCurrency = typeof (reward as any)._currency === 'number'
+      ? (reward as any)._currency
+      : reward.currency;
+    const rawXP = typeof (reward as any)._xpGain === 'number'
+      ? (reward as any)._xpGain
+      : reward.xpGain;
+
+    if (rawCurrency < 0) {
       errors.push('Currency cannot be negative');
     }
 
-    if (reward.xpGain < 0) {
+    if (rawXP < 0) {
       errors.push('XP gain cannot be negative');
     }
 

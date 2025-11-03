@@ -93,7 +93,7 @@ export interface IChallengeRuleset {
   bannedItems: string[];
   environmentTag?: string;
   isCompliant(partySpiritTypes: string[], items: string[]): boolean;
-  validate(): string[];
+  validate(context?: unknown): string[];
   getDescription(): string;
   clone(): IChallengeRuleset;
 }
@@ -170,7 +170,7 @@ export interface IBattleChallenge {
   priority: number;
   tags: string[];
   isAvailable(playerContext: IPlayerContext): boolean;
-  validate(): string[];
+  validate(context?: Partial<IPlayerContext>): string[];
   getEstimatedDuration(): number;
   hasAnyTag(tags: string[]): boolean;
   getCompletionPercentage(): number;
@@ -419,9 +419,9 @@ export class BattleChallenge implements IBattleChallenge {
    * Check if challenge is available
    */
   isAvailable(playerContext: IPlayerContext): boolean {
-    // Check required flags
-    for (const flag of this.requiredFlags) {
-      if (!playerContext.hasQuestFlag(flag) && !playerContext.hasLoreFlag(flag)) {
+    // Check required flags and contextual requirements
+    for (const requirement of this.requiredFlags) {
+      if (!this.meetsRequirement(requirement, playerContext)) {
         return false;
       }
     }
@@ -453,10 +453,15 @@ export class BattleChallenge implements IBattleChallenge {
     // Adjust for opponent count
     const opponentMultiplier = Math.max(1, this.opponentTeam.length * 0.5);
 
-    // Adjust for turn limit
-    const turnLimit = this.maxTurns > 0 ? this.maxTurns / 10 : 1;
+    // Adjust for turn limit using discrete tiers
+    let turnMultiplier = 1;
+    if (this.maxTurns > 0 && this.maxTurns <= 10) {
+      turnMultiplier = 0.5;
+    } else if (this.maxTurns > 30) {
+      turnMultiplier = Math.min(2, Math.round((this.maxTurns / 25) * 10) / 10);
+    }
 
-    return Math.round(baseDuration * opponentMultiplier * turnLimit);
+    return Math.round(baseDuration * opponentMultiplier * turnMultiplier);
   }
 
   /**
@@ -466,13 +471,13 @@ export class BattleChallenge implements IBattleChallenge {
     // This would be calculated based on actual progress
     // For now, return 0 for locked, 50 for available, 100 for completed
     switch (this.status) {
-      case LOCKED:
+      case ChallengeStatus.LOCKED:
         return 0;
-      case AVAILABLE:
+      case ChallengeStatus.AVAILABLE:
         return 50;
-      case IN_PROGRESS:
+      case ChallengeStatus.IN_PROGRESS:
         return 75;
-      case COMPLETED:
+      case ChallengeStatus.COMPLETED:
         return 100;
       default:
         return 0;
@@ -482,7 +487,7 @@ export class BattleChallenge implements IBattleChallenge {
   /**
    * Validate challenge
    */
-  validate(): string[] {
+  validate(_context?: Partial<IPlayerContext>): string[] {
     const errors: string[] = [];
 
     if (!this.challengeId || this.challengeId.trim() === '') {
@@ -509,8 +514,8 @@ export class BattleChallenge implements IBattleChallenge {
       errors.push('Max turns cannot be negative');
     }
 
-    const rulesetErrors = this.ruleset.validate({});
-    errors.push(...rulesetErrors.map((error: any) => `Ruleset: ${error}`));
+    const rulesetErrors = this.ruleset.validate();
+    errors.push(...rulesetErrors);
 
     return errors;
   }
@@ -654,10 +659,66 @@ export class BattleChallenge implements IBattleChallenge {
    */
   getRewardDescription(): string {
     const rewards = Object.entries(this.rewards)
-      .map(([item, amount]) => `${amount} ${item}`)
+      .map(([item, amount]) => `${item}: ${amount}`)
       .join(', ');
 
     return rewards || 'No rewards';
+  }
+
+  private meetsRequirement(requirement: string, playerContext: IPlayerContext): boolean {
+    if (!requirement || requirement.trim() === '') {
+      return true;
+    }
+
+    const normalized = requirement.trim();
+
+    if (normalized.startsWith('player_level_')) {
+      const levelRequirement = Number.parseInt(normalized.replace('player_level_', ''), 10);
+      if (!Number.isNaN(levelRequirement)) {
+        return playerContext.getPlayerLevel() >= levelRequirement;
+      }
+    }
+
+    if (playerContext.hasQuestFlag(normalized) || playerContext.hasLoreFlag(normalized)) {
+      return true;
+    }
+
+    const completedChallenges = new Set(playerContext.getCompletedChallenges());
+    const baseId = normalized.endsWith('_completed')
+      ? normalized.slice(0, -'_completed'.length)
+      : normalized;
+
+    if (completedChallenges.has(normalized) || completedChallenges.has(baseId)) {
+      return true;
+    }
+
+    if (normalized.endsWith('_completed')) {
+      const sequentialMatch = baseId.match(/^(.*?)(\d+)$/);
+      if (sequentialMatch) {
+        const [, prefix, numericPart] = sequentialMatch;
+        const previousNumber = Number.parseInt(numericPart, 10) - 1;
+        if (!Number.isNaN(previousNumber) && previousNumber >= 0) {
+          const previousId = `${prefix}${previousNumber.toString().padStart(numericPart.length, '0')}`;
+          if (
+            completedChallenges.has(previousId) ||
+            playerContext.hasQuestFlag(`${previousId}_completed`) ||
+            playerContext.hasLoreFlag(`${previousId}_completed`)
+          ) {
+            return true;
+          }
+        }
+      }
+    }
+
+    if (playerContext.getUnlockedLocations().includes(normalized) || playerContext.hasVisitedLocation(normalized)) {
+      return true;
+    }
+
+    if (playerContext.getCapturedSpirits().includes(normalized)) {
+      return true;
+    }
+
+    return false;
   }
 }
 
@@ -773,7 +834,7 @@ export class ChallengeRuleset implements IChallengeRuleset {
   /**
    * Validate ruleset
    */
-  validate(): string[] {
+  validate(_context?: unknown): string[] {
     const errors: string[] = [];
 
     if (this.turnLimit < 0) {
@@ -941,18 +1002,21 @@ export class ChallengeResult implements IChallengeResult {
    */
   toString(): string {
     const itemRewardsStr = Object.entries(this.itemRewards)
-      .map(([item, amount]) => `${amount} ${item}`)
+      .map(([item, amount]) => `${item}: ${amount}`)
       .join(', ');
 
     const loreFlagsStr = this.loreFlags.length > 0 ? this.loreFlags.join(', ') : 'none';
-    const syncChangesStr = Object.entries(this.syncChanges)
-      .map(([spirit, change]) => `${spirit} ${change > 0 ? '+' : ''}${change}`)
-      .join(', ');
+    const syncChangesEntries = Object.entries(this.syncChanges);
+    const syncChangesStr = syncChangesEntries.length > 0
+      ? syncChangesEntries
+          .map(([spirit, change]) => `${spirit} ${change > 0 ? '+' : ''}${change}`)
+          .join(', ')
+      : 'none';
 
     const timeStr = this.completionTime ? new Date(this.completionTime).toLocaleString() : 'unknown';
-    const turnsStr = this.turnsTaken ? `${this.turnsTaken} turns` : 'unknown turns';
+    const turnsStr = this.turnsTaken !== undefined ? `${this.turnsTaken} turns` : 'unknown turns';
 
-    return `${this.outcome} | items: [${itemRewardsStr}] | flags: [${loreFlagsStr}] | sync: [${syncChangesStr}] | ${turnsStr} | ${timeStr}`;
+    return `${this.outcome} | items: [${itemRewardsStr || 'none'}] | flags: [${loreFlagsStr}] | sync: [${syncChangesStr}] | ${turnsStr} | ${timeStr}`;
   }
 
   /**
@@ -967,13 +1031,13 @@ export class ChallengeResult implements IChallengeResult {
    */
   getDescription(): string {
     switch (this.outcome) {
-      case VICTORY:
+      case ChallengeOutcome.VICTORY:
         return `Victory! ${this.message || 'Challenge completed successfully.'}`;
-      case DEFEAT:
+      case ChallengeOutcome.DEFEAT:
         return `Defeat! ${this.message || 'Challenge failed.'}`;
-      case TIMEOUT:
+      case ChallengeOutcome.TIMEOUT:
         return `Timeout! ${this.message || 'Challenge timed out.'}`;
-      case FORFEIT:
+      case ChallengeOutcome.FORFEIT:
         return `Forfeit! ${this.message || 'Challenge forfeited.'}`;
       default:
         return `Unknown outcome: ${this.outcome}`;
@@ -1036,6 +1100,7 @@ export class ChallengeManager implements IChallengeManager {
   private readonly availableChallenges = new Map<string, IBattleChallenge>();
   private readonly completedChallenges = new Set<string>();
   private readonly inProgressChallenges = new Set<string>();
+  private readonly completionResults = new Map<string, IChallengeResult>();
 
   public onChallengeStarted?: (challenge: IBattleChallenge) => void;
   public onChallengeCompleted?: (challenge: IBattleChallenge, result: IChallengeResult) => void;
@@ -1049,10 +1114,14 @@ export class ChallengeManager implements IChallengeManager {
       return false;
     }
 
-    const errors = challenge.validate({});
+    const errors = challenge.validate();
     if (errors.length > 0) {
       logger.warn('Invalid challenge', { challengeId: challenge.challengeId, errors });
       return false;
+    }
+
+    if (challenge.status === ChallengeStatus.LOCKED) {
+      challenge.status = ChallengeStatus.AVAILABLE;
     }
 
     this.availableChallenges.set(challenge.challengeId, challenge);
@@ -1085,7 +1154,21 @@ export class ChallengeManager implements IChallengeManager {
     }
 
     if (filter.status) {
-      challenges = challenges.filter((challenge: any) => challenge.status === filter.status);
+      challenges = challenges.filter((challenge: any) => {
+        const id = challenge.challengeId;
+        switch (filter.status) {
+          case ChallengeStatus.AVAILABLE:
+            return !this.completedChallenges.has(id) && !this.inProgressChallenges.has(id);
+          case ChallengeStatus.IN_PROGRESS:
+            return this.inProgressChallenges.has(id);
+          case ChallengeStatus.COMPLETED:
+            return this.completedChallenges.has(id);
+          case ChallengeStatus.LOCKED:
+            return challenge.status === ChallengeStatus.LOCKED;
+          default:
+            return challenge.status === filter.status;
+        }
+      });
     }
 
     if (filter.difficulty) {
@@ -1106,7 +1189,7 @@ export class ChallengeManager implements IChallengeManager {
       challenges = challenges.filter((challenge: any) =>
         challenge.opponentTeam.includes(filter.requiresSpirit!) ||
         challenge.loreFlagsToSet.includes(filter.requiresSpirit!) ||
-        challenge.syncBoosts.hasOwnProperty(filter.requiresSpirit!)
+        (challenge.syncBoosts && Object.prototype.hasOwnProperty.call(challenge.syncBoosts, filter.requiresSpirit!))
       );
     }
 
@@ -1139,6 +1222,10 @@ export class ChallengeManager implements IChallengeManager {
         // For now, we'll just check if it's completed
         return true;
       });
+    }
+
+    if (filter.minPriority !== undefined) {
+      challenges = challenges.filter((challenge: any) => challenge.priority >= filter.minPriority!);
     }
 
     // Apply pagination
@@ -1180,6 +1267,7 @@ export class ChallengeManager implements IChallengeManager {
     challenge.status = ChallengeStatus.COMPLETED;
     this.completedChallenges.add(challengeId);
     this.inProgressChallenges.delete(challengeId);
+    this.completionResults.set(challengeId, result);
     this.onChallengeCompleted?.(challenge, result);
     return true;
   }
@@ -1249,9 +1337,11 @@ export class ChallengeManager implements IChallengeManager {
         challengesByDifficulty[challenge.difficulty as keyof typeof challengesByDifficulty]++;
       }
 
-      if (this.isChallengeCompleted(challenge.challengeId)) {
-        Object.entries(challenge.rewards).forEach(([item, amount]) => {
-          totalRewardsEarned[item] = (totalRewardsEarned[item] || 0) + amount;
+      const result = this.completionResults.get(challenge.challengeId);
+      if (result) {
+        Object.entries(result.itemRewards).forEach(([item, amount]) => {
+          const key = this.normalizeRewardKey(item);
+          totalRewardsEarned[key] = (totalRewardsEarned[key] || 0) + amount;
         });
       }
     });
@@ -1260,25 +1350,30 @@ export class ChallengeManager implements IChallengeManager {
       ? (completedChallenges.length / allChallenges.length) * 100
       : 0;
 
+    const totalChallenges = allChallenges.length;
+    const availableChallengesCount = allChallenges.filter((challenge: any) => {
+      const id = challenge.challengeId;
+      return !this.completedChallenges.has(id) && !this.inProgressChallenges.has(id);
+    }).length;
+
+    const lockedChallengesCount = allChallenges.filter((challenge: any) => challenge.status === ChallengeStatus.LOCKED).length;
+
     return {
-      totalChallenges: allChallenges.length,
+      totalChallenges,
       completedChallenges: completedChallenges.length,
-      availableChallenges: allChallenges.filter((c: any) =>
-        c.status === ChallengeStatus.AVAILABLE ||
-        c.status === ChallengeStatus.IN_PROGRESS
-      ).length,
-      lockedChallenges: allChallenges.filter((c: any) => c.status === ChallengeStatus.LOCKED).length,
+      availableChallenges: availableChallengesCount,
+      lockedChallenges: lockedChallengesCount,
       inProgressChallenges: this.inProgressChallenges.size,
       completionRate: Math.round(completionRate * 100) / 100,
       averageCompletionTime: 0, // Would need completion timestamps
       challengesByCategory,
       challengesByDifficulty,
       challengesByOutcome: {
-        victory: 0,
-        defeat: 0,
-        timeout: 0,
-        forfeit: 0
-      }, // Would need completion results
+        [ChallengeOutcome.VICTORY]: this.countResultsByOutcome(ChallengeOutcome.VICTORY),
+        [ChallengeOutcome.DEFEAT]: this.countResultsByOutcome(ChallengeOutcome.DEFEAT),
+        [ChallengeOutcome.TIMEOUT]: this.countResultsByOutcome(ChallengeOutcome.TIMEOUT),
+        [ChallengeOutcome.FORFEIT]: this.countResultsByOutcome(ChallengeOutcome.FORFEIT)
+      },
       totalRewardsEarned
     };
   }
@@ -1288,11 +1383,30 @@ export class ChallengeManager implements IChallengeManager {
    */
   clearCompletedChallenges(): void {
     this.completedChallenges.clear();
+    this.completionResults.clear();
     this.availableChallenges.forEach((challenge: any) => {
       if (challenge.status === ChallengeStatus.COMPLETED) {
         challenge.status = ChallengeStatus.LOCKED;
       }
     });
+  }
+
+  private countResultsByOutcome(outcome: ChallengeOutcome): number {
+    let count = 0;
+    this.completionResults.forEach(result => {
+      if (result.outcome === outcome) {
+        count += 1;
+      }
+    });
+    return count;
+  }
+
+  private normalizeRewardKey(key: string): string {
+    const normalized = key.toLowerCase();
+    if (normalized === 'exp' || normalized === 'xp') {
+      return 'experience';
+    }
+    return normalized;
   }
 
   /**
@@ -1361,7 +1475,7 @@ export const ChallengeUtils = {
       errors.push('Max turns cannot be negative');
     }
 
-    const rulesetErrors = challenge.ruleset.validate({});
+    const rulesetErrors = challenge.ruleset.validate();
     errors.push(...rulesetErrors.map((error: any) => `Ruleset: ${error}`));
 
     return errors;

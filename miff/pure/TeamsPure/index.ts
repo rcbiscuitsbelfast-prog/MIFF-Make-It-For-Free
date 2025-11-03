@@ -369,9 +369,9 @@ export class ValidationResult implements IValidationResult {
    */
   getSummary(): string {
     if (this.isValid) {
-      return `✅ Valid: ${this.message}`;
+      return `\u2705 Valid: ${this.message}`;
     } else {
-      return `❌ Invalid: ${this.message}`;
+      return `\u274C Invalid: ${this.message}`;
     }
   }
 
@@ -484,13 +484,16 @@ export class TeamSlot implements ITeamSlot {
   validate(spirit?: ISpiritInstance): string[] {
     const errors: string[] = [];
 
-    if (this.isLocked && !spirit) {
+    const candidate = spirit ?? this.spirit;
+    const hasValidSpirit = !!(candidate && typeof candidate === 'object' && 'instanceId' in candidate);
+
+    if (this.isLocked && !hasValidSpirit) {
       errors.push('Slot is locked and requires a spirit');
     }
 
-    if (spirit) {
+    if (hasValidSpirit) {
       this.requirements.forEach((requirement: any) => {
-        if (!this.spiritMeetsRequirement(spirit, requirement)) {
+        if (!this.spiritMeetsRequirement(candidate as ISpiritInstance, requirement)) {
           errors.push(`Spirit does not meet requirement: ${requirement}`);
         }
       });
@@ -1650,7 +1653,7 @@ export class TeamManager implements ITeamManager {
    */
   getActiveTeam(teamId: string): ISpiritInstance[] {
     const team = this.getTeam(teamId);
-    return team ? spirits: [];
+    return team ? [...team.spirits] : [];
   }
 
   /**
@@ -1658,7 +1661,7 @@ export class TeamManager implements ITeamManager {
    */
   getReserves(teamId: string): ISpiritInstance[] {
     const team = this.getTeam(teamId);
-    return team ? reserves: [];
+    return team ? [...team.reserves] : [];
   }
 
   /**

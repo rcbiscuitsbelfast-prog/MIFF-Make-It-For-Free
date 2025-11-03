@@ -382,6 +382,110 @@ export class CameraSystemPure {
     this.setupEventListeners();
   }
 
+  private publishEvent(topic: string, payload?: any): void {
+    const bus: any = this.eventBus;
+    if (!bus) {
+      return;
+    }
+
+    if (typeof bus.publish === 'function') {
+      bus.publish(topic, payload);
+    } else if (typeof bus.emit === 'function') {
+      bus.emit(topic, payload);
+    }
+  }
+
+  private removeCamera(cameraId: string): void {
+    const removed = this.activeCameras.get(cameraId);
+    if (!removed) {
+      return;
+    }
+
+    this.activeCameras.delete(cameraId);
+    if (this.mainCamera === cameraId) {
+      const next = this.activeCameras.keys().next();
+      this.mainCamera = next.done ? null : next.value;
+    }
+    this.stats.activeCameras = this.activeCameras.size;
+    this.publishEvent('camera:removed', { cameraId });
+  }
+
+  private cloneCameraDefinition(definition: CameraDefinition): CameraDefinition {
+    return {
+      ...definition,
+      mode: {
+        ...definition.mode,
+        parameters: new Map(definition.mode.parameters)
+      },
+      settings: { ...definition.settings },
+      transitions: definition.transitions.map(transition => ({
+        ...transition,
+        keyframes: transition.keyframes.map(keyframe => ({
+          ...keyframe,
+          position: { ...keyframe.position },
+          rotation: { ...keyframe.rotation },
+          settings: keyframe.settings ? { ...keyframe.settings } : undefined,
+          events: keyframe.events ? [...keyframe.events] : []
+        })),
+        events: transition.events.map(event => ({
+          ...event,
+          parameters: new Map(event.parameters)
+        }))
+      })),
+      constraints: definition.constraints
+        ? {
+            ...definition.constraints,
+            positionBounds: definition.constraints.positionBounds
+              ? {
+                  min: { ...definition.constraints.positionBounds.min },
+                  max: { ...definition.constraints.positionBounds.max }
+                }
+              : undefined,
+            rotationLimits: definition.constraints.rotationLimits
+              ? { ...definition.constraints.rotationLimits }
+              : undefined,
+            distanceLimits: definition.constraints.distanceLimits
+              ? { ...definition.constraints.distanceLimits }
+              : undefined
+          }
+        : definition.constraints,
+      effects: definition.effects.map(effect => ({
+        ...effect,
+        parameters: new Map(effect.parameters)
+      })),
+      inputBindings: new Map(definition.inputBindings),
+      visualStyle: {
+        ...definition.visualStyle,
+        hudElements: [...definition.visualStyle.hudElements],
+        customShaders: [...definition.visualStyle.customShaders]
+      },
+      metadata: {
+        ...definition.metadata,
+        compatibility: [...definition.metadata.compatibility],
+        tags: [...definition.metadata.tags],
+        dependencies: [...definition.metadata.dependencies],
+        qualitySettings: new Map(definition.metadata.qualitySettings)
+      }
+    };
+  }
+
+  private cloneCameraPath(path: CameraPath): CameraPath {
+    return {
+      ...path,
+      waypoints: path.waypoints.map(waypoint => ({
+        ...waypoint,
+        position: { ...waypoint.position },
+        rotation: { ...waypoint.rotation },
+        settings: waypoint.settings ? { ...waypoint.settings } : undefined,
+        events: waypoint.events ? [...waypoint.events] : []
+      })),
+      events: path.events.map(event => ({
+        ...event,
+        parameters: new Map(event.parameters)
+      }))
+    };
+  }
+
   /**
    * Initialize default configuration
    */
@@ -770,20 +874,24 @@ export class CameraSystemPure {
       return null;
     }
 
+    const definitionCopy = this.cloneCameraDefinition(definition);
+
     if (this.activeCameras.size >= this.config.maxActiveCameras) {
-      StructuredLogger.warn('Maximum active cameras reached', { max: this.config.maxActiveCameras, current: this.activeCameras.size }, 'CameraSystemPure');
-      return null;
+      const oldest = this.activeCameras.keys().next();
+      if (!oldest.done) {
+        this.removeCamera(oldest.value);
+      }
     }
 
     const instance: CameraInstance = {
       id: this.generateCameraId(),
-      definition,
-      currentSettings: { ...definition.settings },
+      definition: definitionCopy,
+      currentSettings: { ...definitionCopy.settings },
       targetEntity,
       effects: new Map(),
       state: {
-        position: { ...definition.settings.position },
-        rotation: { ...definition.settings.rotation },
+        position: { ...definitionCopy.settings.position },
+        rotation: { ...definitionCopy.settings.rotation },
         velocity: { x: 0, y: 0, z: 0 },
         angularVelocity: { x: 0, y: 0, z: 0 },
         isMoving: false,
@@ -791,7 +899,7 @@ export class CameraSystemPure {
         isZooming: false,
         isFollowing: !!targetEntity,
         isConstrained: false,
-        mode: definition.mode.type,
+        mode: definitionCopy.mode.type,
         activeTransitions: [],
         activeEffects: [],
         lastInputTime: Date.now(),
@@ -814,12 +922,13 @@ export class CameraSystemPure {
 
     this.activeCameras.set(instance.id, instance);
     this.stats.totalCameras++;
+    this.stats.activeCameras = this.activeCameras.size;
 
     if (!this.mainCamera) {
       this.mainCamera = instance.id;
     }
 
-    this.eventBus.publish('camera:created', {
+    this.publishEvent('camera:created', {
       cameraId: instance.id,
       cameraType: definition.id,
       targetEntity
@@ -833,19 +942,22 @@ export class CameraSystemPure {
    * Update camera system
    */
   updateCameraSystem(deltaTime: number): void {
+    const normalizedDelta = Math.max(0, deltaTime);
     const startTime = performance.now();
 
     // Update all active cameras
-    for (const [cameraId, camera] of this.activeCameras) {
-      this.updateCamera(camera, deltaTime);
+    for (const [, camera] of this.activeCameras) {
+      this.updateCamera(camera, normalizedDelta);
     }
 
     // Update cinematic sequences
-    this.updateCinematicSequences(deltaTime);
+    this.updateCinematicSequences(normalizedDelta);
 
     // Update performance metrics
     const updateTime = performance.now() - startTime;
     this.updatePerformanceMetrics(updateTime);
+    this.stats.activeCameras = this.activeCameras.size;
+    this.stats.totalPlayTime += normalizedDelta;
 
     this.lastUpdateTime = Date.now();
   }
@@ -885,7 +997,12 @@ export class CameraSystemPure {
 
     // Update performance metrics
     camera.updateCount++;
-    camera.performanceMetrics.updateTime = performance.now() - startTime;
+    const elapsed = performance.now() - startTime;
+    camera.performanceMetrics.updateTime = elapsed;
+    if (deltaTime > 0) {
+      camera.performanceMetrics.averageFPS = Math.max(1, Math.round(1 / deltaTime));
+    }
+    camera.lastUpdateTime = Date.now();
   }
 
   /**
@@ -1088,8 +1205,11 @@ export class CameraSystemPure {
    */
   private updateCameraEffects(camera: CameraInstance, deltaTime: number): void {
     for (const [effectId, effect] of camera.effects) {
+      if (!effect.parameters.has('__originalDuration')) {
+        effect.parameters.set('__originalDuration', effect.duration);
+      }
       // Update effect duration
-      effect.duration -= deltaTime;
+      effect.duration = Math.max(0, effect.duration - (deltaTime * 1000));
 
       if (effect.duration <= 0) {
         camera.effects.delete(effectId);
@@ -1164,16 +1284,19 @@ export class CameraSystemPure {
    */
   private calculateEffectIntensity(effect: CameraEffect, deltaTime: number): number {
     let intensity = effect.intensity;
+    const originalDuration = effect.parameters.get('__originalDuration') || effect.duration || 1;
 
     switch (effect.falloff) {
       case 'linear':
-        intensity *= (effect.duration / effect.parameters.get('originalDuration') || effect.duration);
+        intensity *= originalDuration > 0 ? Math.max(0, effect.duration / originalDuration) : 1;
         break;
       case 'exponential':
         intensity *= Math.exp(-deltaTime * 2);
         break;
       case 'logarithmic':
-        intensity *= Math.log(effect.duration + 1) / Math.log((effect.parameters.get('originalDuration') || effect.duration) + 1);
+        intensity *= originalDuration > 0
+          ? Math.log(effect.duration + 1) / Math.log(originalDuration + 1)
+          : 1;
         break;
     }
 
@@ -1184,6 +1307,14 @@ export class CameraSystemPure {
    * Check camera constraints
    */
   private checkCameraConstraints(camera: CameraInstance): void {
+    if (camera.definition.constraints.collisionRadius < 0) {
+      camera.definition.constraints.collisionRadius = 0;
+    }
+
+    if (camera.definition.constraints.avoidanceDistance < 0) {
+      camera.definition.constraints.avoidanceDistance = 0;
+    }
+
     // Check position bounds
     if (camera.definition.constraints.positionBounds) {
       const bounds = camera.definition.constraints.positionBounds;
@@ -1218,9 +1349,8 @@ export class CameraSystemPure {
    * Get camera definition by ID
    */
   getCameraDefinition(cameraId: string): CameraDefinition | null {
-    // This would normally look up from a registry
-    // For now, return null as this is a placeholder
-    return null;
+    const definition = this.cameraDefinitions.get(cameraId);
+    return definition ? this.cloneCameraDefinition(definition) : null;
   }
 
   /**
@@ -1230,23 +1360,56 @@ export class CameraSystemPure {
     return this.activeCameras.get(cameraId) || null;
   }
 
+  getCameraPath(pathId: string): CameraPath | null {
+    const path = this.cameraPaths.get(pathId);
+    return path ? this.cloneCameraPath(path) : null;
+  }
+
   /**
    * Switch camera mode
    */
   switchCameraMode(cameraId: string, mode: string, duration?: number): boolean {
     const camera = this.activeCameras.get(cameraId);
-    if (camera) {
-      // This would switch the camera mode
+    if (!camera) {
+      return false;
+    }
+
+    if (camera.state.mode === mode) {
       return true;
     }
-    return false;
+
+    const modeDefinition = Array.from(this.cameraDefinitions.values()).find(def => def.mode.type === mode);
+    if (!modeDefinition) {
+      return false;
+    }
+
+    const previousMode = camera.state.mode;
+    camera.state.mode = mode;
+    camera.definition = this.cloneCameraDefinition(modeDefinition);
+    camera.currentSettings = { ...modeDefinition.settings };
+    if (typeof duration === 'number') {
+      camera.definition.mode.defaultDuration = duration;
+    }
+
+    this.stats.modeSwitches += 1;
+    this.publishEvent('camera:mode-switched', {
+      cameraId,
+      fromMode: previousMode,
+      toMode: mode
+    });
+
+    return true;
   }
 
   /**
    * Get camera statistics
    */
   getStats(): CameraStats {
-    return { ...this.stats };
+    const stats: CameraStats = { ...this.stats };
+    stats.activeCameras = this.activeCameras.size;
+    stats.totalCameras = this.stats.totalCameras;
+    stats.effectsApplied = Array.from(this.activeCameras.values()).reduce((total, cam) => total + cam.effects.size, 0);
+    return stats;
   }
 
   /**
@@ -1279,6 +1442,23 @@ export class CameraSystemPure {
    */
   getConfig(): CameraConfig {
     return { ...this.config };
+  }
+
+  updateConfig(partialConfig: Partial<CameraConfig>): void {
+    this.config = {
+      ...this.config,
+      ...partialConfig
+    };
+
+    this.config.maxActiveCameras = Math.max(1, this.config.maxActiveCameras);
+
+    while (this.activeCameras.size > this.config.maxActiveCameras) {
+      const oldest = this.activeCameras.keys().next();
+      if (oldest.done) {
+        break;
+      }
+      this.removeCamera(oldest.value);
+    }
   }
 
   /**

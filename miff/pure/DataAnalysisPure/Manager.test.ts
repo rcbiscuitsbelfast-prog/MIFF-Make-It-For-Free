@@ -3,13 +3,13 @@
  * Generated test file for comprehensive coverage
  */
 
-import { Manager } from 'Manager';
+import { DataAnalysisPureManager } from './Manager';
 
 describe('Manager', () => {
-  let instance: Manager;
+  let instance: DataAnalysisPureManager;
 
   beforeEach(() => {
-    instance = new Manager();
+    instance = new DataAnalysisPureManager();
   });
 
   describe('constructor', () => {

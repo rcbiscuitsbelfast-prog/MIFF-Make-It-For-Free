@@ -32,6 +32,10 @@ interface EconomyOperation {
   exportFormat?: string;
 }
 
+function createEconomyManager(config?: Partial<EconomyConfig>): EconomyManager {
+  return new EconomyManager(config);
+}
+
 async function main() {
   const argv = process.argv.slice(2);
   
@@ -156,7 +160,7 @@ async function main() {
     }
 
     // Create economy manager instance
-    const economyManager = new EconomyManager(operation.config);
+    const economyManager = createEconomyManager(operation.config);
     let result: any;
 
     switch (operation.op) {
@@ -265,7 +269,7 @@ async function main() {
           action: 'rules_listed',
           success: rulesResult.status === 'ok',
           rules: rulesResult.result,
-          count: Array.isArray(rulesResult.result) ? rulesResult.length: 0,
+          count: Array.isArray(rulesResult.result) ? rulesResult.result.length : 0,
           issues: rulesResult.issues || []
         };
         break;
@@ -276,7 +280,7 @@ async function main() {
           action: 'vendors_listed',
           success: vendorsResult.status === 'ok',
           vendors: vendorsResult.result,
-          count: Array.isArray(vendorsResult.result) ? vendorsResult.length: 0,
+          count: Array.isArray(vendorsResult.result) ? vendorsResult.result.length : 0,
           issues: vendorsResult.issues || []
         };
         break;
@@ -287,7 +291,7 @@ async function main() {
           action: 'currencies_listed',
           success: currenciesResult.status === 'ok',
           currencies: currenciesResult.result,
-          count: Array.isArray(currenciesResult.result) ? currenciesResult.length: 0,
+          count: Array.isArray(currenciesResult.result) ? currenciesResult.result.length : 0,
           issues: currenciesResult.issues || []
         };
         break;
@@ -394,6 +398,7 @@ async function main() {
         const exportData = demoManager.exportEconomy('summary');
 
         result = {
+          action: 'demo_generated',
           demo: {
             configuration: {
               baseInflationRate: 0.03,
@@ -473,8 +478,16 @@ async function main() {
     }
 
     // Check for export format option
-    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1!] || 
-                           argv[argv.indexOf('--format') + 1];
+    const directFormatArg = argv.find(arg => arg.startsWith('--format='));
+    let exportFormatArg: string | undefined;
+    if (directFormatArg) {
+      exportFormatArg = directFormatArg.split('=')[1!];
+    } else {
+      const flagIndex = argv.indexOf('--format');
+      if (flagIndex !== -1 && argv[flagIndex + 1]) {
+        exportFormatArg = argv[flagIndex + 1];
+      }
+    }
     const validFormats = ['json', 'csv', 'markdown', 'html', 'yaml', 'xml'];
     const exportFormat = validFormats.includes(exportFormatArg) ? exportFormatArg : undefined;
 
@@ -500,11 +513,11 @@ async function main() {
     }
 
   } catch (error: unknown) {
-      const err = error instanceof Error ? error : new Error(String(error));
+    const err = error instanceof Error ? error : new Error(String(error));
     console.error(JSON.stringify({
       op: 'error',
       status: 'error',
-      error: error instanceof Error ? message: String(error),
+      error: err.message,
       timestamp: new Date()
     }, null, 2));
     process.exit(1);
