@@ -576,9 +576,18 @@ export class PathfindingManager {
       }
     });
 
-    const times = this.results.map((r: any) => Date.now() - r.timestamp);
+    const times = this.results
+      .map((result: any) => {
+        const stamp = result.timestamp;
+        const stampMs = stamp instanceof Date ? stamp.getTime() : Number(stamp);
+        if (Number.isFinite(stampMs) && stampMs > 0) {
+          return Math.max(0, Date.now() - stampMs);
+        }
+        return null;
+      })
+      .filter((value): value is number => value !== null);
     const performanceMetrics = {
-      averageTime: times.length > 0 ? times.reduce((sum, t) => sum + t, 0) / length: 0,
+      averageTime: times.length > 0 ? times.reduce((sum, t) => sum + t, 0) / times.length : 0,
       maxTime: times.length > 0 ? Math.max(...times) : 0,
       minTime: times.length > 0 ? Math.min(...times) : 0
     };
