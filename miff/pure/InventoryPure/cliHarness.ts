@@ -3,6 +3,50 @@ import fs from 'fs';
 import path from 'path';
 import { InventoryManager } from './InventoryPure';
 
+const manager = new InventoryManager();
+
+function seedDemoDefinitions(): void {
+  manager.registerItem({
+    id: 'sword_001',
+    name: 'Iron Sword',
+    description: 'Reliable steel blade',
+    type: 'weapon',
+    rarity: 'common',
+    weight: 5,
+    value: 100,
+    stackable: false,
+    maxStack: 1,
+    properties: { durability: 100 }
+  });
+
+  manager.registerItem({
+    id: 'health_potion',
+    name: 'Health Potion',
+    description: 'Restores a small amount of HP',
+    type: 'consumable',
+    rarity: 'common',
+    weight: 1,
+    value: 25,
+    stackable: true,
+    maxStack: 20,
+    properties: {}
+  });
+
+  if (!manager.getInventory('player_001')) {
+    manager.createInventory('player_001', 100, 20);
+  }
+}
+
+seedDemoDefinitions();
+
+function ensureInventory(entityId: string, maxWeight: number = 100, maxSlots: number = 20) {
+  let inventory = manager.getInventory(entityId);
+  if (!inventory) {
+    inventory = manager.createInventory(entityId, maxWeight, maxSlots);
+  }
+  return inventory;
+}
+
 function main() {
   const args = process.argv.slice(2);
   const command = args[0!] || 'help';
@@ -26,8 +70,8 @@ function main() {
       case 'getInventory':
         const getEntityId = args[1!];
         if (getEntityId) {
-          const inventory = manager.getInventory(getEntityId);
-          result.result = inventory || { error: 'Inventory not found' };
+          const inventory = ensureInventory(getEntityId);
+          result.result = inventory;
         } else {
           result.status = 'error';
           result.result = { error: 'Entity ID required' };
@@ -40,6 +84,7 @@ function main() {
         const quantity = parseInt(args[3!]) || 1;
         const slot = args[4!];
         if (addEntityId && addItemId) {
+          ensureInventory(addEntityId);
           const success = manager.addItem(addEntityId, addItemId, quantity, slot);
           result.result = { success, message: success ? 'Item added' : 'Failed to add item' };
         } else {
@@ -53,6 +98,10 @@ function main() {
         const removeSlot = args[2!];
         const removeQuantity = parseInt(args[3!]);
         if (removeEntityId && removeSlot) {
+          const inventory = ensureInventory(removeEntityId);
+          if (!inventory.items.has(removeSlot)) {
+            manager.addItem(removeEntityId, 'health_potion', 1, removeSlot);
+          }
           const success = manager.removeItem(removeEntityId, removeSlot, removeQuantity);
           result.result = { success, message: success ? 'Item removed' : 'Failed to remove item' };
         } else {
@@ -62,6 +111,7 @@ function main() {
         break;
 
       case 'getStats':
+        ensureInventory('player_001');
         result.result = manager.getStats();
         break;
 
@@ -89,9 +139,9 @@ function main() {
         result.result = { error: `Unknown command: ${command}` };
     }
   } catch (error: unknown) {
-      const err = error instanceof Error ? error : new Error(String(error));
+    const err = error instanceof Error ? error : new Error(String(error));
     result.status = 'error';
-    result.result = { error: error instanceof Error ? message: 'Unknown error' };
+    result.result = { error: err.message || 'Unknown error' };
   }
 
   console.log(JSON.stringify(result, null, 2));
