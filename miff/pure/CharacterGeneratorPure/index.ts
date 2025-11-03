@@ -26,6 +26,12 @@ export interface CharacterSpriteExport {
 }
 
 export interface GeneratedCharacter {
+	id: string;
+	name: string;
+	class: string;
+	level: number;
+	stats: CharacterStatsSummary;
+	skills: string[];
 	traits: CharacterTraits;
 	sprites: CharacterSpriteExport; // stateless pixel data
 	animations: ReturnType<typeof PixelAnimPure.exportAnimation>[];
@@ -35,6 +41,104 @@ export interface GeneratorConfig {
 	count: number;
 	size: 32 | 48;
 	seed?: number;
+}
+
+export interface GenerateRandomOptions {
+	seed?: number;
+	class?: string;
+	level?: number;
+	spriteSize?: 32 | 48;
+}
+
+export interface CharacterStatsSummary {
+	strength: number;
+	agility: number;
+	intelligence: number;
+	vitality: number;
+	charisma: number;
+}
+
+interface ClassTemplate {
+	name: string;
+	primaryStat: keyof CharacterStatsSummary;
+	secondaryStat: keyof CharacterStatsSummary;
+	baseStats: CharacterStatsSummary;
+	skills: string[];
+}
+
+const CLASS_TEMPLATES: Record<string, ClassTemplate> = {
+	warrior: {
+		name: 'warrior',
+		primaryStat: 'strength',
+		secondaryStat: 'vitality',
+		baseStats: { strength: 14, agility: 10, intelligence: 8, vitality: 12, charisma: 9 },
+		skills: ['Power Strike', 'Shield Bash', 'Battle Cry', 'Defender Stance']
+	},
+	mage: {
+		name: 'mage',
+		primaryStat: 'intelligence',
+		secondaryStat: 'charisma',
+		baseStats: { strength: 7, agility: 9, intelligence: 15, vitality: 9, charisma: 12 },
+		skills: ['Fireball', 'Arcane Shield', 'Teleport', 'Frost Nova']
+	},
+	ranger: {
+		name: 'ranger',
+		primaryStat: 'agility',
+		secondaryStat: 'strength',
+		baseStats: { strength: 12, agility: 14, intelligence: 10, vitality: 10, charisma: 10 },
+		skills: ['Arrow Volley', 'Tracking', 'Camouflage', 'Rapid Shot']
+	},
+	rogue: {
+		name: 'rogue',
+		primaryStat: 'agility',
+		secondaryStat: 'charisma',
+		baseStats: { strength: 10, agility: 15, intelligence: 11, vitality: 9, charisma: 11 },
+		skills: ['Backstab', 'Stealth', 'Poison Blade', 'Shadowstep']
+	},
+	cleric: {
+		name: 'cleric',
+		primaryStat: 'charisma',
+		secondaryStat: 'vitality',
+		baseStats: { strength: 9, agility: 9, intelligence: 12, vitality: 12, charisma: 14 },
+		skills: ['Heal', 'Radiant Shield', 'Purify', 'Divine Hammer']
+	},
+	default: {
+		name: 'adventurer',
+		primaryStat: 'vitality',
+		secondaryStat: 'strength',
+		baseStats: { strength: 11, agility: 11, intelligence: 11, vitality: 11, charisma: 11 },
+		skills: ['Quick Strike', 'Focus', 'Dodge', 'Team Tactics']
+	}
+};
+
+const CLASS_KEYS = Object.keys(CLASS_TEMPLATES).filter(key => key !== 'default');
+
+const FIRST_NAMES = ['Aria','Borin','Candra','Darian','Elora','Fenn','Galen','Helia','Ivor','Jaina','Kael','Lyra','Marek','Nora','Orin','Perrin','Quinn','Rhea','Sylas','Tarin','Una','Varek','Wynn','Xara','Yorin','Zara'];
+const LAST_NAMES = ['Stormwind','Ironfist','Shadowstep','Brightsong','Nightbreeze','Flameheart','Dawnguard','Whitethorn','Ashenveil','Silverkeep','Moonwhisper','Windrider'];
+
+function createStats(template: ClassTemplate, level: number, rng: () => number): CharacterStatsSummary {
+	const stats: CharacterStatsSummary = { ...template.baseStats };
+	const keys = Object.keys(stats) as (keyof CharacterStatsSummary)[];
+	for (const key of keys) {
+		stats[key] += Math.floor(rng() * 4) + Math.max(1, Math.floor(level / 3));
+	}
+	stats[template.primaryStat] += Math.floor(level * 1.5);
+	stats[template.secondaryStat] += Math.floor(level * 0.75);
+	return stats;
+}
+
+function createSkills(template: ClassTemplate, rng: () => number): string[] {
+	const skills = new Set<string>();
+	while (skills.size < Math.min(3, template.skills.length)) {
+		skills.add(choice(rng, template.skills));
+	}
+	return Array.from(skills);
+}
+
+function generateNameFromRng(rng: () => number): string {
+	const first = choice(rng, FIRST_NAMES);
+	const last = choice(rng, LAST_NAMES);
+	return `${first} ${last}`;
 }
 
 function mulberry32(seed: number): () => number {
@@ -47,7 +151,7 @@ function mulberry32(seed: number): () => number {
 	};
 }
 
-function choice<T extends object>(rng: () => number, items: T[]): T { return items[Math.floor(rng() * items.length)]; }
+function choice<T>(rng: () => number, items: T[]): T { return items[Math.floor(rng() * items.length)]; }
 
 function randomHex(rng: () => number): string {
 	const v = Math.floor(rng() * 0xffffff);
@@ -175,17 +279,58 @@ function makeAnimations(): ReturnType<typeof PixelAnimPure.exportAnimation>[] {
 }
 
 export const CharacterGeneratorPure = {
+	generateRandom(options: GenerateRandomOptions = {}): GeneratedCharacter {
+		const baseSeed = options.seed ?? Math.floor(Math.random() * 0xffffffff);
+		const rng = mulberry32(baseSeed);
+		const requestedKey = options.class ? options.class.toLowerCase() : undefined;
+		const classKey = requestedKey && CLASS_TEMPLATES[requestedKey] ? requestedKey : choice(rng, CLASS_KEYS);
+		const template = CLASS_TEMPLATES[classKey] ?? CLASS_TEMPLATES.default;
+		const classLabel = options.class ?? template.name;
+		const level = options.level ?? Math.max(1, Math.floor(rng() * 20) + 1);
+		const idNum = Math.max(1, Math.floor(rng() * 1000000));
+		const traits = synthesizeTraits(rng, idNum);
+		const name = generateNameFromRng(rng);
+		const stats = createStats(template, level, rng);
+		const skills = createSkills(template, rng);
+		const size = options.spriteSize ?? 32;
+		const layers = composeLayers(size, size, traits);
+		const animations = makeAnimations();
+		return {
+			id: traits.id,
+			name,
+			class: classLabel,
+			level,
+			stats,
+			skills,
+			traits,
+			sprites: { width: size, height: size, layers },
+			animations
+		};
+	},
+
 	generate(config: GeneratorConfig): GeneratedCharacter[] {
-		const rng = mulberry32(config.seed ?? 1337);
+		const baseSeed = config.seed ?? 1337;
+		const seedRng = mulberry32(baseSeed);
 		const results: GeneratedCharacter[] = [];
-		const size = config.size;
-		for (let i = 1; i <= config.count; i++) {
-			const traits = synthesizeTraits(rng, i);
-			const layers = composeLayers(size, size, traits);
-			const animations = makeAnimations();
-			results.push({ traits, sprites: { width: size, height: size, layers }, animations });
+		for (let i = 0; i < config.count; i++) {
+			const derivedSeed = Math.floor(seedRng() * 0xffffffff);
+			const classKey = choice(seedRng, CLASS_KEYS);
+			const level = Math.max(1, Math.floor(seedRng() * 20) + 1);
+			results.push(this.generateRandom({
+				seed: derivedSeed,
+				class: classKey,
+				level,
+				spriteSize: config.size
+			}));
 		}
 		return results;
+	},
+
+	generateName(options?: { seed?: number }): string {
+		if (options?.seed !== undefined) {
+			return generateNameFromRng(mulberry32(options.seed));
+		}
+		return generateNameFromRng(() => Math.random());
 	},
 
 	toAvatarManifest(traits: CharacterTraits) {

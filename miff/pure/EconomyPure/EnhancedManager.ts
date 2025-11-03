@@ -504,10 +504,10 @@ export class EnhancedEconomyManager {
       vendorId,
       itemId,
       quantity,
-      unitPrice: type === 'buy' ? buyPrice: price.sellPrice,
-      totalPrice: (type === 'buy' ? buyPrice: price.sellPrice) * quantity,
+      unitPrice: type === 'buy' ? price.buyPrice : price.sellPrice,
+      totalPrice: (type === 'buy' ? price.buyPrice : price.sellPrice) * quantity,
       currency: price.currency,
-      timestamp: new Date(),
+      timestamp: Date.now(),
       type,
       playerId
     };
@@ -599,7 +599,7 @@ export class EnhancedEconomyManager {
       .map(([category, stats]) => ({
         category,
         volume: stats.volume,
-        avgPrice: stats.count > 0 ? stats.totalPrice / count: 0
+        avgPrice: stats.count > 0 ? stats.totalPrice / stats.count : 0
       }))
       .sort((a: any, b: any) => b.volume - a.volume)
       .slice(0, 5);

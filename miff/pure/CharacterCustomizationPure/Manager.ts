@@ -15,7 +15,7 @@
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
-import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
+import { StandardErrorHandler, ErrorCode } from '../shared/error/StandardErrorHandler';
 
 export interface CharacterCustomizationConfig {
   id?: string;
@@ -475,7 +475,7 @@ export class CharacterCustomizationManager {
   private config: CharacterCustomizationConfig;
   private systems: Map<string, CharacterCustomization> = new Map();
   private isInitialized: boolean = false;
-  private startTime: Date;
+  private readonly startTime: Date;
 
   constructor(config?: Partial<CharacterCustomizationConfig>) {
     
@@ -483,7 +483,7 @@ export class CharacterCustomizationManager {
     this.memoryManager = new MemoryManager({});
     this.errorHandler = new StandardErrorHandler({});
     this.logger = StructuredLogger.getInstance('CharacterCustomizationManager');
-    this.startTime = Date.now();
+    this.startTime = new Date();
 
     this.config = {
       enableMultiCharacterSupport: true,
@@ -497,6 +497,69 @@ export class CharacterCustomizationManager {
       enablePhysicsIntegration: true,
       enableProfiling: false,
       ...config
+    };
+  }
+
+  private createStandardError(operation: string, error: unknown, code: ErrorCode = ErrorCode.OPERATION_FAILED) {
+    const err = error instanceof Error ? error : new Error(String(error));
+    return this.errorHandler.createError(
+      code,
+      `CharacterCustomizationManager ${operation} failed`,
+      {
+        module: 'CharacterCustomizationPure',
+        operation,
+        metadata: {
+          errorName: err.name,
+          message: err.message
+        }
+      },
+      err
+    );
+  }
+
+  private async throwAsyncError(operation: string, error: unknown, code: ErrorCode = ErrorCode.OPERATION_FAILED): Promise<never> {
+    const standardError = this.createStandardError(operation, error, code);
+    await this.errorHandler.handleError(standardError);
+    throw standardError;
+  }
+
+  private async handleAsyncError<T>(operation: string, error: unknown, fallback: T, code: ErrorCode = ErrorCode.OPERATION_FAILED): Promise<T> {
+    const standardError = this.createStandardError(operation, error, code);
+    await this.errorHandler.handleError(standardError);
+    return fallback;
+  }
+
+  private handleSyncError<T>(operation: string, error: unknown, fallback: T, code: ErrorCode = ErrorCode.OPERATION_FAILED): T {
+    const standardError = this.createStandardError(operation, error, code);
+    void this.errorHandler.handleError(standardError);
+    return fallback;
+  }
+
+  private createDefaultPerformanceMetrics(): SystemPerformance {
+    const now = new Date();
+    return {
+      totalCharacters: 0,
+      activeCharacters: 0,
+      averageLoadTime: 0,
+      averageRenderTime: 0,
+      memoryUsage: 0,
+      cpuUsage: 0,
+      createdAt: now,
+      updatedAt: now,
+      timestamp: now.getTime()
+    };
+  }
+
+  private createInitialAnalytics(): SystemAnalytics {
+    return {
+      totalSystems: 0,
+      activeSystems: 0,
+      totalCharacters: 0,
+      totalPresets: 0,
+      totalAssets: 0,
+      averageCustomizationTime: 0,
+      averagePerformance: 0,
+      lastUpdated: new Date()
     };
   }
 
@@ -526,9 +589,7 @@ export class CharacterCustomizationManager {
       StructuredLogger.info('Character Customization System initialized successfully');
 
     } catch (error: unknown) {
-      const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
-      throw error;
+      await this.throwAsyncError('initialize', error, ErrorCode.MODULE_LOAD_FAILED);
     }
   }
 
@@ -547,16 +608,13 @@ export class CharacterCustomizationManager {
         createdAt: new Date(),
         updatedAt: new Date(),
         version: '1.0.0',
-        analytics: {
-          totalSystems: 0,
-          activeSystems: 0,
-          totalCharacters: 0,
-          totalPresets: 0,
-          totalAssets: 0,
-          averageCustomizationTime: 0,
-          averagePerformance: 0,
-          lastUpdated: new Date()
-        }
+        type: (systemData.type as SystemType) ?? 'custom',
+        status: (systemData.status as SystemStatus) ?? 'active',
+        characters: Array.isArray((systemData as any).characters) ? [...(systemData as any).characters] : [],
+        presets: Array.isArray((systemData as any).presets) ? [...(systemData as any).presets] : [],
+        assets: Array.isArray((systemData as any).assets) ? [...(systemData as any).assets] : [],
+        performance: (systemData as any).performance ?? this.createDefaultPerformanceMetrics(),
+        analytics: this.createInitialAnalytics()
       };
 
       this.systems.set(system.id, system);
@@ -566,27 +624,70 @@ export class CharacterCustomizationManager {
       return system;
 
     } catch (error: unknown) {
-      const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
-      throw error;
+      return this.throwAsyncError('createSystem', error);
     }
+  }
+
+  async createItem(itemData: any): Promise<CharacterCustomization> {
+    return this.createSystem(itemData);
+  }
+
+  getItem(systemId: string): CharacterCustomization | undefined {
+    return this.getSystem(systemId) ?? undefined;
+  }
+
+  async updateItem(systemId: string, updates: Partial<CharacterCustomization>): Promise<CharacterCustomization | undefined> {
+    return this.updateSystem(systemId, updates);
+  }
+
+  async deleteItem(systemId: string): Promise<boolean> {
+    return this.deleteSystem(systemId);
+  }
+
+  getAllItems(): CharacterCustomization[] {
+    return this.getAllSystems();
+  }
+
+  getStats() {
+    return this.getStatistics();
+  }
+
+  getAnalytics() {
+    if (!this.isInitialized) {
+      throw new Error('Character Customization System not initialized');
+    }
+
+    const stats = this.getStatistics();
+    const totalSystems = Math.max(1, stats.totalSystems);
+
+    return {
+      totalSystems: stats.totalSystems,
+      activeSystems: stats.systemsByStatus.active,
+      inactiveSystems: stats.systemsByStatus.inactive,
+      errorSystems: stats.systemsByStatus.error,
+      maintenanceSystems: stats.systemsByStatus.maintenance,
+      averageCharactersPerSystem: stats.totalCharacters / totalSystems,
+      averagePresetsPerSystem: stats.totalPresets / totalSystems,
+      averageAssetsPerSystem: stats.totalAssets / totalSystems,
+      lastUpdated: new Date()
+    };
   }
 
   /**
    * Get a character customization system by ID
    */
-  getSystem(systemId: string): CharacterCustomization | null {
+  getSystem(systemId: string): CharacterCustomization | undefined {
     if (!this.isInitialized) {
       throw new Error('Character Customization System not initialized');
     }
 
-    return this.systems.get(systemId) || null;
+    return this.systems.get(systemId);
   }
 
   /**
    * Update a character customization system
    */
-  async updateSystem(systemId: string, updates: Partial<CharacterCustomization>): Promise<CharacterCustomization | null> {
+  async updateSystem(systemId: string, updates: Partial<CharacterCustomization>): Promise<CharacterCustomization | undefined> {
     if (!this.isInitialized) {
       throw new Error('Character Customization System not initialized');
     }
@@ -595,7 +696,7 @@ export class CharacterCustomizationManager {
       const system = this.systems.get(systemId);
       if (!system) {
         StructuredLogger.warn('System not found' ?? 'unknown', { systemId });
-        return null;
+        return undefined;
       }
 
       const updatedSystem: CharacterCustomization = {
@@ -612,9 +713,7 @@ export class CharacterCustomizationManager {
       return updatedSystem;
 
     } catch (error: unknown) {
-      const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
-      throw error;
+      return this.throwAsyncError('updateSystem', error);
     }
   }
 
@@ -640,9 +739,7 @@ export class CharacterCustomizationManager {
       return true;
 
     } catch (error: unknown) {
-      const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
-      throw error;
+      return this.handleAsyncError('deleteSystem', error, false);
     }
   }
 
@@ -706,9 +803,7 @@ export class CharacterCustomizationManager {
       return character;
 
     } catch (error: unknown) {
-      const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
-      return null;
+      return this.handleAsyncError('addCharacter', error, null);
     }
   }
 
@@ -740,9 +835,7 @@ export class CharacterCustomizationManager {
       return true;
 
     } catch (error: unknown) {
-      const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
-      return false;
+      return this.handleAsyncError('removeCharacter', error, false);
     }
   }
 
@@ -774,9 +867,7 @@ export class CharacterCustomizationManager {
       return true;
 
     } catch (error: unknown) {
-      const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
-      return false;
+      return this.handleAsyncError('updateCharacterAppearance', error, false);
     }
   }
 
@@ -808,9 +899,7 @@ export class CharacterCustomizationManager {
       return true;
 
     } catch (error: unknown) {
-      const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
-      return false;
+      return this.handleAsyncError('updateCharacterCustomization', error, false);
     }
   }
 
@@ -848,9 +937,7 @@ export class CharacterCustomizationManager {
       return true;
 
     } catch (error: unknown) {
-      const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
-      return false;
+      return this.handleAsyncError('applyPreset', error, false);
     }
   }
 
@@ -888,9 +975,7 @@ export class CharacterCustomizationManager {
       return preset;
 
     } catch (error: unknown) {
-      const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
-      return null;
+      return this.handleAsyncError('createPresetFromCharacter', error, null);
     }
   }
 
@@ -921,9 +1006,7 @@ export class CharacterCustomizationManager {
       return asset;
 
     } catch (error: unknown) {
-      const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
-      return null;
+      return this.handleAsyncError('addAsset', error, null);
     }
   }
 
@@ -955,9 +1038,7 @@ export class CharacterCustomizationManager {
       return true;
 
     } catch (error: unknown) {
-      const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
-      return false;
+      return this.handleAsyncError('removeAsset', error, false);
     }
   }
 
@@ -979,9 +1060,7 @@ export class CharacterCustomizationManager {
       return system.characters.find(c => c.id === characterId) || null;
 
     } catch (error: unknown) {
-      const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
-      return null;
+      return this.handleSyncError('getCharacter', error, null);
     }
   }
 
@@ -1003,9 +1082,7 @@ export class CharacterCustomizationManager {
       return system.characters.filter((c: any) => c.type === type);
 
     } catch (error: unknown) {
-      const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError();
-      return [];
+      return this.handleSyncError('getCharactersByType', error, []);
     }
   }
 
@@ -1119,7 +1196,7 @@ export class CharacterCustomizationManager {
       totalCharacters,
       totalPresets,
       totalAssets,
-      uptime: new Date() - this.startTime.getTime()
+      uptime: Date.now() - this.startTime.getTime()
     };
   }
 

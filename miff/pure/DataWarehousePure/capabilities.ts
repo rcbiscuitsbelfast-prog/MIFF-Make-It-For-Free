@@ -1,75 +1,64 @@
-/**
- * Capability definition for DataWarehousePure
- * Generated automatically by CapabilityGenerator
- */
-
-export const datawarehouseCapability = {
-  "id": "datawarehouse",
-  "name": "DataWarehousePure",
-  "description": "DataWarehouse module providing core functionality",
-  "version": "1.0.0",
-  "type": "feature",
-  "category": "general",
-  "tags": [
-    "miff",
-    "module",
-    "manager",
-    "datawarehouse"
-  ],
-  "dependencies": [
-    "core-manager",
-    "core-logging"
-  ],
-  "interfaces": [],
-  "methods": [
+export class capabilities {
+  id = 'datawarehouse';
+  name = 'DataWarehousePure';
+  description = 'DataWarehouse module providing core functionality';
+  version = '1.0.0';
+  type: 'feature' | 'core' = 'feature';
+  category = 'general';
+  tags = ['miff', 'module', 'manager', 'datawarehouse'];
+  dependencies = ['core-manager', 'core-logging'];
+  interfaces: string[] = [];
+  methods = [
     {
-      "name": "initialize",
-      "description": "Initialize the module manager",
-      "parameters": [],
-      "returnType": "Promise<void>",
-      "isAsync": true,
-      "isPublic": true,
-      "examples": [
-        "await manager.initialize();"
-      ]
+      name: 'initialize',
+      description: 'Initialize the module manager',
+      parameters: [] as string[],
+      returnType: 'Promise<void>',
+      isAsync: true,
+      isPublic: true,
+      examples: ['await manager.initialize();']
     },
     {
-      "name": "destroy",
-      "description": "Destroy the module manager",
-      "parameters": [],
-      "returnType": "Promise<void>",
-      "isAsync": true,
-      "isPublic": true,
-      "examples": [
-        "await manager.destroy();"
-      ]
+      name: 'destroy',
+      description: 'Destroy the module manager',
+      parameters: [] as string[],
+      returnType: 'Promise<void>',
+      isAsync: true,
+      isPublic: true,
+      examples: ['await manager.destroy();']
     }
-  ],
-  "properties": [
+  ];
+  properties = [
     {
-      "name": "isInitialized",
-      "type": "boolean",
-      "description": "Whether the module is initialized",
-      "readOnly": true,
-      "defaultValue": false
+      name: 'isInitialized',
+      type: 'boolean',
+      description: 'Whether the module is initialized',
+      readOnly: true,
+      defaultValue: false
     }
-  ],
-  "events": [
+  ];
+  events = [
     {
-      "name": "moduleReady",
-      "description": "Module is ready for use",
-      "payload": "ModuleInfo",
-      "isAsync": true
+      name: 'moduleReady',
+      description: 'Module is ready for use',
+      payload: 'ModuleInfo',
+      isAsync: true
     }
-  ],
-  "metadata": {
-    "hasManager": true,
-    "hasCLI": false,
-    "hasIndex": false
-  },
-  "status": "active",
-  "createdAt": "2025-10-12T10:07:58.162Z",
-  "updatedAt": "2025-10-12T10:07:58.162Z"
-};
+  ];
+  metadata = {
+    hasManager: true,
+    hasCLI: false,
+    hasIndex: false
+  };
+  status: 'active' | 'inactive' = 'active';
+  createdAt: Date = new Date('2025-10-12T10:07:58.166Z');
+  updatedAt: Date = new Date('2025-10-12T10:07:58.166Z');
 
-export default datawarehouseCapability;
+  constructor(init?: Partial<capabilities>) {
+    if (init) {
+      Object.assign(this, init);
+    }
+  }
+}
+
+export default capabilities;
