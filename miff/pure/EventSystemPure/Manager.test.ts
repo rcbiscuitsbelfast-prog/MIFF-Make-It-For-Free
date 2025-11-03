@@ -1,6 +1,8 @@
 import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals';
-import { EventSystemManager } from './Manager';
+import { EventSystemPure } from './Manager';
 import { addGenericItemMethods } from '../shared/testing/ManagerTestHelpers';
+
+type EventSystemManager = EventSystemPure;
 
 describe('EventSystemManager', () => {
   // TODO: Implement missing Manager methods

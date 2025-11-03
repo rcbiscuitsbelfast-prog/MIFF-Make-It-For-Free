@@ -776,6 +776,7 @@ describe('ItemsPure Golden Tests', () => {
         { 'quest_started': true }
       );
 
+      const manager = new ItemUsageManager(context);
 
       // Register items
       const healPotion = ItemUtils.createHealItem('health_potion', 'Health Potion', 50);
@@ -815,6 +816,7 @@ describe('ItemsPure Golden Tests', () => {
         {}
       );
 
+      const manager = new ItemUsageManager(context);
 
       // Register multiple items
       const items = ItemUtils.createStandardItemSet();
@@ -842,6 +844,9 @@ describe('ItemsPure Golden Tests', () => {
     });
 
     test('should handle item searching and filtering', () => {
+      const context = createMockContext({}, {});
+      const manager = new ItemUsageManager(context);
+
       const items = ItemUtils.createStandardItemSet();
 
       items.forEach(item => manager.registerItem(item));
@@ -873,6 +878,7 @@ describe('ItemsPure Golden Tests', () => {
 
     test('should handle evolution and flag systems', () => {
       const context = createMockContext({ 'fire_stone': 1 }, { 'evolution_available': false });
+      const manager = new ItemUsageManager(context);
 
       // Register evolution item
       const evolutionStone = ItemUtils.createEvolutionItem('fire_stone', 'Fire Stone', 'fire_spirit');
@@ -899,6 +905,8 @@ describe('ItemsPure Golden Tests', () => {
 
   describe('Performance Characteristics', () => {
     test('should handle many items efficiently', () => {
+      const context = createMockContext({}, {});
+      const manager = new ItemUsageManager(context);
       const startTime = performance.now();
 
       // Create and register many items
@@ -919,6 +927,8 @@ describe('ItemsPure Golden Tests', () => {
     });
 
     test('should handle rapid item operations efficiently', () => {
+      const context = createMockContext({}, {});
+      const manager = new ItemUsageManager(context);
       const spirit = new MockSpiritInstance('test', 'Test Spirit', 100, 50);
 
       // Register many items
@@ -930,6 +940,7 @@ describe('ItemsPure Golden Tests', () => {
           new ItemEffect(ItemEffectType.HEAL, 10)
         );
         manager.registerItem(item);
+        context.inventory[item.itemID] = 100;
       }
 
       const startTime = performance.now();
@@ -947,6 +958,8 @@ describe('ItemsPure Golden Tests', () => {
     });
 
     test('should handle complex filtering efficiently', () => {
+      const context = createMockContext({}, {});
+      const manager = new ItemUsageManager(context);
 
       // Create diverse item set
       const itemTypes = Object.values(ItemType);

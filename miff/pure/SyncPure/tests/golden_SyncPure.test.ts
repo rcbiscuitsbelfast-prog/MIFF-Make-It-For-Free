@@ -280,7 +280,7 @@ describe('SyncPure Golden Tests', () => {
       const entry2 = new SpiritSyncEntry('spirit2', 60, [10, 50, 100]);
       const entry3 = new SpiritSyncEntry('spirit3', 100, [10, 50, 100]);
 
-      expect(entry1.levelProgress).toBe(0.5); // (25-10)/(50-10) = 15/40 = 0.375 ≈ 0.38
+      expect(entry1.levelProgress).toBe(0.5); // (25-10)/(50-10) = 15/40 = 0.375 ? 0.38
       expect(entry2.levelProgress).toBe(1.0); // At threshold
       expect(entry3.levelProgress).toBe(1.0); // At max level
     });
@@ -376,16 +376,17 @@ describe('SyncPure Golden Tests', () => {
 
   describe('SyncManager Basic Functionality', () => {
     test('should create manager with default configuration', () => {
-      expect(manager.getAllSpirits()).toHaveLength(0);
+      expect(syncManager.getAllSpirits()).toHaveLength(0);
     });
 
     test('should create manager with custom configuration', () => {
+      syncManager = new SyncManager({
         defaultMaxLevel: 200,
         enableEvents: true,
         autoSave: true
       });
 
-      expect(manager.getAllSpirits()).toHaveLength(0);
+      expect(syncManager.getAllSpirits()).toHaveLength(0);
     });
 
     test('should get sync levels correctly', () => {
@@ -590,11 +591,11 @@ describe('SyncPure Golden Tests', () => {
 
       // Process various sync events
       const events = [
-        SyncEvent.createBattleWin(1),      // +10 sync → Level 15
-        SyncEvent.createItemUsage('health_potion', 1),  // +5 sync → Level 20
-        SyncEvent.createBattleWin(2),      // +20 sync → Level 40
-        SyncEvent.createRhythmChallenge(0.9, 2),        // +27 sync → Level 67
-        SyncEvent.createDialogueChoice('choice_1', 1.5) // +4.5 sync → Level 71.5
+        SyncEvent.createBattleWin(1),      // +10 sync ? Level 15
+        SyncEvent.createItemUsage('health_potion', 1),  // +5 sync ? Level 20
+        SyncEvent.createBattleWin(2),      // +20 sync ? Level 40
+        SyncEvent.createRhythmChallenge(0.9, 2),        // +27 sync ? Level 67
+        SyncEvent.createDialogueChoice('choice_1', 1.5) // +4.5 sync ? Level 71.5
       ];
 
       let totalLevelIncrease = 0;
