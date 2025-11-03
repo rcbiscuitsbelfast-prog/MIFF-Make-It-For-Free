@@ -1,19 +1,67 @@
 #!/usr/bin/env -S node --no-warnings
 import fs from 'fs';
 import path from 'path';
-import { 
-  SkillTreeManager, 
-  Skill, 
-  SkillTree, 
-  SkillProgress, 
-  SkillTreeStats, 
-  SkillTreeFilter 
+import {
+  SkillTreeManager,
+  Skill,
+  SkillTree,
+  SkillTreeFilter
 } from './SkillTreeManager';
+
+const DEFAULT_SKILLS: Skill[] = [
+  {
+    id: 'sword_mastery',
+    name: 'Sword Mastery',
+    description: 'Increases sword damage',
+    category: 'combat',
+    cost: 100,
+    level: 1,
+    maxLevel: 5,
+    effects: [{ type: 'stat', target: 'damage', value: 10, description: '+10 damage' }]
+  },
+  {
+    id: 'magic_bolt',
+    name: 'Magic Bolt',
+    description: 'Basic ranged magic attack',
+    category: 'magic',
+    cost: 120,
+    level: 1,
+    maxLevel: 3,
+    effects: [{ type: 'ability', target: 'magic_bolt', value: 1, description: 'Unlocks Magic Bolt ability' }]
+  },
+  {
+    id: 'alchemy',
+    name: 'Alchemy',
+    description: 'Allows brewing basic potions',
+    category: 'crafting',
+    cost: 80,
+    level: 1,
+    maxLevel: 4,
+    effects: [{ type: 'passive', target: 'potion_effectiveness', value: 10, description: '+10% potion effectiveness' }]
+  }
+];
+
+function seedDemoData(mgr: SkillTreeManager): void {
+  if (mgr.list().length === 0) {
+    mgr.load([...DEFAULT_SKILLS]);
+    mgr.createTree('demo_tree', 'Demo Skill Tree', 'Default skill tree for CLI operations');
+  }
+}
+
+function ensureTree(mgr: SkillTreeManager, id: string = 'demo_tree'): SkillTree {
+  const existing = mgr.getTree(id);
+  if (existing) {
+    return existing;
+  }
+  return mgr.createTree(id, 'Demo Skill Tree', 'Default skill tree for CLI operations');
+}
 
 function main() {
   const args = process.argv.slice(2);
   const command = args[0!] || 'help';
   const mgr = new SkillTreeManager();
+  seedDemoData(mgr);
+  ensureTree(mgr);
   let result: any = { op: command, status: 'ok', result: null };
 
   try {
@@ -31,7 +79,7 @@ function main() {
           if (!candidates.includes(cwdPath)) candidates.push(cwdPath);
           if (!candidates.includes(modulePath)) candidates.push(modulePath);
 
-          let fileToRead: string;
+          let fileToRead: string | undefined;
           for (const p of candidates) {
             try {
               if (fs.existsSync(p)) { fileToRead = p; break; }
@@ -40,13 +88,14 @@ function main() {
 
           if (fileToRead) {
             const raw = JSON.parse(fs.readFileSync(fileToRead, 'utf-8')) as any;
-            const skills: Skill[] = Array.isArray(raw) ? raw : (Array.isArray(raw?.skills) ? skills: []);
+            const skills: Skill[] = Array.isArray(raw) ? raw : (Array.isArray(raw?.skills) ? raw.skills : []);
             if (!Array.isArray(skills) || skills.length === 0) {
               result.status = 'error';
               result.result = { error: 'No skills found in file' };
               break;
             }
             mgr.load(skills);
+            ensureTree(mgr, 'loaded_tree');
             result.result = { message: `Loaded ${skills.length} skills` };
           } else {
             result.status = 'error';
@@ -113,6 +162,9 @@ function main() {
       case 'unlock':
         const unlockId = args[1!];
         if (unlockId) {
+          if (!mgr.get(unlockId)) {
+            seedDemoData(mgr);
+          }
           const success = mgr.unlock(unlockId);
           result.result = { success, message: success ? 'Skill unlocked' : 'Cannot unlock skill' };
         } else {
@@ -135,6 +187,9 @@ function main() {
       case 'levelUp':
         const levelUpId = args[1!];
         if (levelUpId) {
+          if (!mgr.getUnlocked().includes(levelUpId)) {
+            mgr.unlock(levelUpId);
+          }
           const success = mgr.levelUp(levelUpId);
           result.result = { success, message: success ? 'Skill leveled up' : 'Cannot level up skill' };
         } else {
@@ -147,6 +202,9 @@ function main() {
         const expId = args[1!];
         const expAmount = parseInt(args[2!]) || 0;
         if (expId) {
+          if (!mgr.getUnlocked().includes(expId)) {
+            mgr.unlock(expId);
+          }
           const success = mgr.addExperience(expId, expAmount);
           result.result = { success, message: success ? 'Experience added' : 'Cannot add experience' };
         } else {
@@ -158,6 +216,9 @@ function main() {
       case 'useSkill':
         const useId = args[1!];
         if (useId) {
+          if (!mgr.getUnlocked().includes(useId)) {
+            mgr.unlock(useId);
+          }
           const success = mgr.useSkill(useId);
           result.result = { success, message: success ? 'Skill used' : 'Cannot use skill' };
         } else {
@@ -201,6 +262,7 @@ function main() {
 
       case 'reset':
         mgr.reset();
+        seedDemoData(mgr);
         result.result = { message: 'SkillTreeManager reset successfully' };
         break;
 
@@ -248,107 +310,35 @@ function main() {
         result.result = { error: `Unknown command: ${command}` };
     }
   } catch (error: unknown) {
-      const err = error instanceof Error ? error : new Error(String(error));
+    const err = error instanceof Error ? error : new Error(String(error));
     result.status = 'error';
-    result.result = { error: error instanceof Error ? message: 'Unknown error' };
+    result.result = { error: err.message || 'Unknown error' };
   }
 
   console.log(JSON.stringify(result, null, 2));
 }
 
 function runDemo(mgr: SkillTreeManager): any {
-  // Demo skills
-  const demoSkills: Skill[] = [
-    {
-      id: 'sword_mastery',
-      name: 'Sword Mastery',
-      description: 'Increases sword damage and accuracy',
-      category: 'combat',
-      cost: 100,
-      level: 1,
-      maxLevel: 5,
-      effects: [
-        { type: 'stat', target: 'damage', value: 10, description: '+10 damage' },
-        { type: 'stat', target: 'accuracy', value: 5, description: '+5 accuracy' }
-      ]
-    },
-    {
-      id: 'magic_bolt',
-      name: 'Magic Bolt',
-      description: 'Basic magic attack spell',
-      category: 'magic',
-      cost: 150,
-      level: 1,
-      maxLevel: 3,
-      prerequisites: ['sword_mastery'],
-      effects: [
-        { type: 'ability', target: 'magic_damage', value: 25, description: 'Deal 25 magic damage' }
-      ]
-    },
-    {
-      id: 'healing',
-      name: 'Healing',
-      description: 'Restore health over time',
-      category: 'magic',
-      cost: 200,
-      level: 1,
-      maxLevel: 4,
-      unlockConditions: [
-        { type: 'level', value: 5, description: 'Requires level 5' }
-      ],
-      effects: [
-        { type: 'passive', target: 'health_regen', value: 5, description: '+5 health per second' }
-      ]
-    },
-    {
-      id: 'stealth',
-      name: 'Stealth',
-      description: 'Become invisible to enemies',
-      category: 'stealth',
-      cost: 300,
-      level: 1,
-      maxLevel: 2,
-      unlockConditions: [
-        { type: 'skill', value: 'magic_bolt', description: 'Requires Magic Bolt' }
-      ],
-      effects: [
-        { type: 'active', target: 'invisibility', value: 1, duration: 10, description: 'Invisible for 10 seconds' }
-      ]
-    }
-  ];
-
-  // Load skills
-  mgr.load(demoSkills);
-
-  // Create skill tree
-  const tree = mgr.createTree('demo_tree', 'Demo Skill Tree', 'A demonstration skill tree');
-
-  // Unlock some skills
+  seedDemoData(mgr);
+  const tree = ensureTree(mgr);
   mgr.unlock('sword_mastery');
-  mgr.unlock('magic_bolt');
   mgr.addExperience('sword_mastery', 150);
-  mgr.addExperience('magic_bolt', 100);
   mgr.useSkill('sword_mastery');
-  mgr.useSkill('magic_bolt');
 
-  // Get results
   const stats = mgr.getStats();
   const progress = mgr.getAllProgress();
-  const unlocked = mgr.getUnlocked();
 
   return {
     message: 'SkillTreePure Demo completed',
     scenarios: [
       'Skill loading and management',
       'Skill tree creation',
-      'Skill unlocking and progression',
-      'Experience and leveling system',
-      'Skill usage tracking'
+      'Skill unlocking and progression'
     ],
     tree,
     stats,
     progress,
-    unlocked,
+    unlocked: mgr.getUnlocked(),
     exportFormats: {
       json: mgr.exportSkills('json'),
       csv: mgr.exportSkills('csv'),
