@@ -4,40 +4,39 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 	<meta name="mobile-web-app-capable" content="yes">
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<title>K-pop Monster Hunter v1.4 - FNF Style!</title>
+	<title>K-pop Monster Hunter v1.5 - DEEP RHYTHM</title>
 	
 	<style>
 		*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 		html,body{height:100%;overflow:hidden;background:#000;font-family:system-ui;touch-action:none}
 		#gameCanvas{position:fixed;inset:0;width:100%;height:100%;display:block}
-		#hud{position:fixed;left:0;right:0;top:0;height:50px;display:flex;align-items:center;justify-content:space-between;padding:6px 12px;font:13px monospace;color:#fff;background:rgba(0,0,0,0.7);backdrop-filter:blur(4px);pointer-events:none;z-index:100}
-		#hud-left{display:flex;gap:15px}
-		#hud-right{display:flex;gap:15px}
+		#hud{position:fixed;left:0;right:0;top:0;height:50px;display:flex;align-items:center;justify-content:space-between;padding:6px 12px;font:13px monospace;color:#fff;background:rgba(0,0,0,0.7);z-index:100;pointer-events:none}
+		#hud-left,#hud-right{display:flex;gap:15px}
 		.hud-stat{display:flex;flex-direction:column;gap:2px}
 		.hud-label{font-size:10px;opacity:0.7}
 		.hud-value{font-size:14px;font-weight:bold}
 		#dpad{position:fixed;bottom:20px;left:20px;width:140px;height:140px;z-index:150;pointer-events:auto}
 		.dpad-btn{position:absolute;width:50px;height:50px;background:rgba(0,255,136,0.3);border:2px solid #00ff88;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:24px;color:#00ff88;user-select:none;touch-action:none}
 		.dpad-btn:active{background:rgba(0,255,136,0.6);transform:scale(0.95)}
-		#dpad-up{top:0;left:45px}
-		#dpad-down{bottom:0;left:45px}
-		#dpad-left{left:0;top:45px}
-		#dpad-right{right:0;top:45px}
+		#dpad-up{top:0;left:45px}#dpad-down{bottom:0;left:45px}#dpad-left{left:0;top:45px}#dpad-right{right:0;top:45px}
 		#dpad-center{left:45px;top:45px;width:50px;height:50px;border-radius:50%;background:rgba(0,255,136,0.2)}
 		#actionBtn{position:fixed;bottom:30px;right:30px;width:80px;height:80px;background:#00ff88;border:3px solid#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:bold;color:#000;z-index:150;pointer-events:auto;box-shadow:0 4px 20px rgba(0,255,136,0.5);user-select:none;touch-action:none}
 		#actionBtn:active{transform:scale(0.9);background:#00a86b}
 		#rhythmUI{position:fixed;inset:0;display:none;background:linear-gradient(180deg,#1a0033 0%,#330066 100%);z-index:200}
 		#rhythmCanvas{position:fixed;inset:0;width:100%;height:100%;display:block}
-		.fnf-arrows{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);display:flex;gap:20px;z-index:201;pointer-events:auto}
-		.fnf-arrow{width:80px;height:80px;background:rgba(0,0,0,0.5);border:3px solid #fff;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:40px;user-select:none;touch-action:none;transition:all 0.1s}
-		.fnf-arrow:active{transform:scale(1.1);background:rgba(255,255,255,0.3);border-color:#0ff}
-		.fnf-arrow.hit{animation:hit 0.2s}
-		@keyframes hit{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
-		#fnfHealth{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);width:300px;height:30px;background:#333;border:3px solid#fff;border-radius:15px;overflow:hidden;z-index:201}
-		#fnfHealthBar{height:100%;background:linear-gradient(90deg,#f00 0%,#0f0 100%);transition:width 0.3s;width:50%}
-		#fnfScore{position:fixed;top:60px;right:20px;color:#fff;font:bold 20px monospace;z-index:201;text-align:right}
-		#spiritDex{position:fixed;right:10px;top:120px;width:90vw;max-width:280px;max-height:50vh;background:rgba(26,31,46,0.95);border:2px solid #00ff88;border-radius:8px;padding:15px;display:none;z-index:150;overflow-y:auto}
+		.fnf-arrows{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);display:flex;gap:15px;z-index:201;pointer-events:auto}
+		.fnf-arrow{width:75px;height:75px;background:rgba(0,0,0,0.7);border:3px solid;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:36px;user-select:none;touch-action:none;transition:all 0.1s;position:relative}
+		.fnf-arrow:active{transform:scale(1.15);box-shadow:0 0 30px}
+		.fnf-arrow.hit{animation:hit 0.15s}
+		@keyframes hit{0%,100%{transform:scale(1)}50%{transform:scale(1.3)}}
+		#fnfHealth{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);width:80%;max-width:400px;height:35px;background:#222;border:4px solid#fff;border-radius:20px;overflow:hidden;z-index:201}
+		#fnfHealthBar{height:100%;background:linear-gradient(90deg,#f00 0%,#ff0 50%,#0f0 100%);transition:width 0.2s;width:50%;position:relative}
+		#fnfHealthBar::after{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.3) 50%,transparent 100%);animation:shine 2s infinite}
+		@keyframes shine{0%,100%{transform:translateX(-100%)}50%{transform:translateX(100%)}}
+		#fnfStats{position:fixed;top:60px;right:20px;color:#fff;font:bold 18px monospace;z-index:201;text-align:right;text-shadow:2px 2px 4px #000}
+		#judgment{font-size:28px;display:block;margin-top:5px;text-shadow:3px 3px 6px #000}
+		.accuracy{font-size:14px;opacity:0.8}
+		#spiritDex{position:fixed;right:10px;top:140px;width:90vw;max-width:280px;max-height:45vh;background:rgba(26,31,46,0.95);border:2px solid #00ff88;border-radius:8px;padding:15px;display:none;z-index:150;overflow-y:auto}
 		.dex-header{font-size:16px;font-weight:bold;margin-bottom:10px;color:#00ff88;border-bottom:2px solid #00ff88;padding-bottom:5px}
 		.spirit-entry{display:flex;align-items:center;gap:10px;padding:10px;margin-bottom:8px;border-bottom:1px solid #333;font-size:14px;background:rgba(0,255,136,0.1);border-radius:4px}
 		.spirit-icon{width:40px;height:40px;border-radius:4px;flex-shrink:0}
@@ -53,58 +52,45 @@
 		.tutorial-text{font-size:15px;line-height:1.6;margin-bottom:25px;color:#e6edf3}
 		.tutorial-btn{padding:15px 40px;background:#00a86b;color:#fff;border:none;border-radius:8px;font-size:18px;font-weight:bold;touch-action:none;user-select:none}
 		.tutorial-btn:active{background:#00ff88;transform:scale(0.95)}
-		#version{position:fixed;top:60px;left:10px;color:#fff;font:bold 14px monospace;z-index:200;pointer-events:none;background:#ff0;color:#000;padding:8px;border-radius:4px}
+		#version{position:fixed;top:60px;left:10px;color:#000;font:bold 16px monospace;z-index:200;pointer-events:none;background:#0ff;padding:10px;border-radius:6px;box-shadow:0 4px 12px rgba(0,255,255,0.5)}
+		#countdown{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.8);z-index:202;font:bold 120px monospace;color:#0ff;text-shadow:0 0 40px #0ff}
 	</style>
 </head>
 <body>
-	<div id="version">v1.4 FNF!</div>
+	<div id="version">v1.5 DEEP!</div>
+	<div id="countdown"></div>
 	
 	<div id="hud" style="display:none">
 		<div id="hud-left">
-			<div class="hud-stat">
-				<span class="hud-label">ZONE</span>
-				<span class="hud-value">Tutorial</span>
-			</div>
-			<div class="hud-stat">
-				<span class="hud-label">TEAM</span>
-				<span class="hud-value" id="hud-spirits">0/3</span>
-			</div>
+			<div class="hud-stat"><span class="hud-label">ZONE</span><span class="hud-value">Tutorial</span></div>
+			<div class="hud-stat"><span class="hud-label">TEAM</span><span class="hud-value" id="hud-spirits">0/3</span></div>
 		</div>
 		<div id="hud-right">
-			<div class="hud-stat">
-				<span class="hud-label">CAPTURED</span>
-				<span class="hud-value" id="hud-captured">0</span>
-			</div>
+			<div class="hud-stat"><span class="hud-label">CAPTURED</span><span class="hud-value" id="hud-captured">0</span></div>
 		</div>
 	</div>
 
 	<canvas id="gameCanvas"></canvas>
-
 	<div id="dpad" style="display:none">
 		<div id="dpad-center"></div>
-		<div class="dpad-btn" id="dpad-up">▲</div>
-		<div class="dpad-btn" id="dpad-down">▼</div>
-		<div class="dpad-btn" id="dpad-left">◄</div>
-		<div class="dpad-btn" id="dpad-right">►</div>
+		<div class="dpad-btn" id="dpad-up">▲</div><div class="dpad-btn" id="dpad-down">▼</div>
+		<div class="dpad-btn" id="dpad-left">◄</div><div class="dpad-btn" id="dpad-right">►</div>
 	</div>
-
 	<button id="actionBtn" style="display:none">A</button>
 
-	<!-- FNF Style Rhythm UI -->
 	<div id="rhythmUI">
 		<canvas id="rhythmCanvas"></canvas>
 		<div class="fnf-arrows">
-			<div class="fnf-arrow" id="arrow-left">◄</div>
-			<div class="fnf-arrow" id="arrow-down">▼</div>
-			<div class="fnf-arrow" id="arrow-up">▲</div>
-			<div class="fnf-arrow" id="arrow-right">►</div>
+			<div class="fnf-arrow" id="arrow-left" style="border-color:#f00;color:#f00">◄</div>
+			<div class="fnf-arrow" id="arrow-down" style="border-color:#00f;color:#00f">▼</div>
+			<div class="fnf-arrow" id="arrow-up" style="border-color:#0f0;color:#0f0">▲</div>
+			<div class="fnf-arrow" id="arrow-right" style="border-color:#ff0;color:#ff0">►</div>
 		</div>
-		<div id="fnfHealth">
-			<div id="fnfHealthBar"></div>
-		</div>
-		<div id="fnfScore">
-			SCORE: 0<br>
-			COMBO: 0<br>
+		<div id="fnfHealth"><div id="fnfHealthBar"></div></div>
+		<div id="fnfStats">
+			SCORE: <span id="score">0</span><br>
+			COMBO: <span id="combo">0</span><br>
+			<span class="accuracy">ACC: <span id="accuracy">100</span>%</span><br>
 			<span id="judgment"></span>
 		</div>
 	</div>
@@ -113,35 +99,27 @@
 		<div class="dex-header">📚 SPIRIT DEX</div>
 		<div id="spiritDexList"></div>
 	</div>
-
-	<div id="controls" style="display:none">
-		<button class="control-btn" id="btnDex">DEX</button>
-	</div>
+	<div id="controls" style="display:none"><button class="control-btn" id="btnDex">DEX</button></div>
 
 	<div id="tutorial">
 		<div class="tutorial-panel">
-			<div class="tutorial-title">🎵 K-POP MONSTER HUNTER v1.4 🎵</div>
+			<div class="tutorial-title">🎵 K-POP MONSTER HUNTER v1.5 🎵</div>
 			<div class="tutorial-text">
-				<strong>Friday Night Funkin' Style!</strong><br><br>
-				📱 <strong>D-PAD</strong> to move around<br>
-				🎵 <strong>A button</strong> near spirits to battle<br>
-				⬅️⬇️⬆️➡️ <strong>Hit arrows</strong> when notes reach bottom!<br>
-				💚 Keep health bar green to win!<br><br>
-				<em>Touch the arrow buttons when notes arrive!</em>
+				<strong>DEEP Rhythm System!</strong><br><br>
+				🎵 <strong>50+ notes</strong> per battle!<br>
+				⚡ <strong>3 difficulty levels</strong> (Easy/Normal/Hard)<br>
+				🎯 <strong>4 timing windows</strong> (Sick/Good/Bad/Miss)<br>
+				💯 <strong>Accuracy tracking</strong> & grade system<br>
+				🔥 <strong>Hold notes</strong> + complex patterns!<br><br>
+				<em>True rhythm game depth!</em>
 			</div>
 			<button class="tutorial-btn" id="btnStart">START!</button>
 		</div>
 	</div>
 
 	<script>
-		const game = {
-			sprites: [],
-			activeTeam: [],
-			capturedCount: 0,
-			inCapture: false,
-			targetSpirit: null,
-			touch: {up:false,down:false,left:false,right:false,action:false}
-		};
+		const game = {sprites:[],activeTeam:[],capturedCount:0,inCapture:false,targetSpirit:null,
+			touch:{up:false,down:false,left:false,right:false,action:false}};
 
 		const canvas = document.getElementById('gameCanvas');
 		const ctx = canvas.getContext('2d');
@@ -158,33 +136,48 @@
 		window.addEventListener('resize', resize);
 		resize();
 
-		const player = {x: W/2, y: H/2, speed: 4, moving: false};
-
+		const player = {x:W/2,y:H/2,speed:4,moving:false};
 		const spirits = [
-			{id:1, name:'Shadow Slime', x:W*0.25, y:H*0.3, type:'shadow', color:'#8b00ff', captured:false},
-			{id:2, name:'Light Fairy', x:W*0.75, y:H*0.3, type:'light', color:'#ffeb3b', captured:false},
-			{id:3, name:'Water Spirit', x:W*0.5, y:H*0.65, type:'water', color:'#00bcd4', captured:false}
+			{id:1,name:'Shadow Slime',x:W*0.25,y:H*0.3,type:'shadow',color:'#8b00ff',captured:false,difficulty:'easy'},
+			{id:2,name:'Light Fairy',x:W*0.75,y:H*0.3,type:'light',color:'#ffeb3b',captured:false,difficulty:'normal'},
+			{id:3,name:'Water Spirit',x:W*0.5,y:H*0.65,type:'water',color:'#00bcd4',captured:false,difficulty:'hard'}
 		];
 
-		// FNF System
+		// DEEP FNF System
 		let fnfNotes = [];
 		let fnfTime = 0;
 		let fnfHealth = 50;
 		let fnfScore = 0;
 		let fnfCombo = 0;
-		const NOTE_SPEED = 3;
-		const HIT_ZONE = 100;
-		const TIMING_PERFECT = 50;
-		const TIMING_GOOD = 100;
+		let fnfMaxCombo = 0;
+		let fnfHits = {sick:0,good:0,bad:0,miss:0};
+		const NOTE_SPEED = 2.5;
+		const HIT_ZONE_Y = H - 160;
+		const TIMING = {sick:30,good:70,bad:120,miss:9999};
+		const SCORE_MULT = {sick:500,good:300,bad:100,miss:0};
+		const HEALTH_MULT = {sick:3,good:1.5,bad:0,miss:-8};
 
-		function generateBeat() {
+		// Advanced beat generation
+		function generateBeat(difficulty) {
 			const lanes = ['left','down','up','right'];
 			const pattern = [];
-			for(let i=0; i<20; i++) {
-				pattern.push({
-					lane: lanes[Math.floor(Math.random()*4)],
-					time: i * 800
-				});
+			let time = 0;
+			const noteCount = difficulty==='easy'?30:difficulty==='normal'?50:70;
+			const speed = difficulty==='easy'?600:difficulty==='normal'?450:350;
+			const holdChance = difficulty==='easy'?0:difficulty==='normal'?0.1:0.2;
+			
+			for(let i=0; i<noteCount; i++) {
+				const isHold = Math.random() < holdChance;
+				const lane = lanes[Math.floor(Math.random()*4)];
+				pattern.push({lane,time,type:isHold?'hold':'tap',holdEnd:isHold?(time+speed*2):0});
+				
+				// Add patterns
+				if(difficulty==='hard' && i%8===0 && i>0) {
+					// Chord pattern
+					pattern.push({lane:lanes[(lanes.indexOf(lane)+2)%4],time,type:'tap'});
+				}
+				
+				time += speed + (difficulty==='hard' ? Math.random()*100-50 : 0);
 			}
 			return pattern;
 		}
@@ -192,100 +185,159 @@
 		function startFNFBattle(spirit) {
 			game.inCapture = true;
 			game.targetSpirit = spirit;
-			fnfNotes = generateBeat();
+			fnfNotes = generateBeat(spirit.difficulty).map(n => ({...n,y:-50,hit:false,holding:false}));
 			fnfTime = 0;
 			fnfHealth = 50;
 			fnfScore = 0;
 			fnfCombo = 0;
+			fnfMaxCombo = 0;
+			fnfHits = {sick:0,good:0,bad:0,miss:0};
 			document.getElementById('rhythmUI').style.display = 'block';
-			document.getElementById('fnfHealthBar').style.width = '50%';
-			fnfLoop();
+			
+			// Countdown
+			const cd = document.getElementById('countdown');
+			cd.style.display = 'flex';
+			let count = 3;
+			cd.textContent = count;
+			const timer = setInterval(() => {
+				count--;
+				if(count > 0) {
+					cd.textContent = count;
+				} else if(count === 0) {
+					cd.textContent = 'GO!';
+				} else {
+					clearInterval(timer);
+					cd.style.display = 'none';
+					fnfLoop();
+				}
+			}, 600);
 		}
 
-		function hitArrow(lane) {
-			const hitZoneY = H - 160;
-			let closestNote = null;
-			let closestDist = 999;
+		const arrowStates = {left:false,down:false,up:false,right:false};
 
-			fnfNotes.forEach(note => {
-				if(note.lane === lane && !note.hit) {
-					const dist = Math.abs(note.y - hitZoneY);
-					if(dist < closestDist && dist < HIT_ZONE) {
-						closestDist = dist;
-						closestNote = note;
+		function hitArrow(lane, isPress) {
+			if(!game.inCapture) return;
+			
+			if(isPress) {
+				arrowStates[lane] = true;
+				
+				let closestNote = null;
+				let closestDist = 999;
+
+				fnfNotes.forEach(note => {
+					if(note.lane === lane && !note.hit) {
+						const dist = Math.abs(note.y - HIT_ZONE_Y);
+						if(dist < closestDist && dist < TIMING.miss) {
+							closestDist = dist;
+							closestNote = note;
+						}
 					}
+				});
+
+				if(closestNote) {
+					if(closestNote.type === 'hold') {
+						closestNote.holding = true;
+						judgmentFeedback('HOLD!','#0ff',lane);
+					} else {
+						processHit(closestNote, closestDist, lane);
+					}
+				} else {
+					fnfHealth -= 2;
+					fnfCombo = 0;
+					judgmentFeedback('MISS!','#f00',lane);
 				}
-			});
-
-			if(closestNote) {
-				closestNote.hit = true;
-				const judgment = closestDist < TIMING_PERFECT ? 'PERFECT!' : 
-				                 closestDist < TIMING_GOOD ? 'GOOD!' : 'OK!';
-				document.getElementById('judgment').textContent = judgment;
-				document.getElementById('judgment').style.color = 
-					closestDist < TIMING_PERFECT ? '#0ff' : 
-					closestDist < TIMING_GOOD ? '#0f0' : '#ff0';
-				
-				fnfHealth = Math.min(100, fnfHealth + (closestDist < TIMING_PERFECT ? 8 : 4));
-				fnfScore += closestDist < TIMING_PERFECT ? 500 : closestDist < TIMING_GOOD ? 300 : 100;
-				fnfCombo++;
-				
-				document.getElementById(`arrow-${lane}`).classList.add('hit');
-				setTimeout(() => document.getElementById(`arrow-${lane}`).classList.remove('hit'), 200);
 			} else {
-				fnfHealth -= 5;
-				fnfCombo = 0;
-				document.getElementById('judgment').textContent = 'MISS!';
-				document.getElementById('judgment').style.color = '#f00';
+				arrowStates[lane] = false;
+				// Release hold notes
+				fnfNotes.forEach(note => {
+					if(note.lane === lane && note.holding) {
+						const holdDuration = fnfTime - note.time;
+						const expectedDuration = note.holdEnd - note.time;
+						const accuracy = Math.abs(holdDuration - expectedDuration) / expectedDuration;
+						processHit(note, accuracy < 0.1 ? TIMING.sick : accuracy < 0.3 ? TIMING.good : TIMING.bad, lane);
+						note.holding = false;
+					}
+				});
 			}
+		}
 
+		function processHit(note, dist, lane) {
+			note.hit = true;
+			let judgment = dist < TIMING.sick ? 'sick' : dist < TIMING.good ? 'good' : 'bad';
+			fnfHits[judgment]++;
+			fnfHealth = Math.min(100, fnfHealth + HEALTH_MULT[judgment]);
+			fnfScore += SCORE_MULT[judgment] * (1 + fnfCombo * 0.1);
+			fnfCombo++;
+			fnfMaxCombo = Math.max(fnfMaxCombo, fnfCombo);
+			
+			const text = judgment === 'sick' ? 'SICK!!' : judgment === 'good' ? 'GOOD!' : 'BAD';
+			const color = judgment === 'sick' ? '#0ff' : judgment === 'good' ? '#0f0' : '#ff0';
+			judgmentFeedback(text, color, lane);
 			updateFNFUI();
+		}
+
+		function judgmentFeedback(text, color, lane) {
+			const j = document.getElementById('judgment');
+			j.textContent = text;
+			j.style.color = color;
+			document.getElementById(`arrow-${lane}`).classList.add('hit');
+			setTimeout(() => document.getElementById(`arrow-${lane}`).classList.remove('hit'), 150);
 		}
 
 		function updateFNFUI() {
 			document.getElementById('fnfHealthBar').style.width = fnfHealth + '%';
-			document.getElementById('fnfScore').innerHTML = 
-				`SCORE: ${fnfScore}<br>COMBO: ${fnfCombo}<br><span id="judgment"></span>`;
+			document.getElementById('score').textContent = Math.floor(fnfScore);
+			document.getElementById('combo').textContent = fnfCombo;
+			const total = fnfHits.sick + fnfHits.good + fnfHits.bad + fnfHits.miss;
+			const accuracy = total > 0 ? ((fnfHits.sick*1 + fnfHits.good*0.7 + fnfHits.bad*0.3) / total * 100).toFixed(1) : 100;
+			document.getElementById('accuracy').textContent = accuracy;
 		}
 
 		function fnfLoop() {
 			if(!game.inCapture) return;
-
 			fnfTime += 16;
-			fnfHealth -= 0.05;
+			fnfHealth -= 0.03;
 
 			rCtx.fillStyle = 'rgba(26,0,51,0.3)';
 			rCtx.fillRect(0,0,W,H);
 
-			const hitZoneY = H - 160;
-			const laneX = [W/2-120, W/2-40, W/2+40, W/2+120];
+			const laneX = [W/2-120,W/2-40,W/2+40,W/2+120];
 			const laneColors = ['#f00','#00f','#0f0','#ff0'];
 			const lanes = ['left','down','up','right'];
 
-			// Draw lanes
 			lanes.forEach((lane,i) => {
 				rCtx.strokeStyle = laneColors[i];
-				rCtx.lineWidth = 3;
+				rCtx.lineWidth = 2;
 				rCtx.strokeRect(laneX[i]-35, 0, 70, H);
+				
+				if(arrowStates[lane]) {
+					rCtx.fillStyle = 'rgba(255,255,255,0.1)';
+					rCtx.fillRect(laneX[i]-35, 0, 70, H);
+				}
 			});
 
-			// Draw hit zone
 			lanes.forEach((lane,i) => {
 				rCtx.fillStyle = 'rgba(255,255,255,0.2)';
-				rCtx.fillRect(laneX[i]-35, hitZoneY-30, 70, 60);
+				rCtx.fillRect(laneX[i]-35, HIT_ZONE_Y-30, 70, 60);
 				rCtx.strokeStyle = '#fff';
 				rCtx.lineWidth = 4;
-				rCtx.strokeRect(laneX[i]-35, hitZoneY-30, 70, 60);
+				rCtx.strokeRect(laneX[i]-35, HIT_ZONE_Y-30, 70, 60);
 			});
 
-			// Update and draw notes
 			fnfNotes.forEach(note => {
-				if(!note.y) note.y = -50;
 				note.y += NOTE_SPEED;
-
 				const laneIdx = lanes.indexOf(note.lane);
-				if(!note.hit) {
+				
+				if(!note.hit || note.holding) {
 					rCtx.fillStyle = laneColors[laneIdx];
+					
+					if(note.type === 'hold' && note.holding) {
+						rCtx.fillRect(laneX[laneIdx]-25, note.y, 50, HIT_ZONE_Y - note.y);
+						rCtx.strokeStyle = '#fff';
+						rCtx.lineWidth = 3;
+						rCtx.strokeRect(laneX[laneIdx]-25, note.y, 50, HIT_ZONE_Y - note.y);
+					}
+					
 					rCtx.fillRect(laneX[laneIdx]-30, note.y-30, 60, 60);
 					rCtx.strokeStyle = '#fff';
 					rCtx.lineWidth = 3;
@@ -300,8 +352,9 @@
 					rCtx.fillText(arrow, laneX[laneIdx], note.y);
 				}
 
-				if(note.y > H && !note.hit) {
+				if(note.y > H + 50 && !note.hit) {
 					note.hit = true;
+					fnfHits.miss++;
 					fnfHealth -= 10;
 					fnfCombo = 0;
 				}
@@ -309,7 +362,7 @@
 
 			if(fnfHealth <= 0) {
 				endFNFBattle(false);
-			} else if(fnfNotes.every(n => n.hit)) {
+			} else if(fnfNotes.every(n => n.hit && !n.holding)) {
 				endFNFBattle(true);
 			} else {
 				requestAnimationFrame(fnfLoop);
@@ -322,7 +375,7 @@
 			
 			if(won) {
 				const spirit = game.targetSpirit;
-				game.sprites.push(spirit);
+				game.sprites.push({...spirit,score:Math.floor(fnfScore),accuracy:document.getElementById('accuracy').textContent});
 				game.capturedCount++;
 				if(game.activeTeam.length < 3) game.activeTeam.push(spirit);
 				updateHUD();
@@ -330,36 +383,21 @@
 			}
 		}
 
-		// Setup arrow touches
 		['left','down','up','right'].forEach(lane => {
-			document.getElementById(`arrow-${lane}`).addEventListener('touchend', e => {
-				e.preventDefault();
-				hitArrow(lane);
-			});
+			const el = document.getElementById(`arrow-${lane}`);
+			el.addEventListener('touchstart', e => {e.preventDefault();hitArrow(lane,true);});
+			el.addEventListener('touchend', e => {e.preventDefault();hitArrow(lane,false);});
 		});
 
 		function setupTouch() {
 			['dpad-up','dpad-down','dpad-left','dpad-right'].forEach(id => {
 				const el = document.getElementById(id);
 				const dir = id.split('-')[1];
-				el.addEventListener('touchstart', e => {
-					e.preventDefault();
-					game.touch[dir] = true;
-				});
-				el.addEventListener('touchend', e => {
-					e.preventDefault();
-					game.touch[dir] = false;
-				});
+				el.addEventListener('touchstart', e => {e.preventDefault();game.touch[dir] = true;});
+				el.addEventListener('touchend', e => {e.preventDefault();game.touch[dir] = false;});
 			});
-
-			document.getElementById('actionBtn').addEventListener('touchstart', e => {
-				e.preventDefault();
-				game.touch.action = true;
-			});
-			document.getElementById('actionBtn').addEventListener('touchend', e => {
-				e.preventDefault();
-				game.touch.action = false;
-			});
+			document.getElementById('actionBtn').addEventListener('touchstart', e => {e.preventDefault();game.touch.action = true;});
+			document.getElementById('actionBtn').addEventListener('touchend', e => {e.preventDefault();game.touch.action = false;});
 		}
 
 		document.getElementById('btnStart').addEventListener('touchend', startGame);
@@ -397,7 +435,7 @@
 						<div class="spirit-icon" style="background:${s.color}"></div>
 						<div class="spirit-info">
 							<div class="spirit-name">${s.name}</div>
-							<div class="spirit-type">Type: ${s.type}</div>
+							<div class="spirit-type">Score: ${s.score} (${s.accuracy}%)</div>
 						</div>
 					</div>
 				`).join('');
@@ -543,6 +581,11 @@
 				ctx.font = 'bold 13px monospace';
 				ctx.textAlign = 'center';
 				ctx.fillText(s.name, s.x, s.y-35);
+				
+				// Show difficulty
+				ctx.font = 'bold 11px monospace';
+				ctx.fillStyle = s.difficulty==='easy'?'#0f0':s.difficulty==='normal'?'#ff0':'#f00';
+				ctx.fillText(s.difficulty.toUpperCase(), s.x, s.y-48);
 
 				const dist = Math.sqrt((player.x-s.x)**2 + (player.y-s.y)**2);
 				if (dist < 60 && !game.inCapture) {
