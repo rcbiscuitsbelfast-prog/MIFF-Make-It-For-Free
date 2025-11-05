@@ -5,7 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 	<meta name="mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-capable" content="yes">
-	<title>K-pop Monster Hunter - Mobile Alpha</title>
+	<title>K-pop Monster Hunter v1.1 - Mobile Alpha</title>
 	
 	<style>
 		*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -122,7 +122,7 @@
 	<!-- Tutorial -->
 	<div id="tutorial" style="display:none">
 		<div class="tutorial-panel">
-			<div class="tutorial-title">🎵 K-POP MONSTER HUNTER 🎵</div>
+			<div class="tutorial-title">🎵 K-POP MONSTER HUNTER v1.1 🎵</div>
 			<div class="tutorial-text">
 				<strong>Welcome to Tutorial Island!</strong><br><br>
 				📱 <strong>Use D-PAD</strong> (bottom-left) to move<br>
@@ -136,13 +136,13 @@
 	</div>
 
 	<script>
-		// Asset paths - using correct GitHub Pages paths
+		// Asset paths - v1.1 - using correct relative paths for GitHub Pages
 		const ASSETS = {
-			playerWalk: 'https://raw.githubusercontent.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/master/assets/sprites/spirits/K-pop/Mira-Sprite/walk.png',
-			playerIdle: 'https://raw.githubusercontent.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/master/assets/sprites/spirits/K-pop/Mira-Sprite/idle.png',
-			groundTile: 'https://raw.githubusercontent.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/master/miff/assets/FarmLand_Tile.png',
-			pathTile: 'https://raw.githubusercontent.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/master/miff/assets/Path_Tile.png',
-			spiritSlime: 'https://raw.githubusercontent.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/master/miff/assets/Slime_Green.png'
+			playerWalk: '../assets/sprites/spirits/K-pop/Mira-Sprite/walk.png',
+			playerIdle: '../assets/sprites/spirits/K-pop/Mira-Sprite/idle.png',
+			groundTile: '../miff/assets/FarmLand_Tile.png',
+			pathTile: '../miff/assets/Path_Tile.png',
+			spiritSlime: '../miff/assets/Slime_Green.png'
 		};
 
 		// Game state
@@ -195,22 +195,31 @@
 				img.onload = () => {
 					images[key] = img;
 					loadedCount++;
+					const pct = Math.floor(loadedCount/totalAssets*100);
 					document.getElementById('loading').textContent = 
-						`Loading sprites... ${Math.floor(loadedCount/totalAssets*100)}%`;
+						`Loading sprites... ${pct}% (v1.1)`;
 					if (loadedCount === totalAssets) assetsLoaded();
 				};
-				img.onerror = () => {
-					console.warn(`Failed to load ${key}, using fallback`);
+				img.onerror = (e) => {
+					document.getElementById('loading').textContent = 
+						`Error loading ${key}! Path: ${ASSETS[key]}`;
+					console.error(`Failed to load ${key}:`, ASSETS[key], e);
 					loadedCount++;
 					if (loadedCount === totalAssets) assetsLoaded();
 				};
 				img.src = ASSETS[key];
+				// Show which image we're trying to load
+				console.log(`Loading ${key} from:`, ASSETS[key]);
 			});
 		}
 
 		function assetsLoaded() {
-			document.getElementById('loading').style.display = 'none';
-			document.getElementById('tutorial').style.display = 'flex';
+			console.log('Assets loaded:', Object.keys(images));
+			document.getElementById('loading').textContent = 'Ready! v1.1';
+			setTimeout(() => {
+				document.getElementById('loading').style.display = 'none';
+				document.getElementById('tutorial').style.display = 'flex';
+			}, 500);
 		}
 
 		// Touch controls
