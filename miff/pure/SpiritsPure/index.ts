@@ -1716,7 +1716,7 @@ export const SpiritUtils = {
    * Get type name
    */
   getTypeName(type: SpiritType): string {
-    return SpiritType[type].toUpperCase();
+    return type.toString().toUpperCase();
   },
 
   /**
@@ -1724,13 +1724,13 @@ export const SpiritUtils = {
    */
   getRarityName(rarity: SpiritRarity): string {
     switch (rarity) {
-      case COMMON: return 'Common';
-      case UNCOMMON: return 'Uncommon';
-      case RARE: return 'Rare';
-      case EPIC: return 'Epic';
-      case LEGENDARY: return 'Legendary';
-      case MYTHICAL: return 'Mythical';
-      case UNIQUE: return 'Unique';
+      case SpiritRarity.COMMON: return 'Common';
+      case SpiritRarity.UNCOMMON: return 'Uncommon';
+      case SpiritRarity.RARE: return 'Rare';
+      case SpiritRarity.EPIC: return 'Epic';
+      case SpiritRarity.LEGENDARY: return 'Legendary';
+      case SpiritRarity.MYTHICAL: return 'Mythical';
+      case SpiritRarity.UNIQUE: return 'Unique';
       default: return 'Unknown';
     }
   },
