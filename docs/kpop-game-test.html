@@ -10,7 +10,7 @@
 		*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 		html,body{height:100%;overflow:hidden;background:#000;font-family:system-ui;touch-action:none}
 		#gameCanvas{position:fixed;inset:0;width:100%;height:100%;display:block}
-		#loadingScreen{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a0033 0%,#330066 100%);z-index:500;color:#fff}
+		#loadingScreen{position:fixed;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a0033 0%,#330066 100%);z-index:500;color:#fff}
 		.loading-title{font:bold 32px monospace;color:#0ff;margin-bottom:20px;text-shadow:0 0 20px #0ff}
 		.loading-bar{width:80%;max-width:400px;height:40px;background:#222;border:3px solid #0ff;border-radius:20px;overflow:hidden;margin-bottom:15px}
 		.loading-fill{height:100%;background:linear-gradient(90deg,#0ff 0%,#f0f 100%);width:0%;transition:width 0.3s}
@@ -70,7 +70,7 @@
 	</style>
 </head>
 <body>
-	<div id="version">v1.6.1 FIX!</div>
+	<div id="version">v1.6.2 GO!</div>
 	
 	<div id="loadingScreen">
 		<div class="loading-title">🎵 LOADING REAL MUSIC! 🎵</div>
@@ -186,6 +186,10 @@
 			const text = document.getElementById('loadingText');
 			
 			console.log('Elements found:', {loading, fill, text});
+			
+			// Show loading screen, hide tutorial
+			document.getElementById('tutorial').style.display = 'none';
+			loading.style.display = 'flex';
 			
 			try {
 				console.log('Creating AudioContext...');
