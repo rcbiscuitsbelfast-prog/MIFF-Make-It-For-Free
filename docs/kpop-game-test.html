@@ -5,7 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 	<meta name="mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-capable" content="yes">
-	<title>K-pop Monster Hunter v1.2 - Mobile</title>
+	<title>K-pop Monster Hunter v1.3 - INSTANT PLAY</title>
 	
 	<style>
 		*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -56,7 +56,7 @@
 	</style>
 </head>
 <body>
-	<div id="version">v1.2 NO ASSETS</div>
+	<div id="version" style="background:red;padding:8px;font-size:16px;font-weight:bold">v1.3 READY!</div>
 	
 	<!-- HUD -->
 	<div id="hud" style="display:none">
@@ -122,7 +122,7 @@
 	<!-- Tutorial -->
 	<div id="tutorial">
 		<div class="tutorial-panel">
-			<div class="tutorial-title">🎵 K-POP MONSTER HUNTER v1.2 🎵</div>
+			<div class="tutorial-title">🎵 K-POP MONSTER HUNTER v1.3 🎵</div>
 			<div class="tutorial-text">
 				<strong>Tutorial Island</strong><br><br>
 				📱 <strong>D-PAD</strong> to move (bottom-left)<br>
@@ -290,36 +290,92 @@
 			});
 		});
 
-		// Draw player (simple sprite)
+		// Draw player - K-pop style character
 		function drawPlayer(x, y, moving) {
-			// Body
-			ctx.fillStyle = '#ff1493';
-			ctx.fillRect(x-16, y-16, 32, 40);
-			// Head
-			ctx.fillStyle = '#ffb6c1';
+			// Shadow
+			ctx.fillStyle = 'rgba(0,0,0,0.3)';
 			ctx.beginPath();
-			ctx.arc(x, y-20, 12, 0, Math.PI*2);
+			ctx.ellipse(x, y+28, 20, 6, 0, 0, Math.PI*2);
 			ctx.fill();
+			
+			// Legs (animate if moving)
+			const legOffset = moving && Math.floor(Date.now()/150)%2 ? 6 : 0;
+			ctx.fillStyle = '#000';
+			ctx.fillRect(x-12, y+8+legOffset, 10, 20);
+			ctx.fillRect(x+2, y+8-legOffset, 10, 20);
+			
+			// Skirt/Dress
+			ctx.fillStyle = '#ff1493';
+			ctx.beginPath();
+			ctx.moveTo(x-18, y-4);
+			ctx.lineTo(x+18, y-4);
+			ctx.lineTo(x+22, y+10);
+			ctx.lineTo(x-22, y+10);
+			ctx.closePath();
+			ctx.fill();
+			
+			// Body
+			ctx.fillStyle = '#ff69b4';
+			ctx.fillRect(x-14, y-18, 28, 18);
+			
+			// Arms (animated)
+			const armSwing = moving ? Math.sin(Date.now()/150) * 8 : 0;
+			ctx.fillStyle = '#ffb6c1';
+			ctx.fillRect(x-20, y-12+armSwing, 6, 16);
+			ctx.fillRect(x+14, y-12-armSwing, 6, 16);
+			
+			// Head
+			ctx.fillStyle = '#ffcc99';
+			ctx.beginPath();
+			ctx.arc(x, y-28, 14, 0, Math.PI*2);
+			ctx.fill();
+			
+			// Hair - Long K-pop style
+			ctx.fillStyle = '#8b00ff';
+			// Top
+			ctx.fillRect(x-16, y-38, 32, 12);
+			// Sides
+			ctx.fillRect(x-18, y-28, 6, 20);
+			ctx.fillRect(x+12, y-28, 6, 20);
+			// Bangs
+			ctx.fillRect(x-12, y-30, 6, 8);
+			ctx.fillRect(x-4, y-32, 6, 10);
+			ctx.fillRect(x+4, y-30, 6, 8);
+			
 			// Eyes
 			ctx.fillStyle = '#000';
-			ctx.fillRect(x-6, y-22, 4, 4);
-			ctx.fillRect(x+2, y-22, 4, 4);
-			// Hair
-			ctx.fillStyle = '#8b00ff';
-			ctx.fillRect(x-10, y-28, 20, 8);
-			// Legs (animate if moving)
-			const legOffset = moving && Math.floor(Date.now()/200)%2 ? 4 : -4;
-			ctx.fillStyle = '#ff1493';
-			ctx.fillRect(x-10, y+16, 8, 12);
-			ctx.fillRect(x+2+legOffset/2, y+16, 8, 12);
+			ctx.fillRect(x-8, y-28, 4, 6);
+			ctx.fillRect(x+4, y-28, 4, 6);
+			
+			// Sparkle eyes
+			ctx.fillStyle = '#fff';
+			ctx.fillRect(x-7, y-27, 2, 2);
+			ctx.fillRect(x+5, y-27, 2, 2);
+			
+			// Smile
+			ctx.strokeStyle = '#ff1493';
+			ctx.lineWidth = 2;
+			ctx.beginPath();
+			ctx.arc(x, y-22, 6, 0.2, Math.PI-0.2);
+			ctx.stroke();
+			
+			// Blush
+			ctx.fillStyle = 'rgba(255,105,180,0.4)';
+			ctx.beginPath();
+			ctx.arc(x-10, y-24, 4, 0, Math.PI*2);
+			ctx.arc(x+10, y-24, 4, 0, Math.PI*2);
+			ctx.fill();
 		}
 
 		// Game loop
 		let lastCheck = false;
 
 		function gameLoop() {
-			// Background - grass tiles
-			ctx.fillStyle = '#2d5016';
+			// Background - vibrant grass
+			const grad = ctx.createLinearGradient(0, 0, 0, H);
+			grad.addColorStop(0, '#4a7c59');
+			grad.addColorStop(1, '#2d5016');
+			ctx.fillStyle = grad;
 			ctx.fillRect(0, 0, W, H);
 			
 			// Draw grid pattern
