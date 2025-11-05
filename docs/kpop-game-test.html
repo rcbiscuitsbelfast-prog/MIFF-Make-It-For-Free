@@ -5,7 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 	<meta name="mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-capable" content="yes">
-	<title>K-pop Monster Hunter v1.3 - INSTANT PLAY</title>
+	<title>K-pop Monster Hunter v1.4 - FNF Style!</title>
 	
 	<style>
 		*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -27,16 +27,17 @@
 		#dpad-center{left:45px;top:45px;width:50px;height:50px;border-radius:50%;background:rgba(0,255,136,0.2)}
 		#actionBtn{position:fixed;bottom:30px;right:30px;width:80px;height:80px;background:#00ff88;border:3px solid#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:bold;color:#000;z-index:150;pointer-events:auto;box-shadow:0 4px 20px rgba(0,255,136,0.5);user-select:none;touch-action:none}
 		#actionBtn:active{transform:scale(0.9);background:#00a86b}
-		#rhythmUI{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.9);z-index:200}
-		.rhythm-container{width:90vw;max-width:500px;background:#1a1f2e;border:3px solid #00ff88;border-radius:12px;padding:20px}
-		.rhythm-header{text-align:center;color:#00ff88;font-size:24px;margin-bottom:20px;font-weight:bold}
-		.rhythm-meter{height:40px;background:#0a0f1a;border:2px solid #00ff88;border-radius:8px;overflow:hidden;position:relative;margin-bottom:20px}
-		.rhythm-meter-fill{height:100%;background:linear-gradient(90deg,#00ff88,#00a86b);transition:width 0.3s}
-		.rhythm-notes{display:flex;justify-content:center;gap:15px;margin:20px 0}
-		.rhythm-note{width:90px;height:90px;background:#00ff88;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:bold;color:#000;box-shadow:0 4px 15px rgba(0,255,136,0.4);user-select:none;touch-action:none}
-		.rhythm-note:active{transform:scale(0.85);background:#00a86b}
-		.rhythm-result{text-align:center;font-size:20px;margin-top:15px;color:#00ff88;font-weight:bold;min-height:30px}
-		#spiritDex{position:fixed;right:10px;top:60px;width:90vw;max-width:300px;max-height:60vh;background:rgba(26,31,46,0.95);border:2px solid #00ff88;border-radius:8px;padding:15px;display:none;z-index:150;overflow-y:auto}
+		#rhythmUI{position:fixed;inset:0;display:none;background:linear-gradient(180deg,#1a0033 0%,#330066 100%);z-index:200}
+		#rhythmCanvas{position:fixed;inset:0;width:100%;height:100%;display:block}
+		.fnf-arrows{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);display:flex;gap:20px;z-index:201;pointer-events:auto}
+		.fnf-arrow{width:80px;height:80px;background:rgba(0,0,0,0.5);border:3px solid #fff;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:40px;user-select:none;touch-action:none;transition:all 0.1s}
+		.fnf-arrow:active{transform:scale(1.1);background:rgba(255,255,255,0.3);border-color:#0ff}
+		.fnf-arrow.hit{animation:hit 0.2s}
+		@keyframes hit{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+		#fnfHealth{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);width:300px;height:30px;background:#333;border:3px solid#fff;border-radius:15px;overflow:hidden;z-index:201}
+		#fnfHealthBar{height:100%;background:linear-gradient(90deg,#f00 0%,#0f0 100%);transition:width 0.3s;width:50%}
+		#fnfScore{position:fixed;top:60px;right:20px;color:#fff;font:bold 20px monospace;z-index:201;text-align:right}
+		#spiritDex{position:fixed;right:10px;top:120px;width:90vw;max-width:280px;max-height:50vh;background:rgba(26,31,46,0.95);border:2px solid #00ff88;border-radius:8px;padding:15px;display:none;z-index:150;overflow-y:auto}
 		.dex-header{font-size:16px;font-weight:bold;margin-bottom:10px;color:#00ff88;border-bottom:2px solid #00ff88;padding-bottom:5px}
 		.spirit-entry{display:flex;align-items:center;gap:10px;padding:10px;margin-bottom:8px;border-bottom:1px solid #333;font-size:14px;background:rgba(0,255,136,0.1);border-radius:4px}
 		.spirit-icon{width:40px;height:40px;border-radius:4px;flex-shrink:0}
@@ -52,13 +53,12 @@
 		.tutorial-text{font-size:15px;line-height:1.6;margin-bottom:25px;color:#e6edf3}
 		.tutorial-btn{padding:15px 40px;background:#00a86b;color:#fff;border:none;border-radius:8px;font-size:18px;font-weight:bold;touch-action:none;user-select:none}
 		.tutorial-btn:active{background:#00ff88;transform:scale(0.95)}
-		#version{position:fixed;top:60px;left:10px;color:#00ff88;font:12px monospace;z-index:200;pointer-events:none}
+		#version{position:fixed;top:60px;left:10px;color:#fff;font:bold 14px monospace;z-index:200;pointer-events:none;background:#ff0;color:#000;padding:8px;border-radius:4px}
 	</style>
 </head>
 <body>
-	<div id="version" style="background:red;padding:8px;font-size:16px;font-weight:bold">v1.3 READY!</div>
+	<div id="version">v1.4 FNF!</div>
 	
-	<!-- HUD -->
 	<div id="hud" style="display:none">
 		<div id="hud-left">
 			<div class="hud-stat">
@@ -80,7 +80,6 @@
 
 	<canvas id="gameCanvas"></canvas>
 
-	<!-- Mobile D-Pad -->
 	<div id="dpad" style="display:none">
 		<div id="dpad-center"></div>
 		<div class="dpad-btn" id="dpad-up">▲</div>
@@ -89,54 +88,52 @@
 		<div class="dpad-btn" id="dpad-right">►</div>
 	</div>
 
-	<!-- Action Button -->
 	<button id="actionBtn" style="display:none">A</button>
 
-	<!-- Rhythm UI -->
+	<!-- FNF Style Rhythm UI -->
 	<div id="rhythmUI">
-		<div class="rhythm-container">
-			<div class="rhythm-header">🎵 CAPTURE! 🎵</div>
-			<div class="rhythm-meter">
-				<div class="rhythm-meter-fill" id="rhythmMeter" style="width:0%"></div>
-			</div>
-			<div class="rhythm-notes">
-				<div class="rhythm-note" id="note1">TAP</div>
-				<div class="rhythm-note" id="note2">HOLD</div>
-				<div class="rhythm-note" id="note3">SWIPE</div>
-			</div>
-			<div class="rhythm-result" id="rhythmResult">Tap to capture!</div>
+		<canvas id="rhythmCanvas"></canvas>
+		<div class="fnf-arrows">
+			<div class="fnf-arrow" id="arrow-left">◄</div>
+			<div class="fnf-arrow" id="arrow-down">▼</div>
+			<div class="fnf-arrow" id="arrow-up">▲</div>
+			<div class="fnf-arrow" id="arrow-right">►</div>
+		</div>
+		<div id="fnfHealth">
+			<div id="fnfHealthBar"></div>
+		</div>
+		<div id="fnfScore">
+			SCORE: 0<br>
+			COMBO: 0<br>
+			<span id="judgment"></span>
 		</div>
 	</div>
 
-	<!-- Spirit Dex -->
 	<div id="spiritDex">
 		<div class="dex-header">📚 SPIRIT DEX</div>
 		<div id="spiritDexList"></div>
 	</div>
 
-	<!-- Controls -->
 	<div id="controls" style="display:none">
 		<button class="control-btn" id="btnDex">DEX</button>
 	</div>
 
-	<!-- Tutorial -->
 	<div id="tutorial">
 		<div class="tutorial-panel">
-			<div class="tutorial-title">🎵 K-POP MONSTER HUNTER v1.3 🎵</div>
+			<div class="tutorial-title">🎵 K-POP MONSTER HUNTER v1.4 🎵</div>
 			<div class="tutorial-text">
-				<strong>Tutorial Island</strong><br><br>
-				📱 <strong>D-PAD</strong> to move (bottom-left)<br>
-				🎵 <strong>A button</strong> near spirits (bottom-right)<br>
-				👥 Collect <strong>3 spirits</strong><br>
-				💾 Tap <strong>DEX</strong> to view<br><br>
-				<em>No asset loading - works instantly!</em>
+				<strong>Friday Night Funkin' Style!</strong><br><br>
+				📱 <strong>D-PAD</strong> to move around<br>
+				🎵 <strong>A button</strong> near spirits to battle<br>
+				⬅️⬇️⬆️➡️ <strong>Hit arrows</strong> when notes reach bottom!<br>
+				💚 Keep health bar green to win!<br><br>
+				<em>Touch the arrow buttons when notes arrive!</em>
 			</div>
 			<button class="tutorial-btn" id="btnStart">START!</button>
 		</div>
 	</div>
 
 	<script>
-		// Game state
 		const game = {
 			sprites: [],
 			activeTeam: [],
@@ -146,32 +143,201 @@
 			touch: {up:false,down:false,left:false,right:false,action:false}
 		};
 
-		// Canvas
 		const canvas = document.getElementById('gameCanvas');
 		const ctx = canvas.getContext('2d');
+		const rCanvas = document.getElementById('rhythmCanvas');
+		const rCtx = rCanvas.getContext('2d');
 		let W, H;
 		
 		function resize() {
 			W = canvas.width = window.innerWidth;
 			H = canvas.height = window.innerHeight;
+			rCanvas.width = window.innerWidth;
+			rCanvas.height = window.innerHeight;
 		}
 		window.addEventListener('resize', resize);
 		resize();
 
-		// Player
-		const player = {
-			x: W/2, y: H/2, speed: 4, size: 32,
-			frame: 0, animTimer: 0, moving: false
-		};
+		const player = {x: W/2, y: H/2, speed: 4, moving: false};
 
-		// Spirits
 		const spirits = [
 			{id:1, name:'Shadow Slime', x:W*0.25, y:H*0.3, type:'shadow', color:'#8b00ff', captured:false},
 			{id:2, name:'Light Fairy', x:W*0.75, y:H*0.3, type:'light', color:'#ffeb3b', captured:false},
 			{id:3, name:'Water Spirit', x:W*0.5, y:H*0.65, type:'water', color:'#00bcd4', captured:false}
 		];
 
-		// Touch setup
+		// FNF System
+		let fnfNotes = [];
+		let fnfTime = 0;
+		let fnfHealth = 50;
+		let fnfScore = 0;
+		let fnfCombo = 0;
+		const NOTE_SPEED = 3;
+		const HIT_ZONE = 100;
+		const TIMING_PERFECT = 50;
+		const TIMING_GOOD = 100;
+
+		function generateBeat() {
+			const lanes = ['left','down','up','right'];
+			const pattern = [];
+			for(let i=0; i<20; i++) {
+				pattern.push({
+					lane: lanes[Math.floor(Math.random()*4)],
+					time: i * 800
+				});
+			}
+			return pattern;
+		}
+
+		function startFNFBattle(spirit) {
+			game.inCapture = true;
+			game.targetSpirit = spirit;
+			fnfNotes = generateBeat();
+			fnfTime = 0;
+			fnfHealth = 50;
+			fnfScore = 0;
+			fnfCombo = 0;
+			document.getElementById('rhythmUI').style.display = 'block';
+			document.getElementById('fnfHealthBar').style.width = '50%';
+			fnfLoop();
+		}
+
+		function hitArrow(lane) {
+			const hitZoneY = H - 160;
+			let closestNote = null;
+			let closestDist = 999;
+
+			fnfNotes.forEach(note => {
+				if(note.lane === lane && !note.hit) {
+					const dist = Math.abs(note.y - hitZoneY);
+					if(dist < closestDist && dist < HIT_ZONE) {
+						closestDist = dist;
+						closestNote = note;
+					}
+				}
+			});
+
+			if(closestNote) {
+				closestNote.hit = true;
+				const judgment = closestDist < TIMING_PERFECT ? 'PERFECT!' : 
+				                 closestDist < TIMING_GOOD ? 'GOOD!' : 'OK!';
+				document.getElementById('judgment').textContent = judgment;
+				document.getElementById('judgment').style.color = 
+					closestDist < TIMING_PERFECT ? '#0ff' : 
+					closestDist < TIMING_GOOD ? '#0f0' : '#ff0';
+				
+				fnfHealth = Math.min(100, fnfHealth + (closestDist < TIMING_PERFECT ? 8 : 4));
+				fnfScore += closestDist < TIMING_PERFECT ? 500 : closestDist < TIMING_GOOD ? 300 : 100;
+				fnfCombo++;
+				
+				document.getElementById(`arrow-${lane}`).classList.add('hit');
+				setTimeout(() => document.getElementById(`arrow-${lane}`).classList.remove('hit'), 200);
+			} else {
+				fnfHealth -= 5;
+				fnfCombo = 0;
+				document.getElementById('judgment').textContent = 'MISS!';
+				document.getElementById('judgment').style.color = '#f00';
+			}
+
+			updateFNFUI();
+		}
+
+		function updateFNFUI() {
+			document.getElementById('fnfHealthBar').style.width = fnfHealth + '%';
+			document.getElementById('fnfScore').innerHTML = 
+				`SCORE: ${fnfScore}<br>COMBO: ${fnfCombo}<br><span id="judgment"></span>`;
+		}
+
+		function fnfLoop() {
+			if(!game.inCapture) return;
+
+			fnfTime += 16;
+			fnfHealth -= 0.05;
+
+			rCtx.fillStyle = 'rgba(26,0,51,0.3)';
+			rCtx.fillRect(0,0,W,H);
+
+			const hitZoneY = H - 160;
+			const laneX = [W/2-120, W/2-40, W/2+40, W/2+120];
+			const laneColors = ['#f00','#00f','#0f0','#ff0'];
+			const lanes = ['left','down','up','right'];
+
+			// Draw lanes
+			lanes.forEach((lane,i) => {
+				rCtx.strokeStyle = laneColors[i];
+				rCtx.lineWidth = 3;
+				rCtx.strokeRect(laneX[i]-35, 0, 70, H);
+			});
+
+			// Draw hit zone
+			lanes.forEach((lane,i) => {
+				rCtx.fillStyle = 'rgba(255,255,255,0.2)';
+				rCtx.fillRect(laneX[i]-35, hitZoneY-30, 70, 60);
+				rCtx.strokeStyle = '#fff';
+				rCtx.lineWidth = 4;
+				rCtx.strokeRect(laneX[i]-35, hitZoneY-30, 70, 60);
+			});
+
+			// Update and draw notes
+			fnfNotes.forEach(note => {
+				if(!note.y) note.y = -50;
+				note.y += NOTE_SPEED;
+
+				const laneIdx = lanes.indexOf(note.lane);
+				if(!note.hit) {
+					rCtx.fillStyle = laneColors[laneIdx];
+					rCtx.fillRect(laneX[laneIdx]-30, note.y-30, 60, 60);
+					rCtx.strokeStyle = '#fff';
+					rCtx.lineWidth = 3;
+					rCtx.strokeRect(laneX[laneIdx]-30, note.y-30, 60, 60);
+					
+					const arrow = note.lane === 'left' ? '◄' : note.lane === 'down' ? '▼' : 
+					              note.lane === 'up' ? '▲' : '►';
+					rCtx.fillStyle = '#fff';
+					rCtx.font = 'bold 40px monospace';
+					rCtx.textAlign = 'center';
+					rCtx.textBaseline = 'middle';
+					rCtx.fillText(arrow, laneX[laneIdx], note.y);
+				}
+
+				if(note.y > H && !note.hit) {
+					note.hit = true;
+					fnfHealth -= 10;
+					fnfCombo = 0;
+				}
+			});
+
+			if(fnfHealth <= 0) {
+				endFNFBattle(false);
+			} else if(fnfNotes.every(n => n.hit)) {
+				endFNFBattle(true);
+			} else {
+				requestAnimationFrame(fnfLoop);
+			}
+		}
+
+		function endFNFBattle(won) {
+			document.getElementById('rhythmUI').style.display = 'none';
+			game.inCapture = false;
+			
+			if(won) {
+				const spirit = game.targetSpirit;
+				game.sprites.push(spirit);
+				game.capturedCount++;
+				if(game.activeTeam.length < 3) game.activeTeam.push(spirit);
+				updateHUD();
+				updateDex();
+			}
+		}
+
+		// Setup arrow touches
+		['left','down','up','right'].forEach(lane => {
+			document.getElementById(`arrow-${lane}`).addEventListener('touchend', e => {
+				e.preventDefault();
+				hitArrow(lane);
+			});
+		});
+
 		function setupTouch() {
 			['dpad-up','dpad-down','dpad-left','dpad-right'].forEach(id => {
 				const el = document.getElementById(id);
@@ -196,7 +362,6 @@
 			});
 		}
 
-		// Tutorial
 		document.getElementById('btnStart').addEventListener('touchend', startGame);
 		document.getElementById('btnStart').addEventListener('click', startGame);
 
@@ -211,7 +376,6 @@
 			gameLoop();
 		}
 
-		// Dex
 		document.getElementById('btnDex').addEventListener('touchend', e => {
 			e.preventDefault();
 			const dex = document.getElementById('spiritDex');
@@ -240,71 +404,17 @@
 			}
 		}
 
-		// Rhythm
-		let rhythmHits = 0;
-		const rhythmTarget = 5;
-
-		function startCapture(spirit) {
-			game.inCapture = true;
-			game.targetSpirit = spirit;
-			rhythmHits = 0;
-			document.getElementById('rhythmUI').style.display = 'flex';
-			updateRhythmMeter();
-		}
-
-		function updateRhythmMeter() {
-			const pct = (rhythmHits / rhythmTarget) * 100;
-			document.getElementById('rhythmMeter').style.width = pct + '%';
-			document.getElementById('rhythmResult').textContent = 
-				rhythmHits >= rhythmTarget ? '✅ CAPTURED!' : `${rhythmHits}/${rhythmTarget} - Keep tapping!`;
-		}
-
-		function rhythmHit() {
-			if (!game.inCapture) return;
-			rhythmHits++;
-			updateRhythmMeter();
-			if (rhythmHits >= rhythmTarget) {
-				setTimeout(captureSuccess, 500);
-			}
-		}
-
-		function captureSuccess() {
-			const spirit = game.targetSpirit;
-			game.sprites.push(spirit);
-			game.capturedCount++;
-			if (game.activeTeam.length < 3) game.activeTeam.push(spirit);
-			
-			updateHUD();
-			updateDex();
-			
-			setTimeout(() => {
-				document.getElementById('rhythmUI').style.display = 'none';
-				game.inCapture = false;
-			}, 1500);
-		}
-
-		['note1','note2','note3'].forEach(id => {
-			document.getElementById(id).addEventListener('touchend', e => {
-				e.preventDefault();
-				rhythmHit();
-			});
-		});
-
-		// Draw player - K-pop style character
 		function drawPlayer(x, y, moving) {
-			// Shadow
 			ctx.fillStyle = 'rgba(0,0,0,0.3)';
 			ctx.beginPath();
 			ctx.ellipse(x, y+28, 20, 6, 0, 0, Math.PI*2);
 			ctx.fill();
 			
-			// Legs (animate if moving)
 			const legOffset = moving && Math.floor(Date.now()/150)%2 ? 6 : 0;
 			ctx.fillStyle = '#000';
 			ctx.fillRect(x-12, y+8+legOffset, 10, 20);
 			ctx.fillRect(x+2, y+8-legOffset, 10, 20);
 			
-			// Skirt/Dress
 			ctx.fillStyle = '#ff1493';
 			ctx.beginPath();
 			ctx.moveTo(x-18, y-4);
@@ -314,52 +424,41 @@
 			ctx.closePath();
 			ctx.fill();
 			
-			// Body
 			ctx.fillStyle = '#ff69b4';
 			ctx.fillRect(x-14, y-18, 28, 18);
 			
-			// Arms (animated)
 			const armSwing = moving ? Math.sin(Date.now()/150) * 8 : 0;
 			ctx.fillStyle = '#ffb6c1';
 			ctx.fillRect(x-20, y-12+armSwing, 6, 16);
 			ctx.fillRect(x+14, y-12-armSwing, 6, 16);
 			
-			// Head
 			ctx.fillStyle = '#ffcc99';
 			ctx.beginPath();
 			ctx.arc(x, y-28, 14, 0, Math.PI*2);
 			ctx.fill();
 			
-			// Hair - Long K-pop style
 			ctx.fillStyle = '#8b00ff';
-			// Top
 			ctx.fillRect(x-16, y-38, 32, 12);
-			// Sides
 			ctx.fillRect(x-18, y-28, 6, 20);
 			ctx.fillRect(x+12, y-28, 6, 20);
-			// Bangs
 			ctx.fillRect(x-12, y-30, 6, 8);
 			ctx.fillRect(x-4, y-32, 6, 10);
 			ctx.fillRect(x+4, y-30, 6, 8);
 			
-			// Eyes
 			ctx.fillStyle = '#000';
 			ctx.fillRect(x-8, y-28, 4, 6);
 			ctx.fillRect(x+4, y-28, 4, 6);
 			
-			// Sparkle eyes
 			ctx.fillStyle = '#fff';
 			ctx.fillRect(x-7, y-27, 2, 2);
 			ctx.fillRect(x+5, y-27, 2, 2);
 			
-			// Smile
 			ctx.strokeStyle = '#ff1493';
 			ctx.lineWidth = 2;
 			ctx.beginPath();
 			ctx.arc(x, y-22, 6, 0.2, Math.PI-0.2);
 			ctx.stroke();
 			
-			// Blush
 			ctx.fillStyle = 'rgba(255,105,180,0.4)';
 			ctx.beginPath();
 			ctx.arc(x-10, y-24, 4, 0, Math.PI*2);
@@ -367,18 +466,15 @@
 			ctx.fill();
 		}
 
-		// Game loop
 		let lastCheck = false;
 
 		function gameLoop() {
-			// Background - vibrant grass
 			const grad = ctx.createLinearGradient(0, 0, 0, H);
 			grad.addColorStop(0, '#4a7c59');
 			grad.addColorStop(1, '#2d5016');
 			ctx.fillStyle = grad;
 			ctx.fillRect(0, 0, W, H);
 			
-			// Draw grid pattern
 			ctx.strokeStyle = 'rgba(0,0,0,0.2)';
 			ctx.lineWidth = 1;
 			for (let x = 0; x < W; x += 32) {
@@ -394,7 +490,6 @@
 				ctx.stroke();
 			}
 
-			// Movement
 			if (!game.inCapture) {
 				player.moving = false;
 				if (game.touch.up) { player.y -= player.speed; player.moving = true; }
@@ -406,32 +501,26 @@
 				player.y = Math.max(32, Math.min(H-32, player.y));
 			}
 
-			// Draw player
 			drawPlayer(player.x, player.y, player.moving);
 			
-			// Name
 			ctx.fillStyle = '#fff';
 			ctx.font = 'bold 12px monospace';
 			ctx.textAlign = 'center';
 			ctx.fillText('MIRA', player.x, player.y-45);
 
-			// Draw spirits
 			spirits.forEach(s => {
 				if (s.captured) return;
 				
-				// Glow pulse
 				const pulse = Math.sin(Date.now()/300) * 0.3 + 0.7;
 				ctx.shadowColor = s.color;
 				ctx.shadowBlur = 20 * pulse;
 				
-				// Body
 				ctx.fillStyle = s.color;
 				ctx.beginPath();
 				ctx.arc(s.x, s.y, 24, 0, Math.PI*2);
 				ctx.fill();
 				ctx.shadowBlur = 0;
 				
-				// Eyes
 				ctx.fillStyle = '#fff';
 				ctx.beginPath();
 				ctx.arc(s.x-8, s.y-6, 5, 0, Math.PI*2);
@@ -444,20 +533,17 @@
 				ctx.arc(s.x+8, s.y-6, 3, 0, Math.PI*2);
 				ctx.fill();
 				
-				// Mouth
 				ctx.strokeStyle = '#000';
 				ctx.lineWidth = 2;
 				ctx.beginPath();
 				ctx.arc(s.x, s.y+2, 8, 0, Math.PI);
 				ctx.stroke();
 
-				// Name
 				ctx.fillStyle = '#fff';
 				ctx.font = 'bold 13px monospace';
 				ctx.textAlign = 'center';
 				ctx.fillText(s.name, s.x, s.y-35);
 
-				// Collision
 				const dist = Math.sqrt((player.x-s.x)**2 + (player.y-s.y)**2);
 				if (dist < 60 && !game.inCapture) {
 					ctx.fillStyle = 'rgba(0,0,0,0.8)';
@@ -468,7 +554,7 @@
 
 					if (game.touch.action && !lastCheck) {
 						s.captured = true;
-						startCapture(s);
+						startFNFBattle(s);
 					}
 				}
 			});
@@ -477,7 +563,6 @@
 			requestAnimationFrame(gameLoop);
 		}
 
-		// Init
 		setupTouch();
 	</script>
 </body>
