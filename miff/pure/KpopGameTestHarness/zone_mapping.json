@@ -1,0 +1,171 @@
+{
+  "schema": "miff.kpop.zone.mapping.v1",
+  "version": "1.0.0",
+  "zones": {
+    "fantasy_grove": {
+      "kpopName": "Tutorial Island",
+      "displayName": "K-pop Idol Retreat",
+      "element": "light",
+      "difficulty": "casual",
+      "description": "A peaceful island retreat turned supernatural by a mysterious celestial event",
+      "shrines": [
+        {
+          "id": "campfire_tutorial",
+          "type": "campfire",
+          "x": 10,
+          "y": 10,
+          "function": "save"
+        },
+        {
+          "id": "prayer_tutorial",
+          "type": "prayer",
+          "x": 20,
+          "y": 20,
+          "function": "lore"
+        },
+        {
+          "id": "boss_tutorial",
+          "type": "boss",
+          "x": 30,
+          "y": 30,
+          "function": "progression",
+          "bossId": "corrupted_idol_tutorial"
+        }
+      ],
+      "spiritTypes": ["light", "normal", "fairy"],
+      "recommendedLevel": "1-5"
+    },
+    "industrial_outpost": {
+      "kpopName": "Fire Zone",
+      "displayName": "Industrial Wasteland",
+      "element": "fire",
+      "difficulty": "standard",
+      "description": "An industrial zone consumed by raging flames and fire spirits",
+      "shrines": [
+        {
+          "id": "campfire_fire",
+          "type": "campfire",
+          "x": 5,
+          "y": 5,
+          "function": "save"
+        },
+        {
+          "id": "fire_shrine",
+          "type": "elemental",
+          "x": 15,
+          "y": 15,
+          "function": "evolution"
+        },
+        {
+          "id": "boss_fire",
+          "type": "boss",
+          "x": 30,
+          "y": 30,
+          "function": "progression",
+          "bossId": "fire_demon_lord"
+        }
+      ],
+      "spiritTypes": ["fire", "rock", "steel"],
+      "recommendedLevel": "6-15"
+    },
+    "arcade_district": {
+      "kpopName": "Water Zone",
+      "displayName": "Neon Arcade District",
+      "element": "water",
+      "difficulty": "standard",
+      "description": "A vibrant arcade district flooded with water spirits and neon lights",
+      "shrines": [
+        {
+          "id": "campfire_water",
+          "type": "campfire",
+          "x": 5,
+          "y": 5,
+          "function": "save"
+        },
+        {
+          "id": "water_shrine",
+          "type": "elemental",
+          "x": 15,
+          "y": 15,
+          "function": "evolution"
+        },
+        {
+          "id": "boss_water",
+          "type": "boss",
+          "x": 30,
+          "y": 30,
+          "function": "progression",
+          "bossId": "tidal_empress"
+        }
+      ],
+      "spiritTypes": ["water", "ice", "electric"],
+      "recommendedLevel": "6-15"
+    },
+    "historical_plaza": {
+      "kpopName": "Earth Zone",
+      "displayName": "Historical Plaza",
+      "element": "earth",
+      "difficulty": "standard",
+      "description": "An ancient plaza guarded by earth spirits and stone golems",
+      "shrines": [
+        {
+          "id": "campfire_earth",
+          "type": "campfire",
+          "x": 5,
+          "y": 5,
+          "function": "save"
+        },
+        {
+          "id": "earth_shrine",
+          "type": "elemental",
+          "x": 15,
+          "y": 15,
+          "function": "evolution"
+        },
+        {
+          "id": "boss_earth",
+          "type": "boss",
+          "x": 30,
+          "y": 30,
+          "function": "progression",
+          "bossId": "stone_golem_king"
+        }
+      ],
+      "spiritTypes": ["ground", "rock", "fighting"],
+      "recommendedLevel": "16-25"
+    },
+    "export_terminal": {
+      "kpopName": "Shadow Zone",
+      "displayName": "Export Terminal",
+      "element": "shadow",
+      "difficulty": "expert",
+      "description": "A dark terminal where shadow spirits and void creatures dwell",
+      "shrines": [
+        {
+          "id": "campfire_shadow",
+          "type": "campfire",
+          "x": 5,
+          "y": 5,
+          "function": "save"
+        },
+        {
+          "id": "shadow_shrine",
+          "type": "elemental",
+          "x": 15,
+          "y": 15,
+          "function": "evolution"
+        },
+        {
+          "id": "boss_shadow",
+          "type": "boss",
+          "x": 30,
+          "y": 30,
+          "function": "progression",
+          "bossId": "void_reaper"
+        }
+      ],
+      "spiritTypes": ["shadow", "dark", "ghost"],
+      "recommendedLevel": "26-40"
+    }
+  }
+}

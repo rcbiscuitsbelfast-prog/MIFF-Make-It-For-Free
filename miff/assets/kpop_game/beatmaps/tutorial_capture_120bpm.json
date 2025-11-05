@@ -1,0 +1,22 @@
+{
+  "id": "tutorial_capture_120bpm",
+  "name": "Tutorial Spirit Capture",
+  "bpm": 120,
+  "duration": 15000,
+  "notes": [
+    { "id": "note_001", "time": 2000, "type": "tap", "lane": 1 },
+    { "id": "note_002", "time": 3000, "type": "tap", "lane": 2 },
+    { "id": "note_003", "time": 4000, "type": "tap", "lane": 1 },
+    { "id": "note_004", "time": 5000, "type": "tap", "lane": 3 },
+    { "id": "note_005", "time": 6000, "type": "hold", "lane": 2, "duration": 1000 },
+    { "id": "note_006", "time": 8000, "type": "tap", "lane": 1 },
+    { "id": "note_007", "time": 9000, "type": "tap", "lane": 3 },
+    { "id": "note_008", "time": 10000, "type": "swipe_up", "lane": 2 },
+    { "id": "note_009", "time": 11000, "type": "tap", "lane": 1 },
+    { "id": "note_010", "time": 12000, "type": "tap", "lane": 2 },
+    { "id": "note_011", "time": 13000, "type": "tap", "lane": 3 },
+    { "id": "note_012", "time": 14000, "type": "tap", "lane": 2 }
+  ],
+  "difficulty": "casual",
+  "audioFile": "../audio/tutorial_capture.mp3"
+}

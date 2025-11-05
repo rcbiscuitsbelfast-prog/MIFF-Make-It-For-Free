@@ -1,0 +1,83 @@
+{
+  "schema": "miff.kpop.assets.v1",
+  "version": "1.0.0",
+  "lastUpdated": "2025-11-05",
+  "sprites": {
+    "player": {
+      "path": "sprites/player.png",
+      "frames": 4,
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "animations": {
+        "idle": [0],
+        "walk": [0, 1, 2, 3],
+        "attack": [0]
+      }
+    },
+    "spirits": [
+      {
+        "id": "slime_water",
+        "name": "Water Slime",
+        "type": "water",
+        "path": "sprites/spirit_slime_water.png",
+        "rarity": "common",
+        "frames": 1
+      },
+      {
+        "id": "skeleton_shadow",
+        "name": "Shadow Skeleton",
+        "type": "shadow",
+        "path": "sprites/enemy_skeleton.png",
+        "rarity": "uncommon",
+        "frames": 1
+      }
+    ],
+    "enemies": [
+      {
+        "id": "goblin_01",
+        "name": "Goblin",
+        "path": "sprites/enemy_skeleton.png",
+        "hp": 30,
+        "damage": 10
+      }
+    ]
+  },
+  "tiles": {
+    "grass": "tiles/grass.png",
+    "water": "tiles/water.png",
+    "path": "tiles/path.png"
+  },
+  "audio": {
+    "music": {
+      "boss_battle": {
+        "path": "audio/boss_battle.mp3",
+        "bpm": 140,
+        "duration": 210,
+        "loop": true
+      },
+      "dungeon_ambient": {
+        "path": "audio/dungeon_ambient.mp3",
+        "bpm": 100,
+        "duration": 180,
+        "loop": true
+      }
+    },
+    "sfx": {
+      "spirit_captured": "audio/spirit_captured.wav",
+      "hit": "audio/hit.wav",
+      "boss_defeated": "audio/boss_defeated.wav"
+    }
+  },
+  "beatmaps": {
+    "tutorial_capture": {
+      "path": "beatmaps/tutorial_capture_120bpm.json",
+      "difficulty": "casual",
+      "duration": 15000
+    },
+    "boss_phase1": {
+      "path": "beatmaps/boss_battle_140bpm_phase1.json",
+      "difficulty": "standard",
+      "duration": 60000
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "id": "boss_battle_140bpm_phase1",
+  "name": "Boss Battle - Phase 1 (Dawn of Blades)",
+  "bpm": 140,
+  "duration": 60000,
+  "notes": [
+    { "id": "b1_001", "time": 1000, "type": "tap", "lane": 2, "color": "shadow" },
+    { "id": "b1_002", "time": 1500, "type": "tap", "lane": 1, "color": "light" },
+    { "id": "b1_003", "time": 2000, "type": "tap", "lane": 3, "color": "shadow" },
+    { "id": "b1_004", "time": 2500, "type": "tap", "lane": 2, "color": "light" },
+    { "id": "b1_005", "time": 3000, "type": "hold", "lane": 2, "duration": 1500, "color": "shadow" },
+    { "id": "b1_006", "time": 5000, "type": "swipe_up", "lane": 1, "color": "light" },
+    { "id": "b1_007", "time": 5500, "type": "swipe_down", "lane": 3, "color": "shadow" },
+    { "id": "b1_008", "time": 6000, "type": "tap", "lane": 2, "color": "light" },
+    { "id": "b1_009", "time": 7000, "type": "tap", "lane": 1, "color": "shadow" },
+    { "id": "b1_010", "time": 7500, "type": "tap", "lane": 3, "color": "shadow" },
+    { "id": "b1_011", "time": 8000, "type": "tap", "lane": 2, "color": "light" },
+    { "id": "b1_012", "time": 9000, "type": "hold", "lane": 2, "duration": 2000, "color": "shadow" },
+    { "id": "b1_013", "time": 12000, "type": "swipe_right", "lane": 1, "color": "light" },
+    { "id": "b1_014", "time": 13000, "type": "swipe_left", "lane": 3, "color": "shadow" },
+    { "id": "b1_015", "time": 14000, "type": "tap", "lane": 2, "color": "light" },
+    { "id": "b1_016", "time": 15000, "type": "tap", "lane": 1, "color": "shadow" },
+    { "id": "b1_017", "time": 15500, "type": "tap", "lane": 3, "color": "shadow" },
+    { "id": "b1_018", "time": 16000, "type": "tap", "lane": 2, "color": "light" },
+    { "id": "b1_019", "time": 17000, "type": "tap", "lane": 1, "color": "shadow" },
+    { "id": "b1_020", "time": 18000, "type": "hold", "lane": 2, "duration": 1000, "color": "light" }
+  ],
+  "difficulty": "standard",
+  "audioFile": "../audio/boss_battle.mp3",
+  "phaseTransitionTime": 60000
+}

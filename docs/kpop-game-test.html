@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>K-pop Monster Hunter - Alpha Test</title>
+	<meta name="description" content="K-pop Monster Hunter - Rhythm-based spirit collector game">
+	
+	<style>
+		html,body{margin:0;height:100%;background:#0f1116;color:#e6edf3;font-family:system-ui;overflow:hidden}
+		#gameCanvas{position:fixed;inset:0;width:100vw;height:100vh;display:block;background:#0b1220}
+		#hud{position:fixed;left:0;right:0;top:0;height:50px;display:flex;align-items:center;justify-content:space-between;padding:6px 12px;font:13px monospace;color:#e6edf3;background:rgba(0,0,0,0.7);backdrop-filter:blur(4px);pointer-events:none;z-index:100}
+		#hud-left{display:flex;gap:15px}
+		#hud-right{display:flex;gap:15px}
+		.hud-stat{display:flex;flex-direction:column;gap:2px}
+		.hud-label{font-size:10px;opacity:0.7}
+		.hud-value{font-size:14px;font-weight:bold}
+		#rhythmUI{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.85);z-index:200}
+		.rhythm-container{width:600px;max-width:90vw;background:#1a1f2e;border:2px solid #00ff88;border-radius:12px;padding:20px}
+		.rhythm-header{text-align:center;color:#00ff88;font-size:24px;margin-bottom:20px}
+		.rhythm-meter{height:30px;background:#0a0f1a;border:1px solid #00ff88;border-radius:6px;overflow:hidden;position:relative}
+		.rhythm-meter-fill{height:100%;background:linear-gradient(90deg,#00ff88,#00a86b);transition:width 0.2s}
+		.rhythm-notes{display:flex;justify-content:center;gap:20px;margin:30px 0}
+		.rhythm-note{width:60px;height:60px;background:#00ff88;border-radius:50%;cursor:pointer;transition:transform 0.1s}
+		.rhythm-note:active{transform:scale(0.9)}
+		.rhythm-result{text-align:center;font-size:18px;margin-top:20px}
+		#spiritDex{position:fixed;right:10px;top:60px;width:250px;max-height:400px;background:rgba(0,0,0,0.8);border:1px solid #00ff88;border-radius:8px;padding:10px;display:none;z-index:150}
+		.spirit-entry{display:flex;align-items:center;gap:8px;padding:6px;border-bottom:1px solid #333;font-size:12px}
+		.spirit-icon{width:24px;height:24px;background:#00ff88;border-radius:4px}
+		#controls{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:10px}
+		.control-btn{padding:10px 20px;background:#00a86b;color:#fff;border:1px solid #00ff88;border-radius:8px;cursor:pointer;font-size:14px}
+		.control-btn:hover{background:#00ff88}
+		#tutorial{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.9);z-index:300}
+		.tutorial-panel{max-width:600px;background:#1a1f2e;border:2px solid #00ff88;border-radius:12px;padding:30px;text-align:center}
+		.tutorial-title{font-size:32px;color:#00ff88;margin-bottom:20px}
+		.tutorial-text{font-size:16px;line-height:1.6;margin-bottom:30px}
+		.tutorial-btn{padding:12px 30px;background:#00a86b;color:#fff;border:none;border-radius:8px;font-size:16px;cursor:pointer}
+		.tutorial-btn:hover{background:#00ff88}
+	</style>
+</head>
+<body>
+	<!-- HUD -->
+	<div id="hud">
+		<div id="hud-left">
+			<div class="hud-stat">
+				<span class="hud-label">ZONE</span>
+				<span class="hud-value" id="hud-zone">Tutorial Island</span>
+			</div>
+			<div class="hud-stat">
+				<span class="hud-label">SPIRITS</span>
+				<span class="hud-value" id="hud-spirits">0 / 3</span>
+			</div>
+		</div>
+		<div id="hud-right">
+			<div class="hud-stat">
+				<span class="hud-label">CAPTURED</span>
+				<span class="hud-value" id="hud-captured">0</span>
+			</div>
+			<div class="hud-stat">
+				<span class="hud-label">HP</span>
+				<span class="hud-value" id="hud-hp">100 / 100</span>
+			</div>
+		</div>
+	</div>
+
+	<!-- Game Canvas -->
+	<canvas id="gameCanvas"></canvas>
+
+	<!-- Rhythm UI -->
+	<div id="rhythmUI">
+		<div class="rhythm-container">
+			<div class="rhythm-header">SPIRIT CAPTURE</div>
+			<div class="rhythm-meter">
+				<div class="rhythm-meter-fill" id="rhythmMeter" style="width:0%"></div>
+			</div>
+			<div class="rhythm-notes">
+				<div class="rhythm-note" data-type="tap">TAP</div>
+				<div class="rhythm-note" data-type="hold">HOLD</div>
+				<div class="rhythm-note" data-type="swipe">SWIPE</div>
+			</div>
+			<div class="rhythm-result" id="rhythmResult"></div>
+		</div>
+	</div>
+
+	<!-- Spirit Dex -->
+	<div id="spiritDex">
+		<div style="font-size:14px;font-weight:bold;margin-bottom:10px;color:#00ff88">SPIRIT DEX</div>
+		<div id="spiritDexList"></div>
+	</div>
+
+	<!-- Controls -->
+	<div id="controls">
+		<button class="control-btn" id="btnDex">Spirit Dex</button>
+		<button class="control-btn" id="btnSave">Save Game</button>
+	</div>
+
+	<!-- Tutorial -->
+	<div id="tutorial">
+		<div class="tutorial-panel">
+			<div class="tutorial-title">K-POP MONSTER HUNTER</div>
+			<div class="tutorial-text">
+				Welcome to Tutorial Island!<br><br>
+				🎵 Use <strong>rhythm mechanics</strong> to capture spirits<br>
+				👥 Build a team of <strong>3 spirits</strong><br>
+				🏯 Find <strong>shrines</strong> to save and evolve<br>
+				⚔️ Battle <strong>bosses</strong> with rhythm duels<br><br>
+				<em>Mobile controls: Use D-pad to move</em><br>
+				<em>Desktop: WASD or Arrow keys</em>
+			</div>
+			<button class="tutorial-btn" id="btnStart">START ADVENTURE</button>
+		</div>
+	</div>
+
+	<script type="module">
+		// Game state
+		const gameState = {
+			zone: 'fantasy_grove',
+			spirits: [],
+			activeTeam: [],
+			capturedCount: 0,
+			playerHP: 100,
+			playerMaxHP: 100,
+			inRhythmCapture: false,
+			rhythmScore: 0,
+			targetSpirit: null
+		};
+
+		// Init canvas
+		const canvas = document.getElementById('gameCanvas');
+		const ctx = canvas.getContext('2d');
+		let width, height;
+		
+		function resize() {
+			width = canvas.width = window.innerWidth;
+			height = canvas.height = window.innerHeight;
+		}
+		window.addEventListener('resize', resize);
+		resize();
+
+		// Tutorial
+		document.getElementById('btnStart').addEventListener('click', () => {
+			document.getElementById('tutorial').style.display = 'none';
+			startGame();
+		});
+
+		// Spirit Dex Toggle
+		document.getElementById('btnDex').addEventListener('click', () => {
+			const dex = document.getElementById('spiritDex');
+			dex.style.display = dex.style.display === 'none' ? 'block' : 'none';
+		});
+
+		// Save Game
+		document.getElementById('btnSave').addEventListener('click', () => {
+			console.log('💾 Game saved at shrine!');
+			alert('Game saved! (Shrine system active)');
+		});
+
+		// Rhythm Capture
+		let rhythmTarget = null;
+		let rhythmHits = 0;
+		const rhythmRequired = 5;
+
+		function startRhythmCapture(spiritData) {
+			gameState.inRhythmCapture = true;
+			gameState.targetSpirit = spiritData;
+			rhythmHits = 0;
+			
+			document.getElementById('rhythmUI').style.display = 'flex';
+			document.getElementById('rhythmResult').textContent = `Hit ${rhythmHits}/${rhythmRequired}`;
+			updateRhythmMeter();
+		}
+
+		function updateRhythmMeter() {
+			const percent = (rhythmHits / rhythmRequired) * 100;
+			document.getElementById('rhythmMeter').style.width = percent + '%';
+		}
+
+		function handleRhythmInput(type) {
+			if (!gameState.inRhythmCapture) return;
+			
+			rhythmHits++;
+			updateRhythmMeter();
+			
+			document.getElementById('rhythmResult').textContent = `Hit ${rhythmHits}/${rhythmRequired} - PERFECT!`;
+			
+			if (rhythmHits >= rhythmRequired) {
+				setTimeout(() => captureSuccess(), 500);
+			}
+		}
+
+		function captureSuccess() {
+			const spirit = gameState.targetSpirit;
+			gameState.spirits.push(spirit);
+			gameState.capturedCount++;
+			
+			// Add to team if space
+			if (gameState.activeTeam.length < 3) {
+				gameState.activeTeam.push(spirit);
+			}
+			
+			document.getElementById('rhythmResult').textContent = `✅ CAPTURED ${spirit.name}!`;
+			updateHUD();
+			updateSpiritDex();
+			
+			setTimeout(() => {
+				document.getElementById('rhythmUI').style.display = 'none';
+				gameState.inRhythmCapture = false;
+			}, 2000);
+		}
+
+		// Rhythm Note Clicks
+		document.querySelectorAll('.rhythm-note').forEach(note => {
+			note.addEventListener('click', (e) => {
+				const type = e.target.getAttribute('data-type');
+				handleRhythmInput(type);
+			});
+		});
+
+		// Update HUD
+		function updateHUD() {
+			document.getElementById('hud-zone').textContent = 'Tutorial Island';
+			document.getElementById('hud-spirits').textContent = `${gameState.activeTeam.length} / 3`;
+			document.getElementById('hud-captured').textContent = gameState.capturedCount;
+			document.getElementById('hud-hp').textContent = `${gameState.playerHP} / ${gameState.playerMaxHP}`;
+		}
+
+		// Update Spirit Dex
+		function updateSpiritDex() {
+			const list = document.getElementById('spiritDexList');
+			list.innerHTML = gameState.spirits.map(s => `
+				<div class="spirit-entry">
+					<div class="spirit-icon"></div>
+					<div>${s.name} (${s.type})</div>
+				</div>
+			`).join('');
+		}
+
+		// Game Loop
+		let player = { x: 100, y: 100, speed: 2 };
+		let npcs = [
+			{ id: 'npc_001', name: 'Shadow Slime', x: 200, y: 200, type: 'shadow', captured: false },
+			{ id: 'npc_002', name: 'Light Fairy', x: 400, y: 300, type: 'light', captured: false },
+			{ id: 'npc_003', name: 'Water Spirit', x: 600, y: 200, type: 'water', captured: false }
+		];
+
+		// Input
+		const keys = {};
+		window.addEventListener('keydown', e => keys[e.key] = true);
+		window.addEventListener('keyup', e => keys[e.key] = false);
+
+		function startGame() {
+			updateHUD();
+			gameLoop();
+		}
+
+		function gameLoop() {
+			// Clear
+			ctx.fillStyle = '#0b1220';
+			ctx.fillRect(0, 0, width, height);
+
+			// Grid
+			ctx.strokeStyle = '#1f2d3c';
+			ctx.lineWidth = 1;
+			for (let x = 0; x < width; x += 32) {
+				ctx.beginPath();
+				ctx.moveTo(x, 0);
+				ctx.lineTo(x, height);
+				ctx.stroke();
+			}
+			for (let y = 0; y < height; y += 32) {
+				ctx.beginPath();
+				ctx.moveTo(0, y);
+				ctx.lineTo(width, y);
+				ctx.stroke();
+			}
+
+			// Movement
+			if (!gameState.inRhythmCapture) {
+				if (keys['w'] || keys['ArrowUp']) player.y -= player.speed;
+				if (keys['s'] || keys['ArrowDown']) player.y += player.speed;
+				if (keys['a'] || keys['ArrowLeft']) player.x -= player.speed;
+				if (keys['d'] || keys['ArrowRight']) player.x += player.speed;
+			}
+
+			// Draw Player
+			ctx.fillStyle = '#00ff88';
+			ctx.fillRect(player.x - 16, player.y - 16, 32, 32);
+			ctx.fillStyle = '#fff';
+			ctx.font = '10px monospace';
+			ctx.fillText('PLAYER', player.x - 20, player.y - 20);
+
+			// Draw NPCs
+			npcs.forEach(npc => {
+				if (npc.captured) return;
+				
+				ctx.fillStyle = npc.type === 'shadow' ? '#8b00ff' : npc.type === 'light' ? '#ffeb3b' : '#00bcd4';
+				ctx.fillRect(npc.x - 12, npc.y - 12, 24, 24);
+				ctx.fillStyle = '#fff';
+				ctx.font = '8px monospace';
+				ctx.fillText(npc.name, npc.x - 30, npc.y - 18);
+
+				// Collision
+				const dist = Math.sqrt((player.x - npc.x) ** 2 + (player.y - npc.y) ** 2);
+				if (dist < 40 && !gameState.inRhythmCapture) {
+					ctx.fillStyle = '#00ff88';
+					ctx.font = '10px monospace';
+					ctx.fillText('Press SPACE', npc.x - 30, npc.y + 25);
+					
+					if (keys[' ']) {
+						keys[' '] = false;
+						npc.captured = true;
+						startRhythmCapture(npc);
+					}
+				}
+			});
+
+			requestAnimationFrame(gameLoop);
+		}
+	</script>
+</body>
+</html>
