@@ -187,24 +187,40 @@
 			try {
 				game.audioContext = new (window.AudioContext || window.webkitAudioContext)();
 				
+				// URL-encode spaces and special characters
+				const basePath = '../assets/K%20pop%20new/';
+				const instPath = basePath + 'We%20Are%20Light-instrumental-stem.mp3';
+				const vocalPath = basePath + 'We%20Are%20Light-vocals-stem.mp3';
+				
+				console.log('Loading from:', instPath);
 				text.textContent = 'Loading instrumental...';
-				const instResp = await fetch('../assets/K pop new/We Are Light-instrumental-stem.mp3');
-				if(!instResp.ok) throw new Error('Failed to load instrumental');
+				const instResp = await fetch(instPath);
+				console.log('Instrumental response:', instResp.status, instResp.ok);
+				if(!instResp.ok) throw new Error('Failed to load instrumental (HTTP ' + instResp.status + ')');
 				const instData = await instResp.arrayBuffer();
+				console.log('Instrumental loaded:', instData.byteLength, 'bytes');
 				fill.style.width = '33%';
 				
+				console.log('Loading from:', vocalPath);
 				text.textContent = 'Loading vocals...';
-				const vocalResp = await fetch('../assets/K pop new/We Are Light-vocals-stem.mp3');
-				if(!vocalResp.ok) throw new Error('Failed to load vocals');
+				const vocalResp = await fetch(vocalPath);
+				console.log('Vocal response:', vocalResp.status, vocalResp.ok);
+				if(!vocalResp.ok) throw new Error('Failed to load vocals (HTTP ' + vocalResp.status + ')');
 				const vocalData = await vocalResp.arrayBuffer();
+				console.log('Vocals loaded:', vocalData.byteLength, 'bytes');
 				fill.style.width = '66%';
 				
 				text.textContent = 'Decoding audio...';
+				console.log('Decoding instrumental...');
 				game.instrumentalBuffer = await game.audioContext.decodeAudioData(instData);
+				console.log('Instrumental decoded:', game.instrumentalBuffer.duration, 'seconds');
+				console.log('Decoding vocals...');
 				game.vocalBuffer = await game.audioContext.decodeAudioData(vocalData);
+				console.log('Vocals decoded:', game.vocalBuffer.duration, 'seconds');
 				fill.style.width = '100%';
 				
 				text.textContent = '✅ READY!';
+				console.log('✅ All audio loaded successfully!');
 				
 				setTimeout(() => {
 					loading.style.display = 'none';
@@ -215,6 +231,7 @@
 				text.textContent = '❌ ERROR: ' + err.message;
 				text.style.color = '#f00';
 				console.error('Audio load error:', err);
+				console.error('Error stack:', err.stack);
 			}
 		}
 
