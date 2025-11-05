@@ -180,12 +180,17 @@
 
 		// Audio loading
 		async function loadAudio() {
+			console.log('🎵 loadAudio() function called!');
 			const loading = document.getElementById('loadingScreen');
 			const fill = document.getElementById('loadingFill');
 			const text = document.getElementById('loadingText');
 			
+			console.log('Elements found:', {loading, fill, text});
+			
 			try {
+				console.log('Creating AudioContext...');
 				game.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+				console.log('AudioContext created:', game.audioContext);
 				
 				// URL-encode spaces and special characters
 				const basePath = '../assets/K%20pop%20new/';
@@ -539,8 +544,16 @@
 			document.getElementById('actionBtn').addEventListener('touchend', e => {e.preventDefault();game.touch.action = false;});
 		}
 
-		document.getElementById('btnStart').addEventListener('touchend', loadAudio);
-		document.getElementById('btnStart').addEventListener('click', loadAudio);
+		document.getElementById('btnStart').addEventListener('touchend', (e) => {
+			e.preventDefault();
+			console.log('🎵 LOAD MUSIC button clicked (touchend)');
+			loadAudio();
+		});
+		document.getElementById('btnStart').addEventListener('click', (e) => {
+			e.preventDefault();
+			console.log('🎵 LOAD MUSIC button clicked (click)');
+			loadAudio();
+		});
 
 		function startGame() {
 			document.getElementById('tutorial').style.display = 'none';
