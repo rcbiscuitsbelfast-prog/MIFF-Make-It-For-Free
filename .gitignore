@@ -60,3 +60,5 @@ Desktop.ini
 *.temp
 *.bak
 *.backup
+/dist/
+/public/assets/

@@ -4,6 +4,10 @@
   "description": "🌿 MIFF: Make It For Free - A remix-safe, AI-native game ecosystem",
   "main": "index.js",
   "scripts": {
+    "dev": "vite",
+    "build:game": "vite build",
+    "build": "npm run build:game",
+    "preview": "vite preview",
     "ci:scenarios": "node scripts/ci-validate-scenarios.cjs",
     "test": "jest --config jest.pure.config.cjs",
     "test:unit": "jest --config jest.pure.config.cjs",
@@ -56,9 +60,7 @@
     "lint": "node -e \"console.log('lint OK')\"",
     "type-check": "tsc -p tsconfig.json --noEmit || true",
     "docs:build": "node scripts/docs-build.js",
-    "build": "tsc",
-    "dev": "vite",
-    "preview": "vite preview",
+    "build:tsc": "tsc",
     "deploy": "npm run build && vercel --prod",
     "audit:deps": "npm outdated && npm audit",
     "security:sbom": "npx @cyclonedx/cyclonedx-npm --output-format json --output-file sbom.json",
@@ -109,6 +111,7 @@
     "@types/react": "^19.1.11",
     "@types/react-dom": "^19.1.7",
     "@types/ws": "^8.18.1",
+    "@vitejs/plugin-react": "^5.1.0",
     "babel-jest": "^29.7.0",
     "esbuild": "^0.25.9",
     "has-flag": "^5.0.1",
@@ -119,7 +122,7 @@
     "ts-node": "^10.9.2",
     "tsx": "^4.20.5",
     "typescript": "^5.9.3",
-    "vite": "^7.1.7",
+    "vite": "^7.2.1",
     "vitest": "^3.2.4"
   },
   "dependencies": {
