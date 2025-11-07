@@ -1,7 +1,0 @@
-{
-  "maxSamples": 1000,
-  "sampleInterval": 1000,
-  "categories": ["gameplay", "rendering", "physics", "audio"],
-  "enableMetrics": true,
-  "exportFormat": "json"
-}

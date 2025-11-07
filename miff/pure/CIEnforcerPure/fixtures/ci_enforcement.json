@@ -1,9 +1,0 @@
-{
-  "modulePaths": [
-    "systems/QuestSystemPure",
-    "systems/AssetValidatorPure",
-    "systems/RemixAuditPure",
-    "systems/CIEnforcerPure"
-  ],
-  "verbose": true
-}
