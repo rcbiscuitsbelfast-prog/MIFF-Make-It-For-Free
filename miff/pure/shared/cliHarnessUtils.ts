@@ -114,7 +114,7 @@ function parseKeyValueArgs(argv: string[]) {
  * @param data Data to output
  * @returns Formatted JSON string
  */
-function formatOutput(data) {
+function formatOutput(data: any) {
   return JSON.stringify(data, null, 2);
 }
 

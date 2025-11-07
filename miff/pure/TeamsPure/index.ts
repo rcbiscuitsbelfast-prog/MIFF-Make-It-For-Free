@@ -2570,7 +2570,7 @@ export class SpiritSyncEntry implements ISpiritSyncEntry {
     unlockedAbilities: string[] = [],
     unlockedForms: string[] = [],
     syncBonuses: Record<string, number> = {},
-    lastInteraction: Date = new Date(),
+    lastInteraction: number = Date.now(),
     isFavorite: boolean = false,
     notes: string = ''
   ) {
