@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeamsPure - Visual Team Builder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 20px;
+            height: calc(100vh - 200px);
+        }
+
+        .panel {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .panel h2 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 1.5rem;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 8px;
+        }
+
+        .team-panel {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .team-slots {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            flex-grow: 1;
+            margin-bottom: 20px;
+        }
+
+        .team-slot {
+            background: #f8f9fa;
+            border: 2px dashed #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .team-slot.active {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .team-slot.occupied {
+            border-color: #28a745;
+            background: rgba(40, 167, 69, 0.1);
+        }
+
+        .team-slot.drag-over {
+            border-color: #ffc107;
+            background: rgba(255, 193, 7, 0.1);
+        }
+
+        .spirit-card {
+            background: white;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            cursor: move;
+            transition: transform 0.2s ease;
+            width: 100%;
+        }
+
+        .spirit-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .spirit-card.dragging {
+            opacity: 0.5;
+            transform: rotate(5deg);
+        }
+
+        .spirit-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .spirit-type {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .spirit-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3px;
+            font-size: 0.7rem;
+        }
+
+        .stat {
+            background: #f8f9fa;
+            padding: 2px 4px;
+            border-radius: 3px;
+            text-align: center;
+        }
+
+        .stat.atk { background: #ff6b6b; color: white; }
+        .stat.def { background: #4ecdc4; color: white; }
+        .stat.spd { background: #45b7d1; color: white; }
+        .stat.hp { background: #96ceb4; color: white; }
+
+        .spirits-panel {
+            overflow-y: auto;
+            max-height: 70vh;
+        }
+
+        .spirits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 10px;
+        }
+
+        .analysis-panel {
+            overflow-y: auto;
+        }
+
+        .rating-bar {
+            background: #e9ecef;
+            border-radius: 10px;
+            height: 20px;
+            margin: 8px 0;
+            overflow: hidden;
+        }
+
+        .rating-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .rating-value {
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .strengths-list, .weaknesses-list, .strategies-list {
+            margin: 10px 0;
+        }
+
+        .strength-item, .weakness-item, .strategy-item {
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+
+        .strength-item {
+            background: rgba(40, 167, 69, 0.1);
+            border-left: 4px solid #28a745;
+        }
+
+        .weakness-item {
+            background: rgba(220, 53, 69, 0.1);
+            border-left: 4px solid #dc3545;
+        }
+
+        .strategy-item {
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 4px solid #ffc107;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5a6fd8;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        .btn-warning:hover {
+            background: #e0a800;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .modal-body {
+            margin-bottom: 20px;
+        }
+
+        .modal-footer {
+            text-align: center;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .close-btn:hover {
+            color: #333;
+        }
+
+        .comparison-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .comparison-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .comparison-label {
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .comparison-values {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .comparison-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .comparison-winner {
+            color: #28a745;
+        }
+
+        .comparison-loser {
+            color: #dc3545;
+        }
+
+        .simulation-result {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .simulation-winner {
+            color: #28a745;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .simulation-loser {
+            color: #dc3545;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .simulation-draw {
+            color: #ffc107;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        @media (max-width: 1200px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+
+            .team-slots {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .team-slots {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .spirits-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛡️ TeamsPure Visual Team Builder</h1>
+            <p>Build, analyze, and optimize your teams with advanced strategic tools</p>
+        </div>
+
+        <div class="main-content">
+            <!-- Available Spirits Panel -->
+            <div class="panel">
+                <h2>🧬 Available Spirits</h2>
+                <div class="controls">
+                    <button class="btn btn-primary" onclick="refreshSpirits()">Refresh</button>
+                    <button class="btn btn-success" onclick="autoFillTeam()">Auto Fill</button>
+                </div>
+                <div class="spirits-panel">
+                    <div class="spirits-grid" id="spirits-grid">
+                        <!-- Spirits will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Builder Panel -->
+            <div class="panel team-panel">
+                <h2>🏗️ Team Builder</h2>
+                <div class="controls">
+                    <button class="btn btn-primary" onclick="analyzeTeam()">Analyze</button>
+                    <button class="btn btn-success" onclick="optimizeTeam()">Optimize</button>
+                    <button class="btn btn-warning" onclick="clearTeam()">Clear</button>
+                    <button class="btn btn-danger" onclick="showComparison()">Compare</button>
+                </div>
+
+                <div class="team-slots" id="team-slots">
+                    <!-- Team slots will be created by JavaScript -->
+                </div>
+
+                <div class="team-info">
+                    <div class="rating-bar">
+                        <div class="rating-fill" id="team-strength-bar" style="width: 0%"></div>
+                    </div>
+                    <div class="rating-value" id="team-strength-value">Strength: 0/100</div>
+                </div>
+            </div>
+
+            <!-- Analysis Panel -->
+            <div class="panel analysis-panel">
+                <h2>📊 Strategic Analysis</h2>
+                <div id="analysis-content">
+                    <div class="rating-bar">
+                        <div class="rating-fill" id="offense-bar" style="width: 0%"></div>
+                    </div>
+                    <div class="rating-value">Offense: 0/100</div>
+
+                    <div class="rating-bar">
+                        <div class="rating-fill" id="defense-bar" style="width: 0%"></div>
+                    </div>
+                    <div class="rating-value">Defense: 0/100</div>
+
+                    <div class="rating-bar">
+                        <div class="rating-fill" id="mobility-bar" style="width: 0%"></div>
+                    </div>
+                    <div class="rating-value">Mobility: 0/100</div>
+
+                    <div class="rating-bar">
+                        <div class="rating-fill" id="synergy-bar" style="width: 0%"></div>
+                    </div>
+                    <div class="rating-value">Synergy: 0/100</div>
+
+                    <div class="strengths-list" id="strengths-list">
+                        <!-- Strengths will be populated by analysis -->
+                    </div>
+
+                    <div class="weaknesses-list" id="weaknesses-list">
+                        <!-- Weaknesses will be populated by analysis -->
+                    </div>
+
+                    <div class="strategies-list" id="strategies-list">
+                        <!-- Strategies will be populated by analysis -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comparison Modal -->
+    <div class="modal" id="comparison-modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeComparison()">&times;</button>
+            <div class="modal-header">
+                <h2 class="modal-title">⚖️ Team Comparison</h2>
+            </div>
+            <div class="modal-body">
+                <div class="comparison-container" id="comparison-container">
+                    <!-- Comparison content will be populated by JavaScript -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="simulateBattle()">Simulate Battle</button>
+                <button class="btn btn-secondary" onclick="closeComparison()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // TeamsPure Visual Team Builder JavaScript
+
+        // State management
+        let spirits = [];
+        let teamSlots = [];
+        let currentTeam = [];
+        let selectedComparisonTeam = null;
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTeamSlots();
+            loadSpirits();
+            setupDragAndDrop();
+        });
+
+        // Initialize team slots
+        function initializeTeamSlots() {
+            const teamSlotsContainer = document.getElementById('team-slots');
+            teamSlotsContainer.innerHTML = '';
+
+            for (let i = 0; i < 6; i++) {
+                const slot = document.createElement('div');
+                slot.className = 'team-slot';
+                slot.dataset.slotIndex = i;
+                slot.innerHTML = `
+                    <div class="slot-number">${i + 1}</div>
+                    <div class="slot-content"></div>
+                `;
+                teamSlotsContainer.appendChild(slot);
+                teamSlots.push(slot);
+            }
+        }
+
+        // Load available spirits
+        function loadSpirits() {
+            // Mock data - in real implementation, this would come from the TeamsPure module
+            spirits = [
+                { id: 'fire_dragon', name: 'Fire Dragon', type: 'Fire', level: 45, stats: { atk: 95, def: 75, spd: 80, hp: 85 } },
+                { id: 'water_serpent', name: 'Water Serpent', type: 'Water', level: 42, stats: { atk: 80, def: 90, spd: 65, hp: 95 } },
+                { id: 'thunder_bird', name: 'Thunder Bird', type: 'Electric', level: 48, stats: { atk: 90, def: 70, spd: 95, hp: 80 } },
+                { id: 'earth_golem', name: 'Earth Golem', type: 'Ground', level: 40, stats: { atk: 85, def: 95, spd: 45, hp: 90 } },
+                { id: 'wind_sprite', name: 'Wind Sprite', type: 'Flying', level: 38, stats: { atk: 75, def: 60, spd: 100, hp: 70 } },
+                { id: 'psychic_mage', name: 'Psychic Mage', type: 'Psychic', level: 50, stats: { atk: 100, def: 80, spd: 85, hp: 75 } },
+                { id: 'dark_knight', name: 'Dark Knight', type: 'Dark', level: 47, stats: { atk: 88, def: 85, spd: 75, hp: 88 } },
+                { id: 'light_warrior', name: 'Light Warrior', type: 'Light', level: 44, stats: { atk: 82, def: 78, spd: 82, hp: 85 } },
+                { id: 'nature_guardian', name: 'Nature Guardian', type: 'Grass', level: 41, stats: { atk: 78, def: 85, spd: 70, hp: 92 } },
+                { id: 'ice_crystal', name: 'Ice Crystal', type: 'Ice', level: 39, stats: { atk: 85, def: 75, spd: 75, hp: 80 } }
+            ];
+
+            renderSpirits();
+        }
+
+        // Render spirits grid
+        function renderSpirits() {
+            const spiritsGrid = document.getElementById('spirits-grid');
+            spiritsGrid.innerHTML = '';
+
+            spirits.forEach(spirit => {
+                const spiritCard = createSpiritCard(spirit);
+                spiritsGrid.appendChild(spiritCard);
+            });
+        }
+
+        // Create spirit card
+        function createSpiritCard(spirit) {
+            const card = document.createElement('div');
+            card.className = 'spirit-card';
+            card.dataset.spiritId = spirit.id;
+            card.draggable = true;
+
+            card.innerHTML = `
+                <div class="spirit-name">${spirit.name}</div>
+                <div class="spirit-type">${spirit.type}</div>
+                <div class="spirit-stats">
+                    <div class="stat atk">ATK ${spirit.stats.atk}</div>
+                    <div class="stat def">DEF ${spirit.stats.def}</div>
+                    <div class="stat spd">SPD ${spirit.stats.spd}</div>
+                    <div class="stat hp">HP ${spirit.stats.hp}</div>
+                </div>
+            `;
+
+            return card;
+        }
+
+        // Setup drag and drop functionality
+        function setupDragAndDrop() {
+            // Spirit cards drag start
+            document.addEventListener('dragstart', function(e) {
+                if (e.target.classList.contains('spirit-card')) {
+                    e.target.classList.add('dragging');
+                    e.dataTransfer.setData('text/plain', e.target.dataset.spiritId);
+                    e.dataTransfer.effectAllowed = 'move';
+                }
+            });
+
+            // Spirit cards drag end
+            document.addEventListener('dragend', function(e) {
+                if (e.target.classList.contains('spirit-card')) {
+                    e.target.classList.remove('dragging');
+                }
+            });
+
+            // Team slots drag over
+            teamSlots.forEach(slot => {
+                slot.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'move';
+
+                    if (!slot.classList.contains('occupied')) {
+                        slot.classList.add('drag-over');
+                    }
+                });
+
+                slot.addEventListener('dragleave', function(e) {
+                    slot.classList.remove('drag-over');
+                });
+
+                slot.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    slot.classList.remove('drag-over');
+
+                    const spiritId = e.dataTransfer.getData('text/plain');
+                    const spirit = spirits.find(s => s.id === spiritId);
+
+                    if (spirit && !slot.classList.contains('occupied')) {
+                        addSpiritToSlot(slot, spirit);
+                    }
+                });
+            });
+        }
+
+        // Add spirit to team slot
+        function addSpiritToSlot(slot, spirit) {
+            slot.classList.add('occupied');
+            slot.classList.remove('active');
+
+            const slotContent = slot.querySelector('.slot-content');
+            slotContent.innerHTML = '';
+
+            const spiritCard = createSpiritCard(spirit);
+            spiritCard.draggable = false;
+            slotContent.appendChild(spiritCard);
+
+            // Update current team
+            const slotIndex = parseInt(slot.dataset.slotIndex);
+            currentTeam[slotIndex] = spirit;
+
+            updateTeamAnalysis();
+        }
+
+        // Remove spirit from team slot
+        function removeSpiritFromSlot(slot) {
+            slot.classList.remove('occupied');
+            slot.classList.remove('drag-over');
+
+            const slotContent = slot.querySelector('.slot-content');
+            slotContent.innerHTML = '';
+
+            // Update current team
+            const slotIndex = parseInt(slot.dataset.slotIndex);
+            currentTeam[slotIndex] = null;
+
+            updateTeamAnalysis();
+        }
+
+        // Update team analysis
+        function updateTeamAnalysis() {
+            const activeSpirits = currentTeam.filter(spirit => spirit !== null);
+
+            if (activeSpirits.length === 0) {
+                resetAnalysis();
+                return;
+            }
+
+            // Calculate ratings
+            const offense = calculateOffensiveRating(activeSpirits);
+            const defense = calculateDefensiveRating(activeSpirits);
+            const mobility = calculateMobilityRating(activeSpirits);
+            const synergy = calculateSynergyRating(activeSpirits);
+            const overall = Math.round((offense * 0.3) + (defense * 0.3) + (mobility * 0.2) + (synergy * 0.2));
+
+            // Update UI
+            updateRatingBar('offense-bar', offense);
+            updateRatingBar('defense-bar', defense);
+            updateRatingBar('mobility-bar', mobility);
+            updateRatingBar('synergy-bar', synergy);
+            updateRatingBar('team-strength-bar', overall);
+
+            document.getElementById('team-strength-value').textContent = `Strength: ${overall}/100`;
+
+            updateStrengthsAndWeaknesses(activeSpirits, offense, defense, mobility);
+        }
+
+        // Reset analysis display
+        function resetAnalysis() {
+            updateRatingBar('offense-bar', 0);
+            updateRatingBar('defense-bar', 0);
+            updateRatingBar('mobility-bar', 0);
+            updateRatingBar('synergy-bar', 0);
+            updateRatingBar('team-strength-bar', 0);
+
+            document.getElementById('team-strength-value').textContent = 'Strength: 0/100';
+
+            document.getElementById('strengths-list').innerHTML = '';
+            document.getElementById('weaknesses-list').innerHTML = '';
+            document.getElementById('strategies-list').innerHTML = '';
+        }
+
+        // Update rating bar
+        function updateRatingBar(elementId, percentage) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.style.width = `${Math.max(0, Math.min(100, percentage))}%`;
+            }
+        }
+
+        // Calculate offensive rating
+        function calculateOffensiveRating(spirits) {
+            if (spirits.length === 0) return 0;
+
+            let total = 0;
+            spirits.forEach(spirit => {
+                const power = (spirit.stats.atk * 0.4) + (spirit.stats.spd * 0.3) + (spirit.level * 0.3);
+                total += power;
+            });
+
+            return Math.min(100, total / spirits.length);
+        }
+
+        // Calculate defensive rating
+        function calculateDefensiveRating(spirits) {
+            if (spirits.length === 0) return 0;
+
+            let total = 0;
+            spirits.forEach(spirit => {
+                const power = (spirit.stats.def * 0.4) + (spirit.stats.hp * 0.4) + (spirit.level * 0.2);
+                total += power;
+            });
+
+            return Math.min(100, total / spirits.length);
+        }
+
+        // Calculate mobility rating
+        function calculateMobilityRating(spirits) {
+            if (spirits.length === 0) return 0;
+
+            let total = 0;
+            spirits.forEach(spirit => {
+                const power = (spirit.stats.spd * 0.7) + (spirit.level * 0.3);
+                total += power;
+            });
+
+            return Math.min(100, total / spirits.length);
+        }
+
+        // Calculate synergy rating
+        function calculateSynergyRating(spirits) {
+            if (spirits.length < 2) return 50;
+
+            const types = new Set(spirits.map(s => s.type));
+            const typeCoverage = types.size / spirits.length;
+
+            const avgLevel = spirits.reduce((sum, s) => sum + s.level, 0) / spirits.length;
+            const levelVariance = calculateVariance(spirits.map(s => s.level));
+
+            // Higher synergy with good type coverage and consistent levels
+            const synergy = (typeCoverage * 60) + (Math.max(0, 40 - levelVariance) * 0.4);
+            return Math.min(100, synergy);
+        }
+
+        // Calculate variance
+        function calculateVariance(numbers) {
+            const mean = numbers.reduce((sum, n) => sum + n, 0) / numbers.length;
+            const squaredDiffs = numbers.map(n => Math.pow(n - mean, 2));
+            return Math.sqrt(squaredDiffs.reduce((sum, diff) => sum + diff, 0) / numbers.length);
+        }
+
+        // Update strengths and weaknesses
+        function updateStrengthsAndWeaknesses(spirits, offense, defense, mobility) {
+            const strengthsList = document.getElementById('strengths-list');
+            const weaknessesList = document.getElementById('weaknesses-list');
+            const strategiesList = document.getElementById('strategies-list');
+
+            strengthsList.innerHTML = '';
+            weaknessesList.innerHTML = '';
+            strategiesList.innerHTML = '';
+
+            // Strengths
+            if (offense > 70) {
+                addListItem(strengthsList, 'High offensive power', 'strength-item');
+            }
+            if (defense > 70) {
+                addListItem(strengthsList, 'Strong defensive capabilities', 'strength-item');
+            }
+            if (mobility > 70) {
+                addListItem(strengthsList, 'Excellent mobility and speed', 'strength-item');
+            }
+
+            const types = new Set(spirits.map(s => s.type));
+            if (types.size >= 4) {
+                addListItem(strengthsList, 'Good type diversity', 'strength-item');
+            }
+
+            // Weaknesses
+            if (offense < 40) {
+                addListItem(weaknessesList, 'Low offensive power', 'weakness-item');
+            }
+            if (defense < 40) {
+                addListItem(weaknessesList, 'Weak defensive capabilities', 'weakness-item');
+            }
+            if (mobility < 40) {
+                addListItem(weaknessesList, 'Poor mobility and speed', 'weakness-item');
+            }
+
+            if (types.size < 2) {
+                addListItem(weaknessesList, 'Limited type coverage', 'weakness-item');
+            }
+
+            // Strategies
+            if (offense > defense) {
+                addListItem(strategiesList, 'Aggressive strategy: Focus on quick attacks', 'strategy-item');
+            } else if (defense > offense) {
+                addListItem(strategiesList, 'Defensive strategy: Endure and counter', 'strategy-item');
+            }
+
+            if (mobility > 60) {
+                addListItem(strategiesList, 'Mobility strategy: Use positioning', 'strategy-item');
+            }
+
+            if (types.size >= 3) {
+                addListItem(strategiesList, 'Versatile strategy: Adapt to situations', 'strategy-item');
+            }
+        }
+
+        // Add list item
+        function addListItem(container, text, className) {
+            const item = document.createElement('div');
+            item.className = className;
+            item.textContent = text;
+            container.appendChild(item);
+        }
+
+        // Team analysis function
+        function analyzeTeam() {
+            const activeSpirits = currentTeam.filter(spirit => spirit !== null);
+
+            if (activeSpirits.length === 0) {
+                alert('Add some spirits to your team first!');
+                return;
+            }
+
+            updateTeamAnalysis();
+            alert(`Team analysis updated! Strength: ${document.getElementById('team-strength-value').textContent}`);
+        }
+
+        // Optimize team
+        function optimizeTeam() {
+            const activeSpirits = currentTeam.filter(spirit => spirit !== null);
+
+            if (activeSpirits.length === 0) {
+                alert('Add some spirits to your team first!');
+                return;
+            }
+
+            // Simple optimization: sort spirits by overall power
+            const optimizedTeam = [...spirits]
+                .filter(spirit => !currentTeam.some(teamSpirit => teamSpirit && teamSpirit.id === spirit.id))
+                .sort((a, b) => {
+                    const powerA = (a.stats.atk + a.stats.def + a.stats.spd + a.stats.hp + a.level) / 5;
+                    const powerB = (b.stats.atk + b.stats.def + b.stats.spd + b.stats.hp + b.level) / 5;
+                    return powerB - powerA;
+                })
+                .slice(0, 6 - activeSpirits.length);
+
+            // Add optimized spirits to empty slots
+            teamSlots.forEach((slot, index) => {
+                if (!slot.classList.contains('occupied')) {
+                    const spirit = optimizedTeam.shift();
+                    if (spirit) {
+                        addSpiritToSlot(slot, spirit);
+                    }
+                }
+            });
+
+            alert('Team optimized with highest power spirits!');
+        }
+
+        // Auto fill team
+        function autoFillTeam() {
+            const emptySlots = teamSlots.filter(slot => !slot.classList.contains('occupied'));
+
+            spirits.slice(0, emptySlots.length).forEach((spirit, index) => {
+                addSpiritToSlot(emptySlots[index], spirit);
+            });
+
+            alert(`Auto-filled ${emptySlots.length} team slots!`);
+        }
+
+        // Clear team
+        function clearTeam() {
+            teamSlots.forEach(slot => {
+                removeSpiritFromSlot(slot);
+            });
+
+            currentTeam = [];
+            resetAnalysis();
+            alert('Team cleared!');
+        }
+
+        // Show comparison modal
+        function showComparison() {
+            const modal = document.getElementById('comparison-modal');
+            modal.classList.add('show');
+
+            // Create comparison dropdowns
+            createComparisonInterface();
+        }
+
+        // Close comparison modal
+        function closeComparison() {
+            const modal = document.getElementById('comparison-modal');
+            modal.classList.remove('show');
+        }
+
+        // Create comparison interface
+        function createComparisonInterface() {
+            const container = document.getElementById('comparison-container');
+
+            // Get all teams (simplified - in real app would get from TeamsPure)
+            const teams = [
+                { id: 'offensive', name: 'Offensive Force' },
+                { id: 'defensive', name: 'Defensive Wall' },
+                { id: 'balanced', name: 'Balanced Squad' },
+                { id: 'current', name: 'Current Team' }
+            ];
+
+            container.innerHTML = `
+                <div class="comparison-item">
+                    <div class="comparison-label">Team 1</div>
+                    <select id="team1-select" onchange="updateComparison()">
+                        <option value="">Select team...</option>
+                        ${teams.map(team => `<option value="${team.id}">${team.name}</option>`).join('')}
+                    </select>
+                    <div id="team1-stats" class="comparison-stats"></div>
+                </div>
+                <div class="comparison-item">
+                    <div class="comparison-label">Team 2</div>
+                    <select id="team2-select" onchange="updateComparison()">
+                        <option value="">Select team...</option>
+                        ${teams.map(team => `<option value="${team.id}">${team.name}</option>`).join('')}
+                    </select>
+                    <div id="team2-stats" class="comparison-stats"></div>
+                </div>
+            `;
+        }
+
+        // Update comparison
+        function updateComparison() {
+            const team1Select = document.getElementById('team1-select');
+            const team2Select = document.getElementById('team2-select');
+            const team1Stats = document.getElementById('team1-stats');
+            const team2Stats = document.getElementById('team2-stats');
+
+            const team1Id = team1Select.value;
+            const team2Id = team2Select.value;
+
+            if (team1Id && team2Id) {
+                // Mock comparison data - in real app would get from TeamsPure
+                const mockAnalysis1 = getMockTeamAnalysis(team1Id);
+                const mockAnalysis2 = getMockTeamAnalysis(team2Id);
+
+                team1Stats.innerHTML = generateComparisonHTML(mockAnalysis1, mockAnalysis2, 'team1');
+                team2Stats.innerHTML = generateComparisonHTML(mockAnalysis2, mockAnalysis1, 'team2');
+            }
+        }
+
+        // Get mock team analysis
+        function getMockTeamAnalysis(teamId) {
+            const analyses = {
+                offensive: { offense: 85, defense: 60, mobility: 75, synergy: 70 },
+                defensive: { offense: 55, defense: 90, mobility: 45, synergy: 80 },
+                balanced: { offense: 70, defense: 70, mobility: 65, synergy: 85 },
+                current: calculateCurrentTeamAnalysis()
+            };
+
+            return analyses[teamId] || analyses.balanced;
+        }
+
+        // Calculate current team analysis
+        function calculateCurrentTeamAnalysis() {
+            const activeSpirits = currentTeam.filter(spirit => spirit !== null);
+
+            if (activeSpirits.length === 0) {
+                return { offense: 0, defense: 0, mobility: 0, synergy: 0 };
+            }
+
+            return {
+                offense: calculateOffensiveRating(activeSpirits),
+                defense: calculateDefensiveRating(activeSpirits),
+                mobility: calculateMobilityRating(activeSpirits),
+                synergy: calculateSynergyRating(activeSpirits)
+            };
+        }
+
+        // Generate comparison HTML
+        function generateComparisonHTML(analysis1, analysis2, teamClass) {
+            const offenseDiff = analysis1.offense - analysis2.offense;
+            const defenseDiff = analysis1.defense - analysis2.defense;
+            const mobilityDiff = analysis1.mobility - analysis2.mobility;
+            const synergyDiff = analysis1.synergy - analysis2.synergy;
+
+            return `
+                <div>Offense: <span class="comparison-value ${offenseDiff > 0 ? 'comparison-winner' : 'comparison-loser'}">${analysis1.offense}</span></div>
+                <div>Defense: <span class="comparison-value ${defenseDiff > 0 ? 'comparison-winner' : 'comparison-loser'}">${analysis1.defense}</span></div>
+                <div>Mobility: <span class="comparison-value ${mobilityDiff > 0 ? 'comparison-winner' : 'comparison-loser'}">${analysis1.mobility}</span></div>
+                <div>Synergy: <span class="comparison-value ${synergyDiff > 0 ? 'comparison-winner' : 'comparison-loser'}">${analysis1.synergy}</span></div>
+            `;
+        }
+
+        // Simulate battle
+        function simulateBattle() {
+            const team1Select = document.getElementById('team1-select');
+            const team2Select = document.getElementById('team2-select');
+
+            const team1Id = team1Select.value;
+            const team2Id = team2Select.value;
+
+            if (!team1Id || !team2Id) {
+                alert('Please select both teams to simulate!');
+                return;
+            }
+
+            const analysis1 = getMockTeamAnalysis(team1Id);
+            const analysis2 = getMockTeamAnalysis(team2Id);
+
+            // Simple battle simulation
+            const team1Score = (analysis1.offense * 0.4) + (analysis1.defense * 0.3) + (analysis1.mobility * 0.3);
+            const team2Score = (analysis2.offense * 0.4) + (analysis2.defense * 0.3) + (analysis2.mobility * 0.3);
+
+            const container = document.getElementById('comparison-container');
+
+            if (team1Score > team2Score) {
+                container.innerHTML = `
+                    <div class="simulation-result">
+                        <div class="simulation-winner">Team 1 Wins!</div>
+                        <div>Score: ${team1Score.toFixed(1)} vs ${team2Score.toFixed(1)}</div>
+                        <div>Margin of victory: ${((team1Score - team2Score) / team2Score * 100).toFixed(1)}%</div>
+                    </div>
+                `;
+            } else if (team2Score > team1Score) {
+                container.innerHTML = `
+                    <div class="simulation-result">
+                        <div class="simulation-loser">Team 2 Wins!</div>
+                        <div>Score: ${team2Score.toFixed(1)} vs ${team1Score.toFixed(1)}</div>
+                        <div>Margin of victory: ${((team2Score - team1Score) / team1Score * 100).toFixed(1)}%</div>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `
+                    <div class="simulation-result">
+                        <div class="simulation-draw">It's a Draw!</div>
+                        <div>Both teams are evenly matched</div>
+                        <div>Scores: ${team1Score.toFixed(1)} vs ${team2Score.toFixed(1)}</div>
+                    </div>
+                `;
+            }
+        }
+
+        // Refresh spirits
+        function refreshSpirits() {
+            loadSpirits();
+            alert('Spirits refreshed!');
+        }
+
+        // Make functions globally available
+        window.analyzeTeam = analyzeTeam;
+        window.optimizeTeam = optimizeTeam;
+        window.clearTeam = clearTeam;
+        window.showComparison = showComparison;
+        window.closeComparison = closeComparison;
+        window.simulateBattle = simulateBattle;
+        window.refreshSpirits = refreshSpirits;
+        window.autoFillTeam = autoFillTeam;
+        window.updateComparison = updateComparison;
+    </script>
+</body>
+</html>
