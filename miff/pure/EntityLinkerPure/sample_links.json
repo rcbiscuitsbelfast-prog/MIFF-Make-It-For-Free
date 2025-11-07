@@ -1,5 +1,0 @@
-{
-  "npcs": [ { "id": "bob", "quest": "q1" } ],
-  "equipment": [ { "id": "sword", "itemId": "itm_sword" } ],
-  "placements": [ { "id": "townGate", "zoneId": "z_town" } ]
-}
