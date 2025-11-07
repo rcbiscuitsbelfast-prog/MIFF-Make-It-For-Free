@@ -82,7 +82,7 @@ export class AssetLoaderManager {
       if (!response.ok) throw new Error(`Failed to load manifest: ${response.statusText}`);
       
       this.manifest = await response.json();
-      return this.manifest;
+//       return this.manifest;
     } catch (error) {
       throw new Error(`Manifest load error: ${error}`);
     }

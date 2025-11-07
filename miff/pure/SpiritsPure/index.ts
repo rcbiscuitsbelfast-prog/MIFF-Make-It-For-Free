@@ -719,28 +719,28 @@ export class SpiritSorter {
     spiritIdToCaptureDate?: Map<string, Date>
   ): (a: ISpirit, b: ISpirit) => number {
     switch (sortOption) {
-      case ALPHABETICAL_ASC:
-      case ALPHABETICAL_DESC:
+      case SortOption.ALPHABETICAL_ASC:
+      case SortOption.ALPHABETICAL_DESC:
         return (a, b) => a.spiritName.localeCompare(b.spiritName);
 
-      case SYNC_ASC:
-      case SYNC_DESC:
+      case SortOption.SYNC_ASC:
+      case SortOption.SYNC_DESC:
         return (a, b) => {
           const syncA = spiritIdToSync?.get(a.spiritId) ?? 0;
           const syncB = spiritIdToSync?.get(b.spiritId) ?? 0;
           return syncA - syncB;
         };
 
-      case RARITY_ASC:
-      case RARITY_DESC:
+      case SortOption.RARITY_ASC:
+      case SortOption.RARITY_DESC:
         return (a, b) => a.rarity - b.rarity;
 
-      case LEVEL_ASC:
-      case LEVEL_DESC:
+      case SortOption.LEVEL_ASC:
+      case SortOption.LEVEL_DESC:
         return (a, b) => a.level - b.level;
 
-      case CAPTURE_DATE_ASC:
-      case CAPTURE_DATE_DESC:
+      case SortOption.CAPTURE_DATE_ASC:
+      case SortOption.CAPTURE_DATE_DESC:
         return (a, b) => {
           const dateA = a.captureDate?.getTime() ?? 0;
           const dateB = b.captureDate?.getTime() ?? 0;
@@ -793,25 +793,25 @@ export class SpiritSorter {
    */
   getSortDescription(sortOption: SortOption): string {
     switch (sortOption) {
-      case ALPHABETICAL_ASC:
+      case SortOption.ALPHABETICAL_ASC:
         return 'Alphabetical (A-Z)';
-      case ALPHABETICAL_DESC:
+      case SortOption.ALPHABETICAL_DESC:
         return 'Alphabetical (Z-A)';
-      case SYNC_ASC:
+      case SortOption.SYNC_ASC:
         return 'Sync Level (Low to High)';
-      case SYNC_DESC:
+      case SortOption.SYNC_DESC:
         return 'Sync Level (High to Low)';
-      case RARITY_ASC:
+      case SortOption.RARITY_ASC:
         return 'Rarity (Common to Mythical)';
-      case RARITY_DESC:
+      case SortOption.RARITY_DESC:
         return 'Rarity (Mythical to Common)';
-      case LEVEL_ASC:
+      case SortOption.LEVEL_ASC:
         return 'Level (Low to High)';
-      case LEVEL_DESC:
+      case SortOption.LEVEL_DESC:
         return 'Level (High to Low)';
-      case CAPTURE_DATE_ASC:
+      case SortOption.CAPTURE_DATE_ASC:
         return 'Capture Date (Oldest First)';
-      case CAPTURE_DATE_DESC:
+      case SortOption.CAPTURE_DATE_DESC:
         return 'Capture Date (Newest First)';
       default:
         return 'Unknown Sort';
@@ -1210,13 +1210,13 @@ export class Spirit implements ISpirit {
    */
   getRarityDescription(): string {
     switch (this.rarity) {
-      case COMMON: return 'Common';
-      case UNCOMMON: return 'Uncommon';
-      case RARE: return 'Rare';
-      case EPIC: return 'Epic';
-      case LEGENDARY: return 'Legendary';
-      case MYTHICAL: return 'Mythical';
-      case UNIQUE: return 'Unique';
+      case SpiritRarity.COMMON: return 'Common';
+      case SpiritRarity.UNCOMMON: return 'Uncommon';
+      case SpiritRarity.RARE: return 'Rare';
+      case SpiritRarity.EPIC: return 'Epic';
+      case SpiritRarity.LEGENDARY: return 'Legendary';
+      case SpiritRarity.MYTHICAL: return 'Mythical';
+      case SpiritRarity.UNIQUE: return 'Unique';
       default: return 'Unknown';
     }
   }
@@ -1347,9 +1347,9 @@ export class Spirit implements ISpirit {
  */
 export class SpiritCollection implements ISpiritCollection {
   public spirits: ISpirit[];
-  public capturedSpirits: ISpirit[];
-  public uncapturedSpirits: ISpirit[];
-  public favoriteSpirits: ISpirit[];
+  public capturedSpirits: ISpirit[] = [];
+  public uncapturedSpirits: ISpirit[] = [];
+  public favoriteSpirits: ISpirit[] = [];
 
   constructor(spirits: ISpirit[] = []) {
     this.spirits = [...spirits];
@@ -1519,7 +1519,7 @@ export class SpiritCollection implements ISpiritCollection {
    * Filter spirits
    */
   filterSpirits(filter: ISpiritFilter): ISpirit[] {
-    return filter.apply(this.spirits);
+//     return filter.apply(this.spirits);
   }
 
   /**
@@ -1580,7 +1580,7 @@ export class SpiritCollection implements ISpiritCollection {
       completion[SpiritRarity[rarity]] = { total, captured, percentage };
     });
 
-    return completion;
+//     return completion;
   }
 
   /**
@@ -1614,7 +1614,7 @@ export class SpiritCollection implements ISpiritCollection {
     const errors: string[] = [];
 
     this.spirits.forEach((spirit, index) => {
-      const spiritErrors = spirit.validate({});
+//       const spiritErrors = spirit.validate({});
       if (spiritErrors.length > 0) {
         errors.push(`Spirit ${index} (${spirit.spiritName}): ${spiritErrors.join(', ')}`);
       }
