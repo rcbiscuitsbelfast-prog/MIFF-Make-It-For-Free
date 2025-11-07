@@ -290,7 +290,7 @@ export class FacialDetailBuilder {
 
     // Apply morph to feature vertices (simplified - in real implementation would affect actual mesh)
     // This is a placeholder for the actual morphing logic
-    logger.debug('Applying morph to feature', { morphName: morphTarget.name, featureName: feature.name, strength });
+    // logger.debug('Applying morph to feature', { morphName: morphTarget.name, featureName: feature.name, strength });
 
     return this;
   }

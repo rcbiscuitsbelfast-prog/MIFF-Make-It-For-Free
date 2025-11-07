@@ -134,7 +134,7 @@ export class WebBridge {
   }
 
   private initializeWebEnvironment(): void {
-    logger.info('Initializing web environment');
+    // logger.info('Initializing web environment');
 
     // Initialize canvas
     if (this.config.useWebGL) {
@@ -156,13 +156,13 @@ export class WebBridge {
       this.initializeWebWorkers();
     }
 
-    logger.info('Web environment initialized successfully');
+    // logger.info('Web environment initialized successfully');
   }
 
   private initializeWebGL(): void {
     const canvas = document.getElementById(this.config.canvasId) as HTMLCanvasElement;
     if (!canvas) {
-      logger.warn('Canvas element not found', { canvasId: this.config.canvasId });
+      // logger.warn('Canvas element not found', { canvasId: this.config.canvasId });
       return;
     }
 
@@ -174,24 +174,24 @@ export class WebBridge {
                      canvas.getContext('experimental-webgl');
 
       if (!context) {
-        logger.warn('WebGL context not available');
+        // logger.warn('WebGL context not available');
         return;
       }
 
       this.gl = context as WebGLRenderingContext;
-      logger.info('WebGL initialized', { contextType: this.gl.constructor.name });
+      // logger.info('WebGL initialized', { contextType: this.gl.constructor.name });
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('WebGL initialization failed', { error: err });
+      // logger.error('WebGL initialization failed', { error: err });
     }
   }
 
   private initializeWebAssembly(): void {
-    logger.info('Initializing WebAssembly environment');
+    // logger.info('Initializing WebAssembly environment');
 
     // Check WebAssembly support
     if (typeof WebAssembly !== 'object') {
-      logger.warn('WebAssembly not supported');
+      // logger.warn('WebAssembly not supported');
       this.config.enableWebAssembly = false;
       return;
     }
@@ -206,7 +206,7 @@ export class WebBridge {
       this.checkThreadsSupport();
     }
 
-    logger.info('WebAssembly environment ready');
+    // logger.info('WebAssembly environment ready');
   }
 
   private checkSIMDSupport(): void {
@@ -219,7 +219,7 @@ export class WebBridge {
       ]);
 
       WebAssembly.instantiate(simdTestModule).catch(() => {
-        logger.warn('SIMD not supported, disabling');
+        // logger.warn('SIMD not supported, disabling');
         this.config.enableSIMD = false;
       });
     } catch {
@@ -229,7 +229,7 @@ export class WebBridge {
 
   private checkThreadsSupport(): void {
     if (!('SharedArrayBuffer' in window)) {
-      logger.warn('SharedArrayBuffer not available, disabling threads');
+      // logger.warn('SharedArrayBuffer not available, disabling threads');
       this.config.enableThreads = false;
       return;
     }
@@ -239,7 +239,7 @@ export class WebBridge {
     const coep = (document as any).crossOriginEmbedderPolicy;
 
     if (coop !== 'same-origin' || coep !== 'require-corp') {
-      logger.warn('COOP/COEP headers not set, disabling threads');
+      // logger.warn('COOP/COEP headers not set, disabling threads');
       this.config.enableThreads = false;
     }
   }
@@ -249,16 +249,16 @@ export class WebBridge {
       navigator.serviceWorker.register('/sw.js')
         .then(registration => {
           this.serviceWorker = registration.active;
-          logger.info('Service Worker registered');
+          // logger.info('Service Worker registered');
         })
         .catch(error => {
-          logger.warn('Service Worker registration failed', { error: err });
+          // logger.warn('Service Worker registration failed', { error: err });
         });
     }
   }
 
   private initializeWebWorkers(): void {
-    logger.info('Initializing web workers', { workerCount: this.config.workerCount });
+    // logger.info('Initializing web workers', { workerCount: this.config.workerCount });
 
     for (let i = 0; i < this.config.workerCount; i++) {
       try {
@@ -268,16 +268,16 @@ export class WebBridge {
         this.webWorkers.push(worker);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        logger.warn('Failed to create worker', { workerIndex: i, error: err });
+        // logger.warn('Failed to create worker', { workerIndex: i, error: err });
       }
     }
 
-    logger.info('Web workers initialized', { count: this.webWorkers.length });
+    // logger.info('Web workers initialized', { count: this.webWorkers.length });
   }
 
   private handleWorkerMessage(event: MessageEvent): void {
     // Handle messages from web workers
-    logger.debug('Worker message received', { data: event.data });
+    // logger.debug('Worker message received', { data: event.data });
   }
 
   async compileWebAssembly(sourceCode: string, config: Partial<WebAssemblyConfig> = {}): Promise<WebAssemblyModule> {
@@ -304,7 +304,7 @@ export class WebBridge {
       ...config
     };
 
-    logger.info('Compiling WebAssembly module');
+    // logger.info('Compiling WebAssembly module');
 
     try {
       // In a real implementation, this would use a WASM compiler like Binaryen
@@ -324,12 +324,12 @@ export class WebBridge {
 
       this.wasmModules.set(module.name, module);
 
-      logger.info('WebAssembly module compiled', { moduleName: module.name });
+      // logger.info('WebAssembly module compiled', { moduleName: module.name });
       return module;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('WebAssembly compilation failed', { error: err });
+      // logger.error('WebAssembly compilation failed', { error: err });
       throw error;
     }
   }
@@ -339,7 +339,7 @@ export class WebBridge {
       throw new Error('WebAssembly is disabled');
     }
 
-    logger.info('Instantiating WebAssembly module', { moduleName: module.name });
+    // logger.info('Instantiating WebAssembly module', { moduleName: module.name });
 
     try {
       // Create import object for the module
@@ -352,7 +352,7 @@ export class WebBridge {
             const memory = new Uint8Array(module.memory.buffer);
             const len = memory[message];
             const str = String.fromCharCode(...memory.slice(message + 4, message + 4 + len));
-            logger.debug('WebAssembly log', { message: str });
+            // logger.debug('WebAssembly log', { message: str });
           }
         }
       };
@@ -369,12 +369,12 @@ export class WebBridge {
 
       this.wasmInstances.set(module.name, instance);
 
-      logger.info('WebAssembly module instantiated', { moduleName: module.name });
+      // logger.info('WebAssembly module instantiated', { moduleName: module.name });
       return instance;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('WebAssembly instantiation failed', { error: err });
+      // logger.error('WebAssembly instantiation failed', { error: err });
       throw error;
     }
   }
@@ -412,11 +412,11 @@ export class WebBridge {
 
   async optimizeForWebAssembly(module: string): Promise<void> {
     if (!this.config.enableWebAssembly) {
-      logger.warn('WebAssembly optimization skipped - disabled');
+      // logger.warn('WebAssembly optimization skipped - disabled');
       return;
     }
 
-    logger.info('Optimizing module for WebAssembly', { module });
+    // logger.info('Optimizing module for WebAssembly', { module });
 
     // Optimization strategies:
     // 1. Memory layout optimization
@@ -433,7 +433,7 @@ export class WebBridge {
       callOptimization: true
     };
 
-    logger.info('Applied WebAssembly optimizations', { optimizations });
+    // logger.info('Applied WebAssembly optimizations', { optimizations });
 
     await new Promise(resolve => setTimeout(resolve, 100));
   }
@@ -472,7 +472,7 @@ export class WebBridge {
     const manifestUrl = this.config.manifestUrl! || '/manifest.json';
     const manifestContent = JSON.stringify(manifest, null, 2);
 
-    logger.info('PWA manifest generated', { manifestUrl });
+    // logger.info('PWA manifest generated', { manifestUrl });
 
     return manifestContent;
   }
@@ -500,7 +500,7 @@ export class WebBridge {
   }
 
   dispose(): void {
-    logger.info('Disposing web bridge');
+    // logger.info('Disposing web bridge');
 
     // Terminate web workers
     for (const worker of this.webWorkers) {
@@ -517,7 +517,7 @@ export class WebBridge {
       this.serviceWorker.unregister();
     }
 
-    logger.info('Web bridge disposed successfully');
+    // logger.info('Web bridge disposed successfully');
   }
 
   render(module: string, data: Record<string, unknown>, config: WebBridgeConfig) {

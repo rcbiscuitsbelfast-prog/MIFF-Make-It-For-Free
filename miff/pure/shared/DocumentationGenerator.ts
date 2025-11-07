@@ -344,7 +344,7 @@ export class DocumentationGenerator {
    * Generate comprehensive documentation for all modules
    */
   async generateDocumentation(rootPath: string): Promise<void> {
-    logger.info('Generating comprehensive documentation');
+    // logger.info('Generating comprehensive documentation');
     
     try {
       // Generate API documentation
@@ -366,7 +366,7 @@ export class DocumentationGenerator {
       
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('❌ Error generating documentation:', err instanceof Error ? message: String(err));
+      // logger.error('❌ Error generating documentation:', err instanceof Error ? message: String(err));
     }
   }
 
@@ -374,7 +374,7 @@ export class DocumentationGenerator {
    * Generate API documentation for all modules
    */
   async generateAPIDocumentation(rootPath: string): Promise<void> {
-    logger.info('Generating API documentation');
+    // logger.info('Generating API documentation');
     
     const modules = await this.getModulesForDocumentation(rootPath);
     
@@ -382,10 +382,10 @@ export class DocumentationGenerator {
       try {
         const apiDoc = await this.createAPIDocumentation(module);
         this.apiDocs.set(module, apiDoc);
-        logger.info('Generated API documentation for module', { module });
+        // logger.info('Generated API documentation for module', { module });
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        logger.error('Failed to generate API documentation for module', { module, error: err });
+        // logger.error('Failed to generate API documentation for module', { module, error: err });
       }
     }
   }
@@ -394,7 +394,7 @@ export class DocumentationGenerator {
    * Generate contributor guides
    */
   async generateContributorGuides(): Promise<void> {
-    logger.info('Generating contributor guides');
+    // logger.info('Generating contributor guides');
     
     const guideTopics = [
       'Getting Started',
@@ -411,10 +411,10 @@ export class DocumentationGenerator {
       try {
         const guide = await this.createContributorGuide(topic);
         this.contributorGuides.set(guide.id, guide);
-        logger.info('Generated contributor guide', { title: guide.title });
+        // logger.info('Generated contributor guide', { title: guide.title });
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        logger.error('Failed to generate contributor guide', { topic, error: err });
+        // logger.error('Failed to generate contributor guide', { topic, error: err });
       }
     }
   }
@@ -423,7 +423,7 @@ export class DocumentationGenerator {
    * Generate tutorials
    */
   async generateTutorials(): Promise<void> {
-    logger.info('Generating tutorials');
+    // logger.info('Generating tutorials');
     
     const tutorialTopics = [
       'Building Your First Game',
@@ -440,10 +440,10 @@ export class DocumentationGenerator {
       try {
         const tutorial = await this.createTutorial(topic);
         this.tutorials.set(tutorial.id, tutorial);
-        logger.info('Generated tutorial', { title: tutorial.title });
+        // logger.info('Generated tutorial', { title: tutorial.title });
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        logger.error('Failed to generate tutorial', { topic, error: err });
+        // logger.error('Failed to generate tutorial', { topic, error: err });
       }
     }
   }
@@ -452,7 +452,7 @@ export class DocumentationGenerator {
    * Generate code examples
    */
   async generateCodeExamples(): Promise<void> {
-    logger.info('Generating code examples');
+    // logger.info('Generating code examples');
     
     const exampleCategories = [
       'Basic Usage',
@@ -471,10 +471,10 @@ export class DocumentationGenerator {
         for (const example of examples) {
           this.codeExamples.set(example.id, example);
         }
-        logger.info('Generated code examples for category', { category, count: examples.length });
+        // logger.info('Generated code examples for category', { category, count: examples.length });
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        logger.error('Failed to generate code examples', { category, error: err });
+        // logger.error('Failed to generate code examples', { category, error: err });
       }
     }
   }

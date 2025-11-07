@@ -152,12 +152,12 @@ export class SchemaStandardizer {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      logger.warn('Schema standardizer already initialized');
+      // logger.warn('Schema standardizer already initialized');
       return;
     }
 
     try {
-      logger.info('Initializing schema standardizer');
+      // logger.info('Initializing schema standardizer');
       
       // Load standard schemas
       await this.loadStandardSchemas();
@@ -166,11 +166,11 @@ export class SchemaStandardizer {
       await this.validateExistingSchemas();
       
       this.isInitialized = true;
-      logger.info('Schema standardizer initialized successfully');
+      // logger.info('Schema standardizer initialized successfully');
       
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('Failed to initialize schema standardizer', { error: error.message });
+      // logger.error('Failed to initialize schema standardizer', { error: error.message });
       throw error;
     }
   }
@@ -180,7 +180,7 @@ export class SchemaStandardizer {
    */
   registerSchema(): void {
     this.schemas.set(schema.id, schema);
-    logger.info('Schema registered', { schemaId: schema.id, module: schema.module });
+    // logger.info('Schema registered', { schemaId: schema.id, module: schema.module });
   }
 
   /**
@@ -263,7 +263,7 @@ export class SchemaStandardizer {
     }
 
     if (!toSchema.migration) {
-      logger.warn('No migration defined', { fromSchemaId, toSchemaId });
+      // logger.warn('No migration defined', { fromSchemaId, toSchemaId });
       return data;
     }
 
@@ -273,7 +273,7 @@ export class SchemaStandardizer {
       migratedData = this.applyMigrationStep(migratedData, step);
     }
 
-    logger.info('Data migrated successfully', { fromSchemaId, toSchemaId });
+    // logger.info('Data migrated successfully', { fromSchemaId, toSchemaId });
     return migratedData;
   }
 
@@ -285,7 +285,7 @@ export class SchemaStandardizer {
       .filter((schema: any) => schema.module === module);
 
     if (moduleSchemas.length === 0) {
-      logger.warn('No schemas found for module', { module });
+      // logger.warn('No schemas found for module', { module });
       return data;
     }
 
@@ -596,7 +596,7 @@ export class SchemaStandardizer {
     const driftReport = this.getSchemaDriftReport();
     
     if (driftReport.driftIssues.length > 0) {
-      logger.warn('Schema drift detected', { 
+      // logger.warn('Schema drift detected', { 
         issueCount: driftReport.driftIssues.length,
         issues: driftReport.driftIssues
       });
@@ -607,12 +607,12 @@ export class SchemaStandardizer {
    * Destroy the schema standardizer
    */
   async destroy(): Promise<void> {
-    logger.info('Destroying schema standardizer');
+    // logger.info('Destroying schema standardizer');
     
     this.schemas.clear();
     this.isInitialized = false;
     
-    logger.info('Schema standardizer destroyed');
+    // logger.info('Schema standardizer destroyed');
   }
 }
 

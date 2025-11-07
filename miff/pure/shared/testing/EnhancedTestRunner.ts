@@ -75,7 +75,7 @@ export class EnhancedTestRunner {
    * Run all tests with enhanced monitoring
    */
   async runAllTests(): Promise<TestSuite[]> {
-    logger.info('Starting enhanced test execution');
+    // logger.info('Starting enhanced test execution');
     
     const startTime = Date.now();
     const startMemory = process.memoryUsage();
@@ -103,7 +103,7 @@ export class EnhancedTestRunner {
       return results;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('Test execution failed', { error: err });
+      // logger.error('Test execution failed', { error: err });
       throw error;
     }
   }
@@ -263,13 +263,13 @@ ${this.performanceMonitor.getPerformanceReport()}
       suite.tests.some(test => test.status === 'failed'));
     
     if (failedTestSuites.length > 0) {
-      logger.info('Failed Tests Details');
+      // logger.info('Failed Tests Details');
       failedTestSuites.forEach((suite: any) => {
         const failedTests = suite.tests.filter((test: any) => test.status === 'failed');
         failedTests.forEach((test: any) => {
-          logger.error('Test failed', { suite: suite.name, test: test.name });
+          // logger.error('Test failed', { suite: suite.name, test: test.name });
           if (test.error) {
-            logger.error('Test error details', { suite: suite.name, test: test.name, error: test.error });
+            // logger.error('Test error details', { suite: suite.name, test: test.name, error: test.error });
           }
         });
       });

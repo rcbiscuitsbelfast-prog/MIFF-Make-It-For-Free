@@ -524,7 +524,7 @@ export class EconomicEngine {
       // Validate transaction
       const validation = this.validateTransaction(transaction);
       if (!validation.valid) {
-        logger.error('Invalid transaction', { transactionId: transaction.id, reason: validation.reason });
+        // logger.error('Invalid transaction', { transactionId: transaction.id, reason: validation.reason });
         return false;
       }
 
@@ -540,7 +540,7 @@ export class EconomicEngine {
       const totalCost = transaction.price * transaction.quantity + fees + taxes;
 
       if (!this.hasSufficientFunds(buyer!, transaction.currency, totalCost)) {
-        logger.error('Insufficient funds for transaction', { buyerId: transaction.buyerId, currency: transaction.currency, required: totalCost });
+        // logger.error('Insufficient funds for transaction', { buyerId: transaction.buyerId, currency: transaction.currency, required: totalCost });
         return false;
       }
 
@@ -561,14 +561,14 @@ export class EconomicEngine {
         // Trigger economic events if needed
         this.checkEconomicTriggers(transaction);
 
-        logger.info('Transaction processed', { transactionId: transaction.id, buyerId: transaction.buyerId, sellerId: transaction.sellerId });
+        // logger.info('Transaction processed', { transactionId: transaction.id, buyerId: transaction.buyerId, sellerId: transaction.sellerId });
         return true;
       }
 
       return false;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('Transaction processing failed', { transactionId: transaction.id, error: err });
+      // logger.error('Transaction processing failed', { transactionId: transaction.id, error: err });
       return false;
     }
   }
@@ -785,7 +785,7 @@ export class EconomicEngine {
     };
 
     this.economicEvents.set(event?.id, event);
-    logger.info('Economic event triggered', { eventId: event.id, eventName: event.name });
+    // logger.info('Economic event triggered', { eventId: event.id, eventName: event.name });
   }
 
   // Market operations
@@ -1040,12 +1040,12 @@ export class EconomicEngine {
     this.initializeDefaultMarkets();
     this.performanceMetrics = this.initializePerformanceMetrics();
 
-    logger.info('Economic engine reset to initial state');
+    // logger.info('Economic engine reset to initial state');
   }
 
   dispose(): void {
     this.reset();
-    logger.info('Economic engine disposed successfully');
+    // logger.info('Economic engine disposed successfully');
   }
 }
 

@@ -166,7 +166,7 @@ export class PerfTimer implements Disposable {
    */
   private logResult(): void {
     const duration = this.elapsedMs;
-    logger.info('Performance measurement', { label: this._label, duration: parseFloat(duration.toFixed(2)) });
+    // logger.info('Performance measurement', { label: this._label, duration: parseFloat(duration.toFixed(2)) });
   }
 
   /**
@@ -396,7 +396,7 @@ export const PerfUtils = {
     const timer = new PerfTimer(label);
     try {
       const result = fn();
-      logger.info('Function performance', { label, duration: parseFloat(timer.elapsedMs.toFixed(2)) });
+      // logger.info('Function performance', { label, duration: parseFloat(timer.elapsedMs.toFixed(2)) });
       return result;
     } finally {
       timer.dispose();
@@ -432,7 +432,7 @@ export const PerfUtils = {
       endTime: total
     };
 
-    logger.info('Performance summary', { 
+    // logger.info('Performance summary', { 
       label: result.label, 
       avgMs: parseFloat(average.toFixed(2)), 
       minMs: parseFloat(min.toFixed(2)), 

@@ -40,27 +40,27 @@ export class DrivingManager {
   createVehicleDefinition(vehicleData: Partial<VehicleDefinition>): VehicleDefinition | null {
     // Validate required fields
     if (!vehicleData.id || vehicleData.id.trim() === '') {
-      logger.error('Vehicle ID is required', { vehicleData });
+      // logger.error('Vehicle ID is required', { vehicleData });
       return null;
     }
 
     if (!vehicleData.name || vehicleData.name.trim() === '') {
-      logger.error('Vehicle name is required', { vehicleId: vehicleData.id });
+      // logger.error('Vehicle name is required', { vehicleId: vehicleData.id });
       return null;
     }
 
     if (!vehicleData.type) {
-      logger.error('Vehicle type is required', { vehicleId: vehicleData.id, vehicleName: vehicleData.name });
+      // logger.error('Vehicle type is required', { vehicleId: vehicleData.id, vehicleName: vehicleData.name });
       return null;
     }
 
     if (vehicleData.mass <= 0) {
-      logger.error('Vehicle mass must be positive', { vehicleId: vehicleData.id, mass: vehicleData.mass });
+      // logger.error('Vehicle mass must be positive', { vehicleId: vehicleData.id, mass: vehicleData.mass });
       return null;
     }
 
     if (vehicleData.maxSpeed <= 0) {
-      logger.error('Vehicle max speed must be positive', { vehicleId: vehicleData.id, maxSpeed: vehicleData.maxSpeed });
+      // logger.error('Vehicle max speed must be positive', { vehicleId: vehicleData.id, maxSpeed: vehicleData.maxSpeed });
       return null;
     }
 
@@ -115,12 +115,12 @@ export class DrivingManager {
   registerVehicle(vehicle: VehicleDefinition): boolean {
     // Validate vehicle
     if (!this.validateVehicleDefinition(vehicle)) {
-      logger.error('Invalid vehicle definition', { vehicleId: vehicle.id, vehicleName: vehicle.name });
+      // logger.error('Invalid vehicle definition', { vehicleId: vehicle.id, vehicleName: vehicle.name });
       return false;
     }
 
     // Store in system (this would normally go through the main system)
-    logger.info('Vehicle registered', { vehicleId: vehicle.id, vehicleName: vehicle.name, type: vehicle.type, rarity: vehicle.rarity });
+    // logger.info('Vehicle registered', { vehicleId: vehicle.id, vehicleName: vehicle.name, type: vehicle.type, rarity: vehicle.rarity });
     return true;
   }
 
@@ -131,7 +131,7 @@ export class DrivingManager {
     try {
       // Check if vehicle is unlocked for this player
       if (!this.isVehicleUnlocked(vehicleId, playerId)) {
-        logger.warn('Vehicle not unlocked', { vehicleId, playerId });
+        // logger.warn('Vehicle not unlocked', { vehicleId, playerId });
         return null;
       }
 
@@ -139,14 +139,14 @@ export class DrivingManager {
       const vehicle = this.drivingSystem.createVehicle(vehicleId, playerId);
 
       if (vehicle) {
-        logger.info('Vehicle created', { playerId, vehicleId, vehicleName: vehicle.definition.name, type: vehicle.definition.type });
+        // logger.info('Vehicle created', { playerId, vehicleId, vehicleName: vehicle.definition.name, type: vehicle.definition.type });
         this.updateStats({ vehiclesOwned: this.drivingSystem.getStats().vehiclesOwned + 1 });
       }
 
       return vehicle;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('Error creating vehicle', { vehicleId, playerId, error: err });
+      // logger.error('Error creating vehicle', { vehicleId, playerId, error: err });
       return null;
     }
   }
@@ -207,11 +207,11 @@ export class DrivingManager {
       // Store session (would normally go through main system)
       this.updateStats({ totalSessions: this.drivingSystem.getStats().totalSessions + 1 });
 
-      logger.info('Driving session started', { trackName: track.name, vehicleName: vehicle.definition.name, playerId, trackId, vehicleId });
+      // logger.info('Driving session started', { trackName: track.name, vehicleName: vehicle.definition.name, playerId, trackId, vehicleId });
       return session;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('Error starting session', { playerId, trackId, vehicleId, error: err });
+      // logger.error('Error starting session', { playerId, trackId, vehicleId, error: err });
       return null;
     }
   }
@@ -455,7 +455,7 @@ export class DrivingManager {
    */
   applyPenalty(sessionId: string, penalty: DrivingPenalty): void {
     // This would apply penalty to a driving session
-    logger.warn('Driving penalty applied', { sessionId, penaltyType: penalty.type, timePenalty: penalty.timePenalty });
+    // logger.warn('Driving penalty applied', { sessionId, penaltyType: penalty.type, timePenalty: penalty.timePenalty });
   }
 
   /**
@@ -463,7 +463,7 @@ export class DrivingManager {
    */
   updateStats(updates: Partial<DrivingStats>): void {
     // This would update the player's driving statistics
-    logger.info('Driving statistics updated', { updates: Object.keys(updates) });
+    // logger.info('Driving statistics updated', { updates: Object.keys(updates) });
   }
 
   /**
@@ -471,27 +471,27 @@ export class DrivingManager {
    */
   private validateVehicleDefinition(vehicle: VehicleDefinition): boolean {
     if (!vehicle.id || vehicle.id.trim() === '') {
-      logger.error('Vehicle validation failed: ID is required', { vehicle });
+      // logger.error('Vehicle validation failed: ID is required', { vehicle });
       return false;
     }
 
     if (!vehicle.name || vehicle.name.trim() === '') {
-      logger.error('Vehicle validation failed: name is required', { vehicleId: vehicle.id });
+      // logger.error('Vehicle validation failed: name is required', { vehicleId: vehicle.id });
       return false;
     }
 
     if (vehicle.mass <= 0) {
-      logger.error('Vehicle validation failed: mass must be positive', { vehicleId: vehicle.id, mass: vehicle.mass });
+      // logger.error('Vehicle validation failed: mass must be positive', { vehicleId: vehicle.id, mass: vehicle.mass });
       return false;
     }
 
     if (vehicle.maxSpeed <= 0) {
-      logger.error('Vehicle validation failed: max speed must be positive', { vehicleId: vehicle.id, maxSpeed: vehicle.maxSpeed });
+      // logger.error('Vehicle validation failed: max speed must be positive', { vehicleId: vehicle.id, maxSpeed: vehicle.maxSpeed });
       return false;
     }
 
     if (vehicle.acceleration <= 0) {
-      logger.error('Vehicle validation failed: acceleration must be positive', { vehicleId: vehicle.id, acceleration: vehicle.acceleration });
+      // logger.error('Vehicle validation failed: acceleration must be positive', { vehicleId: vehicle.id, acceleration: vehicle.acceleration });
       return false;
     }
 
@@ -531,6 +531,6 @@ export class DrivingManager {
    */
   importData(data: ReturnType<typeof this.exportData>): void {
     // Import logic would go here
-    logger.info('Driving system data imported', { dataKeys: Object.keys(data) });
+    // logger.info('Driving system data imported', { dataKeys: Object.keys(data) });
   }
 }

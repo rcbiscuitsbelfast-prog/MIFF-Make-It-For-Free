@@ -509,7 +509,7 @@ export class WebExporter {
   }
 
   private async initializeExporter(): Promise<void> {
-    logger.info('Initializing web exporter');
+    // logger.info('Initializing web exporter');
 
     try {
       // Validate project settings
@@ -522,24 +522,24 @@ export class WebExporter {
       await this.initializeWebProject();
 
       this.isInitialized = true;
-      logger.info('Web exporter initialized successfully');
+      // logger.info('Web exporter initialized successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('Failed to initialize web exporter', { error: err });
+      // logger.error('Failed to initialize web exporter', { error: err });
       throw new Error(`Web exporter initialization failed: ${error}`);
     }
   }
 
   private async validateProjectSettings(): Promise<void> {
-    logger.info('Validating web project settings');
+    // logger.info('Validating web project settings');
   }
 
   private async validateBuildConfiguration(): Promise<void> {
-    logger.info('Validating web build configuration');
+    // logger.info('Validating web build configuration');
   }
 
   private async initializeWebProject(): Promise<void> {
-    logger.info('Initializing web project');
+    // logger.info('Initializing web project');
   }
 
   async exportProject(): Promise<WebExportReport> {
@@ -550,7 +550,7 @@ export class WebExporter {
     const exportId = `export_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     const startTime = Date.now();
 
-    logger.info('Starting web export', { exportId });
+    // logger.info('Starting web export', { exportId });
 
     const report: WebExportReport = {
       exportId,
@@ -589,7 +589,7 @@ export class WebExporter {
       report.duration = report.endTime - startTime;
       report.exportStatus = 'success';
 
-      logger.info('Web export completed', { exportId });
+      // logger.info('Web export completed', { exportId });
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       report.endTime = Date.now();
@@ -610,7 +610,7 @@ export class WebExporter {
 
       report.exportErrors.push(exportError);
 
-      logger.error('Web export failed', { exportId, error: err });
+      // logger.error('Web export failed', { exportId, error: err });
     }
 
     this.exportReports.push(report);
@@ -618,27 +618,27 @@ export class WebExporter {
   }
 
   private async exportProjectSettings(): Promise<void> {
-    logger.info('Exporting web project settings');
+    // logger.info('Exporting web project settings');
   }
 
   private async exportPages(): Promise<void> {
-    logger.info('Exporting web pages');
+    // logger.info('Exporting web pages');
   }
 
   private async exportAssets(): Promise<void> {
-    logger.info('Exporting web assets');
+    // logger.info('Exporting web assets');
   }
 
   private async exportResources(): Promise<void> {
-    logger.info('Exporting web resources');
+    // logger.info('Exporting web resources');
   }
 
   private async generateBuildFiles(): Promise<void> {
-    logger.info('Generating web build files');
+    // logger.info('Generating web build files');
   }
 
   private async exportProjectFiles(): Promise<void> {
-    logger.info('Exporting web project files');
+    // logger.info('Exporting web project files');
   }
 
   async buildProject(): Promise<any> {
@@ -646,10 +646,10 @@ export class WebExporter {
       throw new Error('Web exporter not initialized');
     }
 
-    logger.info('Building web project');
+    // logger.info('Building web project');
 
     // Implementation for building Web project
-    logger.info('Web build completed successfully');
+    // logger.info('Web build completed successfully');
 
     return {
       buildStatus: 'success',
@@ -706,12 +706,12 @@ export class WebExporter {
 
   reset(): void {
     this.exportReports = [];
-    logger.info('Web exporter reset to initial state');
+    // logger.info('Web exporter reset to initial state');
   }
 
   dispose(): void {
     this.reset();
     this.isInitialized = false;
-    logger.info('Web exporter disposed successfully');
+    // logger.info('Web exporter disposed successfully');
   }
 }

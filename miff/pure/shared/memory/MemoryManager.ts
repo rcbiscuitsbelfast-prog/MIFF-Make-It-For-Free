@@ -81,7 +81,7 @@ export class MemoryManager {
         callback();
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        logger.error('Error during memory cleanup', { error: err });
+        // logger.error('Error during memory cleanup', { error: err });
       }
     }
   }
@@ -97,7 +97,7 @@ export class MemoryManager {
       const stats = this.getMemoryStats();
       
       if (stats.heapUsed > this.memoryThreshold) {
-        logger.warn('Memory usage high', { heapUsedMB: Math.round(stats.heapUsed / 1024 / 1024) });
+        // logger.warn('Memory usage high', { heapUsedMB: Math.round(stats.heapUsed / 1024 / 1024) });
         this.executeCleanup();
       }
     }, intervalMs);

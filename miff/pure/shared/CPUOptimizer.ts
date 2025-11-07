@@ -186,12 +186,12 @@ export class CPUOptimizer {
       }
 
       this.optimizationResults.push(...results);
-      logger.info('CPU optimization completed', { optimizationCount: results.length });
+      // logger.info('CPU optimization completed', { optimizationCount: results.length });
 
       return results;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('CPU optimization failed', { error: err });
+      // logger.error('CPU optimization failed', { error: err });
       throw error;
     } finally {
       this.isOptimizing = false;

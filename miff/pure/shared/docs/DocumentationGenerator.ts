@@ -410,7 +410,7 @@ export class DocumentationGenerator {
   private generatePDFDocumentation(): void {
     // This would require a PDF generation library like puppeteer
     // For now, we'll generate HTML that can be converted to PDF
-    logger.info('PDF generation requires additional dependencies');
+    // logger.info('PDF generation requires additional dependencies');
   }
 
   /**
@@ -1007,7 +1007,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (searchInput) {
         searchInput.addEventListener('input', function(e) {
             const results = search(e.target.value);
-            logger.info('Search results:', results);
+            // logger.info('Search results:', results);
         });
     }
 });

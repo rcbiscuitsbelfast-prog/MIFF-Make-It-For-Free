@@ -150,7 +150,7 @@ export class LensModeSwitcher {
    */
   switchToMode(mode: LensMode): boolean {
     if (!this.config.availableModes.includes(mode)) {
-      logger.warn('Lens mode not available', { mode, availableModes: this.config.availableModes });
+      // logger.warn('Lens mode not available', { mode, availableModes: this.config.availableModes });
       return false;
     }
 
@@ -160,7 +160,7 @@ export class LensModeSwitcher {
 
     const settings = this.config.modeSettings[mode];
     if (!settings.enabled) {
-      logger.warn('Lens mode disabled', { mode });
+      // logger.warn('Lens mode disabled', { mode });
       return false;
     }
 

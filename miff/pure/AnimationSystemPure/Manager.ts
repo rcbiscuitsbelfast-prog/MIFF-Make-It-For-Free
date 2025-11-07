@@ -214,12 +214,12 @@ export class AnimationSystemManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      logger.warn('Animation System Manager already initialized');
+      // logger.warn('Animation System Manager already initialized');
       return;
     }
 
     try {
-      logger.info('Initializing Animation System Manager');
+      // logger.info('Initializing Animation System Manager');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization ?? false) {
@@ -232,7 +232,7 @@ export class AnimationSystemManager {
       }
 
       this.isInitialized = true;
-      logger.info('Animation System Manager initialized successfully');
+      // logger.info('Animation System Manager initialized successfully');
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -269,7 +269,7 @@ export class AnimationSystemManager {
       this.animations.set(animation.id!, animation);
       this.updateAnalytics();
 
-      logger.info('Animation created', { animationId: animation.id, animationName: animation.name });
+      // logger.info('Animation created', { animationId: animation.id, animationName: animation.name });
       return animation;
 
     } catch (error: unknown) {
@@ -301,7 +301,7 @@ export class AnimationSystemManager {
     try {
       const animation = this.animations.get(animationId);
       if (!animation) {
-        logger.warn('Animation not found', { animationId });
+        // logger.warn('Animation not found', { animationId });
         return null;
       }
 
@@ -315,7 +315,7 @@ export class AnimationSystemManager {
       this.animations.set(animationId, updatedAnimation);
       this.updateAnalytics();
 
-      logger.info('Animation updated', { animationId, animationName: updatedAnimation.name });
+      // logger.info('Animation updated', { animationId, animationName: updatedAnimation.name });
       return updatedAnimation;
 
     } catch (error: unknown) {
@@ -336,14 +336,14 @@ export class AnimationSystemManager {
     try {
       const animation = this.animations.get(animationId);
       if (!animation) {
-        logger.warn('Animation not found', { animationId });
+        // logger.warn('Animation not found', { animationId });
         return false;
       }
 
       this.animations.delete(animationId);
       this.updateAnalytics();
 
-      logger.info('Animation deleted', { animationId, animationName: animation.name });
+      // logger.info('Animation deleted', { animationId, animationName: animation.name });
       return true;
 
     } catch (error: unknown) {
@@ -397,14 +397,14 @@ export class AnimationSystemManager {
     try {
       const animation = this.animations.get(animationId);
       if (!animation) {
-        logger.warn('Animation not found', { animationId });
+        // logger.warn('Animation not found', { animationId });
         return false;
       }
 
       animation.status = 'playing';
       animation.timeline.currentTime = 0;
 
-      logger.debug('Animation started', { animationId, animationName: animation.name });
+      // logger.debug('Animation started', { animationId, animationName: animation.name });
       return true;
 
     } catch (error: unknown) {
@@ -425,13 +425,13 @@ export class AnimationSystemManager {
     try {
       const animation = this.animations.get(animationId);
       if (!animation) {
-        logger.warn('Animation not found', { animationId });
+        // logger.warn('Animation not found', { animationId });
         return false;
       }
 
       if (animation.status === 'playing') {
         animation.status = 'paused';
-        logger.debug('Animation paused', { animationId, animationName: animation.name });
+        // logger.debug('Animation paused', { animationId, animationName: animation.name });
       }
 
       return true;
@@ -454,14 +454,14 @@ export class AnimationSystemManager {
     try {
       const animation = this.animations.get(animationId);
       if (!animation) {
-        logger.warn('Animation not found', { animationId });
+        // logger.warn('Animation not found', { animationId });
         return false;
       }
 
       animation.status = 'stopped';
       animation.timeline.currentTime = 0;
 
-      logger.debug('Animation stopped', { animationId, animationName: animation.name });
+      // logger.debug('Animation stopped', { animationId, animationName: animation.name });
       return true;
 
     } catch (error: unknown) {
@@ -482,7 +482,7 @@ export class AnimationSystemManager {
     try {
       const animation = this.animations.get(animationId);
       if (!animation) {
-        logger.warn('Animation not found', { animationId });
+        // logger.warn('Animation not found', { animationId });
         return false;
       }
 
@@ -705,12 +705,12 @@ export class AnimationSystemManager {
    * Destroy the Animation System Manager
    */
   async destroy(): Promise<void> {
-    logger.info('Destroying Animation System Manager');
+    // logger.info('Destroying Animation System Manager');
 
     this.animations.clear();
     this.isInitialized = false;
 
-    logger.info('Animation System Manager destroyed');
+    // logger.info('Animation System Manager destroyed');
   }
 }
 

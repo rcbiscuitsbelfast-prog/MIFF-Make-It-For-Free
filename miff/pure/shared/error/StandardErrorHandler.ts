@@ -164,7 +164,7 @@ export class StandardErrorHandler {
    * Handle an error with recovery attempts
    */
   async handleError(error: StandardError): Promise<boolean> {
-    logger.error('Error occurred', {
+    // logger.error('Error occurred', {
       code: error.code,
       message: error.message,
       severity: error.severity,
@@ -204,7 +204,7 @@ export class StandardErrorHandler {
         try {
           return fallback();
         } catch (fallbackError) {
-          logger.error('Fallback operation also failed', {
+          // logger.error('Fallback operation also failed', {
             originalError: error.message,
             fallbackError: fallbackError instanceof Error ? fallbackError.message: String(fallbackError)
           });
@@ -283,7 +283,7 @@ export class StandardErrorHandler {
     this.addRecoveryStrategy(ErrorCode.RESOURCE_LOAD_FAILED, {
       canRecover: () => true,
       recover: async (error) => {
-        logger.info('Attempting to reload resource', {
+        // logger.info('Attempting to reload resource', {
           module: error.context.module,
           operation: error.context.operation
         });
@@ -378,21 +378,21 @@ export class StandardErrorHandler {
     for (const strategy of strategies) {
       if (strategy.canRecover(error)) {
         try {
-          logger.info('Attempting error recovery', {
+          // logger.info('Attempting error recovery', {
             code: error.code,
             strategy: strategy.description
           });
           
           const recovered = await strategy.recover(error);
           if (recovered) {
-            logger.info('Error recovery successful', {
+            // logger.info('Error recovery successful', {
               code: error.code,
               strategy: strategy.description
             });
             return true;
           }
         } catch (recoveryError) {
-          logger.warn('Recovery strategy failed', {
+          // logger.warn('Recovery strategy failed', {
             code: error.code,
             strategy: strategy.description,
             error: recoveryError instanceof Error ? recoveryError.message: String(recoveryError)

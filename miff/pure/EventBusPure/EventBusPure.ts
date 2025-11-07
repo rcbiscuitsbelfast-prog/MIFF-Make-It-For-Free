@@ -178,7 +178,7 @@ export class EventBus {
     this.subscriptions.set(subscriptionId, subscription);
 
     if (this.config.enableLogging) {
-      logger.info('Event subscription created', { eventType, subscriptionId });
+      // logger.info('Event subscription created', { eventType, subscriptionId });
     }
 
     return subscriptionId;
@@ -227,7 +227,7 @@ export class EventBus {
     this.subscriptions.delete(subscriptionId);
 
     if (this.config.enableLogging) {
-      logger.info('Event subscription removed', { subscriptionId });
+      // logger.info('Event subscription removed', { subscriptionId });
     }
 
     return true;
@@ -271,7 +271,7 @@ export class EventBus {
     this.stats.eventsByType[eventType] = (this.stats.eventsByType[eventType] || 0) + 1;
 
     if (this.config.enableLogging) {
-      logger.debug('Event published', { eventType, eventId });
+      // logger.debug('Event published', { eventType, eventId });
     }
 
     // Handle replication
@@ -349,7 +349,7 @@ export class EventBus {
     }
 
     if (this.config.enableLogging) {
-      logger.info('Event replicated', { eventType: event.type, eventId: event?.id });
+      // logger.info('Event replicated', { eventType: event.type, eventId: event?.id });
     }
   }
 
@@ -367,7 +367,7 @@ export class EventBus {
     this.stats.eventsByType[event.type] = (this.stats.eventsByType[event.type] || 0) + 1;
 
     if (this.config.enableLogging) {
-      logger.debug('Network event received', { eventType: event.type, eventId: event?.id, source: event.source });
+      // logger.debug('Network event received', { eventType: event.type, eventId: event?.id, source: event.source });
     }
 
     // Process the event

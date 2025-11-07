@@ -436,11 +436,11 @@ export class CacheManager {
   private log(message: string, level: 'info' | 'debug' | 'error' = 'info'): void {
     // Note: Using structured logger (Logger) throughout this file instead of console.log
     if (level === 'debug') {
-      logger.debug(message);
+      // logger.debug(message);
     } else if (level === 'error') {
-      logger.error(message);
+      // logger.error(message);
     } else {
-      logger.info(message);
+      // logger.info(message);
     }
   }
 

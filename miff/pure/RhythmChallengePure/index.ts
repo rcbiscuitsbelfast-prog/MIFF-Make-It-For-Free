@@ -230,7 +230,7 @@ export class RhythmChallengePure {
       };
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.warn('Audio context not supported', { error: err });
+      // logger.warn('Audio context not supported', { error: err });
     }
   }
 

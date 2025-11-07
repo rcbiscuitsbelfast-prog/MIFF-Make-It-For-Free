@@ -128,13 +128,13 @@ export class EncounterManager {
   initialize(): void {
     if (this.isInitialized) return;
 
-    logger.info('Initializing encounter system');
+    // logger.info('Initializing encounter system');
     
     // Initialize default areas
     this.initializeDefaultAreas();
     
     this.isInitialized = true;
-    logger.info('Encounter system initialized successfully');
+    // logger.info('Encounter system initialized successfully');
   }
 
   private initializeDefaultAreas(): void {
@@ -199,12 +199,12 @@ export class EncounterManager {
    */
   addArea(area: EncounterArea): boolean {
     if (!area.id || !area.name) {
-      logger.error('Invalid area: missing required fields', { area });
+      // logger.error('Invalid area: missing required fields', { area });
       return false;
     }
 
     this.areas.set(area.id, area);
-    logger.info('Area added', { areaId: area.id, areaName: area.name });
+    // logger.info('Area added', { areaId: area.id, areaName: area.name });
     return true;
   }
 
@@ -228,7 +228,7 @@ export class EncounterManager {
   triggerEncounter(areaId: string, playerLevel: number = 1): Encounter | null {
     const area = this.areas.get(areaId);
     if (!area) {
-      logger.warn('Area not found', { areaId });
+      // logger.warn('Area not found', { areaId });
       return null;
     }
 
@@ -302,7 +302,7 @@ export class EncounterManager {
     this.areas.clear();
     this.encounterHistory = [];
     this.isInitialized = false;
-    logger.info('Encounter system reset');
+    // logger.info('Encounter system reset');
   }
 
   /**
@@ -310,7 +310,7 @@ export class EncounterManager {
    */
   dispose(): void {
     this.reset();
-    logger.info('Encounter system disposed');
+    // logger.info('Encounter system disposed');
   }
 }
 
@@ -407,12 +407,12 @@ export class EncounterTable {
 
   addEntry(entry: EncounterTableEntry): boolean {
     if (!entry.spiritId || entry.spiritId.trim() === '') {
-      logger.warn('Invalid entry: Spirit ID cannot be empty', { entry });
+      // logger.warn('Invalid entry: Spirit ID cannot be empty', { entry });
       return false;
     }
 
     if (entry.weight < 0) {
-      logger.warn('Invalid entry: Weight cannot be negative', { spiritId: entry.spiritId, weight: entry.weight });
+      // logger.warn('Invalid entry: Weight cannot be negative', { spiritId: entry.spiritId, weight: entry.weight });
       return false;
     }
 

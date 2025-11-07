@@ -841,7 +841,7 @@ export class AndroidExporter {
   }
 
   private async initializeExporter(): Promise<void> {
-    logger.info('Initializing Android exporter');
+    // logger.info('Initializing Android exporter');
 
     try {
       // Validate project settings
@@ -854,27 +854,27 @@ export class AndroidExporter {
       await this.initializeAndroidProject();
 
       this.isInitialized = true;
-      logger.info('Android exporter initialized successfully');
+      // logger.info('Android exporter initialized successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('Failed to initialize Android exporter', { error: err });
+      // logger.error('Failed to initialize Android exporter', { error: err });
       throw new Error(`Android exporter initialization failed: ${error}`);
     }
   }
 
   private async validateProjectSettings(): Promise<void> {
     // Validate project settings
-    logger.info('Validating Android project settings');
+    // logger.info('Validating Android project settings');
   }
 
   private async validateBuildConfiguration(): Promise<void> {
     // Validate build configuration
-    logger.info('Validating Android build configuration');
+    // logger.info('Validating Android build configuration');
   }
 
   private async initializeAndroidProject(): Promise<void> {
     // Initialize Android project
-    logger.info('Initializing Android project');
+    // logger.info('Initializing Android project');
   }
 
   async exportProject(): Promise<AndroidExportReport> {
@@ -885,7 +885,7 @@ export class AndroidExporter {
     const exportId = `export_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     const startTime = Date.now();
 
-    logger.info('Starting Android export', { exportId });
+    // logger.info('Starting Android export', { exportId });
 
     const report: AndroidExportReport = {
       exportId,
@@ -924,7 +924,7 @@ export class AndroidExporter {
       report.duration = report.endTime - startTime;
       report.exportStatus = 'success';
 
-      logger.info('Android export completed', { exportId });
+      // logger.info('Android export completed', { exportId });
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       report.endTime = Date.now();
@@ -945,7 +945,7 @@ export class AndroidExporter {
 
       report.exportErrors.push(exportError);
 
-      logger.error('Android export failed', { exportId, error: err });
+      // logger.error('Android export failed', { exportId, error: err });
     }
 
     this.exportReports.push(report);
@@ -953,32 +953,32 @@ export class AndroidExporter {
   }
 
   private async exportProjectSettings(): Promise<void> {
-    logger.info('Exporting Android project settings');
+    // logger.info('Exporting Android project settings');
     // Implementation for exporting project settings
   }
 
   private async exportScenes(): Promise<void> {
-    logger.info('Exporting Android scenes');
+    // logger.info('Exporting Android scenes');
     // Implementation for exporting scenes
   }
 
   private async exportAssets(): Promise<void> {
-    logger.info('Exporting Android assets');
+    // logger.info('Exporting Android assets');
     // Implementation for exporting assets
   }
 
   private async exportResources(): Promise<void> {
-    logger.info('Exporting Android resources');
+    // logger.info('Exporting Android resources');
     // Implementation for exporting resources
   }
 
   private async generateBuildFiles(): Promise<void> {
-    logger.info('Generating Android build files');
+    // logger.info('Generating Android build files');
     // Implementation for generating build files
   }
 
   private async exportProjectFiles(): Promise<void> {
-    logger.info('Exporting Android project files');
+    // logger.info('Exporting Android project files');
     // Implementation for exporting project files
   }
 
@@ -987,7 +987,7 @@ export class AndroidExporter {
       throw new Error('Android exporter not initialized');
     }
 
-    logger.info('Building Android project');
+    // logger.info('Building Android project');
 
     const report: AndroidBuildReport = {
       summary: {
@@ -1378,7 +1378,7 @@ export class AndroidExporter {
     };
 
     // Implementation for building Android project
-    logger.info('Android build completed successfully');
+    // logger.info('Android build completed successfully');
 
     return report;
   }
@@ -1432,12 +1432,12 @@ export class AndroidExporter {
 
   reset(): void {
     this.exportReports = [];
-    logger.info('Android exporter reset to initial state');
+    // logger.info('Android exporter reset to initial state');
   }
 
   dispose(): void {
     this.reset();
     this.isInitialized = false;
-    logger.info('Android exporter disposed successfully');
+    // logger.info('Android exporter disposed successfully');
   }
 }

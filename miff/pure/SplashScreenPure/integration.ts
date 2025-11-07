@@ -154,7 +154,7 @@ export class SplashScreenIntegration {
     const { htmlContent, config } = event;
 
     if (!this.config.enableSplashScreen) {
-      logger.info('Splash screen disabled via configuration');
+      // logger.info('Splash screen disabled via configuration');
       return;
     }
 
@@ -168,10 +168,10 @@ export class SplashScreenIntegration {
         splashConfig: splashConfig
       });
 
-      logger.info('Splash screen injected into web export successfully');
+      // logger.info('Splash screen injected into web export successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('Failed to inject splash screen into web export', { error: err });
+      // logger.error('Failed to inject splash screen into web export', { error: err });
       throw error;
     }
   }
@@ -180,7 +180,7 @@ export class SplashScreenIntegration {
     const { sceneContent, config } = event;
 
     if (!this.config.enableSplashScreen) {
-      logger.info('Splash screen disabled via configuration');
+      // logger.info('Splash screen disabled via configuration');
       return;
     }
 
@@ -194,10 +194,10 @@ export class SplashScreenIntegration {
         splashConfig: splashConfig
       });
 
-      logger.info('Splash screen injected into Unity scene successfully');
+      // logger.info('Splash screen injected into Unity scene successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('Failed to inject splash screen into Unity scene', { error: err });
+      // logger.error('Failed to inject splash screen into Unity scene', { error: err });
       throw error;
     }
   }
@@ -320,7 +320,7 @@ public class MIFFSplashScreen : MonoBehaviour
 
     const cliCommand = this.cliCommands.get(command);
     if (!cliCommand) {
-      logger.error('Unknown CLI command', { command });
+      // logger.error('Unknown CLI command', { command });
       return;
     }
 
@@ -328,7 +328,7 @@ public class MIFFSplashScreen : MonoBehaviour
       await cliCommand.handler(flags);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('CLI command failed', { command, error: err });
+      // logger.error('CLI command failed', { command, error: err });
       throw error;
     }
   }
@@ -336,7 +336,7 @@ public class MIFFSplashScreen : MonoBehaviour
   private async handlePreviewCommand(flags: Record<string, any>): Promise<any> {
     if (flags['no-splash']) {
       this.config.enableSplashScreen = false;
-      logger.info('Splash screen disabled for preview');
+      // logger.info('Splash screen disabled for preview');
     } else {
       this.config.enableSplashScreen = true;
 
@@ -351,7 +351,7 @@ public class MIFFSplashScreen : MonoBehaviour
 
     // Show splash screen
     await this.splashScreen.show(() => {
-      logger.info('Splash screen preview completed');
+      // logger.info('Splash screen preview completed');
     });
 
     return {
@@ -366,7 +366,7 @@ public class MIFFSplashScreen : MonoBehaviour
   private async handleExportWebCommand(flags: Record<string, any>): Promise<any> {
     if (flags['no-splash']) {
       this.config.enableSplashScreen = false;
-      logger.info('Splash screen disabled for web export');
+      // logger.info('Splash screen disabled for web export');
     } else {
       this.config.enableSplashScreen = true;
 
@@ -393,7 +393,7 @@ public class MIFFSplashScreen : MonoBehaviour
   private async handleBuildUnityCommand(flags: Record<string, any>): Promise<any> {
     if (flags['no-splash']) {
       this.config.enableSplashScreen = false;
-      logger.info('Splash screen disabled for Unity build');
+      // logger.info('Splash screen disabled for Unity build');
     } else {
       this.config.enableSplashScreen = true;
 
@@ -419,7 +419,7 @@ public class MIFFSplashScreen : MonoBehaviour
 
   private async simulateWebExport(outputPath: string): Promise<any> {
     // Simulate the web export process
-    logger.info('Exporting to web with splash screen integration', { 
+    // logger.info('Exporting to web with splash screen integration', { 
       outputPath, 
       splashScreenEnabled: this.config.enableSplashScreen 
     });
@@ -446,7 +446,7 @@ public class MIFFSplashScreen : MonoBehaviour
 
   private async simulateUnityBuild(unityVersion: string): Promise<any> {
     // Simulate the Unity build process
-    logger.info('Building Unity project with splash screen integration', { 
+    // logger.info('Building Unity project with splash screen integration', { 
       unityVersion, 
       splashScreenEnabled: this.config.enableSplashScreen 
     });
@@ -490,7 +490,7 @@ public class MIFFSplashScreen : MonoBehaviour
       case 'unity':
         return this.injectIntoUnitySceneContent(content, this.config.splashScreenConfig);
       default:
-        logger.warn('No injection method available for platform', { platform: this.config.targetPlatform });
+        // logger.warn('No injection method available for platform', { platform: this.config.targetPlatform });
         return content;
     }
   }

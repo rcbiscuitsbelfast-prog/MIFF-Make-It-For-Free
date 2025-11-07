@@ -272,7 +272,7 @@ export class ZoneServerPure {
         simulated += 1;
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        logger.error('Error simulating player', { playerId: id, error: err });
+        // logger.error('Error simulating player', { playerId: id, error: err });
       }
     }
 
@@ -549,7 +549,7 @@ export class ZoneServerPure {
         callback({ type: eventType, data, zoneId: this.config.zoneId, timestamp: new Date() });
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        logger.error('Error in zone event listener', { eventType, error: err });
+        // logger.error('Error in zone event listener', { eventType, error: err });
       }
     }
   }

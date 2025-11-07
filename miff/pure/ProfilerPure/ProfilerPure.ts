@@ -280,7 +280,7 @@ export class Profiler {
         }
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        logger.error('Profiler observer error', { error: err });
+        // logger.error('Profiler observer error', { error: err });
       }
     });
   }

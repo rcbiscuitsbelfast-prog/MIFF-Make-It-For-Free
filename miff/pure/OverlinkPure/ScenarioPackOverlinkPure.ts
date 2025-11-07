@@ -183,7 +183,7 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput {
   // Step 5.8: Setup badges if requested
   if (enableBadges && badgeOptions) {
     // Badge system is automatically initialized with sample data
-    logger.info('Badge system initialized with contributor recognition');
+    // logger.info('Badge system initialized with contributor recognition');
   }
 
   // Step 6: Activate modules

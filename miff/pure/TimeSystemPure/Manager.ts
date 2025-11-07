@@ -384,7 +384,7 @@ export class TimeManager {
             timer.callback();
           } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-            logger.error('Error in timer callback', { timerId: timer.id, error: err });
+            // logger.error('Error in timer callback', { timerId: timer.id, error: err });
           }
         }
         
@@ -421,7 +421,7 @@ export class TimeManager {
           scheduled.callback();
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-          logger.error('Error in scheduled event callback', { eventId: scheduled.id, error: err });
+          // logger.error('Error in scheduled event callback', { eventId: scheduled.id, error: err });
         }
       }
       

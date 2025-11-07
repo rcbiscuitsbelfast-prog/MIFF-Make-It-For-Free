@@ -353,11 +353,11 @@ export class SimpleClickerGame extends SimpleGame {
   };
 
   protected onStart(): void {
-    logger.info('Clicker game started', { title: this.config.title });
+    // logger.info('Clicker game started', { title: this.config.title });
   }
 
   protected onStop(): void {
-    logger.info('Clicker game stopped', { title: this.config.title });
+    // logger.info('Clicker game stopped', { title: this.config.title });
   }
 
   protected onUpdate(deltaTime: number): void {
@@ -369,7 +369,7 @@ export class SimpleClickerGame extends SimpleGame {
   }
 
   protected onAchievementUnlocked(achievement: Achievement): void {
-    logger.info('Achievement unlocked', { achievementName: achievement.name, achievementId: achievement.id });
+    // logger.info('Achievement unlocked', { achievementName: achievement.name, achievementId: achievement.id });
   }
 
   // Clicker-specific methods
@@ -419,11 +419,11 @@ export class SimplePlatformerGame extends SimpleGame {
 
   protected onStart(): void {
     this.initializePlatforms();
-    logger.info('Platformer started', { title: this.config.title, controls: 'WASD to move, Space to jump' });
+    // logger.info('Platformer started', { title: this.config.title, controls: 'WASD to move, Space to jump' });
   }
 
   protected onStop(): void {
-    logger.info('Platformer stopped', { title: this.config.title });
+    // logger.info('Platformer stopped', { title: this.config.title });
   }
 
   protected onUpdate(deltaTime: number): void {
@@ -432,7 +432,7 @@ export class SimplePlatformerGame extends SimpleGame {
   }
 
   protected onAchievementUnlocked(achievement: Achievement): void {
-    logger.info('Achievement unlocked in platformer', { achievementName: achievement.name, achievementId: achievement.id });
+    // logger.info('Achievement unlocked in platformer', { achievementName: achievement.name, achievementId: achievement.id });
   }
 
   private initializePlatforms(): void {
@@ -490,11 +490,11 @@ export class SimpleArcadeGame extends SimpleGame {
 
   protected onStart(): void {
     this.spawnEnemies();
-    logger.info('Arcade game started', { title: this.config.title, controls: 'Space to shoot, avoid enemies' });
+    // logger.info('Arcade game started', { title: this.config.title, controls: 'Space to shoot, avoid enemies' });
   }
 
   protected onStop(): void {
-    logger.info('Game stopped', { title: this.config.title });
+    // logger.info('Game stopped', { title: this.config.title });
   }
 
   protected onUpdate(deltaTime: number): void {
@@ -505,7 +505,7 @@ export class SimpleArcadeGame extends SimpleGame {
   }
 
   protected onAchievementUnlocked(achievement: Achievement): void {
-    logger.info('Achievement unlocked in RPG', { achievementName: achievement.name, achievementId: achievement.id });
+    // logger.info('Achievement unlocked in RPG', { achievementName: achievement.name, achievementId: achievement.id });
   }
 
   private spawnEnemies(): void {
@@ -584,7 +584,7 @@ export class SimpleArcadeGame extends SimpleGame {
   }
 
   private gameOver(): void {
-    logger.info('Arcade game over', { finalScore: this.stats.score });
+    // logger.info('Arcade game over', { finalScore: this.stats.score });
     this.stop();
   }
 
@@ -634,11 +634,11 @@ export class SimpleRPGGame extends SimpleGame {
 
   protected onStart(): void {
     this.spawnEnemies();
-    logger.info('RPG started', { title: this.config.title, instructions: 'Explore and fight enemies' });
+    // logger.info('RPG started', { title: this.config.title, instructions: 'Explore and fight enemies' });
   }
 
   protected onStop(): void {
-    logger.info('Game stopped', { title: this.config.title });
+    // logger.info('Game stopped', { title: this.config.title });
   }
 
   protected onUpdate(deltaTime: number): void {
@@ -646,7 +646,7 @@ export class SimpleRPGGame extends SimpleGame {
   }
 
   protected onAchievementUnlocked(achievement: Achievement): void {
-    logger.info('Achievement unlocked', { achievement: achievement.name });
+    // logger.info('Achievement unlocked', { achievement: achievement.name });
   }
 
   private spawnEnemies(): void {
@@ -715,11 +715,11 @@ export class SimpleRPGGame extends SimpleGame {
     const defeatedEnemy = this.currentEnemy;
     this.inCombat = false;
     this.currentEnemy = null;
-    logger.info('Enemy defeated in RPG', { enemyName: defeatedEnemy.name, xpGained: defeatedEnemy.experienceReward });
+    // logger.info('Enemy defeated in RPG', { enemyName: defeatedEnemy.name, xpGained: defeatedEnemy.experienceReward });
   }
 
   private gameOver(): void {
-    logger.info('RPG game over', { reason: 'Player died', level: this.stats.level });
+    // logger.info('RPG game over', { reason: 'Player died', level: this.stats.level });
     this.stop();
   }
 
@@ -742,7 +742,7 @@ export class SimpleRPGGame extends SimpleGame {
     this.player.attack += 2;
     this.player.defense += 1;
 
-    logger.info('Player leveled up', { level: this.stats.level, hp: this.player.health, attack: this.player.attack, defense: this.player.defense });
+    // logger.info('Player leveled up', { level: this.stats.level, hp: this.player.health, attack: this.player.attack, defense: this.player.defense });
   }
 
   startCombat(enemyId: string): boolean {
@@ -751,7 +751,7 @@ export class SimpleRPGGame extends SimpleGame {
 
     this.currentEnemy = enemy;
     this.inCombat = true;
-    logger.info('Combat started', { enemyName: enemy.name, enemyHp: enemy.health, playerHp: this.player.health });
+    // logger.info('Combat started', { enemyName: enemy.name, enemyHp: enemy.health, playerHp: this.player.health });
     return true;
   }
 
@@ -766,11 +766,11 @@ export class SimpleRPGGame extends SimpleGame {
  */
 export class SimpleCustomGame extends SimpleGame {
   protected onStart(): void {
-    logger.info('Puzzle game started', { title: this.config.title });
+    // logger.info('Puzzle game started', { title: this.config.title });
   }
 
   protected onStop(): void {
-    logger.info('Game stopped', { title: this.config.title });
+    // logger.info('Game stopped', { title: this.config.title });
   }
 
   protected onUpdate(deltaTime: number): void {
@@ -778,7 +778,7 @@ export class SimpleCustomGame extends SimpleGame {
   }
 
   protected onAchievementUnlocked(achievement: Achievement): void {
-    logger.info('Achievement unlocked in puzzle', { achievementName: achievement.name, achievementId: achievement.id });
+    // logger.info('Achievement unlocked in puzzle', { achievementName: achievement.name, achievementId: achievement.id });
   }
 }
 

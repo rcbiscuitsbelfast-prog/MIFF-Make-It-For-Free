@@ -235,7 +235,7 @@ export class UIBuilder {
    */
   private createRigNode(data): void {
     // This would integrate with RigBuilder
-    logger.debug('Creating rig node', { data });
+    // logger.debug('Creating rig node', { data });
   }
 
   /**
@@ -243,7 +243,7 @@ export class UIBuilder {
    */
   private createLimbNode(data): void {
     // This would integrate with LimbAttachment
-    logger.debug('Creating limb node', { data });
+    // logger.debug('Creating limb node', { data });
   }
 
   /**
@@ -251,7 +251,7 @@ export class UIBuilder {
    */
   private createFaceFeature(data): void {
     // This would integrate with FacialDetailBuilder
-    logger.debug('Creating face feature', { data });
+    // logger.debug('Creating face feature', { data });
   }
 
   /**
@@ -259,7 +259,7 @@ export class UIBuilder {
    */
   private createMorphTarget(data): void {
     // This would integrate with SkinMeshGenerator
-    logger.debug('Creating morph target', { data });
+    // logger.debug('Creating morph target', { data });
   }
 
   /**
@@ -267,7 +267,7 @@ export class UIBuilder {
    */
   private createKeyframe(data): void {
     // This would integrate with AnimationSequencer
-    logger.debug('Creating keyframe', { data });
+    // logger.debug('Creating keyframe', { data });
   }
 
   /**
@@ -290,7 +290,7 @@ export class UIBuilder {
    */
   private updateLimbNode(nodeId: string, data: any): void {
     // This would integrate with LimbAttachment
-    logger.debug('Updating limb node', { nodeId, data });
+    // logger.debug('Updating limb node', { nodeId, data });
   }
 
   /**
@@ -325,7 +325,7 @@ export class UIBuilder {
    */
   private updateKeyframe(keyframeId: string, data: any): void {
     // This would integrate with AnimationSequencer
-    logger.debug('Updating keyframe', { keyframeId, data });
+    // logger.debug('Updating keyframe', { keyframeId, data });
   }
 
   /**
@@ -343,7 +343,7 @@ export class UIBuilder {
    */
   private deleteLimbNode(nodeId: string): void {
     // This would integrate with LimbAttachment
-    logger.debug('Deleting limb node', { nodeId });
+    // logger.debug('Deleting limb node', { nodeId });
   }
 
   /**
@@ -369,7 +369,7 @@ export class UIBuilder {
    */
   private deleteKeyframe(keyframeId: string): void {
     // This would integrate with AnimationSequencer
-    logger.debug('Deleting keyframe', { keyframeId });
+    // logger.debug('Deleting keyframe', { keyframeId });
   }
 
   /**
@@ -532,7 +532,7 @@ export class UIBuilder {
    */
   private reverseAction(action: UIAction): void {
     // This would implement the reverse of each action
-    logger.debug('Reversing action', { actionType: action.type });
+    // logger.debug('Reversing action', { actionType: action.type });
   }
 
   /**

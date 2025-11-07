@@ -553,7 +553,7 @@ export class BundleOptimizer {
 
   private log(message: string, level: 'info' | 'debug' | 'error' = 'info'): void {
     const timestamp = Date.now().toISOString();
-    logger.info('Bundle optimizer log', { level: level.toUpperCase(), timestamp, message });
+    // logger.info('Bundle optimizer log', { level: level.toUpperCase(), timestamp, message });
   }
 }
 

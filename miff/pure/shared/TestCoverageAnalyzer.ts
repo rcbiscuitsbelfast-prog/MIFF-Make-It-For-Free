@@ -90,7 +90,7 @@ export class TestCoverageAnalyzer {
    * Analyze test coverage for all modules
    */
   async analyzeCoverage(rootPath: string): Promise<CoverageReport> {
-    logger.info('Analyzing test coverage');
+    // logger.info('Analyzing test coverage');
     
     const modules = await this.findModules(rootPath);
     const moduleCoverages: ModuleCoverage[] = [];
@@ -102,7 +102,7 @@ export class TestCoverageAnalyzer {
     }
     
     const report = this.generateCoverageReport(moduleCoverages);
-    logger.info('Analyzed test coverage', { moduleCount: modules.length });
+    // logger.info('Analyzed test coverage', { moduleCount: modules.length });
     
     return report;
   }

@@ -1198,7 +1198,7 @@ export class UnityConverter {
   }
 
   private async initializeConverter(): Promise<void> {
-    logger.info('Initializing Unity converter');
+    // logger.info('Initializing Unity converter');
 
     try {
       // Validate project settings
@@ -1211,27 +1211,27 @@ export class UnityConverter {
       await this.initializeUnityProject();
 
       this.isInitialized = true;
-      logger.info('Unity converter initialized successfully');
+      // logger.info('Unity converter initialized successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('Failed to initialize Unity converter', { error: err });
+      // logger.error('Failed to initialize Unity converter', { error: err });
       throw new Error(`Unity converter initialization failed: ${error}`);
     }
   }
 
   private async validateProjectSettings(): Promise<void> {
     // Validate project settings
-    logger.info('Validating Unity project settings');
+    // logger.info('Validating Unity project settings');
   }
 
   private async validateExportConfiguration(): Promise<void> {
     // Validate export configuration
-    logger.info('Validating Unity export configuration');
+    // logger.info('Validating Unity export configuration');
   }
 
   private async initializeUnityProject(): Promise<void> {
     // Initialize Unity project
-    logger.info('Initializing Unity project');
+    // logger.info('Initializing Unity project');
   }
 
   async convertProject(): Promise<UnityConversionReport> {
@@ -1242,7 +1242,7 @@ export class UnityConverter {
     const conversionId = `conversion_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     const startTime = Date.now();
 
-    logger.info('Starting Unity conversion', { conversionId });
+    // logger.info('Starting Unity conversion', { conversionId });
 
     const report: UnityConversionReport = {
       conversionId,
@@ -1281,7 +1281,7 @@ export class UnityConverter {
       report.duration = report.endTime - startTime;
       report.conversionStatus = 'success';
 
-      logger.info('Unity conversion completed', { conversionId });
+      // logger.info('Unity conversion completed', { conversionId });
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       report.endTime = Date.now();
@@ -1302,7 +1302,7 @@ export class UnityConverter {
 
       report.conversionErrors.push(conversionError);
 
-      logger.error('Unity conversion failed', { conversionId, error: err });
+      // logger.error('Unity conversion failed', { conversionId, error: err });
     }
 
     this.conversionReports.push(report);
@@ -1310,32 +1310,32 @@ export class UnityConverter {
   }
 
   private async convertProjectSettings(): Promise<void> {
-    logger.info('Converting Unity project settings');
+    // logger.info('Converting Unity project settings');
     // Implementation for converting project settings
   }
 
   private async convertScenes(): Promise<void> {
-    logger.info('Converting Unity scenes');
+    // logger.info('Converting Unity scenes');
     // Implementation for converting scenes
   }
 
   private async convertAssets(): Promise<void> {
-    logger.info('Converting Unity assets');
+    // logger.info('Converting Unity assets');
     // Implementation for converting assets
   }
 
   private async convertScripts(): Promise<void> {
-    logger.info('Converting Unity scripts');
+    // logger.info('Converting Unity scripts');
     // Implementation for converting scripts
   }
 
   private async generateBuildFiles(): Promise<void> {
-    logger.info('Generating Unity build files');
+    // logger.info('Generating Unity build files');
     // Implementation for generating build files
   }
 
   private async exportProject(): Promise<void> {
-    logger.info('Exporting Unity project');
+    // logger.info('Exporting Unity project');
     // Implementation for exporting project
   }
 
@@ -1344,7 +1344,7 @@ export class UnityConverter {
       throw new Error('Unity converter not initialized');
     }
 
-    logger.info('Building Unity project');
+    // logger.info('Building Unity project');
 
     const report: UnityBuildReport = {
       summary: {
@@ -2024,7 +2024,7 @@ export class UnityConverter {
     };
 
     // Implementation for building Unity project
-    logger.info('Unity build completed successfully');
+    // logger.info('Unity build completed successfully');
 
     return report;
   }
@@ -2108,12 +2108,12 @@ export class UnityConverter {
 
   reset(): void {
     this.conversionReports = [];
-    logger.info('Unity converter reset to initial state');
+    // logger.info('Unity converter reset to initial state');
   }
 
   dispose(): void {
     this.reset();
     this.isInitialized = false;
-    logger.info('Unity converter disposed successfully');
+    // logger.info('Unity converter disposed successfully');
   }
 }

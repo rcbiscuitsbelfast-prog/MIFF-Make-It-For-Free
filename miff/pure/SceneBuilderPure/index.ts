@@ -342,7 +342,7 @@ export class SceneBuilderManager {
   }
 
   private initializeBuilder(): void {
-    logger.info('Initializing scene builder');
+    // logger.info('Initializing scene builder');
 
     // Initialize default templates
     this.initializeDefaultTemplates();
@@ -350,7 +350,7 @@ export class SceneBuilderManager {
     // Initialize optimization systems
     this.initializeOptimizationSystems();
 
-    logger.info('Scene builder initialized successfully');
+    // logger.info('Scene builder initialized successfully');
   }
 
   private initializeDefaultTemplates(): void {
@@ -493,7 +493,7 @@ export class SceneBuilderManager {
   private initializeOptimizationSystems(): void {
     // Initialize optimization systems based on configuration
     if (this.configuration && this.configuration.optimizationMode !== SceneOptimizationMode.NONE) {
-      logger.info('Initializing optimization system', { mode: this.configuration.optimizationMode });
+      // logger.info('Initializing optimization system', { mode: this.configuration.optimizationMode });
     }
   }
 
@@ -515,7 +515,7 @@ export class SceneBuilderManager {
     };
 
     try {
-      logger.info('Starting scene build');
+      // logger.info('Starting scene build');
 
       // Initialize scene
       this.updateProgress('initialization', 10, 'Setting up scene structure...');
@@ -559,12 +559,12 @@ export class SceneBuilderManager {
         }
       };
 
-      logger.info('Scene build completed successfully');
+      // logger.info('Scene build completed successfully');
       return result;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('Scene build failed', { error: err });
+      // logger.error('Scene build failed', { error: err });
 
       const result: SceneBuildResult = {
         success: false,
@@ -609,7 +609,7 @@ export class SceneBuilderManager {
     if (templateId) {
       const template = this.templates.get(templateId);
       if (template) {
-        logger.info('Loading scene template', { templateName: template.name });
+        // logger.info('Loading scene template', { templateName: template.name });
 
         // Apply template configuration
         Object.assign(this.configuration, template.configuration);
@@ -631,18 +631,18 @@ export class SceneBuilderManager {
 
   private async loadAssets(): Promise<void> {
     // Simulate asset loading
-    logger.info('Loading scene assets');
+    // logger.info('Loading scene assets');
     await new Promise(resolve => setTimeout(resolve, 100));
   }
 
   private async buildSceneNodes(): Promise<void> {
     // Build scene hierarchy
-    logger.info('Building scene nodes');
+    // logger.info('Building scene nodes');
     await new Promise(resolve => setTimeout(resolve, 200));
   }
 
   private async applyOptimizations(): Promise<void> {
-    logger.info('Applying scene optimizations', { mode: this.configuration.optimizationMode });
+    // logger.info('Applying scene optimizations', { mode: this.configuration.optimizationMode });
 
     switch (this.configuration.optimizationMode) {
       case SceneOptimizationMode.CULLING:
@@ -661,34 +661,34 @@ export class SceneBuilderManager {
         await this.applyOcclusionOptimizations();
         break;
       default:
-        logger.debug('No scene optimizations applied');
+        // logger.debug('No scene optimizations applied');
     }
 
     await new Promise(resolve => setTimeout(resolve, 150));
   }
 
   private async applyCullingOptimizations(): Promise<void> {
-    logger.info('Applying culling optimizations');
+    // logger.info('Applying culling optimizations');
     // Implementation for frustum culling, occlusion culling, etc.
   }
 
   private async applyLODOptimizations(): Promise<void> {
-    logger.info('Applying LOD optimizations');
+    // logger.info('Applying LOD optimizations');
     // Implementation for level of detail optimizations
   }
 
   private async applyBatchingOptimizations(): Promise<void> {
-    logger.info('Applying batching optimizations');
+    // logger.info('Applying batching optimizations');
     // Implementation for static/dynamic batching
   }
 
   private async applyInstancingOptimizations(): Promise<void> {
-    logger.info('Applying instancing optimizations');
+    // logger.info('Applying instancing optimizations');
     // Implementation for GPU instancing
   }
 
   private async applyOcclusionOptimizations(): Promise<void> {
-    logger.info('Applying occlusion optimizations');
+    // logger.info('Applying occlusion optimizations');
     // Implementation for occlusion culling
   }
 
@@ -696,7 +696,7 @@ export class SceneBuilderManager {
     const exportPaths: Record<SceneExportFormat, string> = {} as Record<SceneExportFormat, string>;
 
     for (const format of this.configuration.exportFormats) {
-      logger.info('Exporting scene', { format });
+      // logger.info('Exporting scene', { format });
 
       switch (format) {
         case SceneExportFormat.UNITY:
@@ -742,7 +742,7 @@ export class SceneBuilderManager {
   }
 
   private async finalizeScene(): Promise<void> {
-    logger.info('Finalizing scene');
+    // logger.info('Finalizing scene');
     await new Promise(resolve => setTimeout(resolve, 50));
   }
 
@@ -771,7 +771,7 @@ export class SceneBuilderManager {
       this.buildProgress.message = message;
       this.buildProgress.currentOperation = message;
 
-      logger.debug('Scene build progress', { progress, message });
+      // logger.debug('Scene build progress', { progress, message });
     }
   }
 
@@ -959,7 +959,7 @@ export class SceneBuilderManager {
     this.postProcessing.clear();
     this.templates.clear();
 
-    logger.info('Scene builder disposed successfully');
+    // logger.info('Scene builder disposed successfully');
   }
 }
 

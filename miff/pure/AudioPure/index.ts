@@ -237,10 +237,10 @@ export class AudioEngine {
       this.gainNodes.set('master', masterGain);
 
       this.isInitialized = true;
-      logger.info('AudioEngine initialized successfully');
+      // logger.info('AudioEngine initialized successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('Failed to initialize AudioEngine', { error: err });
+      // logger.error('Failed to initialize AudioEngine', { error: err });
       throw new Error(`Audio initialization failed: ${error}`);
     }
   }
@@ -261,10 +261,10 @@ export class AudioEngine {
 
       this.performanceMetrics.totalSources++;
 
-      logger.info('Audio source loaded', { sourceName: source.name, sourceId: source.id });
+      // logger.info('Audio source loaded', { sourceName: source.name, sourceId: source.id });
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('Failed to load audio source', { sourceName: source.name, error: err });
+      // logger.error('Failed to load audio source', { sourceName: source.name, error: err });
       throw new Error(`Audio source loading failed: ${error}`);
     }
   }
@@ -315,13 +315,13 @@ export class AudioEngine {
       audioSource.onended = () => {
         this.activeSources.delete(sourceId);
         this.performanceMetrics.activeSources = Math.max(0, this.performanceMetrics.activeSources - 1);
-        logger.debug('Audio source ended', { sourceId });
+        // logger.debug('Audio source ended', { sourceId });
       };
 
-      logger.info('Playing audio source', { sourceName: source.name, sourceId });
+      // logger.info('Playing audio source', { sourceName: source.name, sourceId });
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('Failed to play audio source', { sourceId, error: err });
+      // logger.error('Failed to play audio source', { sourceId, error: err });
       throw new Error(`Audio playback failed: ${error}`);
     }
   }
@@ -353,10 +353,10 @@ export class AudioEngine {
         source.stop();
         this.activeSources.delete(sourceId);
         this.performanceMetrics.activeSources = Math.max(0, this.performanceMetrics.activeSources - 1);
-        logger.info('Audio source stopped', { sourceId });
+        // logger.info('Audio source stopped', { sourceId });
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        logger.warn('Error stopping audio source', { sourceId, error: err });
+        // logger.warn('Error stopping audio source', { sourceId, error: err });
       }
     }
   }
@@ -365,7 +365,7 @@ export class AudioEngine {
     const source = this.activeSources.get(sourceId);
     if (source) {
       source.playbackRate.value = 0;
-      logger.info('Audio source paused', { sourceId });
+      // logger.info('Audio source paused', { sourceId });
     }
   }
 
@@ -373,7 +373,7 @@ export class AudioEngine {
     const source = this.activeSources.get(sourceId);
     if (source) {
       source.playbackRate.value = 1;
-      logger.info('Audio source resumed', { sourceId });
+      // logger.info('Audio source resumed', { sourceId });
     }
   }
 
@@ -382,7 +382,7 @@ export class AudioEngine {
     if (source) {
       // Note: Volume control is now handled by gain nodes created during playback
       // This method is kept for API compatibility but doesn't directly control volume
-      logger.debug('Volume control for source', { sourceId, volume });
+      // logger.debug('Volume control for source', { sourceId, volume });
     }
   }
 
@@ -485,7 +485,7 @@ export class AudioEngine {
   private applyEffect(busId: string, effect: AudioEffect): void {
     // Apply audio effects - simplified implementation
     // In a real implementation, this would create actual audio nodes
-    logger.debug('Applying effect to bus', { effectType: effect.type, busId });
+    // logger.debug('Applying effect to bus', { effectType: effect.type, busId });
   }
 
   // Spatial audio
@@ -631,7 +631,7 @@ export class AudioEngine {
         source.disconnect();
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        logger.warn('Error stopping source during disposal', { sourceId, error: err });
+        // logger.warn('Error stopping source during disposal', { sourceId, error: err });
       }
     }
 
@@ -648,7 +648,7 @@ export class AudioEngine {
     }
 
     this.isInitialized = false;
-    logger.info('AudioEngine disposed successfully');
+    // logger.info('AudioEngine disposed successfully');
   }
 }
 

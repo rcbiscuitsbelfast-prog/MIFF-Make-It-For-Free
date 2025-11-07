@@ -67,14 +67,14 @@ export class CapabilityDiscovery {
    * Discover capabilities across all modules
    */
   async discoverAllCapabilities(rootPath: string): Promise<DiscoveryResult[]> {
-    logger.info('Discovering capabilities across all modules', { rootPath });
+    // logger.info('Discovering capabilities across all modules', { rootPath });
     
     const results: DiscoveryResult[] = [];
     
     try {
       // Find all *Capable.ts files
       const capableFiles = await this.findCapableFiles(rootPath);
-      logger.info('Found capability files', { count: capableFiles.length });
+      // logger.info('Found capability files', { count: capableFiles.length });
       
       // Discover capabilities from each file
       for (const filePath of capableFiles) {
@@ -84,13 +84,13 @@ export class CapabilityDiscovery {
       }
       
       this.updateStats(results);
-      logger.info('Capabilities discovered', { moduleCount: results.length });
+      // logger.info('Capabilities discovered', { moduleCount: results.length });
       
       return results;
       
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('Error discovering capabilities', { rootPath, error: err });
+      // logger.error('Error discovering capabilities', { rootPath, error: err });
       return [];
     }
   }
@@ -289,7 +289,7 @@ describe('${result.moduleName} Capabilities', () => {
       return files;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('Error finding capable files', { rootPath, error: err });
+      // logger.error('Error finding capable files', { rootPath, error: err });
       return [];
     }
   }

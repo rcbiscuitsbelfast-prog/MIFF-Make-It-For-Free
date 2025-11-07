@@ -236,7 +236,7 @@ export class SessionManager {
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('Failed to update session activity', { sessionId, error: err });
+      // logger.error('Failed to update session activity', { sessionId, error: err });
       return false;
     }
   }
@@ -269,7 +269,7 @@ export class SessionManager {
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('Failed to refresh session', { sessionId, error: err });
+      // logger.error('Failed to refresh session', { sessionId, error: err });
       return false;
     }
   }
@@ -303,7 +303,7 @@ export class SessionManager {
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('Failed to terminate session', { sessionId, error: err });
+      // logger.error('Failed to terminate session', { sessionId, error: err });
       return false;
     }
   }
@@ -325,7 +325,7 @@ export class SessionManager {
       return terminatedCount;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('Failed to terminate user sessions', { userId, error: err });
+      // logger.error('Failed to terminate user sessions', { userId, error: err });
       return 0;
     }
   }
@@ -370,7 +370,7 @@ export class SessionManager {
       return cleanedCount;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('Failed to cleanup expired sessions', { error: err });
+      // logger.error('Failed to cleanup expired sessions', { error: err });
       return 0;
     }
   }
@@ -457,11 +457,11 @@ export class SessionManager {
       try {
         const cleanedCount = await this.cleanupExpiredSessions();
         if (cleanedCount > 0) {
-          logger.info('Cleaned up expired sessions', { count: cleanedCount });
+          // logger.info('Cleaned up expired sessions', { count: cleanedCount });
         }
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        logger.error('Session cleanup error', { error: err });
+        // logger.error('Session cleanup error', { error: err });
       }
     }, this.config.cleanupInterval * 1000);
   }
@@ -474,11 +474,11 @@ export class SessionManager {
         this.updateStats();
         const alerts = this.getAlerts();
         if (alerts.length > 0 && this.monitor.notifications.log) {
-          logger.info('Session monitoring alerts', { alerts, count: alerts.length });
+          // logger.info('Session monitoring alerts', { alerts, count: alerts.length });
         }
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        logger.error('Session monitoring error', { error: err });
+        // logger.error('Session monitoring error', { error: err });
       }
     }, this.monitor.checkInterval * 1000);
   }

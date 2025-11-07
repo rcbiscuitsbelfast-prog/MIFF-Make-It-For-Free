@@ -350,7 +350,7 @@ export class TycoonSystemManager {
     this.initializeDefaultData();
     this.startManagement();
 
-    logger.info('TycoonSystemManager initialized', {
+    // logger.info('TycoonSystemManager initialized', {
       config: this.config,
       memoryId: this.memoryId
     });
@@ -361,11 +361,11 @@ export class TycoonSystemManager {
    */
   public start(): void {
     if (this.managementInterval) {
-      logger.warn('Tycoon system is already running');
+      // logger.warn('Tycoon system is already running');
       return;
     }
 
-    logger.info('Starting tycoon management system');
+    // logger.info('Starting tycoon management system');
     this.startManagement();
   }
 
@@ -374,11 +374,11 @@ export class TycoonSystemManager {
    */
   public stop(): void {
     if (!this.managementInterval) {
-      logger.warn('Tycoon system is not running');
+      // logger.warn('Tycoon system is not running');
       return;
     }
 
-    logger.info('Stopping tycoon management system');
+    // logger.info('Stopping tycoon management system');
 
     if (this.managementInterval) {
       clearInterval(this.managementInterval);
@@ -391,7 +391,7 @@ export class TycoonSystemManager {
    */
   public setPaused(paused: boolean): void {
     this.isPaused = paused;
-    logger.info('Tycoon system paused', { paused });
+    // logger.info('Tycoon system paused', { paused });
   }
 
   /**
@@ -419,7 +419,7 @@ export class TycoonSystemManager {
     };
 
     this.facilities.set(facilityId, facility);
-    logger.info('Facility created', { facilityId, name, type, location });
+    // logger.info('Facility created', { facilityId, name, type, location });
 
     return facility;
   }
@@ -430,13 +430,13 @@ export class TycoonSystemManager {
   public upgradeFacility(facilityId: string): boolean {
     const facility = this.facilities.get(facilityId);
     if (!facility) {
-      logger.warn('Facility not found', { facilityId });
+      // logger.warn('Facility not found', { facilityId });
       return false;
     }
 
     const upgradeCost = facility.upgradeCost;
     if (this.getCapital() < upgradeCost) {
-      logger.warn('Insufficient capital for upgrade', { facilityId, cost: upgradeCost, capital: this.getCapital() });
+      // logger.warn('Insufficient capital for upgrade', { facilityId, cost: upgradeCost, capital: this.getCapital() });
       return false;
     }
 
@@ -446,7 +446,7 @@ export class TycoonSystemManager {
     facility.upgradeCost = Math.floor(facility.upgradeCost * 1.5);
     facility.nextUpgrade = Date.now() + 86400000; // 24 hours
 
-    logger.info('Facility upgraded', { facilityId, level: facility.level, capacity: facility.capacity });
+    // logger.info('Facility upgraded', { facilityId, level: facility.level, capacity: facility.capacity });
     return true;
   }
 
@@ -473,7 +473,7 @@ export class TycoonSystemManager {
     };
 
     this.staff.set(staffId, staffMember);
-    logger.info('Staff member hired', { staffId, name, role, salary });
+    // logger.info('Staff member hired', { staffId, name, role, salary });
 
     return staffMember;
   }
@@ -484,7 +484,7 @@ export class TycoonSystemManager {
   public trainStaff(staffId: string, skill: string): boolean {
     const staffMember = this.staff.get(staffId);
     if (!staffMember) {
-      logger.warn('Staff member not found', { staffId });
+      // logger.warn('Staff member not found', { staffId });
       return false;
     }
 
@@ -496,7 +496,7 @@ export class TycoonSystemManager {
     staffMember.productivity = Math.min(staffMember.productivity + 0.05, 1.0);
     staffMember.performance = Math.min(staffMember.performance + 0.02, 1.0);
 
-    logger.info('Staff member trained', { staffId, skill, experience: staffMember.experience });
+    // logger.info('Staff member trained', { staffId, skill, experience: staffMember.experience });
     return true;
   }
 
@@ -520,7 +520,7 @@ export class TycoonSystemManager {
     };
 
     this.revenueStreams.set(streamId, revenueStream);
-    logger.info('Revenue stream added', { streamId, type, amount, frequency });
+    // logger.info('Revenue stream added', { streamId, type, amount, frequency });
 
     return streamId;
   }
@@ -545,7 +545,7 @@ export class TycoonSystemManager {
     }
 
     this.marketData = { ...this.marketData, ...marketData, lastUpdated: Date.now() };
-    logger.info('Market data updated', { condition: this.marketData.condition, demand: this.marketData.demand });
+    // logger.info('Market data updated', { condition: this.marketData.condition, demand: this.marketData.demand });
   }
 
   /**
@@ -611,7 +611,7 @@ export class TycoonSystemManager {
     integrations.forEach(integration => {
       this.integrations.set(integration.systemId, integration);
     });
-    logger.info('Integrations set', { count: integrations.length });
+    // logger.info('Integrations set', { count: integrations.length });
   }
 
   /**
@@ -647,7 +647,7 @@ export class TycoonSystemManager {
    * Run management cycle
    */
   private runManagementCycle(): void {
-    logger.debug('Running management cycle');
+    // logger.debug('Running management cycle');
 
     // Update market data
     if (this.config.enableMarketAnalysis) {
@@ -935,7 +935,7 @@ export class TycoonSystemManager {
    */
   public updateConfig(newConfig: Partial<TycoonManagerConfig>): void {
     this.config = { ...this.config, ...newConfig };
-    logger.info('TycoonSystemManager configuration updated', { config: this.config });
+    // logger.info('TycoonSystemManager configuration updated', { config: this.config });
   }
 
   /**
@@ -944,6 +944,6 @@ export class TycoonSystemManager {
   public destroy(): void {
     this.stop();
     MemoryManager.unregisterObject(this.memoryId);
-    logger.info('TycoonSystemManager destroyed');
+    // logger.info('TycoonSystemManager destroyed');
   }
 }

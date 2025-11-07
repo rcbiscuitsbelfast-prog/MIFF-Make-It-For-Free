@@ -309,11 +309,11 @@ export class TestHarness {
 
   private startFileWatcher(): void {
     // In a real implementation, this would use fs.watch or similar
-    logger.info('Hot reload enabled', { watchPaths: this.hotReloadConfig.watchPaths });
+    // logger.info('Hot reload enabled', { watchPaths: this.hotReloadConfig.watchPaths });
   }
 
   private stopFileWatcher(): void {
-    logger.info('Hot reload disabled');
+    // logger.info('Hot reload disabled');
   }
 
   // Code Injection Management
@@ -338,7 +338,7 @@ export class TestHarness {
     try {
       // In a real implementation, this would modify the actual code
       // For now, we'll simulate the injection
-      logger.info('Code injection applied', { injectionId: injection.id, target: injection.target });
+      // logger.info('Code injection applied', { injectionId: injection.id, target: injection.target });
       
       // Store original function if it exists
       const target = (globalThis as any)[injection.target];
@@ -373,7 +373,7 @@ export class TestHarness {
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('Code injection failed', { injectionId: injection.id, error: err });
+      // logger.error('Code injection failed', { injectionId: injection.id, error: err });
     }
   }
 
@@ -389,10 +389,10 @@ export class TestHarness {
         delete (globalThis as any)[injection.target];
       }
       
-      logger.info('Code injection reverted', { injectionId: injection.id });
+      // logger.info('Code injection reverted', { injectionId: injection.id });
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('Code injection revert failed', { injectionId: injection.id, error: err });
+      // logger.error('Code injection revert failed', { injectionId: injection.id, error: err });
     }
   }
 
@@ -451,7 +451,7 @@ export class TestHarness {
         }
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        logger.error('TestHarness observer error', { error: err });
+        // logger.error('TestHarness observer error', { error: err });
       }
     });
   }

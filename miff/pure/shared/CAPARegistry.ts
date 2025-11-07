@@ -73,7 +73,7 @@ export class CAPARegistryManager {
     this.updateMetrics();
     
     this.eventBus.emit('capa:created', capaEntry);
-    logger.info('Created CAPA entry', { id, title: capaEntry.title });
+    // logger.info('Created CAPA entry', { id, title: capaEntry.title });
 
     return capaEntry;
   }
@@ -84,7 +84,7 @@ export class CAPARegistryManager {
   async updateStatus(id: string, status: CAPAStatus, resolution?: string): Promise<boolean> {
     const entry = this.registry.entries.get(id);
     if (!entry) {
-      logger.warn('CAPA entry not found', { id });
+      // logger.warn('CAPA entry not found', { id });
       return false;
     }
 
@@ -101,7 +101,7 @@ export class CAPARegistryManager {
     this.updateMetrics();
     
     this.eventBus.emit('capa:updated', { entry, previousStatus });
-    logger.info('Updated CAPA entry', { id, previousStatus, newStatus: status });
+    // logger.info('Updated CAPA entry', { id, previousStatus, newStatus: status });
 
     return true;
   }
@@ -264,10 +264,10 @@ export class CAPARegistryManager {
           }
           this.registry.entries.set(entry.id, entry);
         }
-        logger.info('Loaded CAPA entries from storage', { entryCount: this.registry.entries.size });
+        // logger.info('Loaded CAPA entries from storage', { entryCount: this.registry.entries.size });
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        logger.warn('Failed to load CAPA entries', { error });
+        // logger.warn('Failed to load CAPA entries', { error });
       }
     }
   }
@@ -280,12 +280,12 @@ export class CAPARegistryManager {
       fs.writeFileSync(entriesPath, JSON.stringify({ entries: allEntries }, null, 2));
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('❌ Failed to save CAPA entry:', err instanceof Error ? message: String(err));
+      // logger.error('❌ Failed to save CAPA entry:', err instanceof Error ? message: String(err));
     }
   }
 
   private async initializeFromAuditFindings(): Promise<void> {
-    logger.info('Initializing CAPA entries from audit findings');
+    // logger.info('Initializing CAPA entries from audit findings');
 
     // Schema Drift (Critical)
     await this.createEntry({
@@ -419,7 +419,7 @@ export class CAPARegistryManager {
       preventiveActions: []
     });
 
-    logger.info('Created CAPA entries from audit findings', { entryCount: this.registry.entries.size });
+    // logger.info('Created CAPA entries from audit findings', { entryCount: this.registry.entries.size });
   }
 
   private generateId(): string {

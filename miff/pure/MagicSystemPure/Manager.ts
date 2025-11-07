@@ -60,7 +60,7 @@ export class MagicManager {
   registerSpell(spell: SpellDefinition): boolean {
     // Validate spell
     if (!this.validateSpellDefinition(spell)) {
-      logger.error('Invalid spell definition', { spellId: spell.id, spellName: spell.name });
+      // logger.error('Invalid spell definition', { spellId: spell.id, spellName: spell.name });
       return false;
     }
 
@@ -77,15 +77,15 @@ export class MagicManager {
 
       // Log successful casts
       if (result.success) {
-        logger.info('Spell cast successfully', { spellId, casterId, targetId: result.targetId });
+        // logger.info('Spell cast successfully', { spellId, casterId, targetId: result.targetId });
       } else {
-        logger.warn('Spell cast failed', { spellId, casterId, failureReason: result.failureReason });
+        // logger.warn('Spell cast failed', { spellId, casterId, failureReason: result.failureReason });
       }
 
       return result;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('Spell cast error', { spellId, casterId, error: err });
+      // logger.error('Spell cast error', { spellId, casterId, error: err });
       return {
         spellInstance: {} as SpellInstance,
         targets: [],
@@ -144,15 +144,15 @@ export class MagicManager {
     try {
       const success = this.magicSystem.unlockSpell(casterId, spellId);
       if (success) {
-        logger.info('Spell learned', { spellId, casterId });
+        // logger.info('Spell learned', { spellId, casterId });
         return true;
       } else {
-        logger.warn('Failed to learn spell', { spellId, casterId });
+        // logger.warn('Failed to learn spell', { spellId, casterId });
         return false;
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('Error learning spell', { spellId, casterId, error: err });
+      // logger.error('Error learning spell', { spellId, casterId, error: err });
       return false;
     }
   }
@@ -277,7 +277,7 @@ export class MagicManager {
     const success = this.learnSpell(casterId, upgradeSpellId);
 
     if (success) {
-      logger.info('Spell upgraded', { casterId, fromSpellId: spellId, toSpellId: upgradeSpellId });
+      // logger.info('Spell upgraded', { casterId, fromSpellId: spellId, toSpellId: upgradeSpellId });
     }
 
     return success;
@@ -302,27 +302,27 @@ export class MagicManager {
    */
   private validateSpellDefinition(spell: SpellDefinition): boolean {
     if (!spell.id || spell.id.trim() === '') {
-      logger.error('Spell validation failed: ID is required', { spell });
+      // logger.error('Spell validation failed: ID is required', { spell });
       return false;
     }
 
     if (!spell.name || spell.name.trim() === '') {
-      logger.error('Spell validation failed: name is required', { spellId: spell.id });
+      // logger.error('Spell validation failed: name is required', { spellId: spell.id });
       return false;
     }
 
     if (spell.manaCost < 0) {
-      logger.error('Spell validation failed: mana cost cannot be negative', { spellId: spell.id, manaCost: spell.manaCost });
+      // logger.error('Spell validation failed: mana cost cannot be negative', { spellId: spell.id, manaCost: spell.manaCost });
       return false;
     }
 
     if (spell.cooldown < 0) {
-      logger.error('Spell validation failed: cooldown cannot be negative', { spellId: spell.id, cooldown: spell.cooldown });
+      // logger.error('Spell validation failed: cooldown cannot be negative', { spellId: spell.id, cooldown: spell.cooldown });
       return false;
     }
 
     if (spell.effects.length === 0) {
-      logger.error('Spell validation failed: must have at least one effect', { spellId: spell.id });
+      // logger.error('Spell validation failed: must have at least one effect', { spellId: spell.id });
       return false;
     }
 
@@ -388,6 +388,6 @@ export class MagicManager {
    */
   importData(data: ReturnType<typeof this.exportData>): void {
     // Import logic would go here
-    logger.info('Magic system data imported', { dataKeys: Object.keys(data) });
+    // logger.info('Magic system data imported', { dataKeys: Object.keys(data) });
   }
 }

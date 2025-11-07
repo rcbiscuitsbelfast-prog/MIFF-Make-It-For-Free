@@ -83,7 +83,7 @@ export class SettingsManager {
         this.settings = this.mergeSettings(this.defaults, data.settings || data);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        logger.warn('Failed to load settings, using defaults', { error: err });
+        // logger.warn('Failed to load settings, using defaults', { error: err });
         this.settings = { ...this.defaults };
       }
     } else {
@@ -512,7 +512,7 @@ export class SettingsManager {
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('Failed to load settings', { error: err });
+      // logger.error('Failed to load settings', { error: err });
       return false;
     }
   }

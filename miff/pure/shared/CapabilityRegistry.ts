@@ -39,14 +39,14 @@ export class CapabilityRegistryManager extends CapabilityManager {
     await this.autoDiscoverModules();
 
     this.isInitialized = true;
-    logger.info('Capability Registry initialized');
+    // logger.info('Capability Registry initialized');
   }
 
   /**
    * Auto-discover modules with MIFFCapable implementations
    */
   private async autoDiscoverModules(): Promise<void> {
-    logger.info('Module discovery not yet implemented');
+    // logger.info('Module discovery not yet implemented');
   }
 
   /**

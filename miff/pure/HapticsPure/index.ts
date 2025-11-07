@@ -343,7 +343,7 @@ export class HapticEngine {
 
   private async initializeHapticSystem(): Promise<void> {
     try {
-      logger.info('Initializing haptic system');
+      // logger.info('Initializing haptic system');
 
       // Initialize default patterns
       await this.initializeDefaultPatterns();
@@ -358,10 +358,10 @@ export class HapticEngine {
       this.startEventProcessing();
 
       this.isInitialized = true;
-      logger.info('Haptic system initialized successfully');
+      // logger.info('Haptic system initialized successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('Failed to initialize haptic system', { error: err });
+      // logger.error('Failed to initialize haptic system', { error: err });
       throw new Error(`Haptic initialization failed: ${error}`);
     }
   }
@@ -489,7 +489,7 @@ export class HapticEngine {
   }
 
   private async discoverDevices(): Promise<void> {
-    logger.info('Discovering haptic devices');
+    // logger.info('Discovering haptic devices');
 
     try {
       // Check for gamepad support
@@ -550,10 +550,10 @@ export class HapticEngine {
         });
       }
 
-      logger.info('Haptic devices discovered', { deviceCount: this.devices.size });
+      // logger.info('Haptic devices discovered', { deviceCount: this.devices.size });
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.warn('Haptic device discovery failed', { error: err });
+      // logger.warn('Haptic device discovery failed', { error: err });
     }
   }
 
@@ -588,7 +588,7 @@ export class HapticEngine {
     };
 
     this.configuration.deviceProfiles.set(deviceInfo.id, profile);
-    logger.info('Haptic device registered', { deviceName: deviceInfo.name, deviceType: deviceInfo.type });
+    // logger.info('Haptic device registered', { deviceName: deviceInfo.name, deviceType: deviceInfo.type });
   }
 
   private createDefaultPatternForType(patternType: HapticPatternType): HapticPattern {
@@ -663,7 +663,7 @@ export class HapticEngine {
     // Queue for processing
     await this.queueEffect(effect);
 
-    logger.info('Playing haptic pattern', { patternName: pattern.name, deviceName: device.name });
+    // logger.info('Playing haptic pattern', { patternName: pattern.name, deviceName: device.name });
     return effectId;
   }
 
@@ -737,7 +737,7 @@ export class HapticEngine {
         this.performanceMetrics.processedEvents++;
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        logger.error('Failed to process haptic event', { error: err });
+        // logger.error('Failed to process haptic event', { error: err });
         this.performanceMetrics.failedEvents++;
       }
     }
@@ -778,7 +778,7 @@ export class HapticEngine {
       effect.endTime = Date.now();
       this.configuration.statistics.completedEffects++;
 
-      logger.debug('Haptic effect completed', { effectId: effect.id });
+      // logger.debug('Haptic effect completed', { effectId: effect.id });
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       effect.status = 'failed';
@@ -838,12 +838,12 @@ export class HapticEngine {
   private async executeWearableEffect(effect: HapticEffect, pattern: HapticPattern, device: HapticDevice): Promise<void> {
     // Wearable device implementation would go here
     // This is a placeholder for future implementation
-    logger.debug('Wearable haptic effect not implemented', { effectId: effect.id });
+    // logger.debug('Wearable haptic effect not implemented', { effectId: effect.id });
   }
 
   private async executeGenericEffect(effect: HapticEffect, pattern: HapticPattern, device: HapticDevice): Promise<void> {
     // Generic fallback implementation
-    logger.debug('Generic haptic effect', { patternName: pattern.name, deviceName: device.name });
+    // logger.debug('Generic haptic effect', { patternName: pattern.name, deviceName: device.name });
   }
 
   private async updateActiveEffects(): Promise<void> {
@@ -996,7 +996,7 @@ export class HapticEngine {
 
     device.isConnected = true;
     device.isActive = true;
-    logger.info('Haptic device connected', { deviceName: device.name, deviceType: device.type });
+    // logger.info('Haptic device connected', { deviceName: device.name, deviceType: device.type });
     return true;
   }
 
@@ -1014,7 +1014,7 @@ export class HapticEngine {
       }
     }
 
-    logger.info('Haptic device disconnected', { deviceName: device.name });
+    // logger.info('Haptic device disconnected', { deviceName: device.name });
     return true;
   }
 
@@ -1047,7 +1047,7 @@ export class HapticEngine {
       }
     }
 
-    logger.info('Stopped all active haptic effects', { effectCount: this.activeEffects.size });
+    // logger.info('Stopped all active haptic effects', { effectCount: this.activeEffects.size });
   }
 
   getActiveEffects(): HapticEffect[] {
@@ -1079,7 +1079,7 @@ export class HapticEngine {
     // Reinitialize
     this.initializeHapticSystem();
 
-    logger.info('Haptic engine reset to initial state');
+    // logger.info('Haptic engine reset to initial state');
   }
 
   dispose(): void {
@@ -1091,7 +1091,7 @@ export class HapticEngine {
     this.environments.clear();
     this.isInitialized = false;
 
-    logger.info('Haptic engine disposed successfully');
+    // logger.info('Haptic engine disposed successfully');
   }
 }
 
@@ -1138,7 +1138,7 @@ class HapticGestureRecognizer {
   async recognize(input: GestureInput): Promise<HapticGesture | null> {
     // Simple gesture recognition implementation
     // In a real implementation, this would use more sophisticated algorithms
-    logger.debug('Recognizing haptic gesture', { inputType: input.type });
+    // logger.debug('Recognizing haptic gesture', { inputType: input.type });
     return null;
   }
 }

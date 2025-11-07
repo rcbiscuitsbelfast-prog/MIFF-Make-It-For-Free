@@ -133,12 +133,12 @@ export class AssetPipelineValidator {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      logger.warn('Asset pipeline validator already initialized');
+      // logger.warn('Asset pipeline validator already initialized');
       return;
     }
 
     try {
-      logger.info('Initializing asset pipeline validator');
+      // logger.info('Initializing asset pipeline validator');
       
       // Load validation rules
       await this.loadValidationRules();
@@ -147,7 +147,7 @@ export class AssetPipelineValidator {
       this.validateConfiguration();
       
       this.isInitialized = true;
-      logger.info('Asset pipeline validator initialized successfully');
+      // logger.info('Asset pipeline validator initialized successfully');
       
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -203,7 +203,7 @@ export class AssetPipelineValidator {
     }
 
     try {
-      logger.info('Starting directory validation', { dirPath, bridge });
+      // logger.info('Starting directory validation', { dirPath, bridge });
       
       const assets = await this.discoverAssets(dirPath, bridge);
       const report: ValidationReport = {
@@ -255,7 +255,7 @@ export class AssetPipelineValidator {
         }
       }
 
-      logger.info('Directory validation completed', {
+      // logger.info('Directory validation completed', {
         totalAssets: report.totalAssets,
         validAssets: report.validAssets,
         invalidAssets: report.invalidAssets,
@@ -314,7 +314,7 @@ export class AssetPipelineValidator {
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.warn('Failed to load asset metadata', { assetPath, error: error.message });
+      // logger.warn('Failed to load asset metadata', { assetPath, error: error.message });
     }
 
     return {
@@ -361,7 +361,7 @@ export class AssetPipelineValidator {
         
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        logger.warn('Rule validation failed', { rule: rule.id, error: error.message });
+        // logger.warn('Rule validation failed', { rule: rule.id, error: error.message });
         result.warnings?.push(`Rule ${rule.name} failed: ${error.message}`);
       }
     }
@@ -392,7 +392,7 @@ export class AssetPipelineValidator {
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.warn('Failed to discover assets in directory', { dirPath, error: error.message });
+      // logger.warn('Failed to discover assets in directory', { dirPath, error: error.message });
     }
     
     return assets;
@@ -667,12 +667,12 @@ export class AssetPipelineValidator {
    * Destroy the validator
    */
   async destroy(): Promise<void> {
-    logger.info('Destroying asset pipeline validator');
+    // logger.info('Destroying asset pipeline validator');
     
     this.rules.clear();
     this.isInitialized = false;
     
-    logger.info('Asset pipeline validator destroyed');
+    // logger.info('Asset pipeline validator destroyed');
   }
 }
 

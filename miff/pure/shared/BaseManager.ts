@@ -388,7 +388,7 @@ export abstract class BaseManager extends EventEmitter {
     }
 
     // Basic console logging (can be replaced with proper logging system)
-    logger.info(`[${logEntry.timestamp}] ${level.toUpperCase()} [${this.config.id}]: ${message}`, metadata || '');
+    // logger.info(`[${logEntry.timestamp}] ${level.toUpperCase()} [${this.config.id}]: ${message}`, metadata || '');
   }
 
   /**

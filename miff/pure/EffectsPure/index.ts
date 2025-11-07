@@ -534,7 +534,7 @@ export class BattleEffect implements IBattleEffect {
 
     if (this.value === 0 && this.effectType !== EffectType.STUN) {
       // Some effects might legitimately have 0 value, but warn about it
-      logger.warn('Effect has value of 0', { effectId: this.effectId });
+      // logger.warn('Effect has value of 0', { effectId: this.effectId });
     }
 
     return errors;
@@ -1400,7 +1400,7 @@ export class EffectManager implements IEffectManager {
 
     const errors = effect.validate();
     if (errors.length > 0) {
-      logger.warn('Invalid effect', { effectId: effect.effectId, errors });
+      // logger.warn('Invalid effect', { effectId: effect.effectId, errors });
       return EffectApplicationResult.REJECTED;
     }
 

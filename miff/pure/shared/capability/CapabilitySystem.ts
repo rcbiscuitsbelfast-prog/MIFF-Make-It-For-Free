@@ -163,12 +163,12 @@ export class CapabilitySystem {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      logger.warn('Capability system already initialized');
+      // logger.warn('Capability system already initialized');
       return;
     }
 
     try {
-      logger.info('Initializing capability system');
+      // logger.info('Initializing capability system');
       
       // Discover capabilities from all modules
       await this.discoverCapabilities();
@@ -177,11 +177,11 @@ export class CapabilitySystem {
       await this.buildRegistry();
       
       this.isInitialized = true;
-      logger.info('Capability system initialized successfully');
+      // logger.info('Capability system initialized successfully');
       
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('Failed to initialize capability system', { error: error.message });
+      // logger.error('Failed to initialize capability system', { error: error.message });
       throw error;
     }
   }
@@ -190,7 +190,7 @@ export class CapabilitySystem {
    * Discover capabilities from all modules
    */
   private async discoverCapabilities(): Promise<void> {
-    logger.info('Discovering capabilities from modules');
+    // logger.info('Discovering capabilities from modules');
     
     // This would typically scan the filesystem for capability files
     // For now, we'll create a basic discovery mechanism
@@ -211,14 +211,14 @@ export class CapabilitySystem {
       this.registry.capabilities.set(capability.id, capability);
     }
     
-    logger.info('Discovered capabilities', { count: allCapabilities.length });
+    // logger.info('Discovered capabilities', { count: allCapabilities.length });
   }
 
   /**
    * Build the capability registry
    */
   private async buildRegistry(): Promise<void> {
-    logger.info('Building capability registry');
+    // logger.info('Building capability registry');
     
     // Build categories
     for (const capability of this.registry.capabilities.values()) {
@@ -244,7 +244,7 @@ export class CapabilitySystem {
       }
     }
     
-    logger.info('Capability registry built successfully');
+    // logger.info('Capability registry built successfully');
   }
 
   /**
@@ -575,7 +575,7 @@ export class CapabilitySystem {
    * Destroy the capability system
    */
   async destroy(): Promise<void> {
-    logger.info('Destroying capability system');
+    // logger.info('Destroying capability system');
     
     this.registry.capabilities.clear();
     this.registry.modules.clear();
@@ -584,7 +584,7 @@ export class CapabilitySystem {
     this.registry.dependencies.clear();
     
     this.isInitialized = false;
-    logger.info('Capability system destroyed');
+    // logger.info('Capability system destroyed');
   }
 }
 

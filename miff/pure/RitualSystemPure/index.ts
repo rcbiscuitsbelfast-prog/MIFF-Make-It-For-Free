@@ -531,20 +531,20 @@ export class RitualSystemPure {
   startRitual(ritualId: string, leaderId: string, participantIds: string[] = []): RitualInstance | null {
     const ritualDef = this.ritualDefinitions.get(ritualId);
     if (!ritualDef) {
-      logger.warn('Ritual definition not found', { ritualId });
+      // logger.warn('Ritual definition not found', { ritualId });
       return null;
     }
 
     // Check active ritual limit
     if (this.activeRituals.size >= this.config.maxActiveRituals) {
-      logger.warn('Maximum active rituals reached');
+      // logger.warn('Maximum active rituals reached');
       return null;
     }
 
     // Check participant count
     const totalParticipants = [leaderId, ...participantIds];
     if (totalParticipants.length < ritualDef.minParticipants || totalParticipants.length > ritualDef.maxParticipants) {
-      logger.warn('Invalid participant count', { count: totalParticipants.length, min: ritualDef.minParticipants, max: ritualDef.maxParticipants });
+      // logger.warn('Invalid participant count', { count: totalParticipants.length, min: ritualDef.minParticipants, max: ritualDef.maxParticipants });
       return null;
     }
 
@@ -593,7 +593,7 @@ export class RitualSystemPure {
       participantCount: totalParticipants.length
     });
 
-    logger.info('Started ritual', { name: ritualDef.name, id: ritualInstance.id });
+    // logger.info('Started ritual', { name: ritualDef.name, id: ritualInstance.id });
     return ritualInstance;
   }
 
@@ -650,24 +650,24 @@ export class RitualSystemPure {
   progressRitual(ritualId: string): RitualResult | null {
     const ritual = this.activeRituals.get(ritualId);
     if (!ritual) {
-      logger.warn('Ritual not found', { ritualId });
+      // logger.warn('Ritual not found', { ritualId });
       return null;
     }
 
     if (ritual.status !== 'active') {
-      logger.warn('Ritual not active', { ritualId });
+      // logger.warn('Ritual not active', { ritualId });
       return null;
     }
 
     const currentStep = ritual.definition.steps[ritual.currentStep];
     if (!currentStep) {
-      logger.warn('No current step for ritual', { ritualId });
+      // logger.warn('No current step for ritual', { ritualId });
       return null;
     }
 
     // Check if step requirements are met
     if (!this.checkStepRequirements(ritual, currentStep)) {
-      logger.warn('Step requirements not met for ritual', { ritualId });
+      // logger.warn('Step requirements not met for ritual', { ritualId });
       return null;
     }
 
@@ -718,7 +718,7 @@ export class RitualSystemPure {
    * Execute a ritual step
    */
   private executeRitualStep(ritual: RitualInstance, step: RitualStep): RitualResult {
-    logger.info('Executing ritual step', { step: step.name });
+    // logger.info('Executing ritual step', { step: step.name });
 
     // Consume energy
     const energyConsumed = step.energyCost;
@@ -766,7 +766,7 @@ export class RitualSystemPure {
       return; // Effect doesn't trigger
     }
 
-    logger.info('Applying ritual effect', { description: effect.description });
+    // logger.info('Applying ritual effect', { description: effect.description });
 
     switch (effect.type) {
       case 'summon':
@@ -820,14 +820,14 @@ export class RitualSystemPure {
     };
 
     ritual.summonedEntities.push(summonedEntity);
-    logger.info('Summoned entity', { name: summonedEntity.name, level: summonedEntity.level });
+    // logger.info('Summoned entity', { name: summonedEntity.name, level: summonedEntity.level });
   }
 
   /**
    * Apply buff effect
    */
   private applyBuff(ritual: RitualInstance, effect: RitualEffect): void {
-    logger.info('Applied buff to participants', { magnitude: effect.magnitude });
+    // logger.info('Applied buff to participants', { magnitude: effect.magnitude });
     // Would integrate with status effect system
   }
 
@@ -835,7 +835,7 @@ export class RitualSystemPure {
    * Apply debuff effect
    */
   private applyDebuff(ritual: RitualInstance, effect: RitualEffect): void {
-    logger.info('Applied debuff to participants', { magnitude: effect.magnitude });
+    // logger.info('Applied debuff to participants', { magnitude: effect.magnitude });
     // Would integrate with status effect system
   }
 
@@ -843,7 +843,7 @@ export class RitualSystemPure {
    * Apply damage effect
    */
   private applyDamage(ritual: RitualInstance, effect: RitualEffect): void {
-    logger.info('Applied damage to participants', { magnitude: effect.magnitude });
+    // logger.info('Applied damage to participants', { magnitude: effect.magnitude });
     // Would integrate with health system
   }
 
@@ -851,7 +851,7 @@ export class RitualSystemPure {
    * Apply healing effect
    */
   private applyHealing(ritual: RitualInstance, effect: RitualEffect): void {
-    logger.info('Applied healing to participants', { magnitude: effect.magnitude });
+    // logger.info('Applied healing to participants', { magnitude: effect.magnitude });
     // Would integrate with health system
   }
 
@@ -860,7 +860,7 @@ export class RitualSystemPure {
    */
   private createItem(ritual: RitualInstance, effect: RitualEffect): void {
     const itemType = effect.parameters.get('itemType') || 'generic';
-    logger.info('Created item', { itemType });
+    // logger.info('Created item', { itemType });
     // Would integrate with item creation system
   }
 
@@ -869,7 +869,7 @@ export class RitualSystemPure {
    */
   private applyStatus(ritual: RitualInstance, effect: RitualEffect): void {
     const statusType = effect.parameters.get('statusType') || 'generic';
-    logger.info('Applied status effect', { statusType, duration: effect.duration });
+    // logger.info('Applied status effect', { statusType, duration: effect.duration });
     // Would integrate with status effect system
   }
 
@@ -879,7 +879,7 @@ export class RitualSystemPure {
   private grantExperience(ritual: RitualInstance, effect: RitualEffect): void {
     const expAmount = effect.magnitude;
     ritual.experienceGained += expAmount;
-    logger.info('Granted experience', { expAmount });
+    // logger.info('Granted experience', { expAmount });
   }
 
   /**
@@ -925,7 +925,7 @@ export class RitualSystemPure {
       summonedEntities: ritual.summonedEntities.length
     });
 
-    logger.info('Ritual completed', { name: ritual.definition.name, quality: `${(quality * 100).toFixed(1)}%` });
+    // logger.info('Ritual completed', { name: ritual.definition.name, quality: `${(quality * 100).toFixed(1)}%` });
     return result;
   }
 
@@ -1027,7 +1027,7 @@ export class RitualSystemPure {
       reason: 'user-cancelled'
     });
 
-    logger.info('Cancelled ritual', { name: ritual.definition.name });
+    // logger.info('Cancelled ritual', { name: ritual.definition.name });
     return true;
   }
 
@@ -1036,7 +1036,7 @@ export class RitualSystemPure {
    */
   updateConfig(newConfig: Partial<RitualConfig>): void {
     this.config = { ...this.config, ...newConfig };
-    logger.info('Ritual configuration updated');
+    // logger.info('Ritual configuration updated');
   }
 
   /**
@@ -1101,7 +1101,7 @@ export class RitualSystemPure {
 
   private log(message: string, level: 'info' | 'debug' | 'error' = 'info'): void {
     const timestamp = Date.now().toISOString();
-    logger.info('Ritual system log', { level: level.toUpperCase(), timestamp, message });
+    // logger.info('Ritual system log', { level: level.toUpperCase(), timestamp, message });
   }
 }
 

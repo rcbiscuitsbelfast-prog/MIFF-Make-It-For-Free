@@ -806,7 +806,7 @@ export class MobileOptimizer {
 
   private log(message: string, level: 'info' | 'debug' | 'warn' | 'error' = 'info'): void {
     const timestamp = Date.now().toISOString();
-    logger.info('Mobile optimizer log', { level: level.toUpperCase(), timestamp, message });
+    // logger.info('Mobile optimizer log', { level: level.toUpperCase(), timestamp, message });
   }
 
   /**

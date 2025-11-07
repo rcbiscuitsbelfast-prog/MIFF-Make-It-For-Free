@@ -214,17 +214,17 @@ export class PerformanceMonitor {
 
     // Memory usage alert
     if (metrics.memory.percentage > alertThresholds.memoryUsage) {
-      logger.warn(`⚠️ High memory usage: ${metrics.memory.percentage.toFixed(2)}%`);
+      // logger.warn(`⚠️ High memory usage: ${metrics.memory.percentage.toFixed(2)}%`);
     }
 
     // CPU usage alert
     if (metrics.cpu.usage > alertThresholds.cpuUsage) {
-      logger.warn(`⚠️ High CPU usage: ${metrics.cpu.usage.toFixed(2)}%`);
+      // logger.warn(`⚠️ High CPU usage: ${metrics.cpu.usage.toFixed(2)}%`);
     }
 
     // Network latency alert
     if (metrics.network.latency > alertThresholds.networkLatency) {
-      logger.warn(`⚠️ High network latency: ${metrics.network.latency}ms`);
+      // logger.warn(`⚠️ High network latency: ${metrics.network.latency}ms`);
     }
   }
 

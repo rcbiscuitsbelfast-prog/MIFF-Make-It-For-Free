@@ -1885,7 +1885,7 @@ export const TeamUtils = {
       if (result !== TeamOperationResult.SUCCESS) {
         // If adding to active team fails, try reserves
         if (team.spirits.length < team.maxSize) {
-          logger.warn('Failed to add spirit to team', { spiritName: sortedSpirits[i].name, result });
+          // logger.warn('Failed to add spirit to team', { spiritName: sortedSpirits[i].name, result });
         }
       }
     }

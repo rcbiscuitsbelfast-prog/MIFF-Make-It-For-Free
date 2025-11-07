@@ -339,35 +339,35 @@ export class AudioManager {
 
   private setMasterVolume(volume: number): void {
     // In a real implementation, this would control the master audio bus
-    logger.debug('Setting master volume', { volume });
+    // logger.debug('Setting master volume', { volume });
   }
 
   private enableHRTF(enabled: boolean): void {
-    logger.info('HRTF state changed', { enabled });
+    // logger.info('HRTF state changed', { enabled });
   }
 
   private enableReverb(enabled: boolean): void {
-    logger.info('Reverb state changed', { enabled });
+    // logger.info('Reverb state changed', { enabled });
   }
 
   private setReverb(decay: number, damping: number): void {
-    logger.debug('Reverb parameters set', { decay, damping });
+    // logger.debug('Reverb parameters set', { decay, damping });
   }
 
   private addEffect(id: string, effectType: string, parameters?: Record<string, number>): void {
-    logger.info('Adding audio effect', { soundId: id, effectType, parameters });
+    // logger.info('Adding audio effect', { soundId: id, effectType, parameters });
   }
 
   private removeEffect(id: string, effectId: string): void {
-    logger.info('Removing audio effect', { soundId: id, effectId });
+    // logger.info('Removing audio effect', { soundId: id, effectId });
   }
 
   private setListenerPosition(position: { x: number; y: number; z: number }): void {
-    logger.debug('Setting listener position', { position });
+    // logger.debug('Setting listener position', { position });
   }
 
   private setListenerOrientation(forward: { x: number; y: number; z: number }, up: { x: number; y: number; z: number }): void {
-    logger.debug('Setting listener orientation', { forward, up });
+    // logger.debug('Setting listener orientation', { forward, up });
   }
 
   private getAudioAnalysis(): AudioAnalysisData {

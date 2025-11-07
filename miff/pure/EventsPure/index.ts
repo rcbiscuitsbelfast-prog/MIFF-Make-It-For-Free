@@ -57,12 +57,12 @@ export class EventBus {
           if (result && typeof result.then === 'function') {
             result.catch(error => {
               const err = error instanceof Error ? error : new Error(String(error));
-              logger.error('Error in async event handler', { topic, error: err });
+              // logger.error('Error in async event handler', { topic, error: err });
             });
           }
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-          logger.error('Error in event handler', { topic, error: err });
+          // logger.error('Error in event handler', { topic, error: err });
         }
       }
     }
@@ -90,7 +90,7 @@ export class EventBus {
           }
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-          logger.error('Error in event handler', { topic, error: err });
+          // logger.error('Error in event handler', { topic, error: err });
           // Don't add failed handlers to promises
         }
       }
@@ -110,7 +110,7 @@ export class EventBus {
           promises.push(handler(payload));
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-          logger.error('Error in async event handler', { topic, error: err });
+          // logger.error('Error in async event handler', { topic, error: err });
         }
       }
 
@@ -413,7 +413,7 @@ export const EventUtils = {
           await handler(payload);
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-          logger.error('Error in filtered async handler', { error: err });
+          // logger.error('Error in filtered async handler', { error: err });
         }
       }
     };

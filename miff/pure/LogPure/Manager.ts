@@ -562,16 +562,16 @@ export class LogManager {
         console.debug(logMessage, entry.metadata);
         break;
       case INFO:
-        logger.info(logMessage, entry.metadata);
+        // logger.info(logMessage, entry.metadata);
         break;
       case WARN:
-        logger.warn(logMessage, entry.metadata);
+        // logger.warn(logMessage, entry.metadata);
         break;
       case ERROR:
       case CRITICAL:
-        logger.error(logMessage, entry.metadata);
+        // logger.error(logMessage, entry.metadata);
         if (entry.stackTrace) {
-          logger.error(entry.stackTrace);
+          // logger.error(entry.stackTrace);
         }
         break;
     }

@@ -130,7 +130,7 @@ export class XPManager {
     spirit.experience = (spirit.experience || 0) + actualAmount;
 
     if (this.config.debugMode) {
-      logger.debug('XP added', { instanceId: spirit.instanceId, amount: actualAmount, totalXP: spirit.experience });
+      // logger.debug('XP added', { instanceId: spirit.instanceId, amount: actualAmount, totalXP: spirit.experience });
     }
 
     this.eventBus.publish('xp:gained', {
@@ -190,7 +190,7 @@ export class XPManager {
     }
 
     if (this.config.debugMode) {
-      logger.info('Level up', { instanceId: spirit.instanceId, newLevel: spirit.level });
+      // logger.info('Level up', { instanceId: spirit.instanceId, newLevel: spirit.level });
     }
 
     this.eventBus.publish('progression:level_up', {
@@ -301,7 +301,7 @@ export class XPManager {
     spirit.experience = Math.max(0, amount);
 
     if (this.config.debugMode) {
-      logger.debug('XP set', { instanceId: spirit.instanceId, amount });
+      // logger.debug('XP set', { instanceId: spirit.instanceId, amount });
     }
   }
 

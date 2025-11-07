@@ -325,7 +325,7 @@ export class AdvancedInput {
    * Execute input action
    */
   private executeInputAction(action: string, input: InputData): void {
-    logger.debug('Executing input action', { action, inputType: input.type });
+    // logger.debug('Executing input action', { action, inputType: input.type });
     
     // In a real implementation, this would dispatch events or call callbacks
     // For now, we'll just log the action
@@ -408,7 +408,7 @@ export class AdvancedInput {
         tolerance: 50
       },
       callback: (gesture, data) => {
-        logger.debug('Tap gesture detected', { gestureId: gesture.id, data });
+        // logger.debug('Tap gesture detected', { gestureId: gesture.id, data });
       },
       enabled: true
     });
@@ -441,7 +441,7 @@ export class AdvancedInput {
         tolerance: 20
       },
       callback: (gesture, data) => {
-        logger.debug('Swipe gesture detected', { gestureId: gesture.id, data });
+        // logger.debug('Swipe gesture detected', { gestureId: gesture.id, data });
       },
       enabled: true
     });
@@ -787,27 +787,27 @@ class HapticManager {
   }
 
   private executeSingleHaptic(state: HapticState): void {
-    logger.debug('Executing single haptic', { intensity: state.intensity, duration: state.duration });
+    // logger.debug('Executing single haptic', { intensity: state.intensity, duration: state.duration });
     // In a real implementation, this would trigger actual haptic feedback
   }
 
   private executeDoubleHaptic(state: HapticState): void {
-    logger.debug('Executing double haptic', { intensity: state.intensity, duration: state.duration });
+    // logger.debug('Executing double haptic', { intensity: state.intensity, duration: state.duration });
     // In a real implementation, this would trigger actual haptic feedback
   }
 
   private executeTripleHaptic(state: HapticState): void {
-    logger.debug('Executing triple haptic', { intensity: state.intensity, duration: state.duration });
+    // logger.debug('Executing triple haptic', { intensity: state.intensity, duration: state.duration });
     // In a real implementation, this would trigger actual haptic feedback
   }
 
   private executeContinuousHaptic(state: HapticState): void {
-    logger.debug('Executing continuous haptic', { intensity: state.intensity, duration: state.duration });
+    // logger.debug('Executing continuous haptic', { intensity: state.intensity, duration: state.duration });
     // In a real implementation, this would trigger actual haptic feedback
   }
 
   private executeCustomHaptic(state: HapticState): void {
-    logger.debug('Executing custom haptic', { intensity: state.intensity, duration: state.duration });
+    // logger.debug('Executing custom haptic', { intensity: state.intensity, duration: state.duration });
     // In a real implementation, this would trigger actual haptic feedback
   }
 }

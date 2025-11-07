@@ -257,7 +257,7 @@ export class OverlinkThemes {
 
   async playThemeAudio(themeId: ThemeId, options: any = {}): Promise<boolean> {
     if (!this.audioManager) {
-      logger.warn('Audio manager not set for theme playback');
+      // logger.warn('Audio manager not set for theme playback');
       return false;
     }
 
@@ -266,7 +266,7 @@ export class OverlinkThemes {
 
   async stopThemeAudio(): Promise<void> {
     if (!this.audioManager) {
-      logger.warn('Audio manager not set for stopping theme');
+      // logger.warn('Audio manager not set for stopping theme');
       return;
     }
 
@@ -275,7 +275,7 @@ export class OverlinkThemes {
 
   setThemeVolume(themeId: ThemeId, volume: number): void {
     if (!this.audioManager) {
-      logger.warn('Audio manager not set for stopping theme');
+      // logger.warn('Audio manager not set for stopping theme');
       return;
     }
 

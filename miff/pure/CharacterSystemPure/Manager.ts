@@ -645,7 +645,7 @@ export class CharacterSystemManager {
       character.properties = { ...character.properties, ...properties };
       this.updateAnalytics();
 
-      logger.debug('Character properties updated', { systemId, characterId });
+      // logger.debug('Character properties updated', { systemId, characterId });
       return true;
 
     } catch (error: unknown) {
@@ -680,7 +680,7 @@ export class CharacterSystemManager {
       character.state.current = state;
       this.updateAnalytics();
 
-      logger.debug('Character state updated', { systemId, characterId, state });
+      // logger.debug('Character state updated', { systemId, characterId, state });
       return true;
 
     } catch (error: unknown) {
@@ -734,7 +734,7 @@ export class CharacterSystemManager {
       character.animations.push(characterAnimation);
       this.updateAnalytics();
 
-      logger.debug('Character animation started', { systemId, characterId, animationName });
+      // logger.debug('Character animation started', { systemId, characterId, animationName });
       return true;
 
     } catch (error: unknown) {
@@ -774,7 +774,7 @@ export class CharacterSystemManager {
       animation.status = 'stopped';
       this.updateAnalytics();
 
-      logger.debug('Character animation stopped', { systemId, characterId, animationName });
+      // logger.debug('Character animation stopped', { systemId, characterId, animationName });
       return true;
 
     } catch (error: unknown) {

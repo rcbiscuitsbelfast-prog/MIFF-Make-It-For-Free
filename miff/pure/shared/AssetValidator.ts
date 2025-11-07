@@ -122,7 +122,7 @@ export class AssetValidator {
    * Scan for asset references in codebase
    */
   async scanAssetReferences(rootPath: string): Promise<AssetReference[]> {
-    logger.info('Scanning for asset references', { rootPath });
+    // logger.info('Scanning for asset references', { rootPath });
     
     const references: AssetReference[] = [];
     
@@ -168,12 +168,12 @@ export class AssetValidator {
         }
       }
       
-      logger.info('Found asset references', { count: references.length, rootPath });
+      // logger.info('Found asset references', { count: references.length, rootPath });
       return references;
       
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('Error scanning asset references', { rootPath, error: err });
+      // logger.error('Error scanning asset references', { rootPath, error: err });
       return [];
     }
   }
@@ -182,7 +182,7 @@ export class AssetValidator {
    * Validate asset existence
    */
   async validateAssets(rootPath: string): Promise<AssetValidationResult[]> {
-    logger.info('Validating asset existence', { rootPath });
+    // logger.info('Validating asset existence', { rootPath });
     
     const results: AssetValidationResult[] = [];
     
@@ -199,7 +199,7 @@ export class AssetValidator {
    * Check pipeline integrity
    */
   async checkPipelineIntegrity(rootPath: string): Promise<PipelineIntegrityResult[]> {
-    logger.info('Checking pipeline integrity', { rootPath });
+    // logger.info('Checking pipeline integrity', { rootPath });
     
     const results: PipelineIntegrityResult[] = [];
     

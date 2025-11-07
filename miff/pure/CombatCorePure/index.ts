@@ -547,7 +547,7 @@ export class CombatEngine {
     this.performanceMetrics.activeSessions++;
     this.performanceMetrics.totalSessions++;
 
-    logger.info('Combat session started', { sessionId });
+    // logger.info('Combat session started', { sessionId });
     return sessionId;
   }
 
@@ -1011,7 +1011,7 @@ export class CombatEngine {
     for (const condition of scenario.defeatConditions) {
       if (this.evaluateCondition(session, condition)) {
         session.state = CombatState.FINISHED;
-        logger.info('Defeat condition met', { sessionId, condition: condition.description });
+        // logger.info('Defeat condition met', { sessionId, condition: condition.description });
         return;
       }
     }
@@ -1023,7 +1023,7 @@ export class CombatEngine {
         session.winner = this.determineWinner(session);
         session.endTime = Date.now();
         session.duration = session.endTime - session.startTime;
-        logger.info('Victory condition met', { sessionId, condition: condition.description });
+        // logger.info('Victory condition met', { sessionId, condition: condition.description });
         return;
       }
     }
@@ -1099,7 +1099,7 @@ export class CombatEngine {
       this.activeSessionId = undefined;
     }
 
-    logger.info('Combat session ended', { sessionId });
+    // logger.info('Combat session ended', { sessionId });
     return true;
   }
 
@@ -1142,12 +1142,12 @@ export class CombatEngine {
     this.activeSessionId = undefined;
     this.performanceMetrics = this.initializePerformanceMetrics();
 
-    logger.info('Combat engine reset to initial state');
+    // logger.info('Combat engine reset to initial state');
   }
 
   dispose(): void {
     this.reset();
-    logger.info('Combat engine disposed successfully');
+    // logger.info('Combat engine disposed successfully');
   }
 }
 
