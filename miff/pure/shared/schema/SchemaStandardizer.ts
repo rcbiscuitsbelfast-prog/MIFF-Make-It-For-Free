@@ -596,10 +596,7 @@ export class SchemaStandardizer {
     const driftReport = this.getSchemaDriftReport();
     
     if (driftReport.driftIssues.length > 0) {
-      // logger.warn('Schema drift detected', { 
-        issueCount: driftReport.driftIssues.length,
-        issues: driftReport.driftIssues
-      });
+      // logger.warn('Schema drift detected', { issueCount: driftReport.driftIssues.length, issues: driftReport.driftIssues });
     }
   }
 

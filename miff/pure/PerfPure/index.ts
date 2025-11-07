@@ -432,13 +432,7 @@ export const PerfUtils = {
       endTime: total
     };
 
-    // logger.info('Performance summary', { 
-      label: result.label, 
-      avgMs: parseFloat(average.toFixed(2)), 
-      minMs: parseFloat(min.toFixed(2)), 
-      maxMs: parseFloat(max.toFixed(2)), 
-      totalMs: parseFloat(total.toFixed(2))
-    });
+    // logger.info('Performance summary', { label: result.label, avgMs: parseFloat(average.toFixed(2)), minMs: parseFloat(min.toFixed(2)), maxMs: parseFloat(max.toFixed(2)), totalMs: parseFloat(total.toFixed(2)) });
 
     return result;
   },
