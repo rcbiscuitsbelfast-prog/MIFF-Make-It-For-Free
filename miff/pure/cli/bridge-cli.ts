@@ -20,7 +20,6 @@ import { GodotBridgeManager, GodotBridgeConfiguration, GodotBridgeType } from '.
 import { WebBridge, WebBridgeConfig } from '../WebBridgePure';
 import { RenderPayloadManager, RenderPayloadBuilder } from '../RenderPayloadPure';
 import { CombatUtils } from '../CombatPure/engine';
-import { ItemUsageManager } from '../ItemsPure';
 import { BattleAI } from '../AIPure/Manager';
 
 const program = new Command();
@@ -190,7 +189,6 @@ program
   .command('integration')
   .description('Integration testing with core modules')
   .option('--combat', 'Test CombatPure integration')
-  .option('--items', 'Test ItemsPure integration')
   .option('--ai', 'Test AIPure integration')
   .option('--all', 'Test all integrations')
   .action(async (options) => {
@@ -203,7 +201,6 @@ program
     }
 
     if (options.items) {
-      console.log('🎒 Testing ItemsPure integration...');
       // Test item system through bridges
     }
 

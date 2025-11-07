@@ -10,7 +10,6 @@
 
 import { UnityBridgeManager, UnityBridgeConfiguration, UnityBridgeType, UnityCommunicationProtocol } from '../UnityBridgePure';
 import { CombatUtils, SpiritInstance, MoveData, MoveCategory } from '../CombatPure/engine';
-import { ItemUsageManager, Item, ItemType, ItemEffectType } from '../ItemsPure';
 import { BattleAI, AIPolicy } from '../AIPure/Manager';
 
 export class UnityBridgeHarness {
@@ -113,7 +112,6 @@ export class UnityBridgeHarness {
   }
 
   async testItemIntegration(): Promise<void> {
-    console.log('🎒 Testing ItemsPure integration with Unity bridge...');
 
     try {
       // Create sample item data
@@ -260,7 +258,6 @@ export class UnityBridgeHarness {
     console.log('   - Damage calculations flow through Unity physics');
     console.log('   - Battle events trigger Unity animations');
     console.log('');
-    console.log('2. 🎒 ItemsPure → Unity Inventory System');
     console.log('   - Items are represented as Unity ScriptableObjects');
     console.log('   - Item effects trigger Unity particle systems');
     console.log('   - Inventory UI is rendered in Unity Canvas');
@@ -302,7 +299,6 @@ if (require.main === module) {
       console.log('Unity Bridge Harness');
       console.log('Usage:');
       console.log('  node unity-harness.ts combat      # Test CombatPure integration');
-      console.log('  node unity-harness.ts items       # Test ItemsPure integration');
       console.log('  node unity-harness.ts ai          # Test AIPure integration');
       console.log('  node unity-harness.ts integration # Run full integration test');
       console.log('  node unity-harness.ts demo        # Run interactive demo');

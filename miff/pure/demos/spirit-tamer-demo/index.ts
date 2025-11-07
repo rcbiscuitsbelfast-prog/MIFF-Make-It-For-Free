@@ -16,7 +16,6 @@
 import { HealthSystemPure } from '../../HealthSystemPure/index';
 import { CombatPure } from '../../CombatPure/index';
 import { TeamsPure } from '../../TeamsPure/index';
-import { ItemsPure } from '../../ItemsPure/index';
 import { AIPure } from '../../AIPure/index';
 import { LogPure } from '../../LogPure/index';
 import { SavePure } from '../../SaveLoadPure/index';
@@ -209,7 +208,6 @@ class SpiritTamerGame {
     this.healthSystem = new (HealthSystemPure as any).HealthSystemManager();
     this.combatSystem = new (CombatPure as any).CombatEngine();
     this.teamSystem = new (TeamsPure as any).TeamManager();
-    this.itemSystem = new (ItemsPure as any).ItemUsageManager({} as any);
     this.aiSystem = new (AIPure as any).AIManager();
     this.logSystem = new (LogPure as any).BattleLogger();
     this.saveSystem = new (SavePure as any).SaveManager();

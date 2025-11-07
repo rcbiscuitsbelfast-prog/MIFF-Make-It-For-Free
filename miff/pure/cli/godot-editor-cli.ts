@@ -9,7 +9,6 @@
 
 import { GodotBridgeManager, GodotBridgeConfiguration, GodotBridgeType } from '../GodotBridgePure';
 import { CombatUtils, SpiritInstance, MoveData, MoveCategory } from '../CombatPure/engine';
-import { ItemUsageManager, Item, ItemType, ItemEffectType } from '../ItemsPure';
 import { BattleAI, AIPolicy } from '../AIPure/Manager';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -169,7 +168,6 @@ export class GodotEditorCLI {
   }
 
   async testItemIntegration(): Promise<void> {
-    console.log('🎒 Testing ItemsPure integration with Godot Editor...');
 
     try {
       // Create sample inventory system
@@ -489,7 +487,6 @@ enabled=${projectConfig.audio.enabled}`;
     console.log('   - Move execution through Godot physics');
     console.log('   - Battle events trigger Godot animations');
     console.log('');
-    console.log('2. 🎒 ItemsPure → Godot Inventory System');
     console.log('   - Items become Godot TextureRect UI elements');
     console.log('   - Effect systems integrate with Godot particles');
     console.log('   - Inventory UI rendered with Godot Control nodes');
@@ -548,7 +545,6 @@ async function main() {
       console.log('Usage:');
       console.log('  node godot-editor-cli.ts connect [project-path]  # Connect to Godot Editor');
       console.log('  node godot-editor-cli.ts combat [project-path]   # Test CombatPure integration');
-      console.log('  node godot-editor-cli.ts items [project-path]    # Test ItemsPure integration');
       console.log('  node godot-editor-cli.ts ai [project-path]       # Test AIPure integration');
       console.log('  node godot-editor-cli.ts validate [project-path] # Run live validation');
       console.log('  node godot-editor-cli.ts plugin [project-path]   # Create editor plugin');

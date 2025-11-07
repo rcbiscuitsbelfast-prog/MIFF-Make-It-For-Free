@@ -1,5 +1,0 @@
-[
-  {"op":"setVolume","channel":"music","value":0.5},
-  {"op":"setVolume","channel":"sfx","value":0.25},
-  {"op":"dumpMixerState"}
-]

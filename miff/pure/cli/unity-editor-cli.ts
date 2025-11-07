@@ -9,7 +9,6 @@
 
 import { UnityBridgeManager, UnityBridgeConfiguration, UnityBridgeType } from '../UnityBridgePure';
 import { CombatUtils, SpiritInstance, MoveData, MoveCategory } from '../CombatPure/engine';
-import { ItemUsageManager, Item, ItemType, ItemEffectType } from '../ItemsPure';
 import { BattleAI, AIPolicy } from '../AIPure/Manager';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -215,7 +214,6 @@ export class UnityEditorCLI {
   }
 
   async testItemIntegration(): Promise<void> {
-    console.log('🎒 Testing ItemsPure integration with Unity Editor...');
 
     try {
       // Create sample inventory system
@@ -713,7 +711,6 @@ public class MIFFBridge : EditorWindow
 
     private void TestItemIntegration()
     {
-        Debug.Log("Testing ItemsPure integration...");
         // Implementation would test item system integration
         EditorUtility.DisplayDialog("Item Integration", "Item system integration test completed successfully!", "OK");
     }
@@ -789,7 +786,6 @@ public class MIFFBridge : EditorWindow
     console.log('   - Move execution through Unity physics and animation');
     console.log('   - Battle events trigger Unity particle effects');
     console.log('');
-    console.log('2. 🎒 ItemsPure → Unity Inventory System');
     console.log('   - Items become Unity ScriptableObjects');
     console.log('   - Effect systems integrate with Unity VFX Graph');
     console.log('   - Inventory UI rendered with Unity UI Canvas');
@@ -853,7 +849,6 @@ async function main() {
       console.log('Usage:');
       console.log('  node unity-editor-cli.ts connect [project-path]  # Connect to Unity Editor');
       console.log('  node unity-editor-cli.ts combat [project-path]   # Test CombatPure integration');
-      console.log('  node unity-editor-cli.ts items [project-path]    # Test ItemsPure integration');
       console.log('  node unity-editor-cli.ts ai [project-path]       # Test AIPure integration');
       console.log('  node unity-editor-cli.ts validate [project-path] # Run live validation');
       console.log('  node unity-editor-cli.ts plugin [project-path]   # Create editor plugin');

@@ -12,7 +12,6 @@ import { UnrealEditorHarnessPure, UnrealEditorConfiguration } from '../UnrealBri
 import { RenderPayloadManager } from '../RenderPayloadPure';
 import { SceneBuilderManager } from '../SceneBuilderPure';
 import { CombatUtils } from '../CombatPure/engine';
-import { ItemUsageManager } from '../ItemsPure';
 import { BattleAI } from '../AIPure/Manager';
 import * as fs from 'fs';
 import * as path from 'path';
