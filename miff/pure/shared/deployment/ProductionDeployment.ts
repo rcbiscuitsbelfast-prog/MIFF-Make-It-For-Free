@@ -226,7 +226,7 @@ export class ProductionDeployment {
     }
 
     this.status.status = 'in_progress';
-    this.status.startTime = new Date();
+    this.status.startTime = Date.now();
     this.status.progress = 0;
 
     try {
@@ -271,7 +271,7 @@ export class ProductionDeployment {
       // Step 10: Complete deployment
       this.status.progress = 100;
       this.status.status = 'completed';
-      this.status.endTime = new Date();
+      this.status.endTime = Date.now();
       this.status.duration = this.status.endTime.getTime() - this.status.startTime.getTime();
 
       StructuredLogger.info('Production deployment completed successfully');
@@ -286,7 +286,7 @@ export class ProductionDeployment {
       const err = error instanceof Error ? error : new Error(String(error));
       this.errorHandler.handleError(error);
       this.status.status = 'failed';
-      this.status.endTime = new Date();
+      this.status.endTime = Date.now();
       this.status.duration = this.status.endTime.getTime() - this.status.startTime.getTime();
       
       StructuredLogger.error('Production deployment failed', { error: error.message });
@@ -313,7 +313,7 @@ export class ProductionDeployment {
       StructuredLogger.info('Starting rollback...');
 
       this.status.status = 'in_progress';
-      this.status.startTime = new Date();
+      this.status.startTime = Date.now();
       this.status.progress = 0;
 
       // Step 1: Stop current version
@@ -335,7 +335,7 @@ export class ProductionDeployment {
       // Step 5: Complete rollback
       this.status.progress = 100;
       this.status.status = 'rolled_back';
-      this.status.endTime = new Date();
+      this.status.endTime = Date.now();
       this.status.duration = this.status.endTime.getTime() - this.status.startTime.getTime();
 
       this.status.rollback = {
@@ -354,7 +354,7 @@ export class ProductionDeployment {
       const err = error instanceof Error ? error : new Error(String(error));
       this.errorHandler.handleError(error);
       this.status.status = 'failed';
-      this.status.endTime = new Date();
+      this.status.endTime = Date.now();
       this.status.duration = this.status.endTime.getTime() - this.status.startTime.getTime();
       
       StructuredLogger.error('Rollback failed', { error: error.message });

@@ -1002,8 +1002,8 @@ export class Team implements ITeam {
     this.reserves = [];
     this.rules = rules || TeamRules.balanced();
     this.metadata = {};
-    this.createdAt = new Date();
-    this.updatedAt = new Date();
+    this.createdAt = Date.now();
+    this.updatedAt = Date.now();
   }
 
   /**
@@ -1091,12 +1091,12 @@ export class Team implements ITeam {
     // Try to add to active team
     if (this.spirits.length < this.maxSize) {
       this.spirits.push(spirit);
-      this.updatedAt = new Date();
+      this.updatedAt = Date.now();
       return TeamOperationResult.SUCCESS;
     } else {
       // Add to reserves
       this.reserves.push(spirit);
-      this.updatedAt = new Date();
+      this.updatedAt = Date.now();
       return TeamOperationResult.TEAM_FULL;
     }
   }
@@ -1116,7 +1116,7 @@ export class Team implements ITeam {
         this.spirits.push(reserveSpirit);
       }
 
-      this.updatedAt = new Date();
+      this.updatedAt = Date.now();
       return TeamOperationResult.SUCCESS;
     }
 
@@ -1124,7 +1124,7 @@ export class Team implements ITeam {
     const reserveIndex = this.reserves.findIndex(s => s.instanceId === spiritId);
     if (reserveIndex >= 0) {
       this.reserves.splice(reserveIndex, 1);
-      this.updatedAt = new Date();
+      this.updatedAt = Date.now();
       return TeamOperationResult.SUCCESS;
     }
 
@@ -1141,7 +1141,7 @@ export class Team implements ITeam {
     }
 
     [this.spirits[indexA], this.spirits[indexB]] = [this.spirits[indexB], this.spirits[indexA]];
-    this.updatedAt = new Date();
+    this.updatedAt = Date.now();
     return TeamOperationResult.SUCCESS;
   }
 
@@ -1153,7 +1153,7 @@ export class Team implements ITeam {
     if (index >= 0) {
       const spirit = this.spirits.splice(index, 1)[0!];
       this.reserves.push(spirit);
-      this.updatedAt = new Date();
+      this.updatedAt = Date.now();
       return TeamOperationResult.SUCCESS;
     }
     return TeamOperationResult.SPIRIT_NOT_FOUND;
@@ -1167,7 +1167,7 @@ export class Team implements ITeam {
     if (index >= 0 && this.spirits.length < this.maxSize) {
       const spirit = this.reserves.splice(index, 1)[0!];
       this.spirits.push(spirit);
-      this.updatedAt = new Date();
+      this.updatedAt = Date.now();
       return TeamOperationResult.SUCCESS;
     }
     return TeamOperationResult.TEAM_FULL;

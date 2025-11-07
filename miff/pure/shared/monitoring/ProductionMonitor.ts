@@ -162,7 +162,7 @@ export class ProductionMonitor {
     this.performanceOptimizer = PerformanceOptimizer.getInstance();
     this.memoryManager = MemoryManager.getInstance();
     this.errorHandler = StandardErrorHandler.getInstance();
-    this.startTime = new Date();
+    this.startTime = Date.now();
 
     this.config = {
       enabled: true,
@@ -233,7 +233,7 @@ export class ProductionMonitor {
       throw new Error('Production monitor not initialized');
     }
 
-    const timestamp = new Date();
+    const timestamp = Date.now();
     const system = await this.collectSystemMetrics();
     const application = await this.collectApplicationMetrics();
     const business = await this.collectBusinessMetrics();

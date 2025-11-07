@@ -710,7 +710,7 @@ export class MagicSystemPure {
   }
 
   private log(message: string, level: 'info' | 'debug' | 'error' = 'info'): void {
-    const timestamp = new Date().toISOString();
+    const timestamp = Date.now().toISOString();
     logger.info('Magic system log', { level: level.toUpperCase(), timestamp, message });
   }
 }

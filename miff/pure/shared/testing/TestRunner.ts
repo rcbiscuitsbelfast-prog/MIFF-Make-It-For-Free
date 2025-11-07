@@ -273,7 +273,7 @@ export class TestRunner {
     
     this.isRunning = true;
     this.currentRunId = this.generateId();
-    const startTime = new Date();
+    const startTime = Date.now();
     
     try {
       // Discover test files
@@ -360,7 +360,7 @@ export class TestRunner {
       // Update suite
       suite.tests = parsedResults;
       suite.status = this.calculateSuiteStatus(parsedResults);
-      suite.endTime = new Date();
+      suite.endTime = Date.now();
       suite.duration = suite.endTime.getTime() - suite.startTime.getTime();
       
       // Store results
@@ -671,7 +671,7 @@ export class TestRunner {
    * Generate test report
    */
   private async generateReport(results: TestResult[], startTime: Date): Promise<TestReport> {
-    const endTime = new Date();
+    const endTime = Date.now();
     const duration = endTime.getTime() - startTime.getTime();
     
     // Group results by suite

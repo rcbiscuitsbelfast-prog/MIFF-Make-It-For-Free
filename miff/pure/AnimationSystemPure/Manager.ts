@@ -189,7 +189,7 @@ export class AnimationSystemManager {
     this.performanceOptimizer = new PerformanceOptimizer({} as any, {} as any);
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
-    this.startTime = new Date();
+    this.startTime = Date.now();
 
     this.config = {
       enableAnimationCreation: true,

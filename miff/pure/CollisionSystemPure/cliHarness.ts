@@ -55,7 +55,7 @@ function main(){
     const outputs: Array<{ op: string; status: string; timestamp: string; result?: any; issues?: string[] }> = [];
     
     for (const c of cmds) {
-      const timestamp = new Date().toISOString();
+      const timestamp = Date.now().toISOString();
       let result: any;
       
       try {

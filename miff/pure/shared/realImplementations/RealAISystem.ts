@@ -443,14 +443,14 @@ export class RealAISystem {
       }
 
       session.status = 'completed';
-      session.endTime = new Date();
+      session.endTime = Date.now();
       this.performanceMetrics.activeLearningSessions--;
 
       this.emit('learningCompleted', { sessionId, session });
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       session.status = 'failed';
-      session.endTime = new Date();
+      session.endTime = Date.now();
       this.performanceMetrics.activeLearningSessions--;
 
       this.emit('learningFailed', { sessionId, session, error });

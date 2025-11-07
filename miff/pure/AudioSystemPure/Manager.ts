@@ -315,7 +315,7 @@ export class AudioSystemManager {
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
     this.logger = StructuredLogger.getInstance();
-    this.startTime = new Date();
+    this.startTime = Date.now();
 
     this.config = {
       enableDeviceManagement: true,

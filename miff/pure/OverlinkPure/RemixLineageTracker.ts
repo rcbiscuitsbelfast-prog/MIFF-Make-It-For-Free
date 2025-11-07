@@ -393,7 +393,7 @@ export class RemixLineageTracker {
   }
 
   private logAudit(message: string): void {
-    const timestamp = new Date().toISOString();
+    const timestamp = Date.now().toISOString();
     this.state.auditLog.push(`[${timestamp}] ${message}`);
     
     // Keep only last 100 audit entries

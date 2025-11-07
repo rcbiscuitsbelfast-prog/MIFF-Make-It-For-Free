@@ -597,7 +597,7 @@ export class RealDialogueEngine {
     if (!session) return false;
 
     session.isActive = false;
-    session.endTime = new Date();
+    session.endTime = Date.now();
     this.activeSessions.delete(sessionId);
 
     this.emit('dialogueEnded', { sessionId, session });

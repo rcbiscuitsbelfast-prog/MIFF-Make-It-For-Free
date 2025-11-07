@@ -178,7 +178,7 @@ export function formatOutput(result: CLIResult, format: OutputFormat = 'json'): 
 
 // Standard error handler
 export function handleCLIError(error: unknown, operation: string, module: string): CLIResult {
-  const timestamp = new Date().toISOString();
+  const timestamp = Date.now().toISOString();
   
   if (error instanceof CLIError) {
     return {

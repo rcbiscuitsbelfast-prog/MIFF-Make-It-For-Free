@@ -48,7 +48,7 @@ Examples:
 
 function createSubscriptionListener(topic: string): (payload?: any) => void {
   return (payload?: any) => {
-    const timestamp = new Date().toISOString();
+    const timestamp = Date.now().toISOString();
     console.log(`[${timestamp}] Event on '${topic}':`, payload ? JSON.stringify(payload, null, 2) : 'no payload');
   };
 }

@@ -810,7 +810,7 @@ export class TeleportationSystemPure {
   }
 
   private log(message: string, level: 'info' | 'debug' | 'error' = 'info'): void {
-    const timestamp = new Date().toISOString();
+    const timestamp = Date.now().toISOString();
     logger.info('Teleportation system log', { level: level.toUpperCase(), timestamp, message });
   }
 }

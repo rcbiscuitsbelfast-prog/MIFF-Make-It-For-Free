@@ -128,7 +128,7 @@ export class HealthCheckSystem {
     this.performanceOptimizer = PerformanceOptimizer.getInstance();
     this.memoryManager = MemoryManager.getInstance();
     this.errorHandler = StandardErrorHandler.getInstance();
-    this.startTime = new Date();
+    this.startTime = Date.now();
 
     this.config = {
       enabled: true,

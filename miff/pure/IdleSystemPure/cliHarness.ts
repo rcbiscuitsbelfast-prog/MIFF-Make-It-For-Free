@@ -511,7 +511,7 @@ export class IdleSystemCLI {
   }
 
   private log(message: string): void {
-    const timestamp = new Date().toLocaleTimeString();
+    const timestamp = Date.now().toLocaleTimeString();
     console.log(`[${timestamp}] ${message}`);
   }
 

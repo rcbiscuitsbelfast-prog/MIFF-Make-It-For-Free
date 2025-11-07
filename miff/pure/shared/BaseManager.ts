@@ -290,7 +290,7 @@ export abstract class BaseManager extends EventEmitter {
       
       const result = await operation();
       
-      operationRecord.endTime = new Date();
+      operationRecord.endTime = Date.now();
       operationRecord.success = true;
       
       this.emit('operationCompleted', { 
@@ -305,7 +305,7 @@ export abstract class BaseManager extends EventEmitter {
       return result;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      operationRecord.endTime = new Date();
+      operationRecord.endTime = Date.now();
       operationRecord.success = false;
       operationRecord.error = error as Error;
       
