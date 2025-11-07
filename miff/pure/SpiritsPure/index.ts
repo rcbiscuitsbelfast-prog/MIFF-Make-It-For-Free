@@ -517,18 +517,18 @@ export class SpiritFilter implements ISpiritFilter {
     if (this.loreUnlocked !== undefined && unlockedLoreIds) {
       filtered = filtered.filter((spirit: any) => {
         const loreIds = spirit.getAllLoreIds();
-        const hasUnlockedLore = loreIds.some(loreId => unlockedLoreIds.has(loreId));
+        const hasUnlockedLore = loreIds.some((loreId: string) => unlockedLoreIds.has(loreId));
         return this.loreUnlocked ? hasUnlockedLore : !hasUnlockedLore;
       });
     }
 
     // Filter by level range
     if (this.minLevel !== undefined) {
-      filtered = filtered.filter((spirit: any) => spirit.level >= this.minLevel);
+      filtered = filtered.filter((spirit: any) => spirit.level >= this.minLevel!);
     }
 
     if (this.maxLevel !== undefined) {
-      filtered = filtered.filter((spirit: any) => spirit.level <= this.maxLevel);
+      filtered = filtered.filter((spirit: any) => spirit.level <= this.maxLevel!);
     }
 
     // Filter by rarity
