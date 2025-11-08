@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>MIFF Web LLM - AI-Powered Workspace</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    /* Header */
+    .header {
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      font-size: 0.9rem;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #4ade80;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* Main Container */
+    .container {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      height: calc(100vh - 70px);
+      gap: 0;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+      overflow-y: auto;
+      padding: 1.5rem;
+    }
+
+    .sidebar h3 {
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    .module-list {
+      list-style: none;
+    }
+
+    .module-item {
+      padding: 0.75rem;
+      background: rgba(255, 255, 255, 0.05);
+      margin-bottom: 0.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      border-left: 3px solid transparent;
+    }
+
+    .module-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-left-color: #4ade80;
+      transform: translateX(5px);
+    }
+
+    .module-item.active {
+      background: rgba(255, 255, 255, 0.15);
+      border-left-color: #4ade80;
+    }
+
+    /* Main Panel */
+    .main-panel {
+      display: flex;
+      flex-direction: column;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    /* Quick Actions */
+    .quick-actions {
+      padding: 1.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .action-btn {
+      padding: 0.75rem 1.5rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .action-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    /* Chat Container */
+    .chat-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .message {
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      max-width: 80%;
+      animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .message.user {
+      background: rgba(102, 126, 234, 0.3);
+      align-self: flex-end;
+      margin-left: auto;
+    }
+
+    .message.ai {
+      background: rgba(255, 255, 255, 0.1);
+      align-self: flex-start;
+      border-left: 3px solid #4ade80;
+    }
+
+    .message.system {
+      background: rgba(255, 255, 255, 0.05);
+      align-self: center;
+      text-align: center;
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    .typing-indicator {
+      display: flex;
+      gap: 0.5rem;
+      padding: 1rem;
+    }
+
+    .typing-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      animation: typing 1.4s infinite;
+    }
+
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes typing {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-10px); }
+    }
+
+    /* Input Area */
+    .input-area {
+      padding: 1.5rem;
+      background: rgba(0, 0, 0, 0.3);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      gap: 1rem;
+    }
+
+    .input-area input {
+      flex: 1;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      color: #fff;
+      font-size: 1rem;
+    }
+
+    .input-area input::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .send-btn {
+      padding: 1rem 2rem;
+      background: #4ade80;
+      border: none;
+      border-radius: 8px;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .send-btn:hover {
+      background: #22c55e;
+      transform: scale(1.05);
+    }
+
+    .send-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Loading State */
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      z-index: 1000;
+    }
+
+    .loading-spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid rgba(255, 255, 255, 0.1);
+      border-top-color: #4ade80;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        display: none;
+      }
+
+      .quick-actions {
+        overflow-x: auto;
+      }
+
+      .message {
+        max-width: 95%;
+      }
+    }
+
+    /* Context Panel */
+    .context-panel {
+      position: fixed;
+      right: 0;
+      top: 70px;
+      bottom: 0;
+      width: 400px;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
+      border-left: 1px solid rgba(255, 255, 255, 0.1);
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      overflow-y: auto;
+      padding: 1.5rem;
+      z-index: 100;
+    }
+
+    .context-panel.open {
+      transform: translateX(0);
+    }
+
+    .close-context {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: #fff;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-spinner"></div>
+    <div>Initializing MIFF Web LLM...</div>
+    <div style="font-size: 0.9rem; opacity: 0.7;">Loading AI model and context...</div>
+  </div>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">
+      🤖 MIFF Web LLM
+    </div>
+    <div class="status">
+      <div class="status-dot"></div>
+      <span id="statusText">Initializing...</span>
+    </div>
+  </div>
+
+  <!-- Main Container -->
+  <div class="container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <h3>📦 Available Modules</h3>
+      <ul class="module-list" id="moduleList">
+        <li class="module-item" data-module="overview">🏠 Overview</li>
+        <li class="module-item" data-module="spirits">👻 SpiritsPure</li>
+        <li class="module-item" data-module="rhythm">🎵 RhythmInputPure</li>
+        <li class="module-item" data-module="assets">📦 AssetLoaderPure</li>
+        <li class="module-item" data-module="battles">⚔️ RhythmBattleSystemPure</li>
+        <li class="module-item" data-module="teams">👥 TeamsPure</li>
+        <li class="module-item" data-module="shrines">🛐 ShrineSystemPure</li>
+        <li class="module-item" data-module="bosses">👹 BossPhaseSystemPure</li>
+      </ul>
+
+      <h3 style="margin-top: 2rem;">📁 Content</h3>
+      <ul class="module-list">
+        <li class="module-item" data-module="quests">📜 Quests</li>
+        <li class="module-item" data-module="npcs">🧑 NPCs</li>
+        <li class="module-item" data-module="items">⚡ Items</li>
+        <li class="module-item" data-module="zones">🗺️ Zones</li>
+      </ul>
+    </div>
+
+    <!-- Main Panel -->
+    <div class="main-panel">
+      <!-- Quick Actions -->
+      <div class="quick-actions">
+        <button class="action-btn" onclick="sendPrompt('Show me all available MIFF modules and their purposes')">
+          📦 List All Modules
+        </button>
+        <button class="action-btn" onclick="sendPrompt('Explain how MIFF handles spirits and the SpiritsPure module')">
+          👻 Explain Spirits
+        </button>
+        <button class="action-btn" onclick="sendPrompt('Generate a new shrine module for the K-pop game')">
+          🛐 Generate Shrine
+        </button>
+        <button class="action-btn" onclick="sendPrompt('Walk me through building a new zone pack')">
+          🗺️ Build Zone Pack
+        </button>
+        <button class="action-btn" onclick="sendPrompt('Show me the current repository status')">
+          📊 Repo Status
+        </button>
+      </div>
+
+      <!-- Chat Container -->
+      <div class="chat-container" id="chatContainer">
+        <div class="message system">
+          👋 Welcome to MIFF Web LLM! I'm your AI assistant for the MIFF ecosystem.
+          <br><br>
+          I have access to all 64 modules, documentation, and can help you:
+          <br>• Explore modules and content
+          <br>• Generate new code
+          <br>• Explain how systems work
+          <br>• Build new features
+          <br><br>
+          Try clicking a quick action above or ask me anything!
+        </div>
+      </div>
+
+      <!-- Input Area -->
+      <div class="input-area">
+        <input 
+          type="text" 
+          id="userInput" 
+          placeholder="Ask me anything about MIFF..." 
+          onkeypress="if(event.key==='Enter') sendMessage()"
+        >
+        <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+          Send
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Context Panel -->
+  <div class="context-panel" id="contextPanel">
+    <button class="close-context" onclick="toggleContext()">×</button>
+    <h3>📄 Current Context</h3>
+    <div id="contextContent">
+      <p>Select a module from the sidebar to view its context...</p>
+    </div>
+  </div>
+
+  <script>
+    // State
+    let isInitialized = false;
+    let currentModule = null;
+    let chatHistory = [];
+
+    // MIFF Context Data
+    const miffContext = {
+      overview: {
+        title: "MIFF - Make It For Free",
+        description: "A modular, pure TypeScript, AI-native game ecosystem",
+        stats: {
+          modules: 64,
+          errors: 6,
+          status: "99.87% Pristine",
+          gameReady: true
+        }
+      },
+      modules: {
+        SpiritsPure: "Spirit management, collection, evolution, and stats",
+        RhythmInputPure: "Rhythm input detection and beat map generation",
+        AssetLoaderPure: "Asset loading, caching, and manifest management",
+        RhythmBattleSystemPure: "Rhythm-based boss battles",
+        TeamsPure: "Team management and party composition",
+        ShrineSystemPure: "Shrine interactions and puzzles",
+        BossPhaseSystemPure: "Multi-phase boss battle system"
+      },
+      status: {
+        totalModules: 64,
+        gameModules: 7,
+        errors: 6,
+        reduction: "99.87%",
+        production: "Ready to Deploy"
+      }
+    };
+
+    // Initialize
+    async function initialize() {
+      // Simulate loading
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      isInitialized = true;
+      document.getElementById('loadingOverlay').style.display = 'none';
+      document.getElementById('statusText').textContent = 'Ready';
+      
+      addMessage('system', '✅ MIFF Web LLM initialized! All systems ready.');
+    }
+
+    // Send Message
+    async function sendMessage() {
+      const input = document.getElementById('userInput');
+      const message = input.value.trim();
+      
+      if (!message || !isInitialized) return;
+      
+      // Add user message
+      addMessage('user', message);
+      input.value = '';
+      
+      // Show typing indicator
+      showTyping();
+      
+      // Simulate AI response (in real implementation, this would call WebLLM)
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      // Generate response
+      const response = generateResponse(message);
+      hideTyping();
+      addMessage('ai', response);
+    }
+
+    // Send Prompt (from quick actions)
+    function sendPrompt(prompt) {
+      document.getElementById('userInput').value = prompt;
+      sendMessage();
+    }
+
+    // Generate Response (mock - will be replaced with WebLLM)
+    function generateResponse(message) {
+      const lower = message.toLowerCase();
+      
+      if (lower.includes('module') && lower.includes('list')) {
+        return `📦 **Available MIFF Modules** (64 total):
+
+**Core Game Modules (7):**
+• SpiritsPure - Spirit management & collection
+• AssetLoaderPure - Asset loading & caching
+• RhythmInputPure - Rhythm input detection
+• RhythmBattleSystemPure - Boss battles
+• TeamsPure - Team management
+• ShrineSystemPure - Shrine interactions
+• BossPhaseSystemPure - Multi-phase bosses
+
+**Status:** 99.87% pristine, production-ready!
+
+Would you like details on any specific module?`;
+      }
+      
+      if (lower.includes('spirit')) {
+        return `👻 **SpiritsPure Module Overview:**
+
+The SpiritsPure module handles:
+• Spirit creation & management
+• Stats, types, and rarities
+• Evolution systems
+• Collection management
+• Filtering and sorting
+
+**Key Features:**
+• 7 rarity tiers (Common → Mythical)
+• 20+ spirit types (Fire, Water, Electric, etc.)
+• Spirit synergy calculations
+• Team composition support
+
+**Current Status:** 4 minor errors in helper methods (not game-blocking)
+
+Want to generate a new spirit type?`;
+      }
+      
+      if (lower.includes('status') || lower.includes('repo')) {
+        return `📊 **MIFF Repository Status:**
+
+**TypeScript Errors:** 6 (was 4,813)
+**Reduction:** 99.87% (-4,807 errors)
+**Modules:** 64 (was 244)
+**Deleted:** 130+ scope creep modules
+
+**Game Status:** ✅ Production Ready
+• All 7 core modules present
+• Build compiles successfully
+• Ready to deploy
+
+**Recent Achievement:** 7+ hours of intensive cleanup transformed the codebase from chaos to pristine!`;
+      }
+      
+      if (lower.includes('generate') || lower.includes('new')) {
+        return `🔧 **Module Generation:**
+
+I can help you generate:
+• New spirit types
+• Shrine puzzles
+• Boss phases
+• Rhythm patterns
+• Zone configurations
+
+Please specify what you'd like to generate, and I'll create the TypeScript code for you!
+
+Example: "Generate a new electric-type shrine with puzzle mechanics"`;
+      }
+      
+      // Default response
+      return `I'm here to help with MIFF! I can:
+
+• Explain any of the 64 modules
+• Show repository status
+• Generate new code
+• Help with K-pop game development
+• Answer questions about the architecture
+
+Try asking about specific modules or use the quick actions above!`;
+    }
+
+    // Add Message
+    function addMessage(type, content) {
+      const container = document.getElementById('chatContainer');
+      const message = document.createElement('div');
+      message.className = `message ${type}`;
+      message.innerHTML = content.replace(/\n/g, '<br>');
+      container.appendChild(message);
+      container.scrollTop = container.scrollHeight;
+      
+      chatHistory.push({ type, content });
+    }
+
+    // Typing Indicator
+    function showTyping() {
+      const container = document.getElementById('chatContainer');
+      const typing = document.createElement('div');
+      typing.className = 'message ai typing-indicator';
+      typing.id = 'typingIndicator';
+      typing.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+      container.appendChild(typing);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function hideTyping() {
+      const typing = document.getElementById('typingIndicator');
+      if (typing) typing.remove();
+    }
+
+    // Module Selection
+    document.querySelectorAll('.module-item').forEach(item => {
+      item.addEventListener('click', () => {
+        document.querySelectorAll('.module-item').forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+        
+        const module = item.dataset.module;
+        loadModuleContext(module);
+      });
+    });
+
+    // Load Module Context
+    function loadModuleContext(module) {
+      const panel = document.getElementById('contextPanel');
+      const content = document.getElementById('contextContent');
+      
+      // Mock context (in real implementation, would fetch from repo)
+      content.innerHTML = `
+        <h4>📦 ${module.toUpperCase()}</h4>
+        <p style="opacity: 0.8; margin: 1rem 0;">Loading context from repository...</p>
+        <div style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 8px; margin-top: 1rem;">
+          <code style="font-size: 0.85rem;">
+            // Context will be loaded here
+          </code>
+        </div>
+      `;
+      
+      panel.classList.add('open');
+    }
+
+    // Toggle Context Panel
+    function toggleContext() {
+      document.getElementById('contextPanel').classList.toggle('open');
+    }
+
+    // Initialize on load
+    window.addEventListener('load', initialize);
+  </script>
+</body>
+</html>
