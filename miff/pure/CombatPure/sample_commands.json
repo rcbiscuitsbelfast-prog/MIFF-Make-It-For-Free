@@ -1,0 +1,9 @@
+[
+  {"op":"addCombatant","id":"p1","name":"Hero","team":"A","hp":30,"maxHp":30,"atk":8,"def":3,"spd":5},
+  {"op":"addCombatant","id":"e1","name":"Slime","team":"B","hp":20,"maxHp":20,"atk":5,"def":1,"spd":2},
+  {"op":"queueAction","actorId":"p1","type":"attack","targetId":"e1"},
+  {"op":"queueAction","actorId":"e1","type":"defend"},
+  {"op":"stepTurn"},
+  {"op":"stepTurn"},
+  {"op":"dump"}
+]
