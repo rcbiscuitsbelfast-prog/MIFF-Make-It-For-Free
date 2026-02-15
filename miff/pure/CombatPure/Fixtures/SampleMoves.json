@@ -1,0 +1,31 @@
+[
+  {
+    "moveId": "basic_strike",
+    "name": "Basic Strike",
+    "category": "Physical",
+    "power": 40,
+    "accuracy": 1.0,
+    "cost": 0,
+    "typeTag": "neutral"
+  },
+  {
+    "moveId": "water_burst",
+    "name": "Water Burst",
+    "category": "Special",
+    "power": 55,
+    "accuracy": 0.95,
+    "cost": 3,
+    "typeTag": "water"
+  },
+  {
+    "moveId": "sap_weaken",
+    "name": "Sap Weaken",
+    "category": "Status",
+    "power": 0,
+    "accuracy": 1.0,
+    "cost": 2,
+    "typeTag": "nature",
+    "statusEffectId": "attack_down"
+  }
+]
+
